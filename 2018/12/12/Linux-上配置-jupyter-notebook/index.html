@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Linux,jupyter notebook,python,">
 
 
 
@@ -79,14 +79,20 @@
 
 
 
-<meta name="keywords" content="MachineLearning, DeepLearning, ReinforcementLearning">
-<meta property="og:type" content="website">
-<meta property="og:title" content="LuoTeng&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="进入python环境，获取秘钥首先，在Linux环境下要安装有 python-3.x 版本，输入 python 进入编程环境后，输入命令 from notebook.auth import passwd 如下： 1Python 3.6.3 |Anaconda, Inc.| (default, Oct 13 2017, 12:02:49) 12[GCC 7.2.0] on linuxType &amp;qu">
+<meta name="keywords" content="Linux,jupyter notebook,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 上配置 jupyter notebook">
+<meta property="og:url" content="http://yoursite.com/2018/12/12/Linux-上配置-jupyter-notebook/index.html">
 <meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="进入python环境，获取秘钥首先，在Linux环境下要安装有 python-3.x 版本，输入 python 进入编程环境后，输入命令 from notebook.auth import passwd 如下： 1Python 3.6.3 |Anaconda, Inc.| (default, Oct 13 2017, 12:02:49) 12[GCC 7.2.0] on linuxType &amp;qu">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/tengzi-will/img.tengzi-will.github.io/master/Linux-%E4%B8%8A%E9%85%8D%E7%BD%AE-jupyter-notebook/01_Jupyter.jpg">
+<meta property="og:updated_time" content="2018-12-12T11:38:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LuoTeng&#39;s Blog">
+<meta name="twitter:title" content="Linux 上配置 jupyter notebook">
+<meta name="twitter:description" content="进入python环境，获取秘钥首先，在Linux环境下要安装有 python-3.x 版本，输入 python 进入编程环境后，输入命令 from notebook.auth import passwd 如下： 1Python 3.6.3 |Anaconda, Inc.| (default, Oct 13 2017, 12:02:49) 12[GCC 7.2.0] on linuxType &amp;qu">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/tengzi-will/img.tengzi-will.github.io/master/Linux-%E4%B8%8A%E9%85%8D%E7%BD%AE-jupyter-notebook/01_Jupyter.jpg">
 
 
 
@@ -116,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2018/12/12/Linux-上配置-jupyter-notebook/">
 
 
 
 
 
-  <title>LuoTeng's Blog</title>
+  <title>Linux 上配置 jupyter notebook | LuoTeng's Blog</title>
   
 
 
@@ -141,8 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -235,9 +240,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -267,9 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/12/Linux-上配置-jupyter-notebook/" itemprop="url">Linux 上配置 jupyter notebook</a></h1>
+          <h1 class="post-title" itemprop="name headline">Linux 上配置 jupyter notebook</h1>
         
 
         <div class="post-meta">
@@ -352,19 +355,30 @@
       
 
       
-        
-          
-          进入python环境，获取秘钥首先，在Linux环境下要安装有 python-3.x 版本，输入 python 进入编程环境后，输入命令 from notebook.auth import passwd 如下：
-1Python 3.6.3 |Anaconda, Inc.| (default, Oct
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/12/Linux-上配置-jupyter-notebook/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <h2 id="进入python环境，获取秘钥"><a href="#进入python环境，获取秘钥" class="headerlink" title="进入python环境，获取秘钥"></a>进入python环境，获取秘钥</h2><p>首先，在Linux环境下要安装有 <code>python-3.x</code> 版本，输入 python 进入编程环境后，输入命令 <code>from notebook.auth import passwd</code> 如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Python 3.6.3 |Anaconda, Inc.| (default, Oct 13 2017, 12:02:49)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[GCC 7.2.0] on linux</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ from notebook.auth import passwd # 引入函数</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd() # 执行函数</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enter password: # 此处填入jyputer notebook密码，登陆用</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Verify password: # 确认上步密码</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&apos;sha1:a59919c8215d:670d591c340f4fd92a2aea6f6f8da9d19eea6238&apos; # 生成秘钥，并记下来</span><br></pre></td></tr></table></figure>
+<p>执行命令 <code>exit()</code> 退出 <code>python</code> 编程环境。</p>
+<h2 id="生成-jupyter-notebook-配置文件"><a href="#生成-jupyter-notebook-配置文件" class="headerlink" title="生成 jupyter notebook 配置文件"></a>生成 jupyter notebook 配置文件</h2><p>在 <code>Linux</code> 下输入命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ jupyter notebook --generate-config # 生成配置文件</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /root/.jupyter/jupyter_notebook_config.py  # 打开生成的配置文件，路经不一定一样</span><br></pre></td></tr></table></figure>
+<h2 id="修改-jupyter-notebook-配置文件"><a href="#修改-jupyter-notebook-配置文件" class="headerlink" title="修改 jupyter notebook 配置文件"></a>修改 jupyter notebook 配置文件</h2><ul>
+<li>c.NotebookApp.ip = ‘*’</li>
+<li>c.NotebookApp.port = 8888 # 远程访问端口</li>
+<li>c.NotebookApp.open_browser = False</li>
+<li>c.NotebookApp.password = passwd(“秘钥”) # 填入上面生成的秘钥</li>
+<li>c.NotebookApp.notebook_dir = ‘/home/jupyternotebook’ # 设置工作目录，这个可以不修改</li>
+</ul>
+<p>安装以上内容修改配置文件，并将前面的 <code>#</code> 号去掉。</p>
+<h2 id="测试-jupyter-notebook-是否配置成功"><a href="#测试-jupyter-notebook-是否配置成功" class="headerlink" title="测试 jupyter notebook 是否配置成功"></a>测试 jupyter notebook 是否配置成功</h2><p>打开浏览器，输入网址 <code>127.0.0.1：port</code> ，其中 <code>port</code> 为登陆 <code>Linux</code> 服务器时输入 <code>ssh</code> 命令设置的本地与远程的端口映射。</p>
+<p>显示以下页面，所以配置完成，输入设置的密码即可以登陆：</p>
+<p><img src="https://raw.githubusercontent.com/tengzi-will/img.tengzi-will.github.io/master/Linux-%E4%B8%8A%E9%85%8D%E7%BD%AE-jupyter-notebook/01_Jupyter.jpg" alt="Jupyter"></p>
+
       
     </div>
     
@@ -379,312 +393,40 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/12/配置-CentOS7-GPU-环境/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Luo Teng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LuoTeng's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/12/配置-CentOS7-GPU-环境/" itemprop="url">配置 CentOS7 GPU 环境</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-12T18:34:12+08:00">
-                2018-12-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/环境配置/" itemprop="url" rel="index">
-                    <span itemprop="name">环境配置</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
           
-
+            <a href="/tags/jupyter-notebook/" rel="tag"># jupyter notebook</a>
           
-            
+            <a href="/tags/python/" rel="tag"># python</a>
           
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
+      
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          <p><img src="https://i.loli.net/2018/11/07/5be2c0ba79f37.png" alt=""></p>
-<h2 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h2><ol>
-<li><p>先装wget</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>新建自己的文件夹</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir sunyan</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/12/配置-CentOS7-GPU-环境/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/12/配置-CentOS7-GPU-环境/" rel="next" title="配置 CentOS7 GPU 环境">
+                <i class="fa fa-chevron-left"></i> 配置 CentOS7 GPU 环境
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
 
-    
+          <span class="post-nav-divider"></span>
 
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/GitHub-Hexo-从零开始搭建个人博客/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Luo Teng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LuoTeng's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/GitHub-Hexo-从零开始搭建个人博客/" itemprop="url">GitHub + Hexo 从零开始搭建个人博客</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+          <div class="post-nav-prev post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-09T20:17:39+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-          前言使用 GitHub Pages 服务搭建博客的好处有：
-
-全是静态文件，访问速度快；
-免费方便，不用花钱就可以搭建个人博客，不需要服务器不需要后台；
-可以随意绑定自己的域名；
-数据绝对安全，基于 GitHub 的版本管理，想恢复到哪个历史版本都行；
-博客内容可以轻松打包、转移、发布到其它平台；
-
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/09/GitHub-Hexo-从零开始搭建个人博客/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -694,136 +436,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/08/hello-world/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Luo Teng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LuoTeng's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/08/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-08T19:49:29+08:00">
-                2018-12-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/12/08/hello-world/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -831,6 +448,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -851,8 +472,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -912,6 +542,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#进入python环境，获取秘钥"><span class="nav-number">1.</span> <span class="nav-text">进入python环境，获取秘钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成-jupyter-notebook-配置文件"><span class="nav-number">2.</span> <span class="nav-text">生成 jupyter notebook 配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改-jupyter-notebook-配置文件"><span class="nav-number">3.</span> <span class="nav-text">修改 jupyter notebook 配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试-jupyter-notebook-是否配置成功"><span class="nav-number">4.</span> <span class="nav-text">测试 jupyter notebook 是否配置成功</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1052,6 +698,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
