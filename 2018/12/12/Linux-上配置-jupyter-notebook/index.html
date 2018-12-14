@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="进入python环境，获取秘钥首先，在Linux环境下要安装有 python-3.x 版本，输入 python 进入编程环境后，输入命令 from notebook.auth import passwd 如下： 1Python 3.6.3 |Anaconda, Inc.| (default, Oct 13 2017, 12:02:49) 12[GCC 7.2.0] on linuxType &amp;qu">
+<meta name="description" content="进入python环境，获取秘钥我用的 Linux 版本为 CentOS7，感觉配置 jypyter notebook 在其他 Linux 版本都大同小异。 首先，在 Linux 环境下要安装有 python-3.x 版本，输入 python 进入编程环境后，输入命令 from notebook.auth import passwd 如下： 12345678Python 3.6.3 |Anacond">
 <meta name="keywords" content="Linux,jupyter notebook,python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux 上配置 jupyter notebook">
 <meta property="og:url" content="http://yoursite.com/2018/12/12/Linux-上配置-jupyter-notebook/index.html">
 <meta property="og:site_name" content="LuoTeng&#39;s Blog">
-<meta property="og:description" content="进入python环境，获取秘钥首先，在Linux环境下要安装有 python-3.x 版本，输入 python 进入编程环境后，输入命令 from notebook.auth import passwd 如下： 1Python 3.6.3 |Anaconda, Inc.| (default, Oct 13 2017, 12:02:49) 12[GCC 7.2.0] on linuxType &amp;qu">
+<meta property="og:description" content="进入python环境，获取秘钥我用的 Linux 版本为 CentOS7，感觉配置 jypyter notebook 在其他 Linux 版本都大同小异。 首先，在 Linux 环境下要安装有 python-3.x 版本，输入 python 进入编程环境后，输入命令 from notebook.auth import passwd 如下： 12345678Python 3.6.3 |Anacond">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/tengzi-will/img.tengzi-will.github.io/master/Linux-%E4%B8%8A%E9%85%8D%E7%BD%AE-jupyter-notebook/01_Jupyter.jpg">
-<meta property="og:updated_time" content="2018-12-12T11:38:00.000Z">
+<meta property="og:updated_time" content="2018-12-14T04:51:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 上配置 jupyter notebook">
-<meta name="twitter:description" content="进入python环境，获取秘钥首先，在Linux环境下要安装有 python-3.x 版本，输入 python 进入编程环境后，输入命令 from notebook.auth import passwd 如下： 1Python 3.6.3 |Anaconda, Inc.| (default, Oct 13 2017, 12:02:49) 12[GCC 7.2.0] on linuxType &amp;qu">
+<meta name="twitter:description" content="进入python环境，获取秘钥我用的 Linux 版本为 CentOS7，感觉配置 jypyter notebook 在其他 Linux 版本都大同小异。 首先，在 Linux 环境下要安装有 python-3.x 版本，输入 python 进入编程环境后，输入命令 from notebook.auth import passwd 如下： 12345678Python 3.6.3 |Anacond">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/tengzi-will/img.tengzi-will.github.io/master/Linux-%E4%B8%8A%E9%85%8D%E7%BD%AE-jupyter-notebook/01_Jupyter.jpg">
 
 
@@ -355,14 +355,9 @@
       
 
       
-        <h2 id="进入python环境，获取秘钥"><a href="#进入python环境，获取秘钥" class="headerlink" title="进入python环境，获取秘钥"></a>进入python环境，获取秘钥</h2><p>首先，在Linux环境下要安装有 <code>python-3.x</code> 版本，输入 python 进入编程环境后，输入命令 <code>from notebook.auth import passwd</code> 如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Python 3.6.3 |Anaconda, Inc.| (default, Oct 13 2017, 12:02:49)</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[GCC 7.2.0] on linux</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ from notebook.auth import passwd # 引入函数</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd() # 执行函数</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enter password: # 此处填入jyputer notebook密码，登陆用</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Verify password: # 确认上步密码</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&apos;sha1:a59919c8215d:670d591c340f4fd92a2aea6f6f8da9d19eea6238&apos; # 生成秘钥，并记下来</span><br></pre></td></tr></table></figure>
+        <h2 id="进入python环境，获取秘钥"><a href="#进入python环境，获取秘钥" class="headerlink" title="进入python环境，获取秘钥"></a>进入python环境，获取秘钥</h2><p>我用的 <code>Linux</code> 版本为 <code>CentOS7</code>，感觉配置 jypyter notebook 在其他 <code>Linux</code> 版本都大同小异。</p>
+<p>首先，在 <code>Linux</code> 环境下要安装有 <code>python-3.x</code> 版本，输入 python 进入编程环境后，输入命令 <code>from notebook.auth import passwd</code> 如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Python 3.6.3 |Anaconda, Inc.| (default, Oct 13 2017, 12:02:49)</span><br><span class="line">[GCC 7.2.0] on linux</span><br><span class="line">Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.</span><br><span class="line">&gt;&gt;&gt; from notebook.auth import passwd # 引入函数</span><br><span class="line">&gt;&gt;&gt; passwd() # 执行函数</span><br><span class="line">Enter password: # 此处填入jyputer notebook密码，登陆用</span><br><span class="line">Verify password: # 确认上步密码</span><br><span class="line">&apos;sha1:a59919c8215d:670d591c340f4fd92a2aea6f6f8da9d19eea6238&apos; # 生成秘钥，并记下来</span><br></pre></td></tr></table></figure>
 <p>执行命令 <code>exit()</code> 退出 <code>python</code> 编程环境。</p>
 <h2 id="生成-jupyter-notebook-配置文件"><a href="#生成-jupyter-notebook-配置文件" class="headerlink" title="生成 jupyter notebook 配置文件"></a>生成 jupyter notebook 配置文件</h2><p>在 <code>Linux</code> 下输入命令：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ jupyter notebook --generate-config # 生成配置文件</span><br></pre></td></tr></table></figure>
