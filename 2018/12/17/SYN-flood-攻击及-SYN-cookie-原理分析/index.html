@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机网络,SYN flood,TCP/IP Attack,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="实验简介 最近在学习《计算机网络系统与方法》这本书，课程布置了一个网络攻击的作业 SYN Flooding Attack ，本文件就本次实验做一个完整的实验报告及总结。 SEED简介SEED：计算机安全教育的教学实验平台，纽约雪城大学 杜文亮 (Du, Wenliang) 教授设计和实现，从2002年开始得到NSF 1.2M$的资助。 官方地址：http://www.cis.syr.edu/~we">
+<meta name="keywords" content="计算机网络,SYN flood,TCP&#x2F;IP Attack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SYN flood 攻击及 SYN cookie 原理分析">
+<meta property="og:url" content="http://yoursite.com/2018/12/17/SYN-flood-攻击及-SYN-cookie-原理分析/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="实验简介 最近在学习《计算机网络系统与方法》这本书，课程布置了一个网络攻击的作业 SYN Flooding Attack ，本文件就本次实验做一个完整的实验报告及总结。 SEED简介SEED：计算机安全教育的教学实验平台，纽约雪城大学 杜文亮 (Du, Wenliang) 教授设计和实现，从2002年开始得到NSF 1.2M$的资助。 官方地址：http://www.cis.syr.edu/~we">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/Wz5QbhH.jpg">
+<meta property="og:image" content="https://i.imgur.com/kha2hnF.jpg">
+<meta property="og:image" content="https://i.imgur.com/kN4jJJj.png">
+<meta property="og:image" content="https://i.imgur.com/mPigUrm.png">
+<meta property="og:image" content="https://i.imgur.com/jUrhPXs.png">
+<meta property="og:image" content="https://i.imgur.com/pIxJfvK.png">
+<meta property="og:image" content="https://i.imgur.com/B0j9SkX.png">
+<meta property="og:image" content="https://i.imgur.com/RyX4yXa.png">
+<meta property="og:image" content="https://i.imgur.com/DVwbQhy.png">
+<meta property="og:image" content="https://i.imgur.com/Awtjvb7.png">
+<meta property="og:image" content="https://i.imgur.com/Sr4w2Cw.png">
+<meta property="og:image" content="https://i.imgur.com/awSgEsA.png">
+<meta property="og:image" content="https://i.imgur.com/8RMzXMI.png">
+<meta property="og:image" content="https://i.imgur.com/S2xpdXS.png">
+<meta property="og:image" content="https://i.imgur.com/HGBEMbF.png">
+<meta property="og:image" content="https://i.imgur.com/fLtsivr.png">
+<meta property="og:image" content="https://i.imgur.com/4EDjJQC.png">
+<meta property="og:image" content="https://i.imgur.com/tvHm5pl.png">
+<meta property="og:image" content="https://i.imgur.com/grdOHSp.png">
+<meta property="og:image" content="https://i.imgur.com/QiGI0Rp.png">
+<meta property="og:image" content="https://i.imgur.com/niblGVI.png">
+<meta property="og:image" content="https://i.imgur.com/AVqJEye.png">
+<meta property="og:image" content="https://i.imgur.com/SqYGTXE.png">
+<meta property="og:image" content="https://i.imgur.com/rPH6ePc.png">
+<meta property="og:image" content="https://i.imgur.com/DWyVnFf.png">
+<meta property="og:image" content="https://i.imgur.com/nxv0ZC1.png">
+<meta property="og:image" content="https://i.imgur.com/OMtVkmS.png">
+<meta property="og:image" content="https://i.imgur.com/TaSsaSc.png">
+<meta property="og:image" content="https://i.imgur.com/9evrxh0.png">
+<meta property="og:image" content="https://i.imgur.com/OnFTZSF.png">
+<meta property="og:image" content="https://i.imgur.com/nfSEHgP.png">
+<meta property="og:image" content="https://i.imgur.com/xJ6b5h7.png">
+<meta property="og:image" content="https://i.imgur.com/E6PWH4h.png">
+<meta property="og:image" content="https://i.imgur.com/mnu0szF.png">
+<meta property="og:image" content="https://i.imgur.com/KIykmTw.png">
+<meta property="og:image" content="https://i.imgur.com/gLDHwp1.png">
+<meta property="og:image" content="https://i.imgur.com/W4Qyg6q.png">
+<meta property="og:image" content="https://i.imgur.com/RNgUcMa.png">
+<meta property="og:image" content="https://i.imgur.com/XP5D6nR.png">
+<meta property="og:image" content="https://i.imgur.com/AarWLvL.png">
+<meta property="og:updated_time" content="2018-12-18T05:00:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SYN flood 攻击及 SYN cookie 原理分析">
+<meta name="twitter:description" content="实验简介 最近在学习《计算机网络系统与方法》这本书，课程布置了一个网络攻击的作业 SYN Flooding Attack ，本文件就本次实验做一个完整的实验报告及总结。 SEED简介SEED：计算机安全教育的教学实验平台，纽约雪城大学 杜文亮 (Du, Wenliang) 教授设计和实现，从2002年开始得到NSF 1.2M$的资助。 官方地址：http://www.cis.syr.edu/~we">
+<meta name="twitter:image" content="https://i.imgur.com/Wz5QbhH.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/17/SYN-flood-攻击及-SYN-cookie-原理分析/">
+
+
+
+
+
+  <title>SYN flood 攻击及 SYN cookie 原理分析 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/17/SYN-flood-攻击及-SYN-cookie-原理分析/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SYN flood 攻击及 SYN cookie 原理分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-17T18:32:43+08:00">
+                2018-12-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络/网络攻击/" itemprop="url" rel="index">
+                    <span itemprop="name">网络攻击</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="实验简介"><a href="#实验简介" class="headerlink" title="实验简介"></a>实验简介</h2><p><img src="https://i.imgur.com/Wz5QbhH.jpg" alt="00_Book"></p>
+<p>最近在学习<a href="https://book.douban.com/subject/26417896/" target="_blank" rel="noopener">《计算机网络系统与方法》</a>这本书，课程布置了一个网络攻击的作业 SYN Flooding Attack ，本文件就本次实验做一个完整的实验报告及总结。</p>
+<h3 id="SEED简介"><a href="#SEED简介" class="headerlink" title="SEED简介"></a>SEED简介</h3><p>SEED：计算机安全教育的教学实验平台，纽约雪城大学 <strong>杜文亮 (Du, Wenliang)</strong> 教授设计和实现，从2002年开始得到NSF 1.2M$的资助。</p>
+<p>官方地址：<a href="http://www.cis.syr.edu/~wedu/seed/" title="http://www.cis.syr.edu/~wedu/seed/" target="_blank" rel="noopener">http://www.cis.syr.edu/~wedu/seed/</a></p>
+<p>SEED内容包含一下几类：</p>
+<p><img src="https://i.imgur.com/kha2hnF.jpg" alt="01_SEED"></p>
+<p>本次实验为 <strong><code>Network Security Labs</code></strong> 中的 <strong><code>TCP/IP Attack Lab</code></strong>。</p>
+<h3 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h3><ul>
+<li>操作系统：<strong><code>Windows10</code></strong></li>
+<li>虚拟机操作系统：<strong><code>SEEDUbuntu 16.04</code></strong></li>
+<li>虚拟机工具：<strong><code>VirtualBox 5.2.22</code></strong></li>
+<li>网络平台：<strong><code>GNS3 2.1.0</code></strong></li>
+<li>机器配置（共两个虚拟机，如下）：<br><strong><code>机器名：lab1；内存大小；1024M；处理器数量：1个；显存大小：16M</code></strong><br><strong><code>机器名：lab2；内存大小：1024M；处理器数量：1个；显存大小：16M</code></strong></li>
+<li>本机计算机配置：<br><strong><code>内存：4G；CPU：Intel Core i5-5200U 2.20GHz</code></strong></li>
+</ul>
+<h3 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h3><ol>
+<li>掌握SEEDUbuntu操作系统的网络配置以及基本使用方法；</li>
+<li>掌握使用WireShark对流量进行抓包分析；</li>
+<li>掌握GNS3网络平台的基本使用及建模方法；</li>
+<li>实践SYN flood攻击，理解其表现形式和产生的影响；</li>
+<li>深入观察理解linux内核tcp syn cookie机制，理解其在SYN flood攻击中的作用。</li>
+</ol>
+<h2 id="实验环境的安装与配置"><a href="#实验环境的安装与配置" class="headerlink" title="实验环境的安装与配置"></a>实验环境的安装与配置</h2><h3 id="安装VirtualBox-5-2-22"><a href="#安装VirtualBox-5-2-22" class="headerlink" title="安装VirtualBox 5.2.22"></a>安装VirtualBox 5.2.22</h3><p>官网下载地址：<a href="https://www.virtualbox.org/" target="_blank" rel="noopener">https://www.virtualbox.org/</a></p>
+<p><img src="https://i.imgur.com/kN4jJJj.png" alt="02_VirtualBox_5.2.22"></p>
+<p>下载安装 <strong><code>Windows</code></strong> 版本，下载好安装文件，直接点击下一步，默认设置安装。</p>
+<h3 id="下载Ubuntu操作系统"><a href="#下载Ubuntu操作系统" class="headerlink" title="下载Ubuntu操作系统"></a>下载Ubuntu操作系统</h3><p>SEEDUbuntu官网地址：<a href="http://www.cis.syr.edu/~wedu/seed/lab_env.html" target="_blank" rel="noopener">http://www.cis.syr.edu/~wedu/seed/lab_env.html</a>，进入官网界面如下：</p>
+<p><img src="https://i.imgur.com/mPigUrm.png" alt="03_SEEDUbuntu"></p>
+<p>点击上面红框连接，给出的是适用于 <strong><code>VirtualBox</code></strong> 的 <strong><code>Ubuntu</code></strong> 镜像文件，因此下载后用 <strong><code>VirtualBox</code></strong> 导入即可。</p>
+<h3 id="新建虚拟机并安装操作系统"><a href="#新建虚拟机并安装操作系统" class="headerlink" title="新建虚拟机并安装操作系统"></a>新建虚拟机并安装操作系统</h3><p>新建虚拟机，并选择选择 <strong><code>Linux</code></strong> 操作系统的 <strong><code>Ubuntu</code></strong> 版本，名字可以随便取，如下图：</p>
+<p><img src="https://i.imgur.com/jUrhPXs.png" alt="04_Create_VirtualBox"></p>
+<p>选择虚拟机内存大小,建议2048M,我的电脑由于内存不够这里选的是1024，如下图：</p>
+<p><img src="https://i.imgur.com/pIxJfvK.png" alt="05_Internal_Storage"></p>
+<p>选择使用已有的虚拟硬盘文件，然后找到上一步下载的镜像解压后的文件夹中的 <strong><code>SEEDUbuntu12.04.vmdk</code></strong> 文件，点击创建：</p>
+<p><img src="https://i.imgur.com/B0j9SkX.png" alt="06_SEEDUbuntu"></p>
+<p>至此，虚拟机配置操作完成。</p>
+<h3 id="登录虚拟机"><a href="#登录虚拟机" class="headerlink" title="登录虚拟机"></a>登录虚拟机</h3><p>通过普通用户登录，有特权操作在通过 <strong><code>su</code></strong> 命令</p>
+<ul>
+<li>超级用户，user ID : root，assword : seedubuntu</li>
+<li>普通用户，user ID : seed，Password : dees</li>
+</ul>
+<p>进入登陆界面，如下图：</p>
+<p><img src="https://i.imgur.com/RyX4yXa.png" alt="07_Ubuntu_Desktop"></p>
+<p>打开终端，在命令行输入<strong><code>ifconfig</code></strong> 查看网卡配置情况，如下：</p>
+<p><img src="https://i.imgur.com/DVwbQhy.png" alt="08_ifconfig"></p>
+<p>网卡名字不是从 <strong><code>eth0</code></strong> 开始，则执行下列命令 <strong><code>rm /etc/udev/rules.d/70‐persistent‐net.rules</code></strong>，然后重新启动。</p>
+<p>克隆一个新的虚拟机，在原虚拟机（需要保持关闭状态，否则无法复制）上右键复制即可，完成后如下图：</p>
+<p><img src="https://i.imgur.com/Awtjvb7.png" alt="09_Two_lab"></p>
+<p>此时，虚拟机准备工作完成，点击开启两台虚拟机。</p>
+<p>这需要注意，如果采用复制的方式，<strong><code>lab2</code></strong> 的网卡 <strong><code>eth0</code></strong> 的物理地址会和 <strong><code>lab1</code></strong> 的网卡物理地址一样，这样会有冲突造成后面两台虚拟机无法连接，所以采用克隆的方式一直要重新配置一下网卡。</p>
+<h3 id="GNS3网络平台的配置"><a href="#GNS3网络平台的配置" class="headerlink" title="GNS3网络平台的配置"></a>GNS3网络平台的配置</h3><h4 id="GNS3相关设置"><a href="#GNS3相关设置" class="headerlink" title="GNS3相关设置"></a>GNS3相关设置</h4><p>GNS3官网：<a href="https://www.gns3.com/" title="https://www.gns3.com/" target="_blank" rel="noopener">https://www.gns3.com/</a></p>
+<p>安装好 <strong><code>GNS3</code></strong> 后，打开 <strong><code>GNS3</code></strong>，选择菜单栏中的 <strong><code>“Edit”-&gt;“Perferences”-&gt;“Server”</code></strong>，将 Host Binding 改为 <strong><code>127.168.56.1</code></strong>（该IP地址与网络中 <strong><code>VirtualBox Host-Only Network</code></strong> 的 IPV4 的地址一致，可打开网络连接查看），其他不变，如下图：</p>
+<p><img src="https://i.imgur.com/Sr4w2Cw.png" alt="10_Server"></p>
+<p>然后点击 GNS3 上述配置页面右下角的 <strong><code>Apply</code></strong> ，继续找到左边的 <strong><code>VirtualBox VMs</code></strong>，点击后在右边 <strong><code>New</code></strong> -&gt; 添加 <strong><code>VirtualBox</code></strong> 中第1步创建好的两个虚拟机 <strong><code>lab1</code></strong> 和 <strong><code>lab2</code></strong> ，如下图所示：</p>
+<p><img src="https://i.imgur.com/awSgEsA.png" alt="11_VirtualBox_VMs"></p>
+<h4 id="GNS3中工程的创建"><a href="#GNS3中工程的创建" class="headerlink" title="GNS3中工程的创建"></a>GNS3中工程的创建</h4><p><strong><code>“File”-&gt;“New blank project”-&gt;设置好位置和名字后点击“OK”</code></strong>，即创建了一个工程。</p>
+<h4 id="在GNS3工程中建模"><a href="#在GNS3工程中建模" class="headerlink" title="在GNS3工程中建模"></a>在GNS3工程中建模</h4><p>点击 <strong><code>“View”-&gt;“Docks”-&gt;“All devices”</code></strong>，调出设备框，选用虚拟机 <strong><code>lab1</code></strong> 和 <strong><code>lab2</code></strong> 两台服务器，将其拖入右侧空白处，如下图：</p>
+<p><img src="https://i.imgur.com/8RMzXMI.png" alt="12_Creste_Project"></p>
+<p>然后点击左侧的倒数第一个连线按钮，在两个机器的 <strong><code>eth0</code></strong> 网卡上连线，如下图所示：</p>
+<p><img src="https://i.imgur.com/S2xpdXS.png" alt="13_Connect"></p>
+<p>此时出现一个问题，发现两台虚拟机均无法连接，系统提示错误信息 <strong><code>VirtualBox VM not powered off</code></strong>（是由于虚拟机已经开启所致），关闭 <strong><code>GNS3</code></strong> 重新启动也会提示如下错误：</p>
+<p><img src="https://i.imgur.com/HGBEMbF.png" alt="14_Error"></p>
+<p>按照错误提示登录网站 <a href="https://www.vmware.com/support/developer/vix-api/." target="_blank" rel="noopener">https://www.vmware.com/support/developer/vix-api/.</a> 下载 <strong><code>VIX API</code></strong>，如下图所示，点击 <strong><code>SDK 1.15</code></strong>:</p>
+<p><img src="https://i.imgur.com/fLtsivr.png" alt="15_download_SDK"></p>
+<p>然后重新启动电脑，打开虚拟机，登录 <strong><code>GNS3</code></strong>，完美解决问题，如下图：</p>
+<p><img src="https://i.imgur.com/4EDjJQC.png" alt="16_After_Connect"></p>
+<h3 id="两台虚拟机的网络配置"><a href="#两台虚拟机的网络配置" class="headerlink" title="两台虚拟机的网络配置"></a>两台虚拟机的网络配置</h3><p>点击 <strong><code>GNS3</code></strong> 上方绿色三角形启动两台虚拟机（若虚拟机已经启动无需执行此步骤），然后进入虚拟机，在乌班图界面右上角有个扇形图标，点击后选择 <strong><code>edit connections</code></strong>，如下图：</p>
+<p><img src="https://i.imgur.com/tvHm5pl.png" alt="17_Edit_Connections"></p>
+<p>将 <strong><code>lab1</code></strong> 的 <strong><code>IP</code></strong> 地址配置为 <strong><code>192.168.1.100</code></strong>，如下图：</p>
+<p><img src="https://i.imgur.com/grdOHSp.png" alt="18_lab1_ip"></p>
+<p>将 <strong><code>lab2</code></strong> 的 <strong><code>IP</code></strong> 地址配置为 <strong><code>192.168.1.101</code></strong>，如下图：</p>
+<p><img src="https://i.imgur.com/QiGI0Rp.png" alt="19_lab2_ip"></p>
+<p>点击 <strong><code>save</code></strong>，保存配置，当然也可以通过命令行的方式修改网卡的配置文件，这种方式可以永久保存配置信息。</p>
+<p><strong><code>IP</code></strong> 地址配置完成之后，发现 <strong><code>GNS3</code></strong> 上连接线变绿，表示互相连通，如下图：</p>
+<p><img src="https://i.imgur.com/niblGVI.png" alt="20_Connet_green"></p>
+<p>到此，实验所需环境配置完成，下面开始实验内容步骤。</p>
+<h2 id="SYN-flood攻击实验"><a href="#SYN-flood攻击实验" class="headerlink" title="SYN flood攻击实验"></a>SYN flood攻击实验</h2><p>我们将 <strong><code>lab1</code></strong> 设置为攻击者，<strong><code>lab2</code></strong>设置为被攻击目标。</p>
+<h3 id="lab2-上启动-telnet-服务"><a href="#lab2-上启动-telnet-服务" class="headerlink" title="lab2 上启动 telnet 服务"></a>lab2 上启动 telnet 服务</h3><p><strong><code>root</code></strong> 用户下输入命令：<strong><code>service openbsd-inetd start</code></strong>，如下图：</p>
+<p><img src="https://i.imgur.com/AVqJEye.png" alt="21_telnet_start"></p>
+<p>验证一下，在 <strong><code>lab1</code></strong> 上用 <strong><code>telnet</code></strong> 登录 <strong><code>lab2</code></strong>，在命令行中输入 <strong><code>telnet 192.168.1.101</code></strong>，如下图说明成功：</p>
+<p><img src="https://i.imgur.com/SqYGTXE.png" alt="22_telnet"></p>
+<p>登录后，在 <strong><code>lab2</code></strong> 上用命令 <strong><code>netstat -n –tcp</code></strong> 查看连接：</p>
+<p><img src="https://i.imgur.com/rPH6ePc.png" alt="23_netstat"></p>
+<p>此即表示 <strong><code>TCP（telnet）</code></strong>连接建立。</p>
+<h3 id="进行SYN-flood攻击"><a href="#进行SYN-flood攻击" class="headerlink" title="进行SYN flood攻击"></a>进行SYN flood攻击</h3><p><strong><code>Lab1</code></strong> 上执行命令：<strong><code>netwox 76 -i 192.168.1.101 --dst-port 23</code></strong>，该命令需要root权限，root用户操作或者命令前面加 <strong><code>sudo</code></strong>，然后打开 <strong><code>WireShark</code></strong>，查看攻击的报文，如下图：</p>
+<p><img src="https://i.imgur.com/DWyVnFf.png" alt="24_WireShark"></p>
+<p>可见，<strong><code>lab1</code></strong> 向 <strong><code>lab2</code></strong> 发送了大量的 <strong><code>TCP</code></strong> 报文。在 <strong><code>lab2</code></strong> 上查看连接建立情况：</p>
+<p><img src="https://i.imgur.com/nxv0ZC1.png" alt="25_lab2_netstat"></p>
+<p>此时查看 <strong><code>lab1</code></strong> 是否能与 <strong><code>lab2</code></strong> 建立 <strong><code>TCP</code></strong> 连接，即用 <strong><code>telnet</code></strong> 登录 <strong><code>lab2</code></strong> ：</p>
+<p><img src="https://i.imgur.com/OMtVkmS.png" alt="26_lab1_telnet_lab2"></p>
+<p><strong><code>telnet</code></strong> 登录成功，通过 <strong><code>netstat -n --tcp|grep 192.168.1.100</code></strong> 查看 <strong><code>TCP</code></strong> 连接，如下图：</p>
+<p><img src="https://i.imgur.com/TaSsaSc.png" alt="27_lab2_netstat"></p>
+<p>可见默认情况下，<strong><code>Target</code></strong> 机器遭受 <strong><code>SYN flood</code></strong> 攻击后，其它机器仍然可以与其建立 <strong><code>TCP</code></strong> 连接。</p>
+<h3 id="观察linux-内核-tcp-syn-cookie-机制"><a href="#观察linux-内核-tcp-syn-cookie-机制" class="headerlink" title="观察linux 内核 tcp syn cookie 机制"></a>观察linux 内核 tcp syn cookie 机制</h3><p>在 lab2 机器上执行命令 <strong><code>cat /proc/sys/net/ipv4/tcp_syncookies</code></strong>：</p>
+<p><img src="https://i.imgur.com/9evrxh0.png" alt="28_cookies"></p>
+<p>可见默认为<strong><code>1</code></strong>，表示 <strong><code>lab2</code></strong> 的 <strong><code>Linux</code></strong> 内核默认开启了 <strong><code>TCP SYN Cookie</code></strong> 保护，可以防止一个套接字在有过多试图连接到达时引起过载。</p>
+<p>执行命令 <strong><code>echo 0 &gt; /proc/sys/net/ipv4/tcp_syncookies</code></strong>，将其改为<strong><code>0</code></strong>，即关闭内核 <strong><code>TCP SYN Cookie</code></strong> 保护：</p>
+<p><img src="https://i.imgur.com/OnFTZSF.png" alt="29_modify_cokkies"></p>
+<p><strong><code>Linux</code></strong> 内核中，<strong><code>net.ipv4.tcp_max_syn_backlog</code></strong> 表示 <strong><code>SYN</code></strong> 队列的长度，默认为<strong><code>512</code></strong>，即容纳等待连接的网络连接数，输入命令 <strong><code>sysctl -a | grep net.ipv4.tcp_max_syn_back_log</code></strong> 查看，如下图：</p>
+<p><img src="https://i.imgur.com/nfSEHgP.png" alt="30_sysctl_a"></p>
+<p>为了快速看到关闭内核 <strong><code>TCP SYN Cookie</code></strong> 保护的效果，将<strong><code>net.ipv4.tcp_max_syn_backlog</code></strong> 改为<strong><code>5</code></strong>，输入命令 <strong><code>sysctl -w net.ipv4.tcp_max_syn_back_log=5</code></strong> ，如下图：</p>
+<p><img src="https://i.imgur.com/xJ6b5h7.png" alt="31_sysctl_w"></p>
+<p><strong><code>Linux</code></strong> 内核中 <strong><code>net.ipv4.tcp_syncookies</code></strong> 表示是否开启 <strong><code>SYN Cookies</code></strong>，即当出现 <strong><code>SYN</code></strong> 等待队列溢出时，启用 <strong><code>cookies</code></strong> 来处理，可防范少量 <strong><code>SYN</code></strong> 攻击，<strong><code>0</code></strong>表示关闭，<strong><code>1</code></strong>表示开启，如下图：</p>
+<p><img src="https://i.imgur.com/E6PWH4h.png" alt="32_sysctl_a"></p>
+<p>至此，将 <strong><code>Linux</code></strong> 内核的 <strong><code>TCP SYN Cookie</code></strong>保护机制关闭，将 <strong><code>SYN Cookies</code></strong> 关闭，同时将 <strong><code>SYN</code></strong>队列长度调小，以便迅速观察到实验结果。</p>
+<h3 id="在次进行-SYN-flood-攻击"><a href="#在次进行-SYN-flood-攻击" class="headerlink" title="在次进行 SYN flood 攻击"></a>在次进行 SYN flood 攻击</h3><p>在 lab1 的命令行输入 <strong><code>netwox 76 -i 192.168.1.101 --dst-port 23</code></strong>，然后打开 <strong><code>WireShark</code></strong>，查看攻击的报文，如下图：</p>
+<p><img src="https://i.imgur.com/mnu0szF.png" alt="33_WireShark"></p>
+<p>此时在 <strong><code>lab1</code></strong> 上用 <strong><code>telnet</code></strong> 登录 <strong><code>lab2</code></strong>，如下图：</p>
+<p><img src="https://i.imgur.com/KIykmTw.png" alt="34_telnet_lab2"></p>
+<p>可见无法登录，即 <strong><code>SYN flood</code></strong> 攻击成功。</p>
+<p>在 <strong><code>lab2</code></strong> 上查看 <strong><code>TCP</code></strong> 连接，如下图：</p>
+<p><img src="https://i.imgur.com/gLDHwp1.png" alt="35_lab2_netstat"></p>
+<p>即只有<strong><code>5</code></strong>个 <strong><code>TCP</code></strong> 连接，与上面的内核相关参数的设置相对应。</p>
+<p>致此全部实验过程结束。</p>
+<h2 id="实验结果分析"><a href="#实验结果分析" class="headerlink" title="实验结果分析"></a>实验结果分析</h2><h3 id="SYN-Flood攻击"><a href="#SYN-Flood攻击" class="headerlink" title="SYN Flood攻击"></a>SYN Flood攻击</h3><p><strong><code>SYN Flood</code></strong> 是一种非常危险而常见的 <strong><code>Dos</code></strong> 攻击方式，而 <strong><code>SYN Cookie</code></strong> 是能够有效防范 <strong><code>SYN Flood</code></strong> 攻击的手段。</p>
+<p><strong><code>SYN Flood</code></strong> 攻击是一种典型的拒绝服务 <strong><code>(Denial of Service)</code></strong> 攻击。所谓的拒绝服务攻击就是通过进行攻击，使受害主机或网络不能提供良好的服务，从而间接达到攻击的目的。</p>
+<p><strong><code>SYN Flood</code></strong> 攻击利用的是 <strong><code>IPv4</code></strong> 中 <strong><code>TCP</code></strong> 协议的三次握手 <strong><code>(Three-Way Handshake)</code></strong> 过程进行的攻击。<strong><code>TCP</code></strong> 服务器收到 <strong><code>TCP SYN request</code></strong> 包时，在发送 <strong><code>TCP SYN + ACK</code></strong> 包回客户机前，<strong><code>TCP</code></strong> 服务器要先分配好一个数据区专门服务于这个即将形成的 <strong><code>TCP</code></strong> 连接。一般把收到 <strong><code>SYN</code></strong> 包而还未收到 <strong><code>ACK</code></strong> 包时的连接状态称为半打开连接 <strong><code>(Half-open Connection)</code></strong>。在最常见的 <strong><code>SYN Flood</code></strong> 攻击中，攻击者在短时间内发送大量的 <strong><code>TCP SYN</code></strong> 包给受害者。受害者(服务器)为每个 <strong><code>TCP SYN</code></strong> 包分配一个特定的数据区，只要这些 <strong><code>SYN</code></strong> 包具有不同的源地址（攻击者很容易伪造）。这将给 <strong><code>TCP</code></strong> 服务器造成很大的系统负担，最终导致系统不能正常工作。</p>
+<h3 id="SYN-Cookie机制"><a href="#SYN-Cookie机制" class="headerlink" title="SYN Cookie机制"></a>SYN Cookie机制</h3><p><strong><code>SYN Cookie</code></strong> 原理由 <strong>D.J. Bernstain</strong> 和 <strong>Eric Schenk</strong> 提出。</p>
+<p><strong><code>SYN Cookie</code></strong> 是对 <strong><code>TCP</code></strong> 服务器端的三次握手做一些修改，专门用来防范 <strong><code>SYN Flood</code></strong> 攻击的一种手段。它的原理是，在 <strong><code>TCP</code></strong> 服务器接收到 <strong><code>TCP SYN</code></strong> 包并返回 <strong><code>TCP SYN+ACK</code></strong> 包时，不分配一个专门的数据区，而是根据这个 <strong><code>SYN</code></strong> 包计算出一个 <strong><code>cookie</code></strong> 值。这个 <strong><code>cookie</code></strong>作为将要返回的 <strong><code>SYN ACK</code></strong> 包的初始序列号。当客户端返回一个 <strong><code>ACK</code></strong> 包时，根据包头信息计算 <strong><code>cookie</code></strong>，与返回的确认序列号（初始序列号 + 1）进行对比，如果相同，则是一个正常连接，然后，分配资源，建立连接。</p>
+<p><strong><code>SYN Cookie</code></strong> 机制的实现关键在于 <strong><code>cookie</code></strong> 的计算，<strong><code>cookie</code></strong> 的计算应该包含本次连接的状态信息，使攻击者不能伪造。<strong><code>cookie</code></strong> 的计算过程如下：</p>
+<ol>
+<li>服务器收到一个SYN包，计算一个消息摘要mac。mac = MAC(A, k)。MAC是密码学中的一个消息认证码函数，也就是满足某种安全性质的带密钥的hash函数，它能够提供cookie计算中需要的安全性。在Linux实现中，MAC函数为SHA1。</li>
+<li>上述公式中，<strong><code>A = SOURCE_IP || SOURCE_PORT || DST_IP || DST_PORT || t || MSSIND</code></strong>，<strong><code>k</code></strong> 为服务器独有的密钥，实际上是一组随机数。<strong><code>t</code></strong> 为系统启动时间，每60秒加1。<strong>MSSIND</strong> 为<strong><code>MSS</code></strong>对应的索引。</li>
+</ol>
+<h3 id="实验结果分析-1"><a href="#实验结果分析-1" class="headerlink" title="实验结果分析"></a>实验结果分析</h3><p>当内核开启了 <strong><code>SYN Cookie</code></strong> 保护机制时，在 <strong><code>Target</code></strong> 机器 <strong><code>(lab2)</code></strong> 遭受 <strong><code>SYN Flood</code></strong> 攻击后，源机器 <strong><code>(lab1)</code></strong> 用 <strong><code>telnet</code></strong> 登录 <strong><code>Target</code></strong> 机器时，仍然可以建立 <strong><code>TCP</code></strong> 连接，相应可以收到 <strong><code>ACK</code></strong> 报文，用 <strong><code>WireShark</code></strong> 抓包结果如下图所示：</p>
+<p><img src="https://i.imgur.com/W4Qyg6q.png" alt="36_WireShark"></p>
+<p>可见 <strong><code>TCP</code></strong> 三次握手过程完成，建立了 <strong><code>TCP</code></strong> 连接并且开始了 <strong><code>telnet</code></strong> 服务。具体打开其中 <strong><code>ACK</code></strong> 报文的 <strong><code>TCP</code></strong> 协议内容，如下图所示：</p>
+<p><img src="https://i.imgur.com/RNgUcMa.png" alt="37_ACK_TCP"></p>
+<p>而当内核关闭 <strong><code>SYN Cookie</code></strong> 机制时，<strong><code>Target</code></strong> 机器遭受攻击后，源机器 <strong><code>telnet</code></strong> 登录 <strong><code>Target</code></strong> 机器，无法建立 <strong><code>TCP</code></strong> 连接，抓包如下图所示：</p>
+<p><img src="https://i.imgur.com/XP5D6nR.png" alt="38_ACK_TCP"></p>
+<p><img src="https://i.imgur.com/AarWLvL.png" alt="39_ACK_TCP"></p>
+<p>由此可见只有一个 <strong><code>TCP</code></strong> 发送报文，无 <strong><code>ACK</code></strong> 应答。<strong><code>TCP</code></strong> 三次握手无法完成，无法建立 <strong><code>TCP</code></strong> 连接。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机网络/" rel="tag"># 计算机网络</a>
+          
+            <a href="/tags/SYN-flood/" rel="tag"># SYN flood</a>
+          
+            <a href="/tags/TCP-IP-Attack/" rel="tag"># TCP/IP Attack</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/12/Linux-上配置-jupyter-notebook/" rel="next" title="Linux 上配置 jupyter notebook">
+                <i class="fa fa-chevron-left"></i> Linux 上配置 jupyter notebook
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#实验简介"><span class="nav-number">1.</span> <span class="nav-text">实验简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SEED简介"><span class="nav-number">1.1.</span> <span class="nav-text">SEED简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置环境"><span class="nav-number">1.2.</span> <span class="nav-text">配置环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验目的"><span class="nav-number">1.3.</span> <span class="nav-text">实验目的</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验环境的安装与配置"><span class="nav-number">2.</span> <span class="nav-text">实验环境的安装与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装VirtualBox-5-2-22"><span class="nav-number">2.1.</span> <span class="nav-text">安装VirtualBox 5.2.22</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载Ubuntu操作系统"><span class="nav-number">2.2.</span> <span class="nav-text">下载Ubuntu操作系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新建虚拟机并安装操作系统"><span class="nav-number">2.3.</span> <span class="nav-text">新建虚拟机并安装操作系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#登录虚拟机"><span class="nav-number">2.4.</span> <span class="nav-text">登录虚拟机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GNS3网络平台的配置"><span class="nav-number">2.5.</span> <span class="nav-text">GNS3网络平台的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GNS3相关设置"><span class="nav-number">2.5.1.</span> <span class="nav-text">GNS3相关设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GNS3中工程的创建"><span class="nav-number">2.5.2.</span> <span class="nav-text">GNS3中工程的创建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在GNS3工程中建模"><span class="nav-number">2.5.3.</span> <span class="nav-text">在GNS3工程中建模</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#两台虚拟机的网络配置"><span class="nav-number">2.6.</span> <span class="nav-text">两台虚拟机的网络配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SYN-flood攻击实验"><span class="nav-number">3.</span> <span class="nav-text">SYN flood攻击实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lab2-上启动-telnet-服务"><span class="nav-number">3.1.</span> <span class="nav-text">lab2 上启动 telnet 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进行SYN-flood攻击"><span class="nav-number">3.2.</span> <span class="nav-text">进行SYN flood攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#观察linux-内核-tcp-syn-cookie-机制"><span class="nav-number">3.3.</span> <span class="nav-text">观察linux 内核 tcp syn cookie 机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在次进行-SYN-flood-攻击"><span class="nav-number">3.4.</span> <span class="nav-text">在次进行 SYN flood 攻击</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验结果分析"><span class="nav-number">4.</span> <span class="nav-text">实验结果分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SYN-Flood攻击"><span class="nav-number">4.1.</span> <span class="nav-text">SYN Flood攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SYN-Cookie机制"><span class="nav-number">4.2.</span> <span class="nav-text">SYN Cookie机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果分析-1"><span class="nav-number">4.3.</span> <span class="nav-text">实验结果分析</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
