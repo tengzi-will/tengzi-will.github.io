@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="EM，GMM，Jensen，MLE,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="背景实例假从学校抽取了200名学生，现在我们的工作就是要确定这200个学生中每个学生是属于男生还是属于女生，并且求出是男生这个分布的参数，要求出是女生这个分布参数。 EM算法就是这样，假设我们想估计知道A和B两个参数，在开始状态下二者都是未知的，但如果知道了A的信息就可以得到B的信息，反过来知道了B也就得到了A。可以考虑首先赋予A某种初值，以此得到B的估计值，然后从B的当前值出发，重新估计A的取值">
+<meta name="keywords" content="EM，GMM，Jensen，MLE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EM算法详解">
+<meta property="og:url" content="http://yoursite.com/2018/12/19/EM算法/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="背景实例假从学校抽取了200名学生，现在我们的工作就是要确定这200个学生中每个学生是属于男生还是属于女生，并且求出是男生这个分布的参数，要求出是女生这个分布参数。 EM算法就是这样，假设我们想估计知道A和B两个参数，在开始状态下二者都是未知的，但如果知道了A的信息就可以得到B的信息，反过来知道了B也就得到了A。可以考虑首先赋予A某种初值，以此得到B的估计值，然后从B的当前值出发，重新估计A的取值">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://images.cnblogs.com/cnblogs_com/jerrylead/201104/201104061615528987.png">
+<meta property="og:image" content="https://images.cnblogs.com/cnblogs_com/jerrylead/201104/20110406161553755.png">
+<meta property="og:image" content="https://i.loli.net/2018/12/19/5c19e399c985b.png">
+<meta property="og:image" content="https://i.loli.net/2018/12/19/5c1a0001a23e6.png">
+<meta property="og:image" content="https://i.loli.net/2018/12/19/5c19ffc38fa79.png">
+<meta property="og:image" content="https://i.loli.net/2018/12/19/5c19f58cdfc52.png">
+<meta property="og:image" content="https://i.loli.net/2018/12/19/5c19f68ac2929.png">
+<meta property="og:updated_time" content="2018-12-19T12:15:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="EM算法详解">
+<meta name="twitter:description" content="背景实例假从学校抽取了200名学生，现在我们的工作就是要确定这200个学生中每个学生是属于男生还是属于女生，并且求出是男生这个分布的参数，要求出是女生这个分布参数。 EM算法就是这样，假设我们想估计知道A和B两个参数，在开始状态下二者都是未知的，但如果知道了A的信息就可以得到B的信息，反过来知道了B也就得到了A。可以考虑首先赋予A某种初值，以此得到B的估计值，然后从B的当前值出发，重新估计A的取值">
+<meta name="twitter:image" content="https://images.cnblogs.com/cnblogs_com/jerrylead/201104/201104061615528987.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/19/EM算法/">
+
+
+
+
+
+  <title>EM算法详解 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/19/EM算法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">EM算法详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-19T20:21:59+08:00">
+                2018-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="背景实例"><a href="#背景实例" class="headerlink" title="背景实例"></a>背景实例</h1><p>假从学校抽取了200名学生，现在我们的工作就是要确定这200个学生中每个学生是属于男生还是属于女生，并且求出是男生这个分布的参数，要求出是女生这个分布参数。</p>
+<p>EM算法就是这样，假设我们想估计知道A和B两个参数，在开始状态下二者都是未知的，但如果知道了A的信息就可以得到B的信息，反过来知道了B也就得到了A。可以考虑首先赋予A某种初值，以此得到B的估计值，然后从B的当前值出发，重新估计A的取值，这个过程一直持续到收敛为止。这里的A可以理解为每一个样本它的分布情况，即是属于男生还是属于女生。</p>
+<p> EM的意思是“ExpectationMaximization”，在我们上面这个问题里面，我们是先随便猜一下男生（身高）的正态分布的参数：如均值和方差是多少。例如男生的均值是1米7，方差是0.1米（当然了，刚开始肯定没那么准），然后计算出每个人更可能属于第一个还是第二个正态分布中的（例如，这个人的身高是1米8，那很明显，他最大可能属于男生的那个分布），这个是属于Expectation一步。有了每个人的归属，或者说我们已经大概地按上面的方法将这200个人分为男生和女生两部分，我们就可以根据之前说的最大似然那样，通过这些被大概分为男生的n个人来重新估计第一个分布的参数，女生的那个分布同样方法重新估计。这个是Maximization。然后，当我们更新了这两个分布的时候，每一个属于这两个分布的概率又变了，那么我们就再需要调整E步……如此往复，直到参数基本不再发生变化为止。</p>
+<h1 id="Jensen不等式"><a href="#Jensen不等式" class="headerlink" title="Jensen不等式"></a>Jensen不等式</h1><p> 回顾优化理论中的一些概念。设f是定义域为实数的函数，如果对于所有的实数$x$，$f^{‘’}\ge 0$，那么f是凸函数。当x是向量时，如果其hessian矩阵H是半正定的（<a href="http://images.cnblogs.com/cnblogs_com/jerrylead/201104/201104061615523937.png" target="_blank" rel="noopener"><img src="https://images.cnblogs.com/cnblogs_com/jerrylead/201104/201104061615528987.png" alt="clip_image004"></a>），那么f是凸函数。如果$f^{‘’}\ge 0$或者<a href="http://images.cnblogs.com/cnblogs_com/jerrylead/201104/201104061615534069.png" target="_blank" rel="noopener"><img src="https://images.cnblogs.com/cnblogs_com/jerrylead/201104/20110406161553755.png" alt="clip_image008"></a>，那么称f是严格凸函数。</p>
+<pre><code> Jensen不等式表述如下：
+
+ 如果f是凸函数，X是随机变量，那么
+
+$E(f(x))\ge f(E(x))$
+
+ 特别地，如果f是严格凸函数，那么$E(f(x))= f(E(x))$当且仅当$p(x=E(x))=1$，也就是说X是常量。
+
+ 这里我们将$f(E(f(x)))$简写为$f(EX)$
+
+ 如果用图表示会很清晰：
+</code></pre><p><img src="https://i.loli.net/2018/12/19/5c19e399c985b.png" alt=""></p>
+<p> 图中，实线f是凸函数，X是随机变量，有0.5的概率是a，有0.5的概率是b。（就像掷硬币一样）。X的期望值就是a和b的中值了，图中可以看到$E(f(x))\ge f(E(x))$成立。</p>
+<pre><code>当f是（严格）凹函数当且仅当-f是（严格）凸函数。
+
+Jensen不等式应用于凹函数时，不等号方向反向，也就是$E(f(x))\le f(E(x))$
+</code></pre><h1 id="为什么要有EM算法"><a href="#为什么要有EM算法" class="headerlink" title="为什么要有EM算法"></a>为什么要有EM算法</h1><p>我把EM算法当做最大似然估计的拓展，解决难以给出解析解的最大似然估计（MLE）问题。 考虑高斯分布，它的最大似然估计是这样的：</p>
+<p>$\theta ^ { * } = \arg \max _ { \theta } \sum _ { X } \log L ( \theta | X )$</p>
+<p>其中：$\theta = ( \mu , \sigma ) , \theta ^ { <em> } = \left( \mu ^ { </em> } , \sigma ^ { <em> } \right) , \log L ( \theta | X ) = \log P ( X ; \theta )$是对数似然函数，分号左边是随机变量，右边是模型参数。 $P ( X ; \theta )$表示X的概率值函数，它是一个以$\theta$为参数的函数（很多人看不懂EM算法就是因为符号问题）。这里对 求导很容易$\theta$解出 $\theta^{</em>}$。</p>
+<p>如果这是个含有隐量Z的模型比如混合高斯模型，$P ( X ; \theta ) = \sum _ { k = 1 } ^ { K } \pi _ { k } N \left( x ; \mu _ { k } , \sigma _ { k } \right) = \sum _ { Z } P ( Z ; \pi ) P ( X | Z ; \mu , \sigma )$</p>
+<p>上面假设共有K个高斯模型混合.每个高斯模型的参数为 $\theta _ { k } = \left( \mu _ { k } , \sigma _ { k } \right)$ ，每个高斯模型占总模型的比重为$\pi_k$ 。隐变量$Z \in \left{ z _ { 1 } , z _ { 2 } , \ldots , z _ { K } \right}$表示样本$x_i$来自于哪一个高斯分布。分布列为：</p>
+<p>$P \left( Z = z _ { 1 } \right) = \pi _ { 1 }$</p>
+<p>$P \left( Z = z _ { 2 } \right) = \pi _ { 2 }$</p>
+<p>$…$</p>
+<p>$P \left( Z = z _ { K } \right) = \pi _ { K }$</p>
+<p>可以认为，混合高斯分布的观测值是这样产生的：先以概率$\pi_K$抽取一个高斯分布$z_k$ ，再以该高斯分布 $N \left( x ; \mu _ { k } , \sigma _ { k } \right)$，去生成观测x。其实这里的$\pi_k$就Z的先验分布$P ( Z ; \pi )$ (这里特地加上；$\pi$ 表示P(Z)的参数是你需要求出才能表示这个先验分布),而$N \left( x ; \mu _ { k } , \sigma _ { k } \right)$就是给定Z下的条件概率$P ( X | Z ; \mu , \sigma )$， 这时，令$\theta = ( \mu , \sigma , \pi ) , \theta ^ { <em> } = \left( \mu ^ { </em> } , \sigma ^ { <em> } , \pi ^ { </em> } \right)$最大似然估计变成了</p>
+<p>$\theta ^ { * } = \arg \max _ { \theta } \sum _ { X } \log P ( X ; \theta )$  </p>
+<p>​    $ \begin{array} { l } { = \arg \max _ { \theta } \sum _ { X } ^ { K } \log \sum _ { Z } P ( Z ; \pi ) P ( X | Z ; \mu , \sigma ) } \ { = \arg \max _ { \theta } \sum _ { X } \log \sum _ { Z } P ( X , Z ; \theta ) } \end{array}$</p>
+<h1 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h1><p>给定的训练样本是${x^{(1)},x^{(2)},…,x^{(m)}}$，样例间独立但每个样本i对应的类别z(i)是未知的（相当于聚类），也即隐含变量。故我们需要估计概率模型p(x,z)的参数θ，但是由于里面包含隐含变量z，所以很难用最大似然求解，但如果z知道了，那我们就很容易求解了。 对于参数估计，我们本质上还是想获得一个使似然函数最大化的那个参数θ，现在与最大似然不同的只是似然函数式中多了一个未知的变量z，也就是说我们的目标是找到适合的θ和z让L(θ)最大。那我们也许会想，你就是多了一个未知的变量而已啊，我也可以分别对未知的θ和z分别求偏导，再令其等于0，求解出来不也一样吗？</p>
+<p>$\begin{aligned} \ell ( \theta ) &amp; = \sum _ { i = 1 } ^ { m } \log p ( x ; \theta ) \ &amp; = \sum _ { i = 1 } ^ { m } \log \sum _ { z } p ( x , z ; \theta ) \end{aligned}$</p>
+<p>第一步是对极大似然取对数，第二步是对每个样例的每个可能类别z求联合分布概率和。但是直接求$\theta$一般比较困难，因为有隐藏变量z存在，但是一般确定了z后，求解就容易了。</p>
+<p>EM是一种解决存在隐含变量优化问题的有效方法。竟然不能直接最大化，我们可以不断地建立的<strong>下界（E步）</strong>，然后<strong>优化下界（M步）</strong>。这句话比较抽象，看下面的。</p>
+<p> <strong>对于每一个样例i</strong>，让$Q_i$表示该样例隐含变量z的某种分布，$Q_i$满足的条件是$\sum_zQ_i(z)=1,Q_i(z)\ge0$。（如果z是连续性的，那么$Q_i$是概率密度函数，需要将求和符号换做积分符号）。比如要将班上学生聚类，假设隐藏变量z是身高，那么就是连续的高斯分布。如果按照隐藏变量是男女，那么就是伯努利分布了。</p>
+<p>可以由前面阐述的内容得到下面的公式：</p>
+<p>$\begin{aligned} \sum _ { i } \log p \left( x ^ { ( i ) } ; \theta \right) &amp; = \sum _ { i } \log \sum _{ z ^ { ( i ) } } p \left( x ^ { ( i ) } , z ^ { ( i ) }  ; \theta \right)             (1)\ &amp; = \sum _ { i } \log \sum _ { z ^ { ( i ) } } Q _ { i } \left( z ^ { ( i ) } \right) \frac { p \left( x ^ { ( i ) } , z ^ { ( i ) } ; \theta \right) } { Q _ { i } \left( z ^ { ( i ) } \right) }                 (2) \ &amp; \geq \sum _ { i } \sum _ { z ^ { ( i ) } } Q _ { i } \left( z ^ { ( i ) } \right) \log \frac { p \left( x ^ { ( i ) } , z ^ { ( i ) }              ; \theta \right) } { Q _ { i } \left( z ^ { ( i ) } \right) }              (3)\end{aligned}$</p>
+<p>本质上我们是需要最大化（1）式（对（1）式，我们回忆下联合概率密度下某个变量的边缘概率密度函数的求解，注意这里z也是随机变量。对每一个样本i的所有可能类别z求等式右边的联合概率密度函数和，也就得到等式左边为随机变量x的边缘概率密度），也就是似然函数，但是可以看到里面有“和的对数”，求导后形式会非常复杂（自己可以想象下$log(f1(x)+ f2(x)+ f3(x)+…)$复合函数的求导），所以很难求解得到未知参数z和θ。那OK，我们可否对（1）式做一些改变呢？我们看（2）式，（2）式只是分子分母同乘以一个相等的函数，还是有“和的对数”啊，还是求解不了，那为什么要这么做呢？咱们先不管，看（3）式，发现（3）式变成了“对数的和”，那这样求导就容易了。我们注意点，还发现等号变成了不等号，为什么能这么变呢？（2）到（3）利用了Jensen不等式，考虑到$log(x)$是凹函数（二阶导数小于0），而且</p>
+<p>$\sum _ { z ^ { ( i ) } } Q _ { i } \left( z ^ { ( i ) } \right) \left[ \frac { p \left( x ^ { ( i ) } , z ^ { ( i ) } ; \theta \right) } { Q _ { i } \left( z ^ { ( i ) } \right) } \right]$</p>
+<p>  就是$\left[ p \left( x ^ { ( i ) } , z ^ { ( i ) } ; \theta \right) / Q _ { i } \left( z ^ { ( i ) } \right) \right]$的期望（回想期望公式中的Lazy Statistician规则）</p>
+<p>设Y是随机变量X的函数Y=g(X)（g是连续函数），那么</p>
+<p>（1） X是离散型随机变量，它的分布律为$\mathrm { P } \left( \mathrm { X } = x _ { k } \right) = p _ { k } , \mathrm { k } = 1,2 , \dots$，k=1,2,…。若$\sum _ { k = 1 } ^ { \infty } \mathrm { g } \left( x _ { k } \right) p _ { k }$绝对收敛，则有</p>
+<p>$\mathrm { E } ( \mathrm { Y } ) = \mathrm { E } [ \mathrm { g } ( \mathrm { X } ) ] = \sum _ { k = 1 } ^ { \infty } \mathrm { g } \left( x _ { k } \right) p _ { k }$</p>
+<p>（2） X是连续型随机变量，它的概率密度为f(x)，若$\int _ { - \infty } ^ { \infty } g ( x ) f ( x ) d x$ 收敛，则有</p>
+<p>$\mathrm { E } ( \mathrm { Y } ) = \mathrm { E } [ \mathrm { g } ( \mathrm { X } ) ] = \int _ { - \infty } ^ { \infty } \mathrm { g } ( \mathrm { x } ) \mathrm { f } ( \mathrm { x } ) \mathrm { d } \mathrm { x }$</p>
+<p>  对应于上述问题，Y是$\left[ p \left( x ^ { ( i ) } , z ^ { ( i ) } ; \theta \right) / Q _ { i } \left( z ^ { ( i ) } \right) \right]$ ，X是$z ^ { ( i ) } , Q _ { i } \left( z ^ { ( i ) } \right)$ 是$p _ { k }$ ，g是$z^{(i)}$到$\left[ p \left( x ^ { ( i ) } , z ^ { ( i ) } ; \theta \right) / Q _ { i } \left( z ^ { ( i ) } \right) \right]$的映射。这样解释了式子（2）中的期望，再根据凹函数时的Jensen不等式：</p>
+<p>$f \left( \mathrm { E } _ { z ^ { ( i ) } \sim Q _ { i } } \left[ \frac { p \left( x ^ { ( i ) } , z ^ { ( i ) } ; \theta \right) } { Q _ { i } \left( z ^ { ( i ) } \right) } \right] \right) \geq \mathrm { E } _ { z ^ { ( i ) } \sim Q _ { i } } \left[ f \left( \frac { p \left( x ^ { ( i ) } , z ^ { ( i ) } ; \theta \right) } { Q _ { i } \left( z ^ { ( i ) } \right) } \right) \right]$</p>
+<p>可以得到（3）。</p>
+<pre><code>这个过程可以看作是对$\ell ( \theta )$求了下界。对于$Q_i$的选择，有多种可能，那种更好的？假设$\theta$已经给定，那么$\ell ( \theta )$的值就决定于$Q _ { i } \left( z ^ { ( i ) } \right)$和$p \left( x ^ { ( i ) } , z ^ { ( i ) } \right)$了。我们可以通过调整这两个概率使下界不断上升，以逼近$\ell ( \theta )$的真实值，那么什么时候算是调整好了呢？当不等式变成等式时，说明我们调整后的概率能够等价于$\ell ( \theta )$了。按照这个思路，我们要找到等式成立的条件。根据Jensen不等式，要想让等式成立，需要让随机变量变成常数值，这里得到：
+</code></pre><p>$\frac { p \left( x ^ { ( i ) } , z ^ { ( i ) } ; \theta \right) } { Q _ { i } \left( z ^ { ( i ) } \right) } = c$</p>
+<p>c为常数，不依赖于$z ^ { ( i ) }$。对此式子做进一步推导，我们知道$\Sigma _ { z } Q _ { i } \left( z ^ { ( 1 ) } \right) = 1$，那么也就有$\sum _ { z } p \left( x ^ { ( \mathrm { i } ) } , z ^ { ( i ) } ; \theta \right) = c$，（多个等式分子分母相加不变，这个认为每个样例的两个概率比值都是c），那么有下式：</p>
+<p>$\begin{aligned} Q _ { i } \left( z ^ { ( i ) } \right) &amp; = \frac { p \left( x ^ { ( i ) } , z ^ { ( i ) } ; \theta \right) } { \sum _ { z } p \left( x ^ { ( i ) } , z ; \theta \right) } \ &amp; = \frac { p \left( x ^ { ( i ) } , z ^ { ( i ) } ; \theta \right) } { p \left( x ^ { ( i ) } ; \theta \right) } \ &amp; = p \left( z ^ { ( i ) } | x ^ { ( i ) } ; \theta \right) \end{aligned}$</p>
+<p>至此，我们推出了在固定其他参数$\theta$后，$Q _ { \mathrm { i } } \left( z ^ { ( \mathrm { i } ) } \right)$的计算公式就是<strong>后验概率</strong>，解决了$Q _ { \mathrm { i } } \left( z ^ { ( \mathrm { i } ) } \right)$如何选择的问题。这一步就是E步，建立$\ell ( \theta )$的下界。接下来的M步，就是在给定$Q _ { \mathrm { i } } \left( z ^ { ( \mathrm { i } ) } \right)$后，调整$Q _ { \mathrm { i } } \left( z ^ { ( \mathrm { i } ) } \right)$，去极大化$\ell ( \theta )$的下界（在固定后，下界还可以调整的更大）。那么一般的EM算法的步骤如下：</p>
+<p>​                      给定一个初始分布参数</p>
+<p>​                      循环重复直到收敛 {</p>
+<pre><code>（E步）对于每一个i，计算
+</code></pre><p>​                                                           $Q _ { i } \left( z ^ { ( 1 ) } \right) : = p \left( z ^ { ( i ) } | x ^ { ( i ) } ; \theta \right)$</p>
+<p>​                                        （M步）计算</p>
+<p>​                                                           $\theta : = \arg \max _ { \theta } \sum _ { i } \sum _ { z ^ { ( i ) } } Q _ { i } \left( z ^ { ( i ) } \right) \log \frac { p \left( x ^ { ( i ) } , z ^ { ( i ) } ; \theta \right) } { Q _ { i } \left( z ^ { ( i ) } \right) }$</p>
+<h1 id="从EM算法的视角审视混合高斯模型"><a href="#从EM算法的视角审视混合高斯模型" class="headerlink" title="从EM算法的视角审视混合高斯模型"></a>从EM算法的视角审视混合高斯模型</h1><h2 id="什么是高斯混合模型"><a href="#什么是高斯混合模型" class="headerlink" title="什么是高斯混合模型"></a>什么是高斯混合模型</h2><p>高斯混合模型（Gaussian Mixed Model）指的是多个高斯分布函数的线性组合，理论上GMM可以拟合出任意类型的分布，通常用于解决同一集合下的数据包含多个不同的分布的情况（或者是同一类分布但参数不一样，或者是不同类型的分布，比如正态分布和伯努利分布）。</p>
+<h2 id="高斯混合模型的数学表达式"><a href="#高斯混合模型的数学表达式" class="headerlink" title="高斯混合模型的数学表达式"></a>高斯混合模型的数学表达式</h2><p>设有随机变量Х，则混合高斯模型可以用下式表示：</p>
+<p>$\mathrm { p } ( \mathrm { x } ) = \sum _ { k = 1 } ^ { K } \pi _ { k } N ( x | \mu _ { k } , \Sigma _ { k } )$        </p>
+<p>其中$\mathrm { N } ( \mathrm { x } | \mu _ { \mathrm { k } } , \Sigma _ { \mathrm { k } } )$称为混合模型中的第k个分量（component）。</p>
+<p><img src="https://i.loli.net/2018/12/19/5c1a0001a23e6.png" alt=""></p>
+<p>如前面图中的例子，有两个聚类，可以用两个二维高斯分布来表示，那么分量数K=2，是混合系数（mixture coefficient），且满足</p>
+<p>$\sum _ { \mathrm { k } = 1 } ^ { \mathrm { K } } \pi _ { \mathrm { k } } = 1$       $0 \leq \pi _ { k } \leq 1$</p>
+<p>可以看到$\pi _ { \mathrm { k } }$相当于每个分量的权重。</p>
+<p>例如，下图将两个高斯混合分布进行线性组合，</p>
+<p><img src="https://i.loli.net/2018/12/19/5c19ffc38fa79.png" alt=""></p>
+<h2 id="从EM算法看混合模型"><a href="#从EM算法看混合模型" class="headerlink" title="从EM算法看混合模型"></a>从EM算法看混合模型</h2><p>我们已经知道了EM的精髓和推导过程，再次审视一下混合高斯模型。之前提到的混合高斯模型的参数$\phi$ ，$\mu$ ，$\Sigma$计算公式都是根据很多假定得出的，有些没有说明来由。为了简单，这里在M步只给出$\phi$ ，$\mu$ 的推导方法。</p>
+<p>E步很简单，按照一般EM公式得到： </p>
+<p>$w _ { j } ^ { ( i ) } = Q _ { i } \left( z ^ { ( i ) } = j \right) = P \left( z ^ { ( i ) } = j | x ^ { ( i ) } ; \phi , \mu , \Sigma \right)$</p>
+<p>简单解释就是每个样例i的隐含类别$z^{(i)}$为j的概率可以通过后验概率计算得到。</p>
+<pre><code>在M步中，我们需要在固定$Q _ { i } \left( z ^ { ( i ) } \right)$后最大化最大似然估计，也就是
+</code></pre><p><img src="https://i.loli.net/2018/12/19/5c19f58cdfc52.png" alt=""></p>
+<p>这是将$z^{(i)}$的k种情况展开后的样子，未知参数$\emptyset _ { j } $, $\mu _ { j }$ 和$\Sigma _ { j }$。</p>
+<pre><code>固定$\emptyset _ { j }$ 和$\Sigma _ { j }$，对$\mu _ { j }$求导得:
+</code></pre><p><img src="https://i.loli.net/2018/12/19/5c19f68ac2929.png" alt=""></p>
+<p>等于0时，得到</p>
+<p>$\mu _ { l } : = \frac { \sum _ { i = 1 } ^ { m } w _ { l } ^ { ( i ) } x ^ { ( i ) } } { \sum _ { i = 1 } ^ { m } w _ { l } ^ { ( i ) } }$</p>
+<p>这就是我们之前模型中$\mu$的更新公式。</p>
+<pre><code>然后推导$Q _ { j }$的更新公式(省略了步骤):
+</code></pre><p>$\phi _ { j } : = \frac { 1 } { m } \sum _ { i = 1 } ^ { m } w _ { j } ^ { ( i ) }$</p>
+<h1 id="一个栗子"><a href="#一个栗子" class="headerlink" title="一个栗子"></a>一个栗子</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>公司有很多领导=[A总，刘总，C总]，同时有很多漂亮的女职员=[小甲，小章，小乙]。（请勿对号入座）你迫切的怀疑这些老总跟这些女职员有问题。为了科学的验证你的猜想，你进行了细致的观察。于是，</p>
+<h2 id="观察数据"><a href="#观察数据" class="headerlink" title="观察数据"></a>观察数据</h2><p>1）A总，小甲，小乙一起出门了；<br>2）刘总，小甲，小章一起出门了；<br>3）刘总，小章，小乙一起出门了；<br>4）C总，小乙一起出门了；</p>
+<h2 id="神秘的EM计算"><a href="#神秘的EM计算" class="headerlink" title="神秘的EM计算"></a>神秘的EM计算</h2><p>初始化，你觉得三个老总一样帅，一样有钱，三个美女一样漂亮，每个人都可能跟每个人有关系。所以，每个老总跟每个女职员“有问题”的概率都是1/3;</p>
+<p>这样，（E step）<br>1） A总跟小甲出去过了 1/2 * 1/3 = 1/6 次，跟小乙也出去了1/6次；（所谓的分数计算）<br>2）刘总跟小甲，小章也都出去了1/6次<br>3）刘总跟小乙，小章又出去了1/6次<br>4）C总跟小乙出去了1/3次</p>
+<p>总计，A总跟小甲出去了1/6次，跟小乙也出去了1/6次 ; 刘总跟小甲，小乙出去了1/6次，跟小章出去了1/3次；C总跟小章出去了1/3次；</p>
+<p>你开始跟新你的八卦了(M step),<br>A总跟小甲，小乙有问题的概率都是1/6 / (1/6 + 1/6) = 1/2；<br>刘总跟小甲，小乙有问题的概率是1/6 / (1/6+1/6+1/6+1/6) = 1/4; 跟小章有问题的概率是(1/6+1/6)/(1/6 * 4) = 1/2;<br>C总跟小乙有问题的概率是 1。</p>
+<p>然后，你有开始根据最新的概率计算了；（E-step）<br>1）A总跟小甲出去了 1/2 <em> 1/2 = 1/4 次，跟小乙也出去 1/4 次；<br>2）刘总跟小甲出去了1/2 </em> 1/4 = 1/12 次， 跟小章出去了 1/2 <em> 1/2 = 1/4 次；<br>3）刘总跟小乙出去了1/2 </em> 1/4 = 1/12 次， 跟小章又出去了 1/2 * 1/2 = 1/4 次；<br>4）C总跟小乙出去了1次；</p>
+<p>重新反思你的八卦（M-step）:<br>A总跟小甲，小乙有问题的概率都是1/4/ (1/4 + 1/4) = 1/2；<br>B总跟小甲，小乙是 1/12 / (1/12 + 1/4 + 1/4 + 1/12) = 1/8 ; 跟小章是 3/4 ;<br>C总跟小乙的概率是1。</p>
+<p>你继续计算，反思，总之，最后，你得到了真相！（马总表示我早就知道真相了）</p>
+<p>你知道了这些老总的真相，可以开始学习机器翻译了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p> 如果将样本看作观察值，潜在类别看作是隐藏变量，那么聚类问题也就是参数估计问题，只不过聚类问题中参数分为隐含类别变量和其他参数，这犹如在x-y坐标系中找一个曲线的极值，然而曲线函数不能直接求导，因此什么梯度下降方法就不适用了。但固定一个变量后，另外一个可以通过求导得到，因此可以使用坐标上升法，一次固定一个变量，对另外的求极值，最后逐步逼近极值。对应到EM上，<strong>E步估计隐含变量，M步估计其他参数，交替将极值推向最大。</strong>EM中还有“硬”指定和“软”指定的概念，“软”指定看似更为合理，但计算量要大，“硬”指定在某些场合如K-means中更为实用（要是保持一个样本点到其他所有中心的概率，就会很麻烦）。</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="http://www.cnblogs.com/jerrylead/archive/2011/04/06/2006936.html" target="_blank" rel="noopener">EM算法</a></p>
+<p><a href="https://www.zhihu.com/question/27976634" target="_blank" rel="noopener">怎么通俗易懂地解释EM算法并且举个例子?</a></p>
+<p><a href="https://blog.csdn.net/zouxy09/article/details/8537620" target="_blank" rel="noopener">从最大似然到EM算法浅解</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/EM，GMM，Jensen，MLE/" rel="tag"># EM，GMM，Jensen，MLE</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/17/SYN-flood-攻击及-SYN-cookie-原理分析/" rel="next" title="SYN flood 攻击及 SYN cookie 原理分析">
+                <i class="fa fa-chevron-left"></i> SYN flood 攻击及 SYN cookie 原理分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景实例"><span class="nav-number">1.</span> <span class="nav-text">背景实例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Jensen不等式"><span class="nav-number">2.</span> <span class="nav-text">Jensen不等式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要有EM算法"><span class="nav-number">3.</span> <span class="nav-text">为什么要有EM算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EM算法"><span class="nav-number">4.</span> <span class="nav-text">EM算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#从EM算法的视角审视混合高斯模型"><span class="nav-number">5.</span> <span class="nav-text">从EM算法的视角审视混合高斯模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是高斯混合模型"><span class="nav-number">5.1.</span> <span class="nav-text">什么是高斯混合模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高斯混合模型的数学表达式"><span class="nav-number">5.2.</span> <span class="nav-text">高斯混合模型的数学表达式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从EM算法看混合模型"><span class="nav-number">5.3.</span> <span class="nav-text">从EM算法看混合模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一个栗子"><span class="nav-number">6.</span> <span class="nav-text">一个栗子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">6.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察数据"><span class="nav-number">6.2.</span> <span class="nav-text">观察数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神秘的EM计算"><span class="nav-number">6.3.</span> <span class="nav-text">神秘的EM计算</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">8.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
