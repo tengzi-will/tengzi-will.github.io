@@ -534,7 +534,8 @@
         
           
           背景实例假从学校抽取了200名学生，现在我们的工作就是要确定这200个学生中每个学生是属于男生还是属于女生，并且求出是男生这个分布的参数，要求出是女生这个分布参数。
-EM算法就是这样，假设我们想估计知道A和B两个参数，在开始状态下二者都是未知的，但如果知道了A的信息就可以得到B的信息，反过来知道了B
+EM算法就是这样，假设我们想估计知道A和B两个参数，在开始状态下二者都是未知的，但如果知道了A的信息就可以得到B的信息，反过来知道了B也就得到了A。可以考虑首先赋予A某种初值，以此得到B的估计值，然后从B的当前值出发，重新估计A的取值，这个过程一直持续到收敛为止。这里的A可以理解为每一个样本它的分布情况，即是属于男生还是属于女生。
+ EM的意思是“ExpectationMaximization”，在我们上面这个问题里面，我们是先随
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -695,7 +696,14 @@ EM算法就是这样，假设我们想估计知道A和B两个参数，在开始�
           
           实验简介
 最近在学习《计算机网络系统与方法》这本书，课程布置了一个网络攻击的作业 SYN Flooding Attack ，本文就本次实验做一个完整的实验报告及总结。
-SEED简介SEED：计算机安全教育的教学实验平台，纽约雪城大学 杜文亮 (Du, Wenliang) 教授设计和实现，从2002年
+SEED简介SEED：计算机安全教育的教学实验平台，纽约雪城大学 杜文亮 (Du, Wenliang) 教授设计和实现，从2002年开始得到NSF 1.2M$的资助。
+官方地址：http://www.cis.syr.edu/~wedu/seed/
+SEED 内容包含一下几类：
+
+本次实验为 Network Security Labs 中的 TCP/IP Attack Lab。
+配置环境
+操作系统：Windows10
+虚拟机操作系
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -855,7 +863,8 @@ SEED简介SEED：计算机安全教育的教学实验平台，纽约雪城大学
         
           
           进入python环境，获取秘钥我用的 Linux 版本为 CentOS7，感觉配置 jypyter notebook 在其他 Linux 版本都大同小异。
-首先，在 Linux 环境下要安装有 python-3.x 版本，输入 python 进入编程环境后，输入命令 from notebook.au
+首先，在 Linux 环境下要安装有 python-3.x 版本，输入 python 进入编程环境后，输入命令 from notebook.auth import passwd 如下：
+12345678Python 3.6.3 |Anaconda, Inc.| (default, Oct 13 2017, 12:02:49)[GCC 7.2.0] on linuxType &quot;help&quot;, &quot;copyright&
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1153,7 +1162,14 @@ SEED简介SEED：计算机安全教育的教学实验平台，纽约雪城大学
 可以随意绑定自己的域名；
 数据绝对安全，基于 GitHub 的版本管理，想恢复到哪个历史版本都行；
 博客内容可以轻松打包、转移、发布到其它平台；
+自己可以随性所欲的设计，美观大气上档次；
 
+准备工作
+有一个 GitHub 账号，没有的话去注册一个；
+安装了 node.js、npm，并了解相关基础知识；
+安装了 git for windows（或者其它 git 客户端）；
+
+注册GitHub账号进入GitHub官网，新用户注册，一定记住注册的账
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1279,7 +1295,11 @@ SEED简介SEED：计算机安全教育的教学实验平台，纽约雪城大学
       
         
           
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
+          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick StartCreate a new post1$ hexo new "My New Post"
+More info: Writing
+Run server1$ hexo server
+More in
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1609,6 +1629,28 @@ SEED简介SEED：计算机安全教育的教学实验平台，纽约雪城大学
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 
