@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,朴素贝叶斯算法,Naive Bayes,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="先验概率与后验概率先验概率先验概率(Prior probability)在维基百科中定义如下：  In Bayesian statistical inference, a prior probability distribution, often simply called the prior, of an uncertain quantity is the probability distrib">
+<meta name="keywords" content="机器学习,朴素贝叶斯算法,Naive Bayes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="朴素贝叶斯 Naive Bayes 分类算法">
+<meta property="og:url" content="http://yoursite.com/2018/12/23/朴素贝叶斯-Naive-Bayes-分类算法/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="先验概率与后验概率先验概率先验概率(Prior probability)在维基百科中定义如下：  In Bayesian statistical inference, a prior probability distribution, often simply called the prior, of an uncertain quantity is the probability distrib">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-23T16:15:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="朴素贝叶斯 Naive Bayes 分类算法">
+<meta name="twitter:description" content="先验概率与后验概率先验概率先验概率(Prior probability)在维基百科中定义如下：  In Bayesian statistical inference, a prior probability distribution, often simply called the prior, of an uncertain quantity is the probability distrib">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/23/朴素贝叶斯-Naive-Bayes-分类算法/">
+
+
+
+
+
+  <title>朴素贝叶斯 Naive Bayes 分类算法 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/23/朴素贝叶斯-Naive-Bayes-分类算法/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">朴素贝叶斯 Naive Bayes 分类算法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-23T09:50:17+08:00">
+                2018-12-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="先验概率与后验概率"><a href="#先验概率与后验概率" class="headerlink" title="先验概率与后验概率"></a>先验概率与后验概率</h2><h3 id="先验概率"><a href="#先验概率" class="headerlink" title="先验概率"></a>先验概率</h3><p><strong>先验概率(Prior probability)</strong>在维基百科中定义如下：</p>
+<blockquote>
+<p>In Bayesian statistical inference, a prior probability distribution, often simply called the prior, of an uncertain quantity is the probability distribution that would express one’s beliefs about this quantity before some evidence is taken into account. </p>
+</blockquote>
+<blockquote>
+<p>在贝叶斯统计推断中，一个不确定数量的先验概率分布，通常简称为先验，是指在考虑到某些证据之前，一个人对这个数量的信念的概率分布。</p>
+</blockquote>
+<p><strong>先验概率</strong>就是根据以往经验和分析得到的概率。通俗来说，对于某一个概率事件，我们都会有基于自己已有的知识，对于这个概率事件会分别以什么概率出现各种结果会有一个预先的估计，而这个估计并未考虑到任何相关因素。</p>
+<p>举例如下：</p>
+<ol>
+<li>掷一枚硬币，再不做任何实验的情况下，我们能够根据以往经验（硬币的性质：两面，质地均匀）估计正面出现的概率为50%，P(正面出现) = 50% 。</li>
+<li>根据若干年的统计（经验）或者气候（常识）能够判断，今天下雨的概率30%，P(今天下雨) = 30% 。</li>
+</ol>
+<p>以上的概率估计都是先验概率。</p>
+<h3 id="后验概率"><a href="#后验概率" class="headerlink" title="后验概率"></a>后验概率</h3><p><strong>后验概率(Posterior probability)</strong>在维基百科中定义如下：</p>
+<blockquote>
+<p>In Bayesian statistics, the posterior probability of a random event or an uncertain proposition is the conditional probability that is assigned after the relevant evidence or background is taken into account.</p>
+</blockquote>
+<blockquote>
+<p>在贝叶斯推断中，一个随机事件的后验概率是指：当与事件相关的一些证据或背景也被考虑进来时的条件概率。“后验”在这个语境下即指的是在考虑了与要被检验的特定事件相关的证据。</p>
+</blockquote>
+<p><strong>后验概率</strong>就是在先验概率的基础上加了一层“考虑”：结合我们已有的知识，将与待检验事件（即我们正在估计概率的随机事件）相关的因素也考虑进去后，我们对随机事件的概率的预估。</p>
+<p>举例如下：</p>
+<ol>
+<li>同样掷硬币，假如我们知道了这个硬币被人动了手脚，我们需要对其重新估计正面出现的概率，P(正面出现|硬币动过手脚）= 10% 。</li>
+<li>我们看见今天天空乌云密布，估计今天下午结果的概率，P(今天下雨|乌云) = 60% 。</li>
+</ol>
+<p>以上的概率估计为后验概率。</p>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><p>先验概率基于已有知识对随机事件进行概率预估，但不考虑任何相关因素(P(c))。后验概率基于已有知识对随机事件进行概率预估，并考虑相关因素(P(c|x))。</p>
+<h2 id="贝叶斯定理"><a href="#贝叶斯定理" class="headerlink" title="贝叶斯定理"></a>贝叶斯定理</h2><p><strong>贝叶斯定理(Bayes’ theorem)</strong>在维基百科中定义如下：</p>
+<blockquote>
+<p>In probability theory and statistics, Bayes’ theorem (alternatively Bayes’ law or Bayes’ rule) describes the probability of an event, based on prior knowledge of conditions that might be related to the event. For example, if cancer is related to age, then, using Bayes’ theorem, a person’s age can be used to more accurately assess the probability that they have cancer, compared to the assessment of the probability of cancer made without knowledge of the person’s age.</p>
+</blockquote>
+<blockquote>
+<p>在概率论和统计学中，贝叶斯定理(又称贝叶斯定律或贝叶斯规则)描述事件发生的概率，其基础是对可能与事件有关的条件的先验知识。例如，如果癌症与年龄有关，那么，使用贝叶斯定理，知道一个人的年龄，相比较于不知道该人年龄的情况下，可以被用来更准确地评估他们患癌症的概率。</p>
+</blockquote>
+<p>那么其实很明显了，这里的“可能性”也是考虑了与随机事件相关的因素的，所以贝叶斯定理所阐述的也就是后验概率的获得方法。</p>
+<p>用数学公式来表述贝叶斯定理：</p>
+<p>$$ P ( c | x ) = \frac { P ( c , x ) } { P ( x ) } = \frac { P ( x | c ) P ( c ) } { P ( x ) }  $$</p>
+<p><strong><code>c</code></strong> 表示的是随机事件发生的一种情况。<strong><code>x</code></strong> 表示的就是证据(evidence)、状况(condition)，泛指与随机事件相关的因素。</p>
+<ul>
+<li>P(c|x)：在x的条件下，随机事件出现c情况的概率。（后验概率)</li>
+<li>P(c)：（不考虑相关因素）随机事件出现c情况的概率。（先验概率）</li>
+<li>P(x|c)：在已知事件出现c情况的条件下，条件x出现的概率。（后验概率）</li>
+<li>P(x)：x出现的概率。（先验概率）</li>
+</ul>
+<p>落实到实际问题中，我们要计算 <strong><code>P(c|x)</code></strong>,转化为计算 <strong><code>P(x)</code></strong>、<strong><code>P(c)</code></strong>、<strong><code>P(x|c)</code></strong>。而 <strong><code>P(x</code></strong>) 由于与 <strong><code>c</code></strong> 无关，而且作为共同的分母，在我们计算 <strong><code>c</code></strong> 的各种取值的可能性时并不会对各结果的相对大小产生影响，因此可以忽略。</p>
+<p>经过上面的分析，最后求解 <strong><code>P(c|x)</code></strong> 的关键落在了求解 <strong><code>P(c)</code></strong> 与 <strong><code>P(x|c)</code></strong> 上，而这两个概率分布是必须要通过我们手上现有的数据集来进行估计。</p>
+<h2 id="贝叶斯在文本分类中的应用"><a href="#贝叶斯在文本分类中的应用" class="headerlink" title="贝叶斯在文本分类中的应用"></a>贝叶斯在文本分类中的应用</h2><p>贝叶斯如何应用在文本分类的任务中呢？</p>
+<p>假设我们有一个数据集，里面有很多个文档，每一个文档对应某一个类别，都是人工标注的。我们要做的任务就是利用已经有的数据集训练一个分类器（一种算法机制），等有了一篇新的文档，我们在不经过人工判断的情况下，利用已训练好的分类器（或算法)对该文档的类别进行判断。其实能够做文档分类的算法有很多，比如最近比较火的深度神经网络，但朴素贝叶斯算法对于文档的分类任务能够得到一个较好的效果，而且他的实现相较简单，算得上是一个性价比较高的算法。</p>
+<h3 id="数据建模"><a href="#数据建模" class="headerlink" title="数据建模"></a>数据建模</h3><p>假设我们一共有 N 篇文档，一共有 $ C_1 $ 、$ C_2 $ 、$ C_3 $ 三个类别，三个类别的个数为 $ c_1 $ 、$ c_2 $ 、$ c_3 $ ，每篇文档又有很多个单词，所以由 N 篇文档可以产生词项集合，由 N 篇文档中所有不重复的单词构成。假设 x 为某一篇文档，C 为文档的类别，那么在文档为 x 的条件下，该文档属于类别 $ C_1 $ 的概率为 P($C_1$|x)，同理该文档 x 被分类为 $ C_2 $ 和 $ C_3 $ 的概率分别为 P($C_2$|x) 和 P($C_3$|x)，最后计算出这三个概率，哪个概率大，我们就认为文档 x 属于那个类别。</p>
+<p>剩下的问题就是 P(c|x)如何计算？根据贝叶斯定理：</p>
+<p>$$ P ( c | x ) = \frac { P ( c , x ) } { P ( x ) } = \frac { P ( x | c ) P ( c ) } { P ( x ) }  $$</p>
+<p>由于 P($C_1$|x)、P($C_2$|x)、P($C_3$|x) 的计算都含有 $ P(x) $ 项，最后比较大小我们只关注相对大小，而不关注绝对大小，所以该项可以约去，公式化简为：</p>
+<p>$$ P ( c | x ) \varpropto P ( x | c ) P ( c ) $$</p>
+<p>其中 $ P(c) $ 可以通过已有的训练数据进行估计，属于类 $ C_1 $ 的文档个数为 $ c_1 $，属于类 $ C_2 $ 的文档个数为 $ c_2 $，属于类 $ C_3 $ 的文档个数为 $ c_3 $,文档总个数为 N ，因此 $ N = c_1 + c_2 + c_3 $，所以有 $ P(C_1) = c_1/N $，$ P(C_2) = c_2/N $，$ P(C_3) = c_3/N $ 。</p>
+<p>那么，$ P( x | c ) $ 如何处理呢？一个很自然的想法是，x 表示文档，是由一个一个单词组成的。假设组成文档 x 的单词序列为 $ t_1 t_2 t_3 t_4 t_5 $，并假设单词 $ t_i $ 服从条件独立性假设，公式有如下转化：</p>
+<p>$$ P( x | c ) = P( t_1 t_2 t_3 t_4 t_5 | c ) = P( t_1 | c ) P( t_2 | c ) P( t_3 | c ) P( t_4 | c ) P( t_5 | c ) $$ </p>
+<p><strong>条件独立性假设</strong>实际上是忽略掉了某些属性之间（单词之间）可能存在的关联，假设属性的取值可能性都是独立的，这与现实世界是不相符的，但是这样做可以大大简化计算量，而且从分类的结果上看可以取得不错的效果。之所以称之为“朴素”贝叶斯，也正是因为进行了条件独立性假设，大大简化了模型参数估计。</p>
+<p>最后的问题就是如何计算 $ P( t_i | c) $，其中 $ i = 1,2,…,M $，$ M $ 为单词集合的大小。这些数据都可以通过已有的训练数据进行估计。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/朴素贝叶斯算法/" rel="tag"># 朴素贝叶斯算法</a>
+          
+            <a href="/tags/Naive-Bayes/" rel="tag"># Naive Bayes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/20/隐马尔科夫模型/" rel="next" title="隐马尔科夫模型">
+                <i class="fa fa-chevron-left"></i> 隐马尔科夫模型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/23/Hadoop-运行环境搭建与完全分布式部署/" rel="prev" title="Hadoop 运行环境搭建与完全分布式部署">
+                Hadoop 运行环境搭建与完全分布式部署 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#先验概率与后验概率"><span class="nav-number">1.</span> <span class="nav-text">先验概率与后验概率</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先验概率"><span class="nav-number">1.1.</span> <span class="nav-text">先验概率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后验概率"><span class="nav-number">1.2.</span> <span class="nav-text">后验概率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区别"><span class="nav-number">1.3.</span> <span class="nav-text">区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯定理"><span class="nav-number">2.</span> <span class="nav-text">贝叶斯定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯在文本分类中的应用"><span class="nav-number">3.</span> <span class="nav-text">贝叶斯在文本分类中的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据建模"><span class="nav-number">3.1.</span> <span class="nav-text">数据建模</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
