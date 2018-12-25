@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="hadoop,Naive Bayes,朴素贝叶斯,文本分类,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="实验简介Hadoop 是什么Hadoop 是一个由 Apache 基金会所开发的分布式系统基础架构。主要解决海量数据的存储和海量数据的分析计算问题。广义上来说 HADOOP 通常是指一个更广泛的概念—— HADOOP 生态圈。 Hadoop 的优势：  高可靠性：因为 Hadoop 假设计算元素和存储会出现故障，因为它维护多个工作数据副本，在出现故障时可以对失败的节点重新分布处理。 高扩展性：在集">
+<meta name="keywords" content="hadoop,Naive Bayes,朴素贝叶斯,文本分类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop 实现朴素贝叶斯 Naive Bayes 文本分类">
+<meta property="og:url" content="http://yoursite.com/2018/12/24/Hadoop-实现朴素贝叶斯-Naive-Bayes-文本分类/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="实验简介Hadoop 是什么Hadoop 是一个由 Apache 基金会所开发的分布式系统基础架构。主要解决海量数据的存储和海量数据的分析计算问题。广义上来说 HADOOP 通常是指一个更广泛的概念—— HADOOP 生态圈。 Hadoop 的优势：  高可靠性：因为 Hadoop 假设计算元素和存储会出现故障，因为它维护多个工作数据副本，在出现故障时可以对失败的节点重新分布处理。 高扩展性：在集">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/mLHxtWd.jpg">
+<meta property="og:updated_time" content="2018-12-25T02:42:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop 实现朴素贝叶斯 Naive Bayes 文本分类">
+<meta name="twitter:description" content="实验简介Hadoop 是什么Hadoop 是一个由 Apache 基金会所开发的分布式系统基础架构。主要解决海量数据的存储和海量数据的分析计算问题。广义上来说 HADOOP 通常是指一个更广泛的概念—— HADOOP 生态圈。 Hadoop 的优势：  高可靠性：因为 Hadoop 假设计算元素和存储会出现故障，因为它维护多个工作数据副本，在出现故障时可以对失败的节点重新分布处理。 高扩展性：在集">
+<meta name="twitter:image" content="https://i.imgur.com/mLHxtWd.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/24/Hadoop-实现朴素贝叶斯-Naive-Bayes-文本分类/">
+
+
+
+
+
+  <title>Hadoop 实现朴素贝叶斯 Naive Bayes 文本分类 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/24/Hadoop-实现朴素贝叶斯-Naive-Bayes-文本分类/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hadoop 实现朴素贝叶斯 Naive Bayes 文本分类</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-24T19:07:01+08:00">
+                2018-12-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hadoop/算法实验/" itemprop="url" rel="index">
+                    <span itemprop="name">算法实验</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="实验简介"><a href="#实验简介" class="headerlink" title="实验简介"></a>实验简介</h2><h3 id="Hadoop-是什么"><a href="#Hadoop-是什么" class="headerlink" title="Hadoop 是什么"></a>Hadoop 是什么</h3><p><strong><code>Hadoop</code></strong> 是一个由 <strong><code>Apache</code></strong> 基金会所开发的分布式系统基础架构。主要解决海量数据的存储和海量数据的分析计算问题。广义上来说 <strong><code>HADOOP</code></strong> 通常是指一个更广泛的概念—— <strong><code>HADOOP 生态圈</code></strong>。</p>
+<p><strong><code>Hadoop</code> 的优势</strong>：</p>
+<ol>
+<li><strong><code>高可靠性</code></strong>：因为 Hadoop 假设计算元素和存储会出现故障，因为它维护多个工作数据副本，在出现故障时可以对失败的节点重新分布处理。</li>
+<li><strong><code>高扩展性</code></strong>：在集群间分配任务数据，可方便的扩展数以千计的节点。</li>
+<li><strong><code>高效性</code></strong>：在 MapReduce 的思想下， Hadoop 是并行工作的，以加快任务处理速度。</li>
+<li><strong><code>高容错性</code></strong>：自动保存多份副本数据，并且能够自动将失败的任务重新分配。</li>
+</ol>
+<p><strong><code>Hadoop</code> 组成</strong>：</p>
+<ol>
+<li><strong><code>Hadoop HDFS</code></strong>：一个高可靠、高吞吐量的分布式文件系统。</li>
+<li><strong><code>Hadoop MapReduce</code></strong>： 一个分布式的离线并行计算框架。</li>
+<li><strong><code>Hadoop YARN</code></strong>： 作业调度与集群资源管理的框架。</li>
+<li><strong><code>Hadoop Common</code></strong>：支持其他模块的工具模块（Configuration、RPC、序列化机制、日志操作）。</li>
+</ol>
+<h3 id="实验任务说明"><a href="#实验任务说明" class="headerlink" title="实验任务说明"></a>实验任务说明</h3><p>本文意在通过 <strong><code>hadoop</code></strong> 集群，完成贝叶斯文本分类的任务。</p>
+<p>有关利用 <strong><code>朴素贝叶斯算法</code></strong> 进行文本分类的原理，我在我的另外一篇博客 <strong><code>《朴素贝叶斯 Naive Bayes 分类算法》</code></strong> 有详细的介绍，这里不做过多说明。</p>
+<p>本实验是在 <strong><code>Windown 8</code></strong> 操作系统下，通过搭建 <strong><code>VMware Workstation</code></strong> 虚拟机的方式进行 <strong><code>hadoop</code></strong> 集群的部署。本次实验部署了 <strong><code>3</code></strong> 台 <strong><code>hadoop</code></strong> 虚拟机的节点，集群部署规划如下表：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>hadoop1</th>
+<th>hadoop2</th>
+<th>hadoop3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HDFS</td>
+<td>NameNode<br>DataNode</td>
+<td>DataNode</td>
+<td>SecondaryNameNode<br>DataNode</td>
+</tr>
+<tr>
+<td>YARN</td>
+<td>NodeManager</td>
+<td>ResourceManager<br>NodeManager</td>
+<td>NodeManager</td>
+</tr>
+</tbody>
+</table>
+<p>有关于虚拟机安装与 <strong><code>hadoop</code></strong> 集群环境搭建的详细教程，参见另外一篇博客 <strong><code>《Hadoop 运行环境搭建与完全分布式部署》</code></strong>。</p>
+<h2 id="贝叶斯分类器任务框架"><a href="#贝叶斯分类器任务框架" class="headerlink" title="贝叶斯分类器任务框架"></a>贝叶斯分类器任务框架</h2><h3 id="数据集简介"><a href="#数据集简介" class="headerlink" title="数据集简介"></a>数据集简介</h3><p>数据集文件夹为 <strong><code>NBCorpus</code></strong>，里面一共两个子文件夹 <strong><code>Country</code></strong> 和 <strong><code>Industry</code></strong>，实验要求从中选取一个完成即可。</p>
+<p><strong><code>Country</code></strong> 和 <strong><code>Industry</code></strong> 下每个子目录就是一个文档类别，但有的子目录下文件非常少，因此要选择文件比较多的目录（至少二个）进行训练和测试。</p>
+<p>每个文件已经分好词，一行一个单词。</p>
+<h3 id="训练集和测试集的选取"><a href="#训练集和测试集的选取" class="headerlink" title="训练集和测试集的选取"></a>训练集和测试集的选取</h3><p>我在数据集中选择了 <strong><code>Country</code></strong> 文件夹下的 <strong><code>CHINA</code></strong> 和 <strong><code>CANA</code></strong> 作为本次实验的样本，其中 <strong><code>CHINA</code></strong> 类中包含 <strong><code>255</code></strong> 个文本，<strong><code>CANA</code></strong> 类中包含 <strong><code>263</code></strong> 个文本。按照 <strong><code>70%</code></strong> 与 <strong><code>30%</code></strong> 的比例选取训练集和测试集。表格如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>CHINA</th>
+<th>CANA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文档总数</td>
+<td>255</td>
+<td>263</td>
+</tr>
+<tr>
+<td>训练集数</td>
+<td>178</td>
+<td>184</td>
+</tr>
+<tr>
+<td>测试集数</td>
+<td>77</td>
+<td>79</td>
+</tr>
+</tbody>
+</table>
+<p>手动随机抽取相应数量的文档放入相应的数据输入路径,训练集与测试集相应的路径如下所示：</p>
+<ul>
+<li><strong><code>e：/INPUT/TRAIN/CHINA/</code></strong>，训练集类 <strong><code>CHINA</code></strong> 文档路径</li>
+<li><strong><code>e：/INPUT/TRAIN/CANA/</code></strong>，训练集类 <strong><code>CANA</code></strong> 文档路径</li>
+<li><strong><code>e：/INPUT/TEST/CHINA/</code></strong>，测试集类 <strong><code>CHINA</code></strong> 文档路径</li>
+<li><strong><code>e：/INPUT/TEST/CANA/</code></strong>，测试集类 <strong><code>CANA</code></strong> 文档路径</li>
+</ul>
+<h3 id="实验任务分解"><a href="#实验任务分解" class="headerlink" title="实验任务分解"></a>实验任务分解</h3><p><strong><code>Bayes</code></strong> 分类器的 <strong><code>MapReduce</code></strong> 实现分为 <strong><code>训练</code></strong> 和 <strong><code>测试</code></strong> 两个阶段。</p>
+<p>其中 <strong><code>训练</code></strong> 阶段需要编写两个 <strong><code>MapReduce</code></strong> 任务，<strong><code>MapReduce 任务一</code></strong> 完成计算文档 <strong><code>d</code></strong> 出现在类 <strong><code>c</code></strong> 中的先验概率的所需数据，我将该阶段称为 <strong><code>训练先验概率</code></strong> 阶段；<strong><code>MapReduce 任务二</code></strong> 完成计算词项 <strong><code>t</code></strong> 出现在类 <strong><code>c</code></strong> 中的条件概率的所需数据，我将该阶段称为 <strong><code>训练条件概率</code></strong> 阶段。</p>
+<p>其中 <strong><code>测试</code></strong> 阶段需要编写一个 <strong><code>MapReduce 任务三</code></strong>，用于完成 <strong><code>预测</code></strong> 测试集中文档所属的类别，我将其称为 <strong><code>预测</code></strong> 阶段。另外还要编写一个java程序，用于对 <strong><code>任务三</code></strong> 中预测的结果进行 <strong><code>评估</code></strong>，我将其称为 <strong><code>评估</code></strong> 阶段。</p>
+<p>实验任务所有代码均在 <strong><code>eclipse</code></strong> 编辑器中完成。我在 <strong><code>eclipse</code></strong> 创建了一个名为 <strong><code>Naive Bayes</code></strong> 的 <strong><code>project</code></strong>，<strong><code>src</code></strong> 文件夹下创建三个 <strong><code>package</code></strong>，分别取名为 <strong><code>DocCount</code></strong>，<strong><code>WordCount</code></strong> 以及 <strong><code>Predition</code></strong>，分别用于完成 <strong><code>MapReduce 任务一</code></strong>、<strong><code>MapReduce 任务二</code></strong> 以及 <strong><code>MapReduce 任务三</code></strong>。最后的 评估 阶段代码写在了 <strong><code>Predition</code></strong> 这个包中。项目中的代码结构如下图所示：</p>
+<p><img src="https://i.imgur.com/mLHxtWd.jpg" alt="01_Project_Architecture"></p>
+<h2 id="MapReduce-任务一-训练先验概率"><a href="#MapReduce-任务一-训练先验概率" class="headerlink" title="MapReduce 任务一 训练先验概率"></a>MapReduce 任务一 训练先验概率</h2><h3 id="任务说明"><a href="#任务说明" class="headerlink" title="任务说明"></a>任务说明</h3><ol>
+<li>需要编写一个单独的 <strong><code>MapReduce Job</code></strong> ，计算结果写入文件；</li>
+<li>实现一个自定义的 <strong><code>InputFormat</code></strong> 和 <strong><code>RecordReader</code></strong> ，每读取一个文件（实际上不需要读取文件内容），输出 <strong><code>&lt;ClassName,1&gt;</code></strong> ,其中 <strong><code>ClassName</code></strong> 为读取的文件所在的类别目录名，<strong><code>&lt;ClassName,1&gt;</code></strong>为 <strong><code>Map</code></strong> 的输入，<strong><code>Map</code></strong> 不做任何处理，直接输出 <strong><code>&lt;ClassName,1&gt;</code></strong>；</li>
+<li><strong><code>Map</code></strong> 的输出交给 <strong><code>Combine</code></strong> 处理，<strong><code>Combine</code></strong> 的输入为<strong><code>&lt;ClassName,{1,1,...,1}&gt;</code></strong>，在 <strong><code>Combine</code></strong> 中计算 <strong><code>1</code></strong> 的个数，所以 <strong><code>Combine</code></strong> 的输出为 <strong><code>&lt;ClassName,Count&gt;</code></strong>，<strong><code>Count</code></strong>为属于 <strong><code>ClassName</code></strong> 类别的文档个数，但是局部的；</li>
+<li><strong><code>Combine</code></strong> 的输出交给 <strong><code>Reducer</code></strong>，<strong><code>Reducer</code></strong> 的输入为 <strong><code>&lt;ClassName,{count1，count2, ..., countn}&gt;</code></strong>，在 <strong><code>Reduce</code></strong> 里对 <strong><code>count1</code></strong>，<strong><code>count2</code></strong>，…，<strong><code>countn</code></strong> 求和，就得到了 <strong><code>ClassName</code></strong>的总数 <strong><code>TotalCount</code></strong>，<strong><code>Reducer</code></strong> 的输出为 <strong><code>&lt;ClassName,TotalCount&gt;</code></strong> 并写到文件；</li>
+<li>该作业主要统计了每种类别文档的总数目，具体概率的计算放在了后面。作业的输出会产生多个文件，取决于 <strong><code>Reducer</code></strong> 的个数，每个文件里一行的格式为： <strong><code>类名 文档总数</code></strong></li>
+</ol>
+<h3 id="代码目录"><a href="#代码目录" class="headerlink" title="代码目录"></a>代码目录</h3><p><strong><code>DocCount</code></strong></p>
+<ul>
+<li><strong><code>DocCountDriver.java</code></strong>： 主程序入口</li>
+<li><strong><code>DocCountMapper.java</code></strong>： 实现 <strong><code>Map</code></strong> 阶段</li>
+<li><strong><code>DocCountReducer.java</code></strong>： 实现 <strong><code>Reduce</code></strong> 阶段</li>
+<li><strong><code>WholeFileInputFormat.java</code></strong>： 重写的 <strong><code>InputFormat</code></strong> 类</li>
+<li><strong><code>WholeRecordReader.java</code></strong>： 重写的 <strong><code>RecordReader</code></strong> 类</li>
+</ul>
+<h3 id="重写-InputFormat-与-RecordReader"><a href="#重写-InputFormat-与-RecordReader" class="headerlink" title="重写 InputFormat 与 RecordReader"></a>重写 InputFormat 与 RecordReader</h3><p>之所以要重写这个类，主要是因为 <strong><code>hadoop</code></strong> 中默认的 <strong><code>MapReduce</code></strong> 程序，每一个 <strong><code>Map</code></strong> 任务的调用输入的 <strong><code>key</code></strong> 为文档中每一行行号，数据类型为 <strong><code>LongWritable</code></strong>；<strong><code>value</code></strong> 文档中的一行内容，数据类型为 <strong><code>Text</code></strong>。但是第一任务，我们要求每一个 <strong><code>Map</code></strong> 任务处理一个文档，而不是文档中的每一行记录，所以需要对 <strong><code>InputFormat</code></strong> 与 <strong><code>RecordReader</code></strong> 这两个类进行重写，以符合任务的需求。</p>
+<p>重写的 <strong><code>InputFormat</code></strong> 的类文件 <strong><code>WholeFileInputFormat.java</code></strong> 内容如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> DocCount;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.Path;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.io.BytesWritable;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.io.NullWritable;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.InputSplit;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.JobContext;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.RecordReader;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.TaskAttemptContext;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.input.FileInputFormat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WholeFileInputFormat</span> <span class="keyword">extends</span> <span class="title">FileInputFormat</span>&lt;<span class="title">NullWritable</span>, <span class="title">BytesWritable</span>&gt;</span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">isSplitable</span><span class="params">(JobContext context, Path filename)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> RecordReader&lt;NullWritable, BytesWritable&gt; <span class="title">createRecordReader</span><span class="params">(InputSplit split, TaskAttemptContext context)</span></span></span><br><span class="line"><span class="function">			<span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">		<span class="comment">// 创建对象</span></span><br><span class="line">		WholeRecordReader recordReader = <span class="keyword">new</span> WholeRecordReader();</span><br><span class="line">		<span class="comment">// 初始化</span></span><br><span class="line">		recordReader.initialize(split, context);</span><br><span class="line">		<span class="comment">// 返回对象</span></span><br><span class="line">		<span class="keyword">return</span> recordReader;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重写的 <strong><code>InputFormat</code></strong> 的类文件 <strong><code>WholeFileInputFormat.java</code></strong> 内容如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> DocCount;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.conf.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.FSDataInputStream;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.FileSystem;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.Path;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.io.BytesWritable;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.io.IOUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.io.NullWritable;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.InputSplit;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.RecordReader;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.TaskAttemptContext;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.input.FileSplit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WholeRecordReader</span> <span class="keyword">extends</span> <span class="title">RecordReader</span>&lt;<span class="title">NullWritable</span>, <span class="title">BytesWritable</span>&gt;</span>&#123;</span><br><span class="line">	</span><br><span class="line">	BytesWritable value = <span class="keyword">new</span> BytesWritable();</span><br><span class="line">	<span class="keyword">boolean</span> isProcess = <span class="keyword">false</span>;</span><br><span class="line">	FileSplit split;</span><br><span class="line">	Configuration configuration;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initialize</span><span class="params">(InputSplit split, TaskAttemptContext context)</span> <span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">		<span class="comment">// 初始化</span></span><br><span class="line">		<span class="keyword">this</span>.split = (FileSplit) split;</span><br><span class="line">		configuration = context.getConfiguration();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">nextKeyValue</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">		<span class="comment">// 读取一个一个的文件</span></span><br><span class="line">		<span class="keyword">if</span> (!isProcess) &#123;</span><br><span class="line">			</span><br><span class="line">			<span class="comment">// 0.缓存区</span></span><br><span class="line">			<span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[(<span class="keyword">int</span>) split.getLength()];</span><br><span class="line">			</span><br><span class="line">			FileSystem fs = <span class="keyword">null</span>;</span><br><span class="line">			FSDataInputStream fis = <span class="keyword">null</span>;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="comment">// 1.获取文件系统</span></span><br><span class="line">				Path path = split.getPath();</span><br><span class="line">				fs = path.getFileSystem(configuration);</span><br><span class="line">				<span class="comment">// 2.打开文件输入流</span></span><br><span class="line">				fis = fs.open(path);</span><br><span class="line">				<span class="comment">// 3.流的拷贝</span></span><br><span class="line">				IOUtils.readFully(fis, buf, <span class="number">0</span>, buf.length);</span><br><span class="line">				<span class="comment">// 4.拷贝缓存区的数据到最终输出</span></span><br><span class="line">				value.set(buf, <span class="number">0</span>, buf.length);</span><br><span class="line">			&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			&#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">				IOUtils.closeStream(fis);</span><br><span class="line">				IOUtils.closeStream(fs);</span><br><span class="line">			&#125;</span><br><span class="line">			isProcess = <span class="keyword">true</span>;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> NullWritable <span class="title">getCurrentKey</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">		<span class="comment">// 获取当前键</span></span><br><span class="line">		<span class="keyword">return</span> NullWritable.get();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> BytesWritable <span class="title">getCurrentValue</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">		<span class="comment">// 获取当前值</span></span><br><span class="line">		<span class="keyword">return</span> value;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">float</span> <span class="title">getProgress</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">		<span class="comment">// 获取当前进度</span></span><br><span class="line">		<span class="keyword">return</span> isProcess? <span class="number">1</span>:<span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="MapReduce-任务"><a href="#MapReduce-任务" class="headerlink" title="MapReduce 任务"></a>MapReduce 任务</h3><p>设计的 <strong><code>Map</code></strong> 任务程序 <strong><code>DocCountMapper.java</code></strong> 代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> DocCount;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.Path;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.io.BytesWritable;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.io.IntWritable;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.io.NullWritable;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.io.Text;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.Mapper;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.input.FileSplit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DocCountMapper</span> <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">NullWritable</span>, <span class="title">BytesWritable</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">	Text k = <span class="keyword">new</span> Text();</span><br><span class="line">	IntWritable v = <span class="keyword">new</span> IntWritable(<span class="number">1</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">setup</span><span class="params">(Mapper&lt;NullWritable, BytesWritable, Text, IntWritable&gt;.Context context)</span></span></span><br><span class="line"><span class="function">			<span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 获取文件的路径和名称（类名）</span></span><br><span class="line">		FileSplit split = (FileSplit) context.getInputSplit();</span><br><span class="line">		</span><br><span class="line">		Path path = split.getPath();</span><br><span class="line">		k.set(path.getParent().getName());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">map</span><span class="params">(NullWritable key, BytesWritable value, Context context)</span></span></span><br><span class="line"><span class="function">			<span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		context.write(k, v);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设计的 <strong><code>Reduce</code></strong> 任务程序 <strong><code>DocCountReducer.java</code></strong> 代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> DocCount;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.io.IntWritable;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.io.Text;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.mapreduce.Reducer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DocCountReducer</span> <span class="keyword">extends</span> <span class="title">Reducer</span>&lt;<span class="title">Text</span>, <span class="title">IntWritable</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt;</span>&#123;</span><br><span class="line">	</span><br><span class="line">	IntWritable value = <span class="keyword">new</span> IntWritable();</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">reduce</span><span class="params">(Text key, Iterable&lt;IntWritable&gt; values,</span></span></span><br><span class="line"><span class="function"><span class="params">			Context context)</span> <span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 1. 统计文档总个数</span></span><br><span class="line">		<span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (IntWritable count : values) &#123;</span><br><span class="line">			sum += count.get();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 2 输出单词总个数</span></span><br><span class="line">		value.set(sum);</span><br><span class="line">		context.write(key, value);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="MapReduce-任务二-训练条件概率"><a href="#MapReduce-任务二-训练条件概率" class="headerlink" title="MapReduce 任务二 训练条件概率"></a>MapReduce 任务二 训练条件概率</h2><h2 id="MapReduce-任务三-预测"><a href="#MapReduce-任务三-预测" class="headerlink" title="MapReduce 任务三 预测"></a>MapReduce 任务三 预测</h2><h2 id="评估"><a href="#评估" class="headerlink" title="评估"></a>评估</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hadoop/" rel="tag"># hadoop</a>
+          
+            <a href="/tags/Naive-Bayes/" rel="tag"># Naive Bayes</a>
+          
+            <a href="/tags/朴素贝叶斯/" rel="tag"># 朴素贝叶斯</a>
+          
+            <a href="/tags/文本分类/" rel="tag"># 文本分类</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/23/Hadoop-运行环境搭建与完全分布式部署/" rel="next" title="Hadoop 运行环境搭建与完全分布式部署">
+                <i class="fa fa-chevron-left"></i> Hadoop 运行环境搭建与完全分布式部署
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#实验简介"><span class="nav-number">1.</span> <span class="nav-text">实验简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hadoop-是什么"><span class="nav-number">1.1.</span> <span class="nav-text">Hadoop 是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验任务说明"><span class="nav-number">1.2.</span> <span class="nav-text">实验任务说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯分类器任务框架"><span class="nav-number">2.</span> <span class="nav-text">贝叶斯分类器任务框架</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集简介"><span class="nav-number">2.1.</span> <span class="nav-text">数据集简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练集和测试集的选取"><span class="nav-number">2.2.</span> <span class="nav-text">训练集和测试集的选取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验任务分解"><span class="nav-number">2.3.</span> <span class="nav-text">实验任务分解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MapReduce-任务一-训练先验概率"><span class="nav-number">3.</span> <span class="nav-text">MapReduce 任务一 训练先验概率</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务说明"><span class="nav-number">3.1.</span> <span class="nav-text">任务说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码目录"><span class="nav-number">3.2.</span> <span class="nav-text">代码目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重写-InputFormat-与-RecordReader"><span class="nav-number">3.3.</span> <span class="nav-text">重写 InputFormat 与 RecordReader</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MapReduce-任务"><span class="nav-number">3.4.</span> <span class="nav-text">MapReduce 任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MapReduce-任务二-训练条件概率"><span class="nav-number">4.</span> <span class="nav-text">MapReduce 任务二 训练条件概率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MapReduce-任务三-预测"><span class="nav-number">5.</span> <span class="nav-text">MapReduce 任务三 预测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#评估"><span class="nav-number">6.</span> <span class="nav-text">评估</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

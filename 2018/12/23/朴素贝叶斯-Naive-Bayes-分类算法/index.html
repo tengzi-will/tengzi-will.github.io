@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习,朴素贝叶斯算法,Naive Bayes,">
+  <meta name="keywords" content="Naive Bayes,机器学习,朴素贝叶斯算法,">
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="先验概率与后验概率先验概率先验概率(Prior probability)在维基百科中定义如下：  In Bayesian statistical inference, a prior probability distribution, often simply called the prior, of an uncertain quantity is the probability distrib">
-<meta name="keywords" content="机器学习,朴素贝叶斯算法,Naive Bayes">
+<meta name="keywords" content="Naive Bayes,机器学习,朴素贝叶斯算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="朴素贝叶斯 Naive Bayes 分类算法">
 <meta property="og:url" content="http://yoursite.com/2018/12/23/朴素贝叶斯-Naive-Bayes-分类算法/index.html">
 <meta property="og:site_name" content="LuoTeng&#39;s Blog">
 <meta property="og:description" content="先验概率与后验概率先验概率先验概率(Prior probability)在维基百科中定义如下：  In Bayesian statistical inference, a prior probability distribution, often simply called the prior, of an uncertain quantity is the probability distrib">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-24T02:30:24.000Z">
+<meta property="og:updated_time" content="2018-12-24T09:50:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="朴素贝叶斯 Naive Bayes 分类算法">
 <meta name="twitter:description" content="先验概率与后验概率先验概率先验概率(Prior probability)在维基百科中定义如下：  In Bayesian statistical inference, a prior probability distribution, often simply called the prior, of an uncertain quantity is the probability distrib">
@@ -403,22 +403,22 @@
 <p>经过上面的分析，最后求解 <strong><code>P(c|x)</code></strong> 的关键落在了求解 <strong><code>P(c)</code></strong> 与 <strong><code>P(x|c)</code></strong> 上，而这两个概率分布是必须要通过我们手上现有的数据集来进行估计。</p>
 <h2 id="贝叶斯在文本分类中的应用"><a href="#贝叶斯在文本分类中的应用" class="headerlink" title="贝叶斯在文本分类中的应用"></a>贝叶斯在文本分类中的应用</h2><p>贝叶斯如何应用在文本分类的任务中呢？</p>
 <p>假设我们有一个数据集，里面有很多个文档，每一个文档对应某一个类别，都是人工标注的。我们要做的任务就是利用已经有的数据集训练一个分类器（一种算法机制），等有了一篇新的文档，我们在不经过人工判断的情况下，利用已训练好的分类器（或算法)对该文档的类别进行判断。其实能够做文档分类的算法有很多，比如最近比较火的深度神经网络，但朴素贝叶斯算法对于文档的分类任务能够得到一个较好的效果，而且他的实现相较简单，算得上是一个性价比较高的算法。</p>
-<h3 id="数据建模"><a href="#数据建模" class="headerlink" title="数据建模"></a>数据建模</h3><p>假设我们一共有 <strong><code>N</code></strong> 篇文档，一共有 $ C_1 $ 、$ C_2 $ 、$ C_3 $ 三个类别，三个类别的个数为 $ c_1 $ 、$ c_2 $ 、$ c_3 $ ，每篇文档又有很多个单词，所以由 N 篇文档可以产生词项集合，由 <strong><code>N</code></strong> 篇文档中所有不重复的单词构成。假设 <strong><code>x</code></strong> 为某一篇文档，<strong><code>C</code></strong> 为文档的类别，那么在文档为 <strong><code>x</code></strong> 的条件下，该文档属于类别 $ C_1 $ 的概率为 P($C_1$|x)，同理该文档 x 被分类为 $ C_2 $ 和 $ C_3 $ 的概率分别为 P($C_2$|x) 和 P($C_3$|x)，最后计算出这三个概率，哪个概率大，我们就认为文档 <strong><code>x</code></strong> 属于那个类别。</p>
+<h3 id="数据建模"><a href="#数据建模" class="headerlink" title="数据建模"></a>数据建模</h3><p>假设我们一共有 <strong><code>N</code></strong> 篇文档，一共有 $ C_1 $ 、$ C_2 $ 、$ C_3 $ 三个类别，三个类别的个数为 $ c_1 $ 、$ c_2 $ 、$ c_3 $ ，每篇文档又有很多个单词，所以由 N 篇文档可以产生词项集合，由 <strong><code>N</code></strong> 篇文档中所有不重复的单词构成。假设 <strong><code>x</code></strong> 为某一篇文档，<strong><code>C</code></strong> 为文档的类别，那么在文档为 <strong><code>x</code></strong> 的条件下，该文档属于类别 $ C_1 $ 的概率为 $ P(C_1|x) $，同理该文档 x 被分类为 $ C_2 $ 和 $ C_3 $ 的概率分别为 $ P(C_2|x) $ 和 $ P(C_3|x) $，最后计算出这三个概率，哪个概率大，我们就认为文档 <strong><code>x</code></strong> 属于那个类别。</p>
 <p>剩下的问题就是 <strong><code>P(c|x)</code></strong> 如何计算？根据贝叶斯定理：</p>
 <p>$$ P ( c | x ) = \frac { P ( c , x ) } { P ( x ) } = \frac { P ( x | c ) P ( c ) } { P ( x ) }  $$</p>
 <p>由于 P($C_1$|x)、P($C_2$|x)、P($C_3$|x) 的计算都含有 $ P(x) $ 项，最后比较大小我们只关注相对大小，而不关注绝对大小，所以该项可以约去，公式化简为：</p>
 <p>$$ P ( c | x ) \varpropto P ( x | c ) P ( c ) $$</p>
-<p>其中 $ P(c) $ 可以通过已有的训练数据进行估计，属于类 $ C_1 $ 的文档个数为 $ c_1 $，属于类 $ C_2 $ 的文档个数为 $ c_2 $，属于类 $ C_3 $ 的文档个数为 $ c_3 $,文档总个数为 N ，因此 $ N = c_1 + c_2 + c_3 $，所以有 $ P(C_1) = c_1/N $，$ P(C_2) = c_2/N $，$ P(C_3) = c_3/N $ 。</p>
+<p>其中 $ P(c) $ <strong>是文档出现在 <code>c</code> 类中的先验概率</strong>，可以通过已有的训练数据进行估计，假设属于类 $ C_1 $ 的文档个数为 $ c_1 $，属于类 $ C_2 $ 的文档个数为 $ c_2 $，属于类 $ C_3 $ 的文档个数为 $ c_3 $,文档总个数为 N ，因此 $ N = c_1 + c_2 + c_3 $，所以有 $ P(C_1) = c_1/N $，$ P(C_2) = c_2/N $，$ P(C_3) = c_3/N $ 。</p>
 <p>那么，$ P( x | c ) $ 如何处理呢？一个很自然的想法是，<strong><code>x</code></strong> 表示文档，是由一个一个单词组成的。假设组成文档 x 的单词序列为 $ t_1 t_2 t_3 t_4 t_5 $，并假设单词 $ t_i $ 服从条件独立性假设，公式有如下转化：</p>
 <p>$$ P( x | c ) = P( t_1 t_2 t_3 t_4 t_5 | c ) = P( t_1 | c ) P( t_2 | c ) P( t_3 | c ) P( t_4 | c ) P( t_5 | c ) $$ </p>
 <p><strong>条件独立性假设</strong>实际上是忽略掉了某些属性之间（单词之间）可能存在的关联，假设属性的取值可能性都是独立的，这与现实世界是不相符的，但是这样做可以大大简化计算量，而且从分类的结果上看可以取得不错的效果。之所以称之为“朴素”贝叶斯，也正是因为进行了条件独立性假设，大大简化了模型参数估计。</p>
-<p>最后的问题就是如何计算 $ P( t_i | c) $，其中 $ i = 1,2,…,M $，$ M $ 为单词集合的大小。这些数据都可以通过已有的训练数据进行估计。比如，我们可以通过训练集合，计算某个类别的文档集合的所有单词总数 $ N_c $（允许单词重复），然后计算单词 $ t_i $ 在该类文档集合中出现的频率 $ N_t $（次数）,那么有：</p>
+<p>$ P( t_i | c) $ <strong>是词项 $ t_i $ 出现在类 <code>c</code> 文档中的条件概率，也可以把其视为正确类为 <code>c</code> 时 $ t_i $ 的贡献程度</strong>。最后的问题就是如何计算 $ P( t_i | c) $，其中 $ i = 1,2,…,M $，$ M $ 为单词集合的大小。这些数据都可以通过已有的训练数据进行估计。比如，我们可以通过训练集合，计算某个类别的文档集合的所有单词总数 $ N_c $（允许单词重复），然后计算单词 $ t_i $ 在该类文档集合中出现的频率 $ N_t $（次数）,那么有：</p>
 <p>$$ P( t_i | c ) = \frac {N_t} {N_c} , i = 1,2,3,…,M ; c = C_1,C_2,C_3 $$</p>
 <p>因此我们可以通过训练集，计算出 $ P( t_i | c) $，$ P(c) $，从而可以估计 $ P( x | c ) $，最后得出 $ P( c | x ) $ 的估计。</p>
 <p>$$ P ( c | x ) \varpropto P ( x | c ) P ( c )  \varpropto \prod_i P( t_i | c ) \cdot P(c) $$</p>
 <h3 id="算法计算流程"><a href="#算法计算流程" class="headerlink" title="算法计算流程"></a>算法计算流程</h3><ol>
 <li>通过训练集计算出每个类别的文档个数、文档总数，从而估计出 <strong><code>P(c)</code></strong> ;</li>
-<li>通过训练集计算出每个类别中词汇量总数、以及该类别中每个词项出现的频率（次数），从而估计出 <strong>P($t_i$|c)</strong> ；</li>
+<li>通过训练集计算出每个类别中词汇量总数、以及该类别中每个词项出现的频率（次数），从而估计出 单词 <strong><code>t</code></strong> 在 <strong><code>c</code></strong> 类文档中出现的概率 <strong><code>P(t|c)</code></strong> ；</li>
 <li>从训练集中抽取训练文档，通过 <strong><code>步骤1</code></strong>、<strong><code>步骤2</code></strong> 计算的指标，根据朴素贝叶斯公式对 <strong><code>P(c|x)</code></strong> 进行估计，得出文档 <strong><code>x</code></strong> 属于类 <strong><code>c</code></strong> 的概率。</li>
 </ol>
 
@@ -462,11 +462,11 @@
       
         <div class="post-tags">
           
+            <a href="/tags/Naive-Bayes/" rel="tag"># Naive Bayes</a>
+          
             <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
           
             <a href="/tags/朴素贝叶斯算法/" rel="tag"># 朴素贝叶斯算法</a>
-          
-            <a href="/tags/Naive-Bayes/" rel="tag"># Naive Bayes</a>
           
         </div>
       
@@ -568,7 +568,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -579,7 +579,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -590,7 +590,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
