@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机网络,TCP Congestion,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="配置环境 操作系统： Windows10 虚拟机操作系统： SEEDUbuntu 16.04内存大小：1G；显存大小：16MB；硬盘大小：80GB 虚拟机工具： VirtualBox 5.2.22 网络平台： GNS3 2.1.0 机器配置（共两个虚拟机，如下）：机器名：SEED_Client；内存大小；1024M；处理器数量：1个；显存大小：16M机器名：SEED_Server；内存大小：102">
+<meta name="keywords" content="计算机网络,TCP Congestion">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP Congestion 性能测试分析">
+<meta property="og:url" content="http://yoursite.com/2018/12/30/TCP-Congestion-性能测试分析/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="配置环境 操作系统： Windows10 虚拟机操作系统： SEEDUbuntu 16.04内存大小：1G；显存大小：16MB；硬盘大小：80GB 虚拟机工具： VirtualBox 5.2.22 网络平台： GNS3 2.1.0 机器配置（共两个虚拟机，如下）：机器名：SEED_Client；内存大小；1024M；处理器数量：1个；显存大小：16M机器名：SEED_Server；内存大小：102">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/O0oFnbY.jpg">
+<meta property="og:image" content="https://i.imgur.com/nNCrB5E.jpg">
+<meta property="og:image" content="https://i.imgur.com/gpSIq3K.jpg">
+<meta property="og:image" content="https://i.imgur.com/9WGZj70.jpg">
+<meta property="og:image" content="https://i.imgur.com/aLUUTH8.jpg">
+<meta property="og:image" content="https://i.imgur.com/Vhy4sI1.jpg">
+<meta property="og:image" content="https://i.imgur.com/pM3jb3a.jpg">
+<meta property="og:image" content="https://i.imgur.com/biznrPn.jpg">
+<meta property="og:image" content="https://i.imgur.com/M02Mtkv.jpg">
+<meta property="og:image" content="https://i.imgur.com/SCWS5le.jpg">
+<meta property="og:image" content="https://i.imgur.com/UHOLx5Y.jpg">
+<meta property="og:image" content="https://i.imgur.com/ZxPXM6R.jpg">
+<meta property="og:image" content="https://i.imgur.com/ynCrjQu.jpg">
+<meta property="og:image" content="https://i.imgur.com/zEVkJx5.jpg">
+<meta property="og:image" content="https://i.imgur.com/FN2KgkB.jpg">
+<meta property="og:image" content="https://i.imgur.com/GAP4dNm.jpg">
+<meta property="og:image" content="https://i.imgur.com/ApEpjew.jpg">
+<meta property="og:image" content="https://i.imgur.com/rgCaKRz.jpg">
+<meta property="og:image" content="https://i.imgur.com/3y4UeYX.jpg">
+<meta property="og:image" content="https://i.imgur.com/vW68App.jpg">
+<meta property="og:image" content="https://i.imgur.com/ReNUZFe.jpg">
+<meta property="og:image" content="https://i.imgur.com/6hB23r0.jpg">
+<meta property="og:image" content="https://i.imgur.com/BKsVCst.jpg">
+<meta property="og:image" content="https://i.imgur.com/BGa2apk.jpg">
+<meta property="og:image" content="https://i.imgur.com/nvU7rjI.jpg">
+<meta property="og:image" content="https://i.imgur.com/6NMUQB8.jpg">
+<meta property="og:image" content="https://i.imgur.com/Ba4B8nh.jpg">
+<meta property="og:image" content="https://i.imgur.com/Z1c2Fl2.jpg">
+<meta property="og:image" content="https://i.imgur.com/soupFhx.jpg">
+<meta property="og:image" content="https://i.imgur.com/gytE4e0.jpg">
+<meta property="og:image" content="https://i.imgur.com/PZ8pA83.jpg">
+<meta property="og:image" content="https://i.imgur.com/0nFW2X2.jpg">
+<meta property="og:image" content="https://i.imgur.com/li6lYyY.jpg">
+<meta property="og:image" content="https://i.imgur.com/t0GXhWA.jpg">
+<meta property="og:image" content="https://i.imgur.com/EZddPsK.jpg">
+<meta property="og:updated_time" content="2018-12-30T12:10:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TCP Congestion 性能测试分析">
+<meta name="twitter:description" content="配置环境 操作系统： Windows10 虚拟机操作系统： SEEDUbuntu 16.04内存大小：1G；显存大小：16MB；硬盘大小：80GB 虚拟机工具： VirtualBox 5.2.22 网络平台： GNS3 2.1.0 机器配置（共两个虚拟机，如下）：机器名：SEED_Client；内存大小；1024M；处理器数量：1个；显存大小：16M机器名：SEED_Server；内存大小：102">
+<meta name="twitter:image" content="https://i.imgur.com/O0oFnbY.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/30/TCP-Congestion-性能测试分析/">
+
+
+
+
+
+  <title>TCP Congestion 性能测试分析 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/30/TCP-Congestion-性能测试分析/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TCP Congestion 性能测试分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-30T13:21:10+08:00">
+                2018-12-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络/实验/" itemprop="url" rel="index">
+                    <span itemprop="name">实验</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><ul>
+<li>操作系统： <strong><code>Windows10</code></strong></li>
+<li>虚拟机操作系统： <strong><code>SEEDUbuntu 16.04</code></strong><br><strong><code>内存大小：1G；显存大小：16MB；硬盘大小：80GB</code></strong></li>
+<li>虚拟机工具： <strong><code>VirtualBox 5.2.22</code></strong></li>
+<li>网络平台： <strong><code>GNS3 2.1.0</code></strong></li>
+<li>机器配置（共两个虚拟机，如下）：<br><strong><code>机器名：SEED_Client；内存大小；1024M；处理器数量：1个；显存大小：16M</code></strong><br><strong><code>机器名：SEED_Server；内存大小：1024M；处理器数量：1个；显存大小：16M</code></strong><br><strong><code>机器名：SEED_Route；内存大小：1024M；处理器数量：1个；显存大小：16M</code></strong></li>
+<li>本机计算机配置：<strong><code>内存：8G；CPU：Intel Core i5-5200U 2.20GHz</code></strong></li>
+</ul>
+<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>选择 <strong><code>TCP</code></strong> 的三种支持的三种拥塞控制算法 <strong><code>cubic</code></strong>、<strong><code>reno</code></strong>、<strong><code>westwood</code></strong>，通过改变 <strong><code>Seed-Router</code></strong> 的延迟和丢包，来测试三种 <strong><code>TCP</code></strong> 拥塞控制算法在不同情况下（延迟、丢包）的性能。</p>
+<h2 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h2><h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><p>在 VirtualBox 上创建三台虚拟机，分别命名为 <strong><code>SEEDClient</code></strong>，<strong><code>SEEDServer</code></strong>，<strong><code>SEEDRoute</code></strong> 配置三台虚拟机的网络和路由器；</p>
+<p><strong><code>SEED_Client</code></strong><br>键入命令 <strong><code>vim /etc/network/interfaces</code></strong>，修改静态 <strong><code>IP</code></strong> 地址，如下图：</p>
+<p><img src="https://i.imgur.com/O0oFnbY.jpg" alt="01_Client"></p>
+<p>修改完成后键入命令 <strong><code>sudo /etc/init.d/networking restart</code></strong>，重启网络。</p>
+<p>输入命令 <strong><code>ifconfig eth0</code></strong>，查看 <strong><code>IP</code></strong> 信息为：</p>
+<p><img src="https://i.imgur.com/nNCrB5E.jpg" alt="02_eth0"></p>
+<p>输入命令 <strong><code>route -n</code></strong>，查看路由表信息为：</p>
+<p><img src="https://i.imgur.com/gpSIq3K.jpg" alt="03_route"></p>
+<p><strong><code>SEED_Server</code></strong><br>键入命令 <strong><code>vim /etc/network/interfaces</code></strong>，修改静态 <strong><code>IP</code></strong> 地址，如下图：</p>
+<p><img src="https://i.imgur.com/9WGZj70.jpg" alt="04_Server"></p>
+<p>修改完成后键入命令 <strong><code>sudo /etc/init.d/networking restart</code></strong>，重启网络。</p>
+<p>输入命令 <strong><code>ifconfig eth0</code></strong>，查看 <strong><code>IP</code></strong> 信息为：</p>
+<p><img src="https://i.imgur.com/aLUUTH8.jpg" alt="05_eth0"></p>
+<p>输入命令 <strong><code>route -n</code></strong>，查看路由表信息为：</p>
+<p><img src="https://i.imgur.com/Vhy4sI1.jpg" alt="06_route"></p>
+<p><strong><code>SEED_Route</code></strong><br>键入命令 <strong><code>vim /etc/network/interfaces</code></strong>，修改静态 <strong><code>IP</code></strong> 地址，如下图：</p>
+<p><img src="https://i.imgur.com/pM3jb3a.jpg" alt="07_Server"></p>
+<p>修改完成后键入命令 <strong><code>sudo /etc/init.d/networking restart</code></strong>，重启网络。</p>
+<p>输入命令 <strong><code>ifconfig eth0</code></strong>，查看 <strong><code>IP</code></strong> 信息为：</p>
+<p><img src="https://i.imgur.com/biznrPn.jpg" alt="08_eth0_eth1"></p>
+<p>同时修改 <strong><code>/etc/sysctl.conf</code></strong> 配置文件，使其永久开启 <strong><code>IP</code></strong> 转发功能。取消 <strong><code>net.ipv4.ip_forward =1</code></strong> 这一行的注释，保存退出，输入命令 <strong><code>sudo sysctl -p /etc/sysctl.conf</code></strong>，使修改生效。</p>
+<p>配置完成后，在 <strong><code>SEED_Client</code></strong> 上 <strong><code>ping</code></strong> <strong><code>SEED_Server</code></strong> 成功，如下图：</p>
+<p><img src="https://i.imgur.com/M02Mtkv.jpg" alt="09_ping"></p>
+<h3 id="安装-iperf"><a href="#安装-iperf" class="headerlink" title="安装 iperf"></a>安装 iperf</h3><p>在 <strong><code>SEED_Client</code></strong> 和 <strong><code>SEED_Server</code></strong> 的终端运行命令 <strong><code>sudo apt-get install iperf</code></strong> ，下载 <strong><code>iperf</code></strong> 程序，安装完成如下图（这一步需要保证虚拟机能联网）：</p>
+<p><img src="https://i.imgur.com/SCWS5le.jpg" alt="10_iperf"></p>
+<h3 id="iperf命令说明"><a href="#iperf命令说明" class="headerlink" title="iperf命令说明"></a>iperf命令说明</h3><ul>
+<li>列出所有拥塞控制算法：<strong><code>sysctl net.ipv4.tcp_available_congestion_control</code></strong></li>
+<li>新增加新的拥塞控制算法：<strong><code>echo &quot;westwood&quot; &gt; /proc/sys/net/ipv4/tcp_congestion_control</code></strong></li>
+<li>修改当前拥塞控制算法：<strong><code>sysctl -w net.ipv4.tcp_congestion_control=cubic</code></strong></li>
+<li>查看当前拥塞控制算法：<strong><code>cat /proc/sys/net/ipv4/tcp_congestion_control</code></strong> 或 <strong><code>sysctl net.ipv4.tcp_congestion_control</code></strong></li>
+</ul>
+<p>在 <strong><code>SEED_Client</code></strong> 和 <strong><code>SEED_Server</code></strong> 上列出所有直接编译到内核的拥塞控制算法，执行如下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sysctl net.ipv4.tcp_available_congestion_control</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/UHOLx5Y.jpg" alt="11_available_control"></p>
+<p>查看 <strong><code>Linux</code></strong> 支持的拥塞控制算法，执行如下命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls /lib/modules/3.5.0-37-generic/kernel/net/ipv4/</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/ZxPXM6R.jpg" alt="ls"></p>
+<p>新增拥塞控制算法并查看，执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">"westwood"</span> &gt; /proc/sys/net/ipv4/tcp_congestion_control</span><br><span class="line">$ cat /proc/sys/net/ipv4/tcp_congestion_control</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/ynCrjQu.jpg" alt="13_westwood"></p>
+<p>再次查看当前可用的算法，重复上述命令</p>
+<p><img src="https://i.imgur.com/zEVkJx5.jpg" alt="14_available_control"></p>
+<h3 id="获取数据"><a href="#获取数据" class="headerlink" title="获取数据"></a>获取数据</h3><p>将 <strong><code>SEED_Client</code></strong> 和 <strong><code>SEED_Server</code></strong> 的拥塞控制算法设置为 <strong><code>cubic</code></strong> 。</p>
+<p><img src="https://i.imgur.com/FN2KgkB.jpg" alt="15_cubic"></p>
+<p>在 <strong><code>SEED_Client</code></strong> 虚拟机上进行发包测试，先在 <strong><code>SEED_Server</code></strong> 终端运行下面的命令 <strong><code>iperf -s</code></strong> ，让 <strong><code>iperf</code></strong> 的服务器端运行守护在 <strong><code>5001</code></strong> 端口，如下图：</p>
+<p><img src="https://i.imgur.com/GAP4dNm.jpg" alt="16_iperf_s"></p>
+<p>在 <strong><code>SEED_Client</code></strong> 端切换到 <strong><code>root</code></strong>，运行下面的命令，让 <strong><code>iperf</code></strong> 的客户端运行，同时利用 <strong><code>Linux</code></strong> 内核的 <strong><code>tcp probe</code></strong> 模块监控特定连接中参数变化：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ modprobe tcp_probe port=5001 //对端口为5001的tcp连接进行监控</span><br><span class="line">$ cat /proc/net/tcpprobe &gt; data_cubic.txt &amp; // tcpprobe捕捉的信息是持续性的，可以放到后台读   </span><br><span class="line">$ iperf -c 192.168.2.1 // 使用iperf建立一个TCP流</span><br></pre></td></tr></table></figure>
+<p>运行完成如下图：</p>
+<p><img src="https://i.imgur.com/ApEpjew.jpg" alt="17_iperf_c"></p>
+<p>运行上述命令之后，所有数据存入 <strong><code>data_cubic.txt</code></strong> 中。</p>
+<p><img src="https://i.imgur.com/rgCaKRz.jpg" alt="18_data_cubic"></p>
+<p>运行命令 <strong><code>kill -9 3094</code></strong> 杀掉后台由命令 <strong><code>cat /proc/net/tcpprobe &gt; data.txt &amp;</code></strong> 产生的相应程序</p>
+<p><img src="https://i.imgur.com/3y4UeYX.jpg" alt="19_kill_3094"></p>
+<h3 id="模拟丢包与增加延迟"><a href="#模拟丢包与增加延迟" class="headerlink" title="模拟丢包与增加延迟"></a>模拟丢包与增加延迟</h3><p>命令说明：</p>
+<ul>
+<li><strong><code>tc qdisc change dev eth1 root netem loss 2.5%</code></strong> // 设置丢包</li>
+<li><strong><code>tc qdisc add dev eth1 root netem delay 30ms 10ms</code></strong> // 设置延迟</li>
+<li><strong><code>tc qdisc add dev eth1 root netem duplicate 1%</code></strong> // 将 <strong><code>eth1</code></strong> 网卡的传输设置为随机产生 1% 的重复数据包</li>
+<li><strong><code>tc qdisc add dev eth1 root netem corrupt 0.2%</code></strong> // 将 <strong><code>eth1</code></strong> 网卡的传输设置为随机产生 0.2% </li>
+</ul>
+<p>删除网卡上面的相关配置，将之前命令中的 <strong><code>add</code></strong> 改为 <strong><code>del</code></strong> 即可删除配置</p>
+<h4 id="模拟丢包"><a href="#模拟丢包" class="headerlink" title="模拟丢包"></a>模拟丢包</h4><p>在 <strong><code>SEED_Route</code></strong> 这台虚拟机连接 <strong><code>SEED_Server</code></strong> 网卡上增加丢包和延迟来改变网络环境。在 <strong><code>SEED_Route</code></strong> 终端中键入命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tc qdisc add dev eth1 root netem loss 2.5%</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.imgur.com/vW68App.jpg" alt="20_route_loss"></p>
+<p>该命令使得 <strong><code>eth1</code></strong> 丢包率为 <strong><code>2.5%</code></strong>。模拟丢包后，重复上述获得数据的步骤，将获得丢包数据，并命名为 <strong><code>data_cubic_loss.txt</code></strong> 。</p>
+<p><img src="https://i.imgur.com/ReNUZFe.jpg" alt="21_data_cubic_loss"></p>
+<h4 id="设置延迟"><a href="#设置延迟" class="headerlink" title="设置延迟"></a>设置延迟</h4><p>在 <strong><code>SEED_Route</code></strong> 终端中键入命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tc qdisc del dev eth1 root netem loss 2.5%</span><br><span class="line">$ tc qdisc add dev eth1 root netem delay 30ms 10ms</span><br></pre></td></tr></table></figure>
+<p>第一行命令，删除丢包率到 <strong><code>2.5%</code></strong> 设置；第二行命令是增加延时，如下图：</p>
+<p><img src="https://i.imgur.com/6hB23r0.jpg" alt="22_route_delay"></p>
+<p>同理，重复上述步骤，获得新的数据，命名为 <strong><code>data_cubic_delay.txt</code></strong> 。</p>
+<p><img src="https://i.imgur.com/BKsVCst.jpg" alt="23_data_cubic_delay"></p>
+<h4 id="改变拥塞控制算法"><a href="#改变拥塞控制算法" class="headerlink" title="改变拥塞控制算法"></a>改变拥塞控制算法</h4><p>依次设置当前算法为：<strong><code>cubic</code></strong> 、<strong><code>reno</code></strong> 、<strong><code>westwood</code></strong>，如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sysctl -w net.ipv4.tcp_congestion_control=cubic</span><br><span class="line">$ sysctl -w net.ipv4.tcp_congestion_control=reno</span><br><span class="line">$ sysctl -w net.ipv4.tcp_congestion_control=westwood</span><br></pre></td></tr></table></figure>
+<p>然后在每种拥塞控制算法下重复第获取数据命令，得到三种算法下正常、丢包、延迟共9种情况下的数据进行分析</p>
+<h2 id="实验结果分析"><a href="#实验结果分析" class="headerlink" title="实验结果分析"></a>实验结果分析</h2><h3 id="数据导出"><a href="#数据导出" class="headerlink" title="数据导出"></a>数据导出</h3><p>在虚拟机中设置共享文件夹，点击 <strong><code>控制 -&gt; 设置 -&gt; 共享文件夹 -&gt; 添加共享文件夹</code></strong> 设置本地的共享路径。</p>
+<p><img src="https://i.imgur.com/BGa2apk.jpg" alt="24_share"></p>
+<p>在 <strong><code>SEED_Client</code></strong> 终端中输入命令 <strong><code>mkdir mini_share</code></strong> 创建文 ubuntu 中的共享文件夹 <strong><code>mini_share</code></strong>，然后输入命令 <strong><code>mount -t vboxsf share mini_share</code></strong>，手动挂载映射关系。执行完成即可共享文件夹，将之前生成的数据文件放入 <strong><code>mini_share</code></strong> 文件夹，如下图：</p>
+<p><img src="https://i.imgur.com/nvU7rjI.jpg" alt="25_ubuntu_share"></p>
+<p>查看本地文件夹，如下图：</p>
+<p><img src="https://i.imgur.com/6NMUQB8.jpg" alt="26_windows_share"></p>
+<p>说明共享文件夹成功，如果不成功，可以重启下虚拟机试一下。</p>
+<h3 id="分析数据"><a href="#分析数据" class="headerlink" title="分析数据"></a>分析数据</h3><h4 id="数据格式"><a href="#数据格式" class="headerlink" title="数据格式"></a>数据格式</h4><p><strong>每行的各列分别为：</strong></p>
+<ol>
+<li><strong><code>timestamp</code></strong> //时间戳</li>
+<li><strong><code>saddr:port</code></strong> // 源IP及端口，我的数据是在发送端捕捉的，所以port是固定的8089</li>
+<li><strong><code>daddr:port</code></strong> // 目的IP及端口</li>
+<li><strong><code>skb-&gt;len</code></strong> // 收到的数据包skb大小，收到的都是ACK包，所以len都比较小</li>
+<li><strong><code>snd_nxt</code></strong> // 下一个待发送数据的序列号</li>
+<li><strong><code>snd_una</code></strong> // 待确认数据的序列号</li>
+<li><strong><code>snd_cwnd</code></strong> // 拥塞窗口大小</li>
+<li><strong><code>ssthresh</code></strong> // 慢启动阈值</li>
+<li><strong><code>snd_wnd</code></strong> // 接收窗口大小</li>
+<li><strong><code>srtt</code></strong> // smoothed RTT</li>
+</ol>
+<h4 id="cubic-算法下的拥塞控制实验数据："><a href="#cubic-算法下的拥塞控制实验数据：" class="headerlink" title="cubic 算法下的拥塞控制实验数据："></a><strong><code>cubic</code></strong> 算法下的拥塞控制实验数据：</h4><p><img src="https://i.imgur.com/Ba4B8nh.jpg" alt="27_cubic"></p>
+<p><strong><code>cubic</code></strong> 算法不做任何处理的数如图所示，<strong><code>snd_cwnd</code></strong> 表示用赛窗口大小，<strong><code>ssthresh</code></strong> 表示慢启动阈值。</p>
+<p><img src="https://i.imgur.com/Z1c2Fl2.jpg" alt="28_cubic_loss"></p>
+<p><strong><code>cubic</code></strong> 算法丢包数据如图所示，<strong><code>snd_cwnd</code></strong> 表示用赛窗口大小，<strong><code>ssthresh</code></strong> 表示慢启动阈值。</p>
+<p><img src="https://i.imgur.com/soupFhx.jpg" alt="29_cubic_delay"></p>
+<p><strong><code>cubic</code></strong> 算法延时数据如图所示，<strong><code>snd_cwnd</code></strong> 表示用赛窗口大小，<strong><code>ssthresh</code></strong> 表示慢启动阈值。</p>
+<h4 id="reno-算法下的拥塞控制实验数据："><a href="#reno-算法下的拥塞控制实验数据：" class="headerlink" title="reno 算法下的拥塞控制实验数据："></a><strong><code>reno</code></strong> 算法下的拥塞控制实验数据：</h4><p><img src="https://i.imgur.com/gytE4e0.jpg" alt="30_reno"></p>
+<p><strong><code>reno</code></strong> 算法不做任何处理的数如图所示，<strong><code>snd_cwnd</code></strong> 表示用赛窗口大小，<strong><code>ssthresh</code></strong> 表示慢启动阈值。</p>
+<p><img src="https://i.imgur.com/PZ8pA83.jpg" alt="31_reno_loss"></p>
+<p><strong><code>reno</code></strong> 算法丢包数据如图所示，<strong><code>snd_cwnd</code></strong> 表示用赛窗口大小，<strong><code>ssthresh</code></strong> 表示慢启动阈值。</p>
+<p><img src="https://i.imgur.com/0nFW2X2.jpg" alt="32_reno_delay"></p>
+<p><strong><code>reno</code></strong> 算法延时数据如图所示，<strong><code>snd_cwnd</code></strong> 表示用赛窗口大小，<strong><code>ssthresh</code></strong> 表示慢启动阈值。</p>
+<h4 id="westwood-算法下的拥塞控制实验数据："><a href="#westwood-算法下的拥塞控制实验数据：" class="headerlink" title="westwood 算法下的拥塞控制实验数据："></a><strong><code>westwood</code></strong> 算法下的拥塞控制实验数据：</h4><p><img src="https://i.imgur.com/li6lYyY.jpg" alt="33_westwood"></p>
+<p><strong><code>westwood</code></strong> 算法不做任何处理的数如图所示，<strong><code>snd_cwnd</code></strong> 表示用赛窗口大小，<strong><code>ssthresh</code></strong> 表示慢启动阈值。</p>
+<p><img src="https://i.imgur.com/t0GXhWA.jpg" alt="34_westwood_loss"></p>
+<p><strong><code>westwood</code></strong> 算法丢包数据如图所示，<strong><code>snd_cwnd</code></strong> 表示用赛窗口大小，<strong><code>ssthresh</code></strong> 表示慢启动阈值。</p>
+<p><img src="https://i.imgur.com/EZddPsK.jpg" alt="35_westwood_delay"></p>
+<p><strong><code>westwood</code></strong> 算法延时数据如图所示，<strong><code>snd_cwnd</code></strong> 表示用赛窗口大小，<strong><code>ssthresh</code></strong> 表示慢启动阈值。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>从所得的实验数据来看，设置 <strong><code>SEED_Route</code></strong> 连接 <strong><code>SEED_Server</code></strong> 端网卡的丢包率为 <strong><code>2.5%</code></strong> 时，拥塞窗口和慢启动阈值出现较大的波动，锯齿变得更加密集，且拥塞窗口和慢启动阈值均在一个较低值波动（由算法本身的机制所导致的），网络带宽空闲较大，网络利用率不高。另一方面，设置网卡延迟均会导致拥塞窗口及慢启动阈值波动减缓，拥塞控制的时效性变差，拥塞窗口及慢启动阈值的增减速率出现较大差异，甚至出现拥塞窗口和慢启动阈值变得极大的现象，算法的拥塞控制效果减弱。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机网络/" rel="tag"># 计算机网络</a>
+          
+            <a href="/tags/TCP-Congestion/" rel="tag"># TCP Congestion</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/23/Hadoop-运行环境搭建与完全分布式部署/" rel="next" title="Hadoop 运行环境搭建与完全分布式部署">
+                <i class="fa fa-chevron-left"></i> Hadoop 运行环境搭建与完全分布式部署
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境"><span class="nav-number">1.</span> <span class="nav-text">配置环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验目的"><span class="nav-number">2.</span> <span class="nav-text">实验目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验步骤"><span class="nav-number">3.</span> <span class="nav-text">实验步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境搭建"><span class="nav-number">3.1.</span> <span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-iperf"><span class="nav-number">3.2.</span> <span class="nav-text">安装 iperf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iperf命令说明"><span class="nav-number">3.3.</span> <span class="nav-text">iperf命令说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取数据"><span class="nav-number">3.4.</span> <span class="nav-text">获取数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模拟丢包与增加延迟"><span class="nav-number">3.5.</span> <span class="nav-text">模拟丢包与增加延迟</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#模拟丢包"><span class="nav-number">3.5.1.</span> <span class="nav-text">模拟丢包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置延迟"><span class="nav-number">3.5.2.</span> <span class="nav-text">设置延迟</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#改变拥塞控制算法"><span class="nav-number">3.5.3.</span> <span class="nav-text">改变拥塞控制算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验结果分析"><span class="nav-number">4.</span> <span class="nav-text">实验结果分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据导出"><span class="nav-number">4.1.</span> <span class="nav-text">数据导出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析数据"><span class="nav-number">4.2.</span> <span class="nav-text">分析数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据格式"><span class="nav-number">4.2.1.</span> <span class="nav-text">数据格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cubic-算法下的拥塞控制实验数据："><span class="nav-number">4.2.2.</span> <span class="nav-text">cubic 算法下的拥塞控制实验数据：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#reno-算法下的拥塞控制实验数据："><span class="nav-number">4.2.3.</span> <span class="nav-text">reno 算法下的拥塞控制实验数据：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#westwood-算法下的拥塞控制实验数据："><span class="nav-number">4.2.4.</span> <span class="nav-text">westwood 算法下的拥塞控制实验数据：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">4.2.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
