@@ -93,7 +93,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c569bee0b2a2.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c56b68b85db9.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c56ba1226b04.png">
-<meta property="og:updated_time" content="2019-02-03T15:59:18.000Z">
+<meta property="og:updated_time" content="2019-02-03T17:36:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="详解 word2vec">
 <meta name="twitter:description" content="预备知识本节介绍 word2vec 中将用到的一些重要知识点，包括 sigmoid 函数、Beyes 公式和 Huffman 编码等。 sigmoid 函数sigmoid 函数是神经网络中常用的激活函数之一，其定义为$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$该函数的定义域为 $( - \infty , + \infty )$，值域为 $">
@@ -371,13 +371,13 @@
 <p>$$h _ { \theta } ( \mathrm { x } ) = \sigma \left( \theta _ { 0 } + \theta _ { 1 } x _ { 1 } + \theta _ { 2 } x _ { 2 } + \cdots + \theta _ { n } x _ { n } \right)$$</p>
 <p>其中 $\theta = \left( \theta _ { 0 } , \theta _ { 1 } , \cdots , \theta _ { n } \right) ^ { \top }$ 为待定参数。为了符号上简化起见，引入 $x_0= 1$ 将 $\mathbf { x }$ 扩展为 $\left( x_0, x_1, x_2,\cdots, x_n \right) ^ { \top }$，且在不引起混淆的情况下仍将其记为 $\mathbf { x }$。于是，$h_\theta$ 可简写为</p>
 <p>$$h _ { \theta } ( \mathbf { x } ) = \sigma \left( \theta ^ { \top } \mathbf { x } \right) = \frac { 1 } { 1 + e ^ { - \theta ^ { \top } \mathbf { x } } }$$</p>
-<p>取阀值 $T = 0.5$，则二分类的判别公式为</p>
-<p>$$ y ( \mathrm { x } ) = \left{ \begin{array} { l l } { 1 , } &amp; { h _ { \theta } ( \mathrm { x } ) \geq 0.5 } \ { 0 , } &amp; { h _ { \theta } ( \mathrm { x } ) &lt; 0.5 } \end{array} \right. $$</p>
-<p>那参数 $\theta$ 如何求呢?通常的做法是，先确定一个形如下式的<strong>整体损失函数</strong></p>
+<p>取阀值 $T = 0.5$，则二分类的判别公式为 $\mathrm { x }$</p>
+<p>$$ y ( \mathrm { x } ) = \left{ \begin{array} {cc}<br>    1 ,  &amp; { h_\theta (\mathrm { x }) \geq 0.5 } \<br>    0 ,  &amp; { h_\theta (\mathrm { x }) &lt; 0.5 }<br>    \end{array} \right. $$</p>
+<p>那参数 $\theta$ 如何求呢？通常的做法是，先确定一个形如下式的<strong>整体损失函数</strong></p>
 <p>$$ J ( \theta ) = \frac { 1 } { m } \sum _ { i = 1 } ^ { m } \cos t \left( \mathbf { x } _ { i } , y _ { i } \right) $$</p>
 <p>然后对其进行优化，从而得到最优的参数 $ \theta^* $。</p>
 <p>实际应用中，单个样本的损失函数 $ cost \left( \mathbf { x } _ { i } , y _ { i } \right) $ 常取为<strong>对数似然函数</strong></p>
-<p>$$ cost \left( \mathbf { x } _ { i } , y _ { i } \right) = \left{ \begin{array} { l l } { - \log \left( h _ { \theta } \left( \mathbf { x } _ { i } \right) \right) , } &amp; { y _ { i } = 1 } \ { - \log \left( 1 - h _ { \theta } \left( \mathbf { x } _ { i } \right) \right) , } &amp; { y _ { i } = 0 } \end{array} \right.$$</p>
+<p>$$ cost \left( \mathbf { x } _ { i } , y _ { i } \right) = \left{ \begin{array} { ll } { - \log( h _ { \theta } (\mathbf{ x } _ { i } ) ) , } &amp; { y_i = 1 } \ { - \log ( 1 - h_\theta ( \mathbf { x } _ { i } ) ) , } &amp; { y_i = 0 } \end{array} \right.$$</p>
 <p>注意，上式是一个分段函数，也可将其写成如下的整体表达式</p>
 <p>$$ cost \left( \mathbf { x } _ { i } , y _ { i } \right) = - y _ { i } \cdot \log \left( h _ { \theta } \left( \mathbf { x } _ { i } \right) \right) - \left( 1 - y _ { i } \right) \cdot \log \left( 1 - h _ { \theta } \left( \mathbf { x } _ { i } \right) \right) $$</p>
 <h3 id="Bayes-公式"><a href="#Bayes-公式" class="headerlink" title="Bayes 公式"></a>Bayes 公式</h3><p>贝叶斯公式是英国数学家 <strong>贝叶斯(Thomas Bayes)</strong> 提出来的，用来描述两个条件概率之间的关系。若记 $P(A),P(B)$ 分别表示事件 $A$ 和事件 $B$ 发生的概率，$P(A|B)$ 表示事件 $B$ 发生的情况下事件 $A$ 发生的概率，$P(A, B)$ 表示事件 $A, B$ 同时发生的概率，则有</p>
@@ -394,10 +394,10 @@
 </ul>
 <p><strong>二叉树</strong>是每个结点最多有两个子树的有序树。两个子树通常被称为“<strong>左子树</strong>”和“<strong>右子树</strong>”，定义中的“<strong>有序</strong>”是指两个子树有左右之分，顺序不能预倒。</p>
 <p>给定 $n$ 个权值作为 $n$ 个叶子结点，构造一棵二叉树，若它的带权路径长度达到最小，则称这样的二叉树为<strong>最优二叉树</strong>，也称为<strong>Huffiman树</strong>。</p>
-<h4 id="Huffman树的构造"><a href="#Huffman树的构造" class="headerlink" title="Huffman树的构造"></a>Huffman树的构造</h4><p>给定 $n$ 个权值 $ \left{ w _ { 1 } , w _ { 2 } , \cdots , w _ { n } \right} $ 作为二叉树的 $n$ 个叶子结点，可通过以下算法来构造一颗 Huffman 树。</p>
+<h4 id="Huffman树的构造"><a href="#Huffman树的构造" class="headerlink" title="Huffman树的构造"></a>Huffman树的构造</h4><p>给定 $n$ 个权值 $ { w _ { 1 } , w _ { 2 } , \cdots , w _ { n } } $ 作为二叉树的 $n$ 个叶子结点，可通过以下算法来构造一颗 Huffman 树。</p>
 <p><strong>算法2.1</strong> (Huffman 树构造算法)</p>
 <ol>
-<li>将 $ \left{ w _ { 1 } , w _ { 2 } , \cdots , w _ { n } \right} $ 看成是有 $n$ 稞树的森林（每棵树仅有一个结点）；</li>
+<li>将 $ { w _ { 1 } , w _ { 2 } , \cdots , w _ { n } } $ 看成是有 $n$ 稞树的森林（每棵树仅有一个结点）；</li>
 <li>在森林中选出两个根结点的权值最小的树合并，作为一棵新树的左、右子树，且新树的根结点权值为其左、右子树根结点权值之和；</li>
 <li>从森林中删除选取的两棵树,并将新树加入森林。</li>
 <li>重复2和3步，直到森林中只剩一稞树为止，该树即为所求的 Huffman 树。</li>
