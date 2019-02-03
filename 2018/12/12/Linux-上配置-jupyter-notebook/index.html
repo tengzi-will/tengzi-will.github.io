@@ -88,7 +88,7 @@
 <meta property="og:description" content="进入python环境，获取秘钥我用的 Linux 版本为 CentOS7，感觉配置 jypyter notebook 在其他 Linux 版本都大同小异。 首先，在 Linux 环境下要安装有 python-3.x 版本，输入 python 进入编程环境后，输入命令 from notebook.auth import passwd 如下： 12345678Python 3.6.3 |Anacond">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/tengzi-will/img.tengzi-will.github.io/master/Linux-%E4%B8%8A%E9%85%8D%E7%BD%AE-jupyter-notebook/01_Jupyter.jpg">
-<meta property="og:updated_time" content="2019-01-15T04:18:42.000Z">
+<meta property="og:updated_time" content="2019-01-23T03:32:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 上配置 jupyter notebook">
 <meta name="twitter:description" content="进入python环境，获取秘钥我用的 Linux 版本为 CentOS7，感觉配置 jypyter notebook 在其他 Linux 版本都大同小异。 首先，在 Linux 环境下要安装有 python-3.x 版本，输入 python 进入编程环境后，输入命令 from notebook.auth import passwd 如下： 12345678Python 3.6.3 |Anacond">
@@ -367,6 +367,7 @@
 <li>c.NotebookApp.port = 8888 # 远程访问端口</li>
 <li>c.NotebookApp.open_browser = False</li>
 <li>c.NotebookApp.password = passwd() # passwd()改为上面生成的秘钥</li>
+<li>c.NotebookAPP.token = ‘<generated>‘</generated></li>
 <li>c.NotebookApp.notebook_dir = ‘/home/jupyternotebook’ # 设置工作目录，这个可以不修改</li>
 </ul>
 <p>安照以上内容修改配置文件，并将前面的 <code>#</code> 号去掉。</p>
@@ -520,7 +521,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -542,7 +543,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

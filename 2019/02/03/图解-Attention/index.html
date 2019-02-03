@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="NLP,Attention,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="写在前面 本文是对博文《Attn: Illustrated Attention》的翻译，有一部分是自己的理解，和原文出入不大。国内网盘链接  在基于神经网络的机器翻译 (NMT) 出现之前，基于统计的方法一直是机器翻译的主流方法。 NMT 是近些年才出现的机器翻译方法，它通过训练大型神经网络来读入文本并输出文本的翻译。目前NMT中最流行的框架是序列到序列 （seq2seq） 的方法，本文将通过图">
+<meta name="keywords" content="NLP,Attention">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图解 Attention">
+<meta property="og:url" content="http://yoursite.com/2019/02/03/图解-Attention/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="写在前面 本文是对博文《Attn: Illustrated Attention》的翻译，有一部分是自己的理解，和原文出入不大。国内网盘链接  在基于神经网络的机器翻译 (NMT) 出现之前，基于统计的方法一直是机器翻译的主流方法。 NMT 是近些年才出现的机器翻译方法，它通过训练大型神经网络来读入文本并输出文本的翻译。目前NMT中最流行的框架是序列到序列 （seq2seq） 的方法，本文将通过图">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kEKqyD.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kElrFA.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kEtW3d.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kENEvR.md.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kENaa8.md.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kEN32d.md.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kEUHpQ.md.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kEUsYD.md.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kEaphF.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kEULXn.md.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kE0sHI.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kEaW34.md.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kEBtqs.md.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/24/kZaCcQ.md.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kEBxW8.md.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/01/23/kEDCLj.png">
+<meta property="og:updated_time" content="2019-02-03T02:55:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="图解 Attention">
+<meta name="twitter:description" content="写在前面 本文是对博文《Attn: Illustrated Attention》的翻译，有一部分是自己的理解，和原文出入不大。国内网盘链接  在基于神经网络的机器翻译 (NMT) 出现之前，基于统计的方法一直是机器翻译的主流方法。 NMT 是近些年才出现的机器翻译方法，它通过训练大型神经网络来读入文本并输出文本的翻译。目前NMT中最流行的框架是序列到序列 （seq2seq） 的方法，本文将通过图">
+<meta name="twitter:image" content="https://s2.ax1x.com/2019/01/23/kEKqyD.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/03/图解-Attention/">
+
+
+
+
+
+  <title>图解 Attention | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/03/图解-Attention/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">图解 Attention</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-03T10:50:57+08:00">
+                2019-02-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/自然语言处理/" itemprop="url" rel="index">
+                    <span itemprop="name">自然语言处理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p><strong>写在前面</strong></p>
+<p>本文是对博文《<a href="https://towardsdatascience.com/attn-illustrated-attention-5ec4ad276ee3" target="_blank" rel="noopener">Attn: Illustrated Attention</a>》的翻译，有一部分是自己的理解，和原文出入不大。<a href="https://pan.baidu.com/s/1gRhGfaEY_nFXHMLaZGhDQQ" target="_blank" rel="noopener">国内网盘链接</a></p>
+</blockquote>
+<p>在基于神经网络的机器翻译 <strong><code>(NMT)</code></strong> 出现之前，基于统计的方法一直是机器翻译的主流方法。 <strong><code>NMT</code></strong> 是近些年才出现的机器翻译方法，它通过训练大型神经网络来读入文本并输出文本的翻译。目前NMT中最流行的框架是序列到序列 <strong><code>（seq2seq）</code></strong> 的方法，本文将通过图解的方法来介绍 <strong><code>seq2seq</code></strong> 框架以及其中的注意力机制。</p>
+<p><img src="https://s2.ax1x.com/2019/01/23/kEKqyD.png" alt="kEKqyD.png"></p>
+<p>在 <strong><code>seq2seq</code></strong> 中，有一个 <strong><code>Encoder</code></strong> 和一个 <strong><code>Decoder</code></strong>，<strong><code>Encoder</code></strong> 和 <strong><code>Decoder</code></strong> 都是 <strong><code>RNN</code></strong>。即：把要翻译的语言通过 <strong><code>Encoder</code></strong> 编码，之后把编码得到的向量（图1中红色节点）输入 <strong><code>Decoder</code></strong> 解码。</p>
+<p><strong><code>seq2seq</code></strong> 的缺点在于 <strong><code>Decoder</code></strong> 从 <strong><code>Encoder</code></strong> 接收的唯一信息就是最后 <strong><code>Encoder</code></strong> 隐藏状态（图1中的2个红色节点），如果输入文本很长，仍然使用定长向量来表示句子的信息显然是不合理的（不可能包含所有的信息，会导致信息的有损压缩）。</p>
+<p><strong><code>Attention</code></strong> 的想法基础就是在把原先输入 <strong><code>Decoder</code></strong> 的定长向量，改为对 <strong><code>Encoder</code></strong> 的输出向量加权和的形式，这个加权和的计算过程就叫 <strong><code>Attention</code></strong>。</p>
+<p><img src="https://s2.ax1x.com/2019/01/23/kElrFA.png" alt="kElrFA.png"></p>
+<p>注意力机制可以看做是更好的联系 <strong><code>Encoder</code></strong> 和 <strong><code>Decoder</code></strong> 的一种方式，可以为 <strong><code>Decoder</code></strong> 提供来自每个 <strong><code>Encoder</code></strong> 隐藏状态的信息。通过这种方法，<strong>模型能够有选择地关注输入序列的有用部分</strong>，从而了解它们之间的对齐关系，有助于模型更好地处理输入较长的句子。</p>
+<blockquote>
+<p><strong>定义：对齐</strong></p>
+<p>对齐的意思是把原始文本和对应的翻译进行匹配（就是哪个词对应着翻译成哪个词）。</p>
+</blockquote>
+<p><img src="https://s2.ax1x.com/2019/01/23/kEtW3d.png" alt="kEtW3d.png"></p>
+<p>注意力机制可以分为两种。一种叫做<strong><code>全局注意力</code></strong>，就是计算注意力的时候使用 <strong><code>Encoder</code></strong> 所有的隐藏状态。还有一种叫<strong><code>局部注意力</code></strong>，使用 <strong><code>Encoder</code></strong> 一部分隐藏状态（目的是为了减少计算量，通常计算一个固定窗口内的部分）。本文的范讨论的是<strong><code>全局注意力</code></strong>，因此本文中对 <strong><code>Attention</code></strong> 都是全局注意力。</p>
+<p>本文采用图解的方式来理解 <strong><code>Attention</code></strong> 机制，没有繁杂的数学公式，文末还使用了 <strong><code>4</code></strong> 个 <strong><code>NMT</code></strong> 模型作为例子来展示注意力到底是怎么用的。</p>
+<h2 id="注意力机制概述"><a href="#注意力机制概述" class="headerlink" title="注意力机制概述"></a>注意力机制概述</h2><p>通过为每个单词分配一个权重，注意力机制能够保证当前翻译的单词对原文各个单词的关注点不同（就是对照着原文翻译）。由于这个权重可能大于 <strong><code>1</code></strong>，为了方便我们使用 <strong><code>softmax</code></strong> 进行归一化，得到归一化权重，然后计算 <strong><code>Encoder</code></strong> 隐藏状态和其对应归一化权重的加权和，得上下文向量。注意力层的实现可以分为 <strong><code>6</code></strong> 个步骤。</p>
+<ol>
+<li>计算 <strong><code>Encoder</code></strong> 和 <strong><code>Decoder</code></strong> 的隐藏状态</li>
+<li>计算评分</li>
+<li>通过 <strong><code>softmax</code></strong> 归一化分数</li>
+<li>将每个 <strong><code>Encoder</code></strong> 隐藏状态乘以其 <strong><code>softmax</code></strong> 得分</li>
+<li>对齐向量</li>
+<li>将上下文向量输入到 <strong><code>Decoder</code></strong> 中</li>
+</ol>
+<h3 id="计算-Encoder-的隐藏状态和-Decoder-的隐藏状态"><a href="#计算-Encoder-的隐藏状态和-Decoder-的隐藏状态" class="headerlink" title="计算 Encoder 的隐藏状态和 Decoder 的隐藏状态"></a>计算 Encoder 的隐藏状态和 Decoder 的隐藏状态</h3><p>计算 <strong><code>Encoder</code></strong> 所有的隐藏状态和 <strong><code>Decoder</code></strong> 的第一个隐藏状态。要想输出 <strong><code>Decoder</code></strong> 的第一个隐藏的状态，需要给 <strong><code>Decoder</code></strong> 一个初始状态和一个输入，例如采用 <strong><code>Encoder</code></strong> 的最后一个状态作为 <strong><code>Decoder</code></strong> 的初始状态，输入为 <strong><code>0</code></strong>。</p>
+<p><img src="https://s2.ax1x.com/2019/01/23/kENEvR.md.png" alt="kENEvR.md.png"></p>
+<h3 id="计算评分"><a href="#计算评分" class="headerlink" title="计算评分"></a>计算评分</h3><p>计算 <strong><code>Decoder</code></strong> 的第一个隐藏状态和 <strong><code>Encoder</code></strong> 所有的隐藏状态的相关性，这里采用点积的方式（默认两个向量长度一样）。后面是一个计算示例。</p>
+<p><img src="https://s2.ax1x.com/2019/01/23/kENaa8.md.png" alt="kENaa8.md.png"></p>
+<p><img src="https://s2.ax1x.com/2019/01/23/kEN32d.md.png" alt="kEN32d.md.png"></p>
+<p>在上面的例子中，<strong><code>Encoder</code></strong> 的隐藏状态向量 <strong><code>[5, 0, 1]</code></strong> 获得了 <strong><code>60</code></strong> 分的最高分数，这说明要翻译的下一个词将受到这个 <strong><code>Encoder</code></strong> 隐藏状态很大程度的影响。</p>
+<h3 id="通过-softmax-归一化分数"><a href="#通过-softmax-归一化分数" class="headerlink" title="通过 softmax 归一化分数"></a>通过 softmax 归一化分数</h3><p>我们把得到的分数输入到到 <strong><code>softmax</code></strong> 层，进行归一化，归一化后的分数代表的注意分配的权重。（这里我觉得有一点问题，文章里面说的是进行 <strong><code>softmax</code></strong>，即 <strong><code>soft</code></strong> 注意力，出来的应该是浮点数的概率值，但是他这里的计算结果是采用选取评分最高的那个词，即 <strong><code>hard</code></strong> 注意力，其实都可以的，但是一般 <strong><code>soft</code></strong> 用的比较多）。这里我们看到除了 <strong><code>[5, 0, 1]</code></strong> 获得 <strong><code>1</code></strong> 的注意力得分，所有 <strong><code>Encoder</code></strong> 隐藏状态的对齐到了 <strong><code>0</code></strong>。这意味着我们可以预期第一个翻译的单词应该与 <strong><code>[5, 0, 1]</code></strong> 嵌入的输入单词匹配。</p>
+<p><img src="https://s2.ax1x.com/2019/01/23/kEUHpQ.md.png" alt="kEUHpQ.md.png"></p>
+<p><img src="https://s2.ax1x.com/2019/01/23/kEUsYD.md.png" alt="kEUsYD.md.png"></p>
+<h3 id="将每个-Encoder-隐藏状态乘以其-softmax-得分"><a href="#将每个-Encoder-隐藏状态乘以其-softmax-得分" class="headerlink" title="将每个 Encoder 隐藏状态乘以其 softmax 得分"></a>将每个 Encoder 隐藏状态乘以其 softmax 得分</h3><p>通过将每个 <strong><code>Encoder</code></strong> 隐藏状态与其 <strong><code>softmaxed</code></strong> 得分（标量）相乘，我们获得对齐向量 。</p>
+<p><img src="https://s2.ax1x.com/2019/01/23/kEaphF.png" alt="kEaphF.png"></p>
+<p><img src="https://s2.ax1x.com/2019/01/23/kEULXn.md.png" alt="kEULXn.md.png"></p>
+<h3 id="对齐向量"><a href="#对齐向量" class="headerlink" title="对齐向量"></a>对齐向量</h3><p>把对齐向量和对应的归一化分数相乘相加，得到上下文向量。上下文向量就是对所有对齐向量进行信息聚合。</p>
+<p><img src="https://s2.ax1x.com/2019/01/23/kE0sHI.png" alt="kE0sHI.png"></p>
+<p><img src="https://s2.ax1x.com/2019/01/23/kEaW34.md.png" alt="kEaW34.md.png"></p>
+<h3 id="将上下文向量输入到-Decoder-中。"><a href="#将上下文向量输入到-Decoder-中。" class="headerlink" title="将上下文向量输入到 Decoder 中。"></a>将上下文向量输入到 Decoder 中。</h3><p>输入的方式和模型有关。我们会在下面的例子中看到不同的模型是如何利用 <strong><code>Decoder</code></strong> 的上下文向量的。</p>
+<blockquote>
+<p><strong>注意力实际上如何运作？</strong></p>
+<p>答案：反向传播。反向传播会确保 <strong><code>Decoder</code></strong> 的输出（翻译的句子）和实际情况误差逐渐减小。这实际上是通过改变 <strong><code>RNN</code></strong> 中的权重和得分函数来完成的。改变权重会影响 <strong><code>Encoder</code></strong> 隐藏状态和 <strong><code>Decoder</code></strong> 隐藏状态，进而影响注意力得分。</p>
+</blockquote>
+<h2 id="注意力机制的例子"><a href="#注意力机制的例子" class="headerlink" title="注意力机制的例子"></a>注意力机制的例子</h2><p>在上一节中我们已经了解了 <strong><code>seq2seq</code></strong> 和 <strong><code>seq2seq + 注意模型</code></strong>，接下来会介绍 <strong><code>3</code></strong> 个基于 <strong><code>seq2seq</code></strong> 的 <strong><code>NMT</code></strong> 架构，来看一下具体是怎么用的。为了比较效果，文章给出了每个模型的双语评估研究<strong><code>（BLEU）</code></strong>分数 -用于评估生成的句子到参考句子的标准度量。</p>
+<h3 id="例1：Neural-Machine-Translation-by-Jointly-Learning-to-Align-and-Translate"><a href="#例1：Neural-Machine-Translation-by-Jointly-Learning-to-Align-and-Translate" class="headerlink" title="例1：Neural Machine Translation by Jointly Learning to Align and Translate"></a>例1：Neural Machine Translation by Jointly Learning to Align and Translate</h3><p>注意力机制用于机器翻译的开篇之作。作者在 <strong><code>《Neural Machine Translation by Jointly Learning to Align and Translate》</code></strong> 一文中使用 <strong><code>对齐</code></strong> 一词来表示在训练模型时得到的注意力权重。下面是这个模型的一些关键点：</p>
+<ul>
+<li><strong><code>Encoder</code></strong> 是双向（前向+后向）门控循环单元<strong><code>（BiGRU）</code></strong>。</li>
+<li><strong><code>Decoder</code></strong> 是 <strong><code>GRU</code></strong>，其初始隐藏状态来自 <strong><code>EncoderGRU</code></strong> 的最后隐藏状态向量（未在下图中示出）。</li>
+<li>注意层中的评分方法是点积加权和，下一个 <strong><code>Decoder</code></strong> 时间步的输入是来自前一个 <strong><code>Decoder</code></strong> 时间步（粉红色）的输出和当前时间步（深绿色）的上下文向量之间的拼接<strong><code>（concat）</code></strong>。</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/01/23/kEBtqs.md.png" alt="kEBtqs.md.png"></p>
+<p>作者在 <strong><code>WMT&#39;14</code></strong> 英语 - 法语数据集上获得了 <strong><code>26.75</code></strong> 的 <strong><code>BLEU</code></strong> 分数。</p>
+<h3 id="例2：-Effective-Approaches-to-Attention-based-Neural-Machine-Translation"><a href="#例2：-Effective-Approaches-to-Attention-based-Neural-Machine-Translation" class="headerlink" title="例2： Effective Approaches to Attention-based Neural Machine Translation"></a>例2： Effective Approaches to Attention-based Neural Machine Translation</h3><p>这篇论文的关键点如下：</p>
+<ul>
+<li><strong><code>Encoder</code></strong> 是两层的LSTM网络。 <strong><code>Decoder</code></strong> 也一样，其初始隐藏状态是最后 <strong><code>Encoder</code></strong> 隐藏状态。</li>
+<li>他们实验的评分函数是（i）<strong><code>add</code></strong> 和 <strong><code>concat</code></strong>，（ii） <strong><code>dot</code></strong>，（iii） <strong><code>location，</code></strong>和（iv） <strong><code>general</code></strong>。</li>
+<li>拼接得到的上下文向量输入一个前馈神经网络得到的输出（粉红色）作为当前Decoder时间步的输入。</li>
+</ul>
+<p><img src="https://s2.ax1x.com/2019/01/24/kZaCcQ.md.png" alt="kZaCcQ.md.png"></p>
+<h3 id="例3：-不讲，感觉没什么特别的"><a href="#例3：-不讲，感觉没什么特别的" class="headerlink" title="例3：(不讲，感觉没什么特别的)"></a>例3：(不讲，感觉没什么特别的)</h3><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文内容回顾：</p>
+<ul>
+<li>seq2seq</li>
+<li>seq2seq + attention</li>
+<li>seq2seq with bidirectional encoder + attention</li>
+<li>seq2seq with 2-stacked encoder + attention</li>
+<li>GNMT—seq2seq with 8-stacked encoder (+bidirection+residual connections) + attention</li>
+</ul>
+<h2 id="附录：评分函数"><a href="#附录：评分函数" class="headerlink" title="附录：评分函数"></a>附录：评分函数</h2><p>一些常见的Attention评分函数</p>
+<p><img src="https://s2.ax1x.com/2019/01/23/kEBxW8.md.png" alt="kEBxW8.md.png"></p>
+<p><img src="https://s2.ax1x.com/2019/01/23/kEDCLj.png" alt="kEDCLj.png"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+            <a href="/tags/Attention/" rel="tag"># Attention</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/19/吴恩达-Coursera-DeepLearning-ai-笔记和作业汇总/" rel="next" title="吴恩达 Coursera(DeepLearning.ai) 笔记和作业汇总">
+                <i class="fa fa-chevron-left"></i> 吴恩达 Coursera(DeepLearning.ai) 笔记和作业汇总
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#注意力机制概述"><span class="nav-number">1.</span> <span class="nav-text">注意力机制概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#计算-Encoder-的隐藏状态和-Decoder-的隐藏状态"><span class="nav-number">1.1.</span> <span class="nav-text">计算 Encoder 的隐藏状态和 Decoder 的隐藏状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算评分"><span class="nav-number">1.2.</span> <span class="nav-text">计算评分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过-softmax-归一化分数"><span class="nav-number">1.3.</span> <span class="nav-text">通过 softmax 归一化分数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将每个-Encoder-隐藏状态乘以其-softmax-得分"><span class="nav-number">1.4.</span> <span class="nav-text">将每个 Encoder 隐藏状态乘以其 softmax 得分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对齐向量"><span class="nav-number">1.5.</span> <span class="nav-text">对齐向量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将上下文向量输入到-Decoder-中。"><span class="nav-number">1.6.</span> <span class="nav-text">将上下文向量输入到 Decoder 中。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意力机制的例子"><span class="nav-number">2.</span> <span class="nav-text">注意力机制的例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#例1：Neural-Machine-Translation-by-Jointly-Learning-to-Align-and-Translate"><span class="nav-number">2.1.</span> <span class="nav-text">例1：Neural Machine Translation by Jointly Learning to Align and Translate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例2：-Effective-Approaches-to-Attention-based-Neural-Machine-Translation"><span class="nav-number">2.2.</span> <span class="nav-text">例2： Effective Approaches to Attention-based Neural Machine Translation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例3：-不讲，感觉没什么特别的"><span class="nav-number">2.3.</span> <span class="nav-text">例3：(不讲，感觉没什么特别的)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附录：评分函数"><span class="nav-number">4.</span> <span class="nav-text">附录：评分函数</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
