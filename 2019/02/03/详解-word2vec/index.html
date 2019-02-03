@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="词向量,word2vec,NLP,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="预备知识本节介绍 word2vec 中将用到的一些重要知识点，包括 sigmoid 函数、Beyes 公式和 Huffman 编码等。 sigmoid 函数sigmoid 函数是神经网络中常用的激活函数之一，其定义为$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$该函数的定义域为 $( - \infty , + \infty )$，值域为 $">
+<meta name="keywords" content="词向量,word2vec,NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="详解 word2vec">
+<meta property="og:url" content="http://yoursite.com/2019/02/03/详解-word2vec/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="预备知识本节介绍 word2vec 中将用到的一些重要知识点，包括 sigmoid 函数、Beyes 公式和 Huffman 编码等。 sigmoid 函数sigmoid 函数是神经网络中常用的激活函数之一，其定义为$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$该函数的定义域为 $( - \infty , + \infty )$，值域为 $">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/02/03/5c5660a044dc2.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/03/5c567c3ba2972.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/03/5c5689b91f3e6.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/03/5c569bee0b2a2.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/03/5c56b68b85db9.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/03/5c56ba1226b04.png">
+<meta property="og:updated_time" content="2019-02-03T15:59:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="详解 word2vec">
+<meta name="twitter:description" content="预备知识本节介绍 word2vec 中将用到的一些重要知识点，包括 sigmoid 函数、Beyes 公式和 Huffman 编码等。 sigmoid 函数sigmoid 函数是神经网络中常用的激活函数之一，其定义为$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$该函数的定义域为 $( - \infty , + \infty )$，值域为 $">
+<meta name="twitter:image" content="https://i.loli.net/2019/02/03/5c5660a044dc2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/03/详解-word2vec/">
+
+
+
+
+
+  <title>详解 word2vec | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/03/详解-word2vec/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">详解 word2vec</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-03T11:09:30+08:00">
+                2019-02-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/自然语言处理/" itemprop="url" rel="index">
+                    <span itemprop="name">自然语言处理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>本节介绍 <strong><code>word2vec</code></strong> 中将用到的一些重要知识点，包括 <strong><code>sigmoid</code></strong> 函数、<strong><code>Beyes</code></strong> 公式和 <strong><code>Huffman</code></strong> 编码等。</p>
+<h3 id="sigmoid-函数"><a href="#sigmoid-函数" class="headerlink" title="sigmoid 函数"></a>sigmoid 函数</h3><p><strong><code>sigmoid</code></strong> 函数是神经网络中常用的激活函数之一，其定义为<br>$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$<br>该函数的定义域为 $( - \infty , + \infty )$，值域为 $( 0,1 )$。下图给出了 sigmoid 函数的图像。</p>
+<p><img src="https://i.loli.net/2019/02/03/5c5660a044dc2.png" alt="01_sigmoid"></p>
+<p>sigmoid 函数的导函数具有以下形式<br>$$ \sigma ^ { \prime } ( x ) = \sigma ( x ) [ 1 - \sigma ( x ) ] $$<br>由此易得，函数 $\log \sigma ( x )$ 和 $\log ( 1 - \sigma ( x ) )$ 的导函数分别为:</p>
+<p>$$ [ \log \sigma ( x ) ] ^ { \prime } = 1 - \sigma ( x ) , \quad [ \log ( 1 - \sigma ( x ) ) ] ^ { \prime } = - \sigma ( x ) \tag{2.1} $$</p>
+<p>公式 (2.1) 在后面的推导中将用到。</p>
+<h3 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h3><p>生活中经常会碰到<strong>二分类问题</strong>，例如，某封电子邮件是否为垃圾邮件，某个客户是否为潜在客户，某次在线交易是否存在欺诈行为，等等。设 $ \left{ \left( \mathrm { x } _ { i } , y _ { i } \right) \right} _ { i = 1 } ^ { m } $ 为一个二分类问题的样本数据，其中 $\mathbf { x } _ { i } \in \mathbb { R } ^ { n } , y _ { i } \in { 0,1 }$，当 $y_i = 1$ 时称相应的样本为<strong>正例</strong>，当 $y_i = 0$ 时称相应的样本为<strong>负例</strong>。</p>
+<p>利用 sigmoid 函数，对于任意样本 $\mathbf { x } = \left( x_1, x_2,\cdots, x_n \right) ^ { \top }$，可将二分类问题的 $hypothesis$ 函数写成</p>
+<p>$$h _ { \theta } ( \mathrm { x } ) = \sigma \left( \theta _ { 0 } + \theta _ { 1 } x _ { 1 } + \theta _ { 2 } x _ { 2 } + \cdots + \theta _ { n } x _ { n } \right)$$</p>
+<p>其中 $\theta = \left( \theta _ { 0 } , \theta _ { 1 } , \cdots , \theta _ { n } \right) ^ { \top }$ 为待定参数。为了符号上简化起见，引入 $x_0= 1$ 将 $\mathbf { x }$ 扩展为 $\left( x_0, x_1, x_2,\cdots, x_n \right) ^ { \top }$，且在不引起混淆的情况下仍将其记为 $\mathbf { x }$。于是，$h_\theta$ 可简写为</p>
+<p>$$h _ { \theta } ( \mathbf { x } ) = \sigma \left( \theta ^ { \top } \mathbf { x } \right) = \frac { 1 } { 1 + e ^ { - \theta ^ { \top } \mathbf { x } } }$$</p>
+<p>取阀值 $T = 0.5$，则二分类的判别公式为</p>
+<p>$$ y ( \mathrm { x } ) = \left{ \begin{array} { l l } { 1 , } &amp; { h _ { \theta } ( \mathrm { x } ) \geq 0.5 } \ { 0 , } &amp; { h _ { \theta } ( \mathrm { x } ) &lt; 0.5 } \end{array} \right. $$</p>
+<p>那参数 $\theta$ 如何求呢?通常的做法是，先确定一个形如下式的<strong>整体损失函数</strong></p>
+<p>$$ J ( \theta ) = \frac { 1 } { m } \sum _ { i = 1 } ^ { m } \cos t \left( \mathbf { x } _ { i } , y _ { i } \right) $$</p>
+<p>然后对其进行优化，从而得到最优的参数 $ \theta^* $。</p>
+<p>实际应用中，单个样本的损失函数 $ cost \left( \mathbf { x } _ { i } , y _ { i } \right) $ 常取为<strong>对数似然函数</strong></p>
+<p>$$ cost \left( \mathbf { x } _ { i } , y _ { i } \right) = \left{ \begin{array} { l l } { - \log \left( h _ { \theta } \left( \mathbf { x } _ { i } \right) \right) , } &amp; { y _ { i } = 1 } \ { - \log \left( 1 - h _ { \theta } \left( \mathbf { x } _ { i } \right) \right) , } &amp; { y _ { i } = 0 } \end{array} \right.$$</p>
+<p>注意，上式是一个分段函数，也可将其写成如下的整体表达式</p>
+<p>$$ cost \left( \mathbf { x } _ { i } , y _ { i } \right) = - y _ { i } \cdot \log \left( h _ { \theta } \left( \mathbf { x } _ { i } \right) \right) - \left( 1 - y _ { i } \right) \cdot \log \left( 1 - h _ { \theta } \left( \mathbf { x } _ { i } \right) \right) $$</p>
+<h3 id="Bayes-公式"><a href="#Bayes-公式" class="headerlink" title="Bayes 公式"></a>Bayes 公式</h3><p>贝叶斯公式是英国数学家 <strong>贝叶斯(Thomas Bayes)</strong> 提出来的，用来描述两个条件概率之间的关系。若记 $P(A),P(B)$ 分别表示事件 $A$ 和事件 $B$ 发生的概率，$P(A|B)$ 表示事件 $B$ 发生的情况下事件 $A$ 发生的概率，$P(A, B)$ 表示事件 $A, B$ 同时发生的概率，则有</p>
+<p>$$ P ( A | B ) = \frac { P ( A , B ) } { P ( B ) } , \quad P ( B | A ) = \frac { P ( A , B ) } { P ( A ) } $$</p>
+<p>利用上式，进一步可得</p>
+<p>$$ P ( A | B ) = P ( A ) \frac { P ( B | A ) } { P ( B ) } $$</p>
+<p>这就是 <strong>Bayes 公式</strong>。</p>
+<h3 id="Huffman-编码"><a href="#Huffman-编码" class="headerlink" title="Huffman 编码"></a>Huffman 编码</h3><p>本节简单介绍 Huffman 编码，为此，首先介绍 Huffman 树的定义及其构造算法。</p>
+<h4 id="Huffman-树"><a href="#Huffman-树" class="headerlink" title="Huffman 树"></a>Huffman 树</h4><p>在计算机科学中，<strong>树</strong>是一种重要的非线性数据结构,，它是数据元素（在树中称为<strong>结点</strong>）按分支关系组织起来的结构。若干棵互不相交的树所构成的集合称为<strong>森林</strong>。下面给出几个与树相关的常用概念</p>
+<ul>
+<li>路径和路径长度<br>在一棵树中，从一个结点往下可以达到的孩子或孙子结点之间的通路，称为路径。通路中分支的数目称为路径长度。若规定根结点的层号为 $1$，则从根结点到第 $L$ 层结点的路径长度为 $L-1$。</li>
+<li>结点的权和带权路径长度<br>若为树中结点赋予一个具有某种含义的（非负）数值，则这个数值称为该结点的权。结点的带权路径长度是指，从根结点到该结点之间的路径长度与该结点的权的乘积。</li>
+<li>树的带权路径长度<br>树的带权路径长度规定为所有叶子结点的带权路径长度之和。</li>
+</ul>
+<p><strong>二叉树</strong>是每个结点最多有两个子树的有序树。两个子树通常被称为“<strong>左子树</strong>”和“<strong>右子树</strong>”，定义中的“<strong>有序</strong>”是指两个子树有左右之分，顺序不能预倒。</p>
+<p>给定 $n$ 个权值作为 $n$ 个叶子结点，构造一棵二叉树，若它的带权路径长度达到最小，则称这样的二叉树为<strong>最优二叉树</strong>，也称为<strong>Huffiman树</strong>。</p>
+<h4 id="Huffman树的构造"><a href="#Huffman树的构造" class="headerlink" title="Huffman树的构造"></a>Huffman树的构造</h4><p>给定 $n$ 个权值 $ \left{ w _ { 1 } , w _ { 2 } , \cdots , w _ { n } \right} $ 作为二叉树的 $n$ 个叶子结点，可通过以下算法来构造一颗 Huffman 树。</p>
+<p><strong>算法2.1</strong> (Huffman 树构造算法)</p>
+<ol>
+<li>将 $ \left{ w _ { 1 } , w _ { 2 } , \cdots , w _ { n } \right} $ 看成是有 $n$ 稞树的森林（每棵树仅有一个结点）；</li>
+<li>在森林中选出两个根结点的权值最小的树合并，作为一棵新树的左、右子树，且新树的根结点权值为其左、右子树根结点权值之和；</li>
+<li>从森林中删除选取的两棵树,并将新树加入森林。</li>
+<li>重复2和3步，直到森林中只剩一稞树为止，该树即为所求的 Huffman 树。</li>
+</ol>
+<p>接下来，给出<strong>算法2.1</strong>的一个具体实例</p>
+<p><strong>例2.1</strong> 假设2014年世界杯期间，从新浪微博中抓取了若干条与足球相关的微博，经统计，“我”、“喜欢”、“观着”、“巴西”、“足球”、“世界杯”这六个词出现的次数分别为 $ 15,8,6,5,3,1 $。请以这6个词为叶子结点，以相应词频当权值，构造一棵Huffman 树。</p>
+<p><img src="https://i.loli.net/2019/02/03/5c567c3ba2972.png" alt="02_huffman"></p>
+<p>利用算法2.1, 易知其构造过程如上图所示。图中第六步给出了最终的 Huffman 树，由图可见<strong>词频越大</strong>的词离根结点<strong>越近</strong>。</p>
+<p>构造过程中，通过合并新增的结点被标记为黄色。由于每两个结点都要进行一次合并，因此，若叶子结点的个数为 $n$, 则构造的 Huffman 树中新增结点的个数为 $n-1$。本例中 $n=6$，因此新增结点的个数为 $5$ 。</p>
+<p>注意，前面有提到，二叉树的两个子树是分左右的，对于某个非叶子结点来说，就是其两个孩子结点是分左右的，在本例中，统一<strong>将词频大的结点作为左孩子结点，词频小的作为右孩子结点</strong>。当然，这只是一个约定，你要将词频大的结点作为右孩子结点也没有问题。</p>
+<h4 id="Huffman-编码-1"><a href="#Huffman-编码-1" class="headerlink" title="Huffman 编码"></a>Huffman 编码</h4><p>在数据通信中，需要将传送的文字转换成二进制的字符串，用0, 1码的不同排列来表示字符。例如，需传送的报文为“AFTER DATA EAR ARE ART AREA”，这里用到的字符集为“A, E, R, T, F, D”，各字母出现的次数为 8, 4, 5, 3, 1, 1。现要求为这些字母设计编码。</p>
+<p>要区别6个字母，最简单的二进制编码方式是<strong>等长编码</strong>，固定采用 3 位二进制($2^3 = 8&gt;6$)。可分别用 000、001、010. 011、100、101 对“A, E, R, T, F, D”进行编码发送，当对方接收报文时再按照三位一分进行译码。</p>
+<p>显然编码的长度取决报文中不同字符的个数。若报文中可能出现 26 个不同字符，则固定编码长度为 5($2^5 = 32 &gt; 6$)。然而，传送报文时总是希望总长度尽可能短。在实际应用中，各个字符的<strong>出现频度</strong>或<strong>使用次数</strong>是不相同的，如 A、B、C 的使用频率远远高于 X、Y、Z，自然会想到设计编码时，让使用频率高的用短码，使用频率低的用长码，以优化整个报文编码。</p>
+<p>为使<strong>不等长编码</strong>为<strong>前缀编码</strong>(即要求一个字符的编码不能是另一个字符编码的前缀)，可用字符集中的每个字符作为叶子结点生成一棵编码二叉树，为了获得传送报文的最短长度，可将每个字符的出现频率作为字符结点的权值赋予该结点上，显然字使用频率越小权值越小，权值越小叶子就越靠下，于是频率小编码长，频率高编码短，这样就保证了此树的最小带权路径长度，效果上就是传送报文的最短长度。因此，求传送报文的最短长度问题转化为求由字符集中的所有字符作为叶子结点，由字符出现频率作为其权值所产生的 Huffman 树的问题。利用 Huffman 树设计的二进制前缎编码，称为 <strong>Hufman 编码</strong>，它既能满足前缀编码的条件，又能保证报文编码总长最短。</p>
+<p>本文将介绍的 word2vec 工具中也将用到 Huffman 编码，它把训练语料中的词当成叶了结点，其在语料中出现的次数当作权值，通过构造相应的 Huffman 树来对每一个词进行 Huffman编码。</p>
+<p>下图给出了例2.1中六个词的 Huffman 编码，其中约定(词频较大的)左孩了结点编码为 1, (词频较小的)右孩子编码为 0。这样一来，“我”、“喜欢”、“观看”、“巴西”、“足球”、“世界杯”这六个词的 Huffman 编码分别为0, 111, 110. 101, 1001和1000 。</p>
+<p><img src="https://i.loli.net/2019/02/03/5c5689b91f3e6.png" alt="03_huffman_code"></p>
+<p>注意，到日前为止,关于 Huffman树和 Huffman 编码,有两个约定: (1) 将权值大的结点作为左孩子结点，权值小的作为右孩子结点; (2) 左孩子结点编码为 1，右孩子结点编码为 0 。在 word2vec 源码中将权值较大的孩子结点编码为 1，较小的孩子结点编码为 0 。为与上述约定统一起见，<strong>下文中提到的“左孩子结点”都是指权值较大的孩子结点</strong>。</p>
+<h2 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h2><p>word2vec 是用来生成词向量的工具，而词向量与语言模型有着密切的关系，为此，不妨先来了解一些语言模型方的知识。</p>
+<h3 id="统计语言模型"><a href="#统计语言模型" class="headerlink" title="统计语言模型"></a>统计语言模型</h3><p>当今的互联网迅猛发展，每天都在产生大量的文本、图片、语音和视频数据，要对这些数据进行处理并从中挖掘出有价值的信息，离不开白然语言处理 (Nature Language Processing, NLP) 技术，其中<strong>统计语言模型</strong> (Statistical Language Model) 就是很重要的一环，它是所有 NLP 的基础，被广泛应用于语音识别、机器翻译、分词、词性标注和信息检索等任务。</p>
+<p><strong>例3.1</strong> 在语音识别系统中，对于给定的语音段Voice，需要找到一个使概率 p(Tcxl Voicc) 最大的文本段 Text。利用 Bayes 公式，有</p>
+<p>$$p ( \text {Text} | \text {Voice} ) = \frac { p ( \text {Voice} | T e x t ) \cdot p ( T e x t ) } { p ( \text {Voice} ) }$$</p>
+<p>其中 $p ( \text {Voice} | \text { Text } )$ 为<strong>声学模型</strong>，而 $ p ( T e x t ) $ 为<strong>语言模型</strong>。</p>
+<p>简单地说，统计语言模型是用来计算一个句子的概率的<strong>概率模型</strong>，它通常基于一个语料库来构建。那什么叫做一个句子的概率呢?假设 $W = w _ { 1 } ^ { T } = \left( w _ { 1 } , w _ { 2 } , \cdots , w _ { T } \right)$ 表示由 $T$ 个词 $w _ { 1 } , w _ { 2 } , \cdots , w _ { T }$ 按顺序构成的一个句子，则 $w _ { 1 } , w _ { 2 } , \cdots , w _ { T }$ 的联合概率</p>
+<p>$$p ( W ) = p \left( w _ { 1 } ^ { T } \right) = p \left( w _ { 1 } , w _ { 2 } , \cdots , w _ { T } \right)$$</p>
+<p>就是这个句子的概率。利用 Bayes 公式，上式可以被链式地分解为</p>
+<p>$$p \left( w _ { 1 } ^ { T } \right) = p \left( w _ { 1 } \right) \cdot p \left( w _ { 2 } | w _ { 1 } \right) \cdot p \left( w _ { 3 } | w _ { 1 } ^ { 2 } \right) \cdots p \left( w _ { T } | w _ { 1 } ^ { T - 1 } \right) \tag{3.1}$$</p>
+<p>其中的(条件)概率 $p \left( w _ { 1 } \right) , p \left( w _ { 2 } | w _ { 1 } \right) , p \left( w _ { 3 } | w _ { 1 } ^ { 2 } \right) , \cdots , p \left( w _ { T } | w _ { 1 } ^ { T - 1 } \right)$ 就是<strong>语言模型的参数</strong>，若这些参数已经全部算得，那么给定一个句子 $w _ { 1 } ^ { T }$，就可以很快地算出相应的 $p \left( w _ { 1 } ^ { T } \right)$了。</p>
+<p>看起来好像很简单，是吧？但是，具体实现起来还是有点麻烦。例如，先来看看<strong>模型参数的个数</strong>。刚才是考虑一个给定的长度为 $T$ 的句子，就需要计算 $T$ 个参数。不妨假设语料库对应词典 $D$ 的大小(即词汇量)为 $N$，那么，如果考虑长度为 $T$ 的任意句子，理论上就有 $N^T$ 种可能，而每种可能都要计算 $T$ 个参数，总共就需要计算 $TN^T$ 个参数。当然，这里只是简单估算，并没有考虑重复参数，但这个量级还是有蛮吓人。此外，这些慨率计算好后，还得保存下来，因此，存储这些信息也需要很大的内存开销。</p>
+<p>另外，这些<strong>参数如何计算呢</strong>？常见的方法有 n-gram 模型、决策树、最大熵模型、最大熵马尔科夫模型、条件随机场、神经网络等方法。本文只讨论 <strong>n-gram 模型</strong>和<strong>神经网络</strong>两种方法，首先来看看 n-gram 模型。</p>
+<h3 id="n-gram模型"><a href="#n-gram模型" class="headerlink" title="n-gram模型"></a>n-gram模型</h3><p>考虑 $p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) ( k &gt; 1 )$ 的近似计算。利用 Bayes公式，有</p>
+<p>$$p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) = \frac { p \left( w _ { 1 } ^ { k } \right) } { p \left( w _ { 1 } ^ { k - 1 } \right) }$$</p>
+<p>根据大数定理，当语料库是够大时，$p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right)$ 可近似地表示为</p>
+<p>$$ p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) \approx \frac { count \left( w _ { 1 } ^ { k } \right) } { count \left( w _ { 1 } ^ { k - 1 } \right) } \tag{3.2}$$</p>
+<p>其中 $ count \left( w _ { 1 } ^ { k } \right)$ 和 $ count \left( w _ { 1 } ^ { k-1 } \right)$ 分别表示词串 $w_1^k$ 和 $w_1^{k-1}$ 在语料中出现的次数。可想而知，当 $k$ 很大时，$ count \left( w _ { 1 } ^ { k } \right)$ 和 $ count \left( w _ { 1 } ^ { k-1 } \right)$ 的统计将会多么耗时。</p>
+<p>从公式(3.1)可以看出：一个词出现的概率与它前面的所有词都相关。如果假定一个词出现的慨率只与它前面固定数日的词相关呢？这就是 n-gram 模型的基本思想，它作了一个 $n- 1$ 阶的 <strong>Markov 假设</strong>，认为一个词出现的概率就只与它前面的 $n- 1$ 个词相关，即</p>
+<p>$$p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) \approx p \left( w _ { k } | w _ { k - n + 1 } ^ { k - 1 } \right)$$</p>
+<p>于是，(3.2) 就变成了</p>
+<p>$$p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) \approx \frac { count \left( w _ { k - n + 1 } ^ { k } \right) } { count \left( w _ { k - n + 1 } ^ { k - 1 } \right) } \tag{3.3}$$</p>
+<p>以 $n=2$ 为例，就有<br>$$p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) \approx \frac { count \left( w _ { k - 1 } , w _ { k } \right) } { count \left( w _ { k - 1 } \right) }$$</p>
+<p>这样一简化，不仅使得单个参数的统计变得更容易(统计时需要匹配的词串更短)，也使得参数的总数变少了。</p>
+<p>那么，n-gram 中的参数 $n$ 取多大比较合适呢？一般来说，$n$ 的选取需要同时考虑计算复杂度和模型效果两个因素。</p>
+<p><img src="https://i.loli.net/2019/02/03/5c569bee0b2a2.png" alt="04_table"></p>
+<p>在<strong>计算复杂度</strong>方面，表1给出了 n-gram 模型中模型参数数量随着 $n$ 的逐渐增大而变化的情况，其中假定词典大小 $N = 200000$ (汉语的词汇量大致是这个量级)。事实上，模型参数的量级是 $N$ 的指数函数 $(O(N^n))$，显然 $n$ 不能取得太大，实际应用中最多的是采用 $n=3$ 的三元模型。</p>
+<p>在<strong>模型效果</strong>方面，理论上是 $n$ 越大，效果越好。现如今，互联网的海量数据以及机器性能的提升使得计算更高阶的语言模型(如$ n &gt; 10 $)成为可能，但需要注意的是，当 $n$ 大到一定程度时，模型效果的提升幅度会变小。例如，当 $n$ 从 1 到 2,再从 2 到 3 时模型的效果上升显著，而从 3 到 4 时，效果的提升就不显著了（具体可参考吴军在《数学之美》中的相关章节）事实上，这里还涉及到一个<strong>可靠性</strong>和<strong>可区别性</strong>的问题，参数越多，可区别性越好，但同时单个参数的实例变少从而降低了可靠性，因此需要在可掌性和可区别性之问进行折中。</p>
+<p>另外，n-gram 模型中还有一个叫做<strong>平滑化</strong>的重要环节。回到公式(3.3)，考虑两个问题： </p>
+<ol>
+<li>若 $ count \left( w _ { k - n + 1 } ^ { k } \right) = 0 $，能否认为 $ p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) $ 就等于 0 呢？</li>
+<li>若$ count \left( w _ { k - n + 1 } ^ { k } \right) = count \left( w _ { k - n + 1 } ^ { k - 1 } \right) $，能否认为 $ p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) $ 就等于 1 呢？</li>
+</ol>
+<p>显然不能！但这是一个无法回避的问题，哪怕你的语料库有多么大。平滑化技术就是用来处理这个问题的，这里不展开讨论。</p>
+<p>总结起米，n-gram 模型是这样一种模型，其主要工作是在语料中统计各种词串出现的次数以及平滑化处理。概率值计算好之后就有储起来，下次需要计算一个句子的概率时，只需找到相关的概率参数，将它们连乘起来就好了。</p>
+<p>然而，在机器学习领域有一种通用的招数是这样的：对所考虑的问题建模后先为其构造一个目标函数，然后对这个目标函数进行优化，从而求得一组最优的参数，最后利用这组最优参数对应的模型来进行预测。</p>
+<p>对于统计语言模型而言，利用<strong>最大似然</strong>，可把日标函数设为</p>
+<p>$$\prod _ { w \in \mathcal { C } } p ( w | C o n t e x t ( w ) )$$</p>
+<p>其中 $\mathcal { C }$ 表示语料 (Corpus)，$Context(w)$ 表示词 $w$ 的<strong>上下文</strong>(Context)，即 $w$ 周边的词的集合。当 $Context(w)$ 为空时，就取 $p ( w | Context ( w ) ) = p ( w )$ 。特别地，对于前面介绍的 n-gram 模型，就有 $Context(w_i) = w_{i-n+1}^{i-1}$</p>
+<p><strong>注3.1</strong> 语料 $\mathcal { C }$ 和词典 $\mathcal { D }$ 的区别：词典 $\mathcal { D }$ 是从浯料 $\mathcal { C }$ 中抽取出来的，不存在重复的词；而语料 $\mathcal { C }$ 是指所有的文本内容，包括重复的词。</p>
+<p>当然，实际应用中常采用<strong>最大对数似然</strong>，即把日标函数设为</p>
+<p>$$\mathcal { L } = \sum _ { w \in \mathcal { C } } \log p ( w | \text {Context} ( w ) ) \tag{3.4}$$</p>
+<p>然后对这个函数进行最大化。</p>
+<p>从(3.4)可见，概率 $ p(w|Context(w))$ 已被视为关于 $w$ 和 $Context(w)$ 的函数，即</p>
+<p>$$p ( w | \text { Context } ( w ) ) = F ( w , \text { Context } ( w ) , \theta )$$</p>
+<p>其中 $\theta $ 为<strong>待定参数集</strong>。这样一来，一旦对(3.4) 进行优化得到最优参数集 $\theta^\ast $ 后，$F$ 也就唯一被确定了，以后任何概率 $ p(w|Context(w))$ 就可以通过函数 $ F(w, Context(w),\theta^\ast) $ 来计算了。与 n-gram 相比，这种方法不需要(事先计算并)保存所有的概率值，而是通过直接计算来获取，且通过选取合适的模型可使得 $\theta $ 中参数的个数远小于 n-gram 中模型参数的个数。</p>
+<p>很显然，对于这样-一种方法，最关键的地方就在于<strong>函数 $F$ 的构造</strong>了。下一小节将介绍一种通过神经网络来构造 $F$ 的方法。之所以特意介绍这个方法，是因为它可以视为 word2vec 中算法框架的前身或者说基础。</p>
+<h3 id="神经概率语-言模型"><a href="#神经概率语-言模型" class="headerlink" title="神经概率语 言模型"></a>神经概率语 言模型</h3><p>本小节介绍 Bengio 等人在文《A neural probabilistic language model. Journal of Machine Learning Research》(2003)中提出的一种神经概率语言模型。该模型中用到了一个重要的工具——词向量。</p>
+<p>什么是词向量呢？简单来说就是，对词典 $\mathcal { D }$ 中的任意词 $w$，指定一个固定长度的实值向量 $\mathbf { v } ( w ) \in \mathbb { R } ^ { m }$，$\mathbf { v } ( w )$ 就称为 $w$ 的词向量，$m$ 为词向量的长度。关于词向量的进一步理解将放到下一小节来讲解。</p>
+<p>既然是神经概率语言模型，其中当然要用到一个神经网络啦。下图给出了这个神经网络的结构示意图，它包括四个层：<strong>输入</strong>(Input) 层、<strong>投影</strong>(Projection) 层、<strong>隐藏</strong>(Hidden)层和<strong>输出</strong>(OutPut)层。其中 $W,U$ 分别为投影层与隐藏层以及隐藏层和输出层之间的权值矩阵，$p, q$ 分别为隐藏层和输出层上的偏置向量。</p>
+<p><img src="https://i.loli.net/2019/02/03/5c56b68b85db9.png" alt="05_W2V_network"></p>
+<p><strong>注3.2</strong> 当提及 Bengio 文中的神经网络时，人们更多将其视为如图5所示的三层结构。本文将其描述为如图4所示的四层结构，一方面是便于描述，另一方面是便于和 word2vec 中使用的网络结构进行对比。</p>
+<p><img src="https://i.loli.net/2019/02/03/5c56ba1226b04.png" alt="06_W2V_network"></p>
+<p><strong>注3.3</strong> 作者在文中还考虑了投影层和输出层的神经元之问有边相连的情形，因而也会多出一个相应的权值矩阵，本文忽略了这种情形，但这并不影响对算法本质的理解。在数值实验中，作者发现引入投影层和输出层之间的权值矩阵虽然不能提高模型效果，但可以减少训练的选代次数。</p>
+<p>对于语料 $\mathcal { C }$ 中的任意一个词 $w$，将 $Context(w)$ 取为其前面的 $n-1$ 个词(类似于n-gram)，这样二元对 $(Context(w),w)$ 就是一个<strong>训练样本</strong>了。接下来，讨论样本 $(Context(w),w)$ 经过如图4所示的神经网络时是如何参与运算的。注意，一旦语料 $\mathcal { C }$ 和词向量长度 $m$ 给定后，投影层和输出层的规模就确定了，前者为 $(n- 1)m$，后者为 $N = | \mathcal { D } |$ 即语料 $\mathcal { C }$ 的词汇量大小。而急藏层的规模 $n_h$ 是可调参数由用户指定。</p>
+<p>为什么投影层的规模是 $(n-1)m$ 呢？因为输入层包含 $Context(w)$ 中 $n-1$ 个词的词向量，而投影层的向量 $X_w$ 是这样构造的：将输入层的 $n-1$ 个词向量按顺序首尾相接地拼起来形成一个长向量，其长度当然就是 $(n-1)m$ 了，有了向量 $X_w$，接下来的计算过程就很平凡了，具体为</p>
+<p>$$\left{ \begin{array} { l } { \mathbf { z } _ { w } = \tanh \left( W \mathbf { x } _ { w } + \mathbf { p } \right) } \ { \mathbf { y } _ { w } = U \mathbf { z } _ { w } + \mathbf { q } } \end{array} \right. \tag{3.5}$$</p>
+<p>其中 $tanh$ 为<strong>双曲正切函数</strong>，用来做隐藏层的<strong>激活函数</strong>，上式中，$tanh$ 作用在向量上表示它作用在向量的每一个分量上。</p>
+<p><strong>注3.4</strong> 有读者可能要问：对于语科中的一个给定句子的前几个词，其前面的词不足 $n-1$ 个怎么办？此时，可以人为地添加一个（或几个）填充向量就可以了，它们也参与训练过程。</p>
+<p>经过上述两步计算得到的 $\mathbf { y } _ { w } = \left( y _ { w , 1 } , y _ { w , 2 } , \cdots , y _ { w , N } \right) ^ { \top }$ 只是一个长度为 $N$ 的向量，其分量不能表示概率。如果想要 $ \mathbf{ y } _ w $ 的分量 $y_{w,i}$，表示当上下文为 $Context(w)$ 时下一个词恰为词典 $\mathcal { D }$ 中第 $i$ 个词的慨率，则还需要做一个 <strong>softmax</strong> 归一化，归一化后，$p(w|Context(w))$就可以表示为</p>
+<p>$$ p ( w | \text { Context } ( w ) ) = \frac { e ^ { y _ { w , i_w } } } { \sum _ { i = 1 } ^ { N } e ^ { y _ { w , i } } } $$ {3.6}</p>
+<p>其中 $i_w$ 表示词 $w$ 在词典 $\mathcal { D }$ 中的索引。</p>
+<p>公式(3.6)给出了概率 $p(w|Context(w))$ 的函数表示，即找到了上一小节中提到的函数 $F(w, Context(w), \theta)$，那么其中待确定的参数 $\theta$ 有哪些呢？总结起来，包括两部分</p>
+<ul>
+<li>词向量：$\mathbf { v } ( w ) \in \mathbb { R } ^ { m } , w \in \mathcal { D }$以及填允向量。</li>
+<li>神经网络参数：$W \in \mathbb { R } ^ { n _ { h } \times ( n - 1 ) m } , \mathbf { p } \in \mathbb { R } ^ { n _ { h } } ; U \in \mathbb { R } ^ { N \times n _ { h } } , \mathbf { q } \in \mathbb { R } ^ { N }$</li>
+</ul>
+<p>这些参数均通过圳练算法得到。值得一提的是，通常的机器学习算法中，输入都是已知的，而在上述神经概率语言模型中，输入 $ \mathbf { v } ( w )$ 也需要通过训练才能得到。</p>
+<p>接下来，简要地分析一下上述模型的运算量。在如图4所示的神经网络中，投影层、隐藏层和输出层的规模分别为 $(n-1)m, n_h, N$，依次看看其中涉及的参数：</p>
+<ol>
+<li>$n$ 是一个词的上下文中包含的词数,通常不超过5；</li>
+<li>$m$ 是词向量长度，通常是 $10^1 \sim 10^2$ 量级；</li>
+<li>$n_h$ 由用户指定，通常不需取得太大，如 $10^2$ 量级；</li>
+<li>$N$ 是语料词汇量的大小，与语料相关，但通常是 $10^4 \sim 10^5$ 量级。</li>
+</ol>
+<p>再结合(3.5)和(3.6)，不难发现，整个模型的大部分计算集中在隐藏层和输出层之间的矩阵向量运算，以及输出层上的 softmax 归一化运算。因此后续的相关研究工作中，有很多是针对这一部分进行优化的，其中就包括了 word2vec 的工作。<br>与 n-gram 模型相比，神经概率语言模型有什么<strong>优势</strong>呢？主要有以下两点：</p>
+<ol>
+<li>词语之间的相似性可以通过词向量来体现</li>
+</ol>
+<p>举例来说，如果某个(英语) 语料中 $S_1$ = “A dog is runing in the room” 出现了 10000 次，而 $S_1$ = “A cat is ruuning in the room” 只出现了 1 次。按照 n-gram 模型的做法，$p(S1)$ 肯定会远大于 $p(S2)$。注意，$S1$ 和 $S2$ 的唯一区别在于 dog 和 cat，而这两个词无论是句法还是语义上都扮演了相同的角色，因此，$p(S1)$ 和$p(S2)$ 应该很相近才对。<br>然而，由神经概率语言模型算得的 $p(S1)$ 和 $p(S2)$ 是大致相等的。原因在于：(1)在神经概率语言模型中假定了“相似的”的词对应的词向量也是相似的；(2)概率函数关于词向量是光滑的，即词向量中的一个小变化对概率的影响也只是一个小变化。这样一来，对于下面这些句子</p>
+<p>A dog is running in the room<br>A cat is running in the room<br>The cat is running in a room<br>A dog is walking in a bedroom<br>The dog was walking in the room</p>
+<p>只要在语料库中出现一个，共他句子的概率也会相应地增大。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/词向量/" rel="tag"># 词向量</a>
+          
+            <a href="/tags/word2vec/" rel="tag"># word2vec</a>
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/03/图解-Attention/" rel="next" title="图解 Attention">
+                <i class="fa fa-chevron-left"></i> 图解 Attention
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#预备知识"><span class="nav-number">1.</span> <span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sigmoid-函数"><span class="nav-number">1.1.</span> <span class="nav-text">sigmoid 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑回归"><span class="nav-number">1.2.</span> <span class="nav-text">逻辑回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bayes-公式"><span class="nav-number">1.3.</span> <span class="nav-text">Bayes 公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Huffman-编码"><span class="nav-number">1.4.</span> <span class="nav-text">Huffman 编码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman-树"><span class="nav-number">1.4.1.</span> <span class="nav-text">Huffman 树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman树的构造"><span class="nav-number">1.4.2.</span> <span class="nav-text">Huffman树的构造</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman-编码-1"><span class="nav-number">1.4.3.</span> <span class="nav-text">Huffman 编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景知识"><span class="nav-number">2.</span> <span class="nav-text">背景知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#统计语言模型"><span class="nav-number">2.1.</span> <span class="nav-text">统计语言模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#n-gram模型"><span class="nav-number">2.2.</span> <span class="nav-text">n-gram模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#神经概率语-言模型"><span class="nav-number">2.3.</span> <span class="nav-text">神经概率语 言模型</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
