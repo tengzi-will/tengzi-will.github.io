@@ -93,7 +93,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c569bee0b2a2.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c56b68b85db9.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c56ba1226b04.png">
-<meta property="og:updated_time" content="2019-02-03T17:36:02.000Z">
+<meta property="og:updated_time" content="2019-02-04T01:52:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="详解 word2vec">
 <meta name="twitter:description" content="预备知识本节介绍 word2vec 中将用到的一些重要知识点，包括 sigmoid 函数、Beyes 公式和 Huffman 编码等。 sigmoid 函数sigmoid 函数是神经网络中常用的激活函数之一，其定义为$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$该函数的定义域为 $( - \infty , + \infty )$，值域为 $">
@@ -366,7 +366,7 @@
 <p>sigmoid 函数的导函数具有以下形式<br>$$ \sigma ^ { \prime } ( x ) = \sigma ( x ) [ 1 - \sigma ( x ) ] $$<br>由此易得，函数 $\log \sigma ( x )$ 和 $\log ( 1 - \sigma ( x ) )$ 的导函数分别为:</p>
 <p>$$ [ \log \sigma ( x ) ] ^ { \prime } = 1 - \sigma ( x ) , \quad [ \log ( 1 - \sigma ( x ) ) ] ^ { \prime } = - \sigma ( x ) \tag{2.1} $$</p>
 <p>公式 (2.1) 在后面的推导中将用到。</p>
-<h3 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h3><p>生活中经常会碰到<strong>二分类问题</strong>，例如，某封电子邮件是否为垃圾邮件，某个客户是否为潜在客户，某次在线交易是否存在欺诈行为，等等。设 $ \left{ \left( \mathrm { x } _ { i } , y _ { i } \right) \right} _ { i = 1 } ^ { m } $ 为一个二分类问题的样本数据，其中 $\mathbf { x } _ { i } \in \mathbb { R } ^ { n } , y _ { i } \in { 0,1 }$，当 $y_i = 1$ 时称相应的样本为<strong>正例</strong>，当 $y_i = 0$ 时称相应的样本为<strong>负例</strong>。</p>
+<h3 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h3><p>生活中经常会碰到<strong>二分类问题</strong>，例如，某封电子邮件是否为垃圾邮件，某个客户是否为潜在客户，某次在线交易是否存在欺诈行为，等等。设 $ { \left( \mathrm { x } _ { i } , y _ { i } \right) } _ { i = 1 } ^ { m } $ 为一个二分类问题的样本数据，其中 $\mathbf { x } _ { i } \in \mathbb { R } ^ { n } , y _ { i } \in { 0,1 }$，当 $y_i = 1$ 时称相应的样本为<strong>正例</strong>，当 $y_i = 0$ 时称相应的样本为<strong>负例</strong>。</p>
 <p>利用 sigmoid 函数，对于任意样本 $\mathbf { x } = \left( x_1, x_2,\cdots, x_n \right) ^ { \top }$，可将二分类问题的 $hypothesis$ 函数写成</p>
 <p>$$h _ { \theta } ( \mathrm { x } ) = \sigma \left( \theta _ { 0 } + \theta _ { 1 } x _ { 1 } + \theta _ { 2 } x _ { 2 } + \cdots + \theta _ { n } x _ { n } \right)$$</p>
 <p>其中 $\theta = \left( \theta _ { 0 } , \theta _ { 1 } , \cdots , \theta _ { n } \right) ^ { \top }$ 为待定参数。为了符号上简化起见，引入 $x_0= 1$ 将 $\mathbf { x }$ 扩展为 $\left( x_0, x_1, x_2,\cdots, x_n \right) ^ { \top }$，且在不引起混淆的情况下仍将其记为 $\mathbf { x }$。于是，$h_\theta$ 可简写为</p>
