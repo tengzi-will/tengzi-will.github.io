@@ -94,7 +94,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c56b68b85db9.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c56ba1226b04.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/04/5c57c035b7391.png">
-<meta property="og:updated_time" content="2019-02-04T05:42:48.000Z">
+<meta property="og:updated_time" content="2019-02-04T06:26:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="详解 word2vec">
 <meta name="twitter:description" content="预备知识本节介绍 word2vec 中将用到的一些重要知识点，包括 sigmoid 函数、Beyes 公式和 Huffman 编码等。 sigmoid 函数sigmoid 函数是神经网络中常用的激活函数之一，其定义为$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$该函数的定义域为 $( - \infty , + \infty )$，值域为 $">
@@ -373,7 +373,7 @@
 <p>其中 $\theta = \left( \theta _ { 0 } , \theta _ { 1 } , \cdots , \theta _ { n } \right) ^ { \top }$ 为待定参数。为了符号上简化起见，引入 $x_0= 1$ 将 $\mathbf { x }$ 扩展为 $\left( x_0, x_1, x_2,\cdots, x_n \right) ^ { \top }$，且在不引起混淆的情况下仍将其记为 $\mathbf { x }$。于是，$h_\theta$ 可简写为</p>
 <p>$$h _ { \theta } ( \mathbf { x } ) = \sigma \left( \theta ^ { \top } \mathbf { x } \right) = \frac { 1 } { 1 + e ^ { - \theta ^ { \top } \mathbf { x } } }$$</p>
 <p>取阀值 $T = 0.5$，则二分类的判别公式为 $\mathrm { x }$</p>
-<p>$$ y ( \mathrm { x } ) = \begin{cases}<br>    1 ,  &amp; { h_\theta (\mathrm { x }) \geq 0.5 } \<br>    0 ,  &amp; { h_\theta (\mathrm { x }) &lt; 0.5 }<br>    \end{cases} $$</p>
+<p>$$ y ( \mathrm { x } ) = \begin{cases}<br>    1 ,  &amp; { h_\theta (\mathrm { x }) \geq 0.5 }\\<br>    0 ,  &amp; { h_\theta (\mathrm { x }) &lt; 0.5 }<br>    \end{cases} $$</p>
 <p>那参数 $\theta$ 如何求呢？通常的做法是，先确定一个形如下式的<strong>整体损失函数</strong></p>
 <p>$$ J ( \theta ) = \frac { 1 } { m } \sum _ { i = 1 } ^ { m } \cos t \left( \mathbf { x } _ { i } , y _ { i } \right) $$</p>
 <p>然后对其进行优化，从而得到最优的参数 $ \theta^* $。</p>
