@@ -94,7 +94,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c56b68b85db9.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c56ba1226b04.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/04/5c57c035b7391.png">
-<meta property="og:updated_time" content="2019-02-04T06:26:26.000Z">
+<meta property="og:updated_time" content="2019-02-04T07:22:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="详解 word2vec">
 <meta name="twitter:description" content="预备知识本节介绍 word2vec 中将用到的一些重要知识点，包括 sigmoid 函数、Beyes 公式和 Huffman 编码等。 sigmoid 函数sigmoid 函数是神经网络中常用的激活函数之一，其定义为$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$该函数的定义域为 $( - \infty , + \infty )$，值域为 $">
@@ -362,18 +362,18 @@
 
       
         <h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>本节介绍 <strong><code>word2vec</code></strong> 中将用到的一些重要知识点，包括 <strong><code>sigmoid</code></strong> 函数、<strong><code>Beyes</code></strong> 公式和 <strong><code>Huffman</code></strong> 编码等。</p>
-<h3 id="sigmoid-函数"><a href="#sigmoid-函数" class="headerlink" title="sigmoid 函数"></a>sigmoid 函数</h3><p><strong><code>sigmoid</code></strong> 函数是神经网络中常用的激活函数之一，其定义为<br>$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$<br>该函数的定义域为 $( - \infty , + \infty )$，值域为 $( 0,1 )$。下图给出了 sigmoid 函数的图像。</p>
+<h3 id="sigmoid-函数"><a href="#sigmoid-函数" class="headerlink" title="sigmoid 函数"></a>sigmoid 函数</h3><p><strong><code>sigmoid</code></strong> 函数是神经网络中常用的激活函数之一，其定义为<br>$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$<br>该函数的定义域为 $( - \infty , + \infty )$，值域为 $( 0,1 )$。下图给出了 <strong><code>sigmoid</code></strong> 函数的图像。</p>
 <p><img src="https://i.loli.net/2019/02/03/5c5660a044dc2.png" alt="01_sigmoid"></p>
-<p>sigmoid 函数的导函数具有以下形式<br>$$ \sigma ^ { \prime } ( x ) = \sigma ( x ) [ 1 - \sigma ( x ) ] $$<br>由此易得，函数 $\log \sigma ( x )$ 和 $\log ( 1 - \sigma ( x ) )$ 的导函数分别为:</p>
+<p><strong><code>sigmoid</code></strong> 函数的导函数具有以下形式<br>$$ \sigma ^ { \prime } ( x ) = \sigma ( x ) [ 1 - \sigma ( x ) ] $$<br>由此易得，函数 $\log \sigma ( x )$ 和 $\log ( 1 - \sigma ( x ) )$ 的导函数分别为:</p>
 <p>$$ [ \log \sigma ( x ) ] ^ { \prime } = 1 - \sigma ( x ) , \quad [ \log ( 1 - \sigma ( x ) ) ] ^ { \prime } = - \sigma ( x ) \tag{2.1} $$</p>
-<p>公式 (2.1) 在后面的推导中将用到。</p>
+<p><strong><code>公式(2.1)</code></strong> 在后面的推导中将用到。</p>
 <h3 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h3><p>生活中经常会碰到<strong>二分类问题</strong>，例如，某封电子邮件是否为垃圾邮件，某个客户是否为潜在客户，某次在线交易是否存在欺诈行为，等等。设 $ \lbrace \left( \mathrm { x } _ { i } , y _ { i } \right) \rbrace _ { i = 1 } ^ { m } $ 为一个二分类问题的样本数据，其中 $ \mathbf { x } _ { i } \in \mathbb { R } ^ { n } , y _ { i } \in \lbrace 0,1 \rbrace $，当 $y_i = 1$ 时称相应的样本为<strong>正例</strong>，当 $y_i = 0$ 时称相应的样本为<strong>负例</strong>。</p>
-<p>利用 sigmoid 函数，对于任意样本 $\mathbf { x } = \left( x_1, x_2,\cdots, x_n \right) ^ { \top }$，可将二分类问题的 $hypothesis$ 函数写成</p>
+<p>利用 <strong><code>sigmoid</code></strong> 函数，对于任意样本 $\mathbf { x } = \left( x_1, x_2,\cdots, x_n \right) ^ { \top }$，可将二分类问题的 $hypothesis$ 函数写成</p>
 <p>$$h _ { \theta } ( \mathrm { x } ) = \sigma \left( \theta _ { 0 } + \theta _ { 1 } x _ { 1 } + \theta _ { 2 } x _ { 2 } + \cdots + \theta _ { n } x _ { n } \right)$$</p>
 <p>其中 $\theta = \left( \theta _ { 0 } , \theta _ { 1 } , \cdots , \theta _ { n } \right) ^ { \top }$ 为待定参数。为了符号上简化起见，引入 $x_0= 1$ 将 $\mathbf { x }$ 扩展为 $\left( x_0, x_1, x_2,\cdots, x_n \right) ^ { \top }$，且在不引起混淆的情况下仍将其记为 $\mathbf { x }$。于是，$h_\theta$ 可简写为</p>
 <p>$$h _ { \theta } ( \mathbf { x } ) = \sigma \left( \theta ^ { \top } \mathbf { x } \right) = \frac { 1 } { 1 + e ^ { - \theta ^ { \top } \mathbf { x } } }$$</p>
 <p>取阀值 $T = 0.5$，则二分类的判别公式为 $\mathrm { x }$</p>
-<p>$$ y ( \mathrm { x } ) = \begin{cases}<br>    1 ,  &amp; { h_\theta (\mathrm { x }) \geq 0.5 }\\<br>    0 ,  &amp; { h_\theta (\mathrm { x }) &lt; 0.5 }<br>    \end{cases} $$</p>
+<p>$$ y ( \mathrm { x } ) = \begin{cases}<br>    1 ,  &amp; { h_\theta (\mathrm { x }) \geq 0.5 } \\<br>    0 ,  &amp; { h_\theta (\mathrm { x }) &lt; 0.5 }<br>    \end{cases} $$</p>
 <p>那参数 $\theta$ 如何求呢？通常的做法是，先确定一个形如下式的<strong>整体损失函数</strong></p>
 <p>$$ J ( \theta ) = \frac { 1 } { m } \sum _ { i = 1 } ^ { m } \cos t \left( \mathbf { x } _ { i } , y _ { i } \right) $$</p>
 <p>然后对其进行优化，从而得到最优的参数 $ \theta^* $。</p>
@@ -386,71 +386,73 @@
 <p>利用上式，进一步可得</p>
 <p>$$ P ( A | B ) = P ( A ) \frac { P ( B | A ) } { P ( B ) } $$</p>
 <p>这就是 <strong>Bayes 公式</strong>。</p>
-<h3 id="Huffman-编码"><a href="#Huffman-编码" class="headerlink" title="Huffman 编码"></a>Huffman 编码</h3><p>本节简单介绍 Huffman 编码，为此，首先介绍 Huffman 树的定义及其构造算法。</p>
+<h3 id="Huffman-编码"><a href="#Huffman-编码" class="headerlink" title="Huffman 编码"></a>Huffman 编码</h3><p>本节简单介绍 <strong><code>Huffman 编码</code></strong>，为此，首先介绍 <strong><code>Huffman 树</code></strong>的定义及其构造算法。</p>
 <h4 id="Huffman-树"><a href="#Huffman-树" class="headerlink" title="Huffman 树"></a>Huffman 树</h4><p>在计算机科学中，<strong>树</strong>是一种重要的非线性数据结构,，它是数据元素（在树中称为<strong>结点</strong>）按分支关系组织起来的结构。若干棵互不相交的树所构成的集合称为<strong>森林</strong>。下面给出几个与树相关的常用概念</p>
 <ul>
-<li>路径和路径长度<br>在一棵树中，从一个结点往下可以达到的孩子或孙子结点之间的通路，称为路径。通路中分支的数目称为路径长度。若规定根结点的层号为 $1$，则从根结点到第 $L$ 层结点的路径长度为 $L-1$。</li>
-<li>结点的权和带权路径长度<br>若为树中结点赋予一个具有某种含义的（非负）数值，则这个数值称为该结点的权。结点的带权路径长度是指，从根结点到该结点之间的路径长度与该结点的权的乘积。</li>
-<li>树的带权路径长度<br>树的带权路径长度规定为所有叶子结点的带权路径长度之和。</li>
+<li><strong><code>路径和路径长度</code></strong><br>在一棵树中，从一个结点往下可以达到的孩子或孙子结点之间的通路，称为路径。通路中分支的数目称为路径长度。若规定根结点的层号为 $1$，则从根结点到第 $L$ 层结点的路径长度为 $L-1$。</li>
+<li><strong><code>结点的权和带权路径长度</code></strong><br>若为树中结点赋予一个具有某种含义的（非负）数值，则这个数值称为该结点的权。结点的带权路径长度是指，从根结点到该结点之间的路径长度与该结点的权的乘积。</li>
+<li><strong><code>树的带权路径长度</code></strong><br>树的带权路径长度规定为所有叶子结点的带权路径长度之和。</li>
 </ul>
 <p><strong>二叉树</strong>是每个结点最多有两个子树的有序树。两个子树通常被称为“<strong>左子树</strong>”和“<strong>右子树</strong>”，定义中的“<strong>有序</strong>”是指两个子树有左右之分，顺序不能预倒。</p>
 <p>给定 $n$ 个权值作为 $n$ 个叶子结点，构造一棵二叉树，若它的带权路径长度达到最小，则称这样的二叉树为<strong>最优二叉树</strong>，也称为<strong>Huffiman树</strong>。</p>
 <h4 id="Huffman树的构造"><a href="#Huffman树的构造" class="headerlink" title="Huffman树的构造"></a>Huffman树的构造</h4><p>给定 $n$ 个权值 $ { w _ { 1 } , w _ { 2 } , \cdots , w _ { n } } $ 作为二叉树的 $n$ 个叶子结点，可通过以下算法来构造一颗 Huffman 树。</p>
-<p><strong>算法2.1</strong> (Huffman 树构造算法)</p>
+<p><strong><code>算法2.1</code></strong> <strong>(Huffman 树构造算法)</strong></p>
 <ol>
 <li>将 $ { w _ { 1 } , w _ { 2 } , \cdots , w _ { n } } $ 看成是有 $n$ 稞树的森林（每棵树仅有一个结点）；</li>
 <li>在森林中选出两个根结点的权值最小的树合并，作为一棵新树的左、右子树，且新树的根结点权值为其左、右子树根结点权值之和；</li>
 <li>从森林中删除选取的两棵树,并将新树加入森林。</li>
-<li>重复2和3步，直到森林中只剩一稞树为止，该树即为所求的 Huffman 树。</li>
+<li>重复2和3步，直到森林中只剩一稞树为止，该树即为所求的 <strong>Huffman 树</strong>。</li>
 </ol>
-<p>接下来，给出<strong>算法2.1</strong>的一个具体实例</p>
-<p><strong>例2.1</strong> 假设2014年世界杯期间，从新浪微博中抓取了若干条与足球相关的微博，经统计，“我”、“喜欢”、“观着”、“巴西”、“足球”、“世界杯”这六个词出现的次数分别为 $ 15,8,6,5,3,1 $。请以这6个词为叶子结点，以相应词频当权值，构造一棵Huffman 树。</p>
+<p>接下来，给出<strong><code>算法2.1</code></strong>的一个具体实例</p>
+<blockquote>
+<p><strong><code>例2.1</code></strong> 假设 2014 年世界杯期间，从新浪微博中抓取了若干条与足球相关的微博，经统计，“我”、“喜欢”、“观着”、“巴西”、“足球”、“世界杯”这六个词出现的次数分别为 $ 15,8,6,5,3,1 $。请以这6个词为叶子结点，以相应词频当权值，构造一棵 <strong><code>Huffman树</code></strong>。</p>
+</blockquote>
 <p><img src="https://i.loli.net/2019/02/03/5c567c3ba2972.png" alt="02_huffman"></p>
-<p>利用算法2.1, 易知其构造过程如上图所示。图中第六步给出了最终的 Huffman 树，由图可见<strong>词频越大</strong>的词离根结点<strong>越近</strong>。</p>
-<p>构造过程中，通过合并新增的结点被标记为黄色。由于每两个结点都要进行一次合并，因此，若叶子结点的个数为 $n$, 则构造的 Huffman 树中新增结点的个数为 $n-1$。本例中 $n=6$，因此新增结点的个数为 $5$ 。</p>
+<p>利用<strong><code>算法2.1</code></strong>, 易知其构造过程如上图所示。图中第六步给出了最终的 <strong><code>Huffman树</code></strong>，由图可见<strong>词频越大</strong>的词离根结点<strong>越近</strong>。</p>
+<p>构造过程中，通过合并新增的结点被标记为黄色。由于每两个结点都要进行一次合并，因此，若叶子结点的个数为 $n$, 则构造的 <strong><code>Huffman树</code></strong> 中新增结点的个数为 $n-1$。本例中 $n=6$，因此新增结点的个数为 $5$ 。</p>
 <p>注意，前面有提到，二叉树的两个子树是分左右的，对于某个非叶子结点来说，就是其两个孩子结点是分左右的，在本例中，统一<strong>将词频大的结点作为左孩子结点，词频小的作为右孩子结点</strong>。当然，这只是一个约定，你要将词频大的结点作为右孩子结点也没有问题。</p>
-<h4 id="Huffman-编码-1"><a href="#Huffman-编码-1" class="headerlink" title="Huffman 编码"></a>Huffman 编码</h4><p>在数据通信中，需要将传送的文字转换成二进制的字符串，用0, 1码的不同排列来表示字符。例如，需传送的报文为“AFTER DATA EAR ARE ART AREA”，这里用到的字符集为“A, E, R, T, F, D”，各字母出现的次数为 8, 4, 5, 3, 1, 1。现要求为这些字母设计编码。</p>
-<p>要区别6个字母，最简单的二进制编码方式是<strong>等长编码</strong>，固定采用 3 位二进制($2^3 = 8&gt;6$)。可分别用 000、001、010. 011、100、101 对“A, E, R, T, F, D”进行编码发送，当对方接收报文时再按照三位一分进行译码。</p>
-<p>显然编码的长度取决报文中不同字符的个数。若报文中可能出现 26 个不同字符，则固定编码长度为 5($2^5 = 32 &gt; 6$)。然而，传送报文时总是希望总长度尽可能短。在实际应用中，各个字符的<strong>出现频度</strong>或<strong>使用次数</strong>是不相同的，如 A、B、C 的使用频率远远高于 X、Y、Z，自然会想到设计编码时，让使用频率高的用短码，使用频率低的用长码，以优化整个报文编码。</p>
-<p>为使<strong>不等长编码</strong>为<strong>前缀编码</strong>(即要求一个字符的编码不能是另一个字符编码的前缀)，可用字符集中的每个字符作为叶子结点生成一棵编码二叉树，为了获得传送报文的最短长度，可将每个字符的出现频率作为字符结点的权值赋予该结点上，显然字使用频率越小权值越小，权值越小叶子就越靠下，于是频率小编码长，频率高编码短，这样就保证了此树的最小带权路径长度，效果上就是传送报文的最短长度。因此，求传送报文的最短长度问题转化为求由字符集中的所有字符作为叶子结点，由字符出现频率作为其权值所产生的 Huffman 树的问题。利用 Huffman 树设计的二进制前缎编码，称为 <strong>Hufman 编码</strong>，它既能满足前缀编码的条件，又能保证报文编码总长最短。</p>
-<p>本文将介绍的 word2vec 工具中也将用到 Huffman 编码，它把训练语料中的词当成叶了结点，其在语料中出现的次数当作权值，通过构造相应的 Huffman 树来对每一个词进行 Huffman编码。</p>
-<p>下图给出了例2.1中六个词的 Huffman 编码，其中约定(词频较大的)左孩了结点编码为 1, (词频较小的)右孩子编码为 0。这样一来，“我”、“喜欢”、“观看”、“巴西”、“足球”、“世界杯”这六个词的 Huffman 编码分别为0, 111, 110. 101, 1001和1000 。</p>
+<h4 id="Huffman-编码-1"><a href="#Huffman-编码-1" class="headerlink" title="Huffman 编码"></a>Huffman 编码</h4><p>在数据通信中，需要将传送的文字转换成二进制的字符串，用 <strong><code>0, 1</code></strong> 码的不同排列来表示字符。例如，需传送的报文为 <strong><code>“AFTER DATA EAR ARE ART AREA”</code></strong>，这里用到的字符集为 <strong><code>“A, E, R, T, F, D”</code></strong>，各字母出现的次数为 <strong><code>8, 4, 5, 3, 1, 1</code></strong>。现要求为这些字母设计编码。</p>
+<p>要区别 <strong><code>6</code></strong> 个字母，最简单的二进制编码方式是<strong>等长编码</strong>，固定采用 <strong><code>3</code></strong> 位二进制($2^3 = 8&gt;6$)。可分别用 <strong><code>000、001、010. 011、100、101</code></strong> 对 <strong><code>“A, E, R, T, F, D”</code></strong> 进行编码发送，当对方接收报文时再按照三位一分进行译码。</p>
+<p>显然编码的长度取决报文中不同字符的个数。若报文中可能出现 <strong><code>26</code></strong> 个不同字符，则固定编码长度为 <strong><code>5</code></strong> ($2^5 = 32 &gt; 6$)。然而，传送报文时总是希望总长度尽可能短。在实际应用中，各个字符的<strong>出现频度</strong>或<strong>使用次数</strong>是不相同的，如 <strong><code>A、B、C</code></strong> 的使用频率远远高于 <strong><code>X、Y、Z</code></strong>，自然会想到设计编码时，让使用频率高的用短码，使用频率低的用长码，以优化整个报文编码。</p>
+<p>为使<strong>不等长编码</strong>为<strong>前缀编码</strong>(即要求一个字符的编码不能是另一个字符编码的前缀)，可用字符集中的每个字符作为叶子结点生成一棵编码二叉树，为了获得传送报文的最短长度，可将每个字符的出现频率作为字符结点的权值赋予该结点上，显然字使用频率越小权值越小，权值越小叶子就越靠下，于是频率小编码长，频率高编码短，这样就保证了此树的最小带权路径长度，效果上就是传送报文的最短长度。因此，求传送报文的最短长度问题转化为求由字符集中的所有字符作为叶子结点，由字符出现频率作为其权值所产生的 <strong><code>Huffman树</code></strong> 的问题。利用 Huffman 树设计的二进制前缎编码，称为 <strong><code>Huffman编码</code></strong>，它既能满足前缀编码的条件，又能保证报文编码总长最短。</p>
+<p>本文将介绍的 <strong><code>word2vec</code></strong> 工具中也将用到 <strong><code>Huffman编码</code></strong>，它把训练语料中的词当成叶了结点，其在语料中出现的次数当作权值，通过构造相应的 <strong><code>Huffman树</code></strong> 来对每一个词进行 <strong><code>Huffman编码</code></strong>。</p>
+<p>下图给出了 <strong><code>例2.1</code></strong> 中六个词的 <strong><code>Huffman编码</code></strong>，其中约定（词频较大的）左孩了结点编码为 <strong><code>1</code></strong>，（词频较小的）右孩子编码为 <strong><code>0</code></strong>。这样一来，“我”、“喜欢”、“观看”、“巴西”、“足球”、“世界杯”这六个词的 <strong><code>Huffman编码</code></strong> 分别为 <strong><code>0, 111, 110. 101, 1001和1000</code></strong> 。</p>
 <p><img src="https://i.loli.net/2019/02/03/5c5689b91f3e6.png" alt="03_huffman_code"></p>
-<p>注意，到日前为止,关于 Huffman树和 Huffman 编码,有两个约定: (1) 将权值大的结点作为左孩子结点，权值小的作为右孩子结点; (2) 左孩子结点编码为 1，右孩子结点编码为 0 。在 word2vec 源码中将权值较大的孩子结点编码为 1，较小的孩子结点编码为 0 。为与上述约定统一起见，<strong>下文中提到的“左孩子结点”都是指权值较大的孩子结点</strong>。</p>
-<h2 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h2><p>word2vec 是用来生成词向量的工具，而词向量与语言模型有着密切的关系，为此，不妨先来了解一些语言模型方的知识。</p>
-<h3 id="统计语言模型"><a href="#统计语言模型" class="headerlink" title="统计语言模型"></a>统计语言模型</h3><p>当今的互联网迅猛发展，每天都在产生大量的文本、图片、语音和视频数据，要对这些数据进行处理并从中挖掘出有价值的信息，离不开白然语言处理 (Nature Language Processing, NLP) 技术，其中<strong>统计语言模型</strong> (Statistical Language Model) 就是很重要的一环，它是所有 NLP 的基础，被广泛应用于语音识别、机器翻译、分词、词性标注和信息检索等任务。</p>
-<p><strong>例3.1</strong> 在语音识别系统中，对于给定的语音段Voice，需要找到一个使概率 p(Tcxl Voicc) 最大的文本段 Text。利用 Bayes 公式，有</p>
-<p>$$p ( \text {Text} | \text {Voice} ) = \frac { p ( \text {Voice} | T e x t ) \cdot p ( T e x t ) } { p ( \text {Voice} ) }$$</p>
-<p>其中 $p ( \text {Voice} | \text { Text } )$ 为<strong>声学模型</strong>，而 $ p ( T e x t ) $ 为<strong>语言模型</strong>。</p>
+<p>注意，到日前为止,关于 <strong><code>Huffman树</code></strong> 和 <strong><code>Huffman 编码</code></strong>，有两个约定：(1) 将权值大的结点作为左孩子结点，权值小的作为右孩子结点; (2) 左孩子结点编码为 <strong><code>1</code></strong>，右孩子结点编码为 <strong><code>0</code></strong>。在 <strong><code>word2vec</code></strong> 源码中将权值较大的孩子结点编码为 <strong><code>1</code></strong>，较小的孩子结点编码为 <strong><code>0</code></strong> 。为与上述约定统一起见，<strong>下文中提到的“左孩子结点”都是指权值较大的孩子结点</strong>。</p>
+<h2 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h2><p><strong><code>word2vec</code></strong> 是用来生成词向量的工具，而词向量与语言模型有着密切的关系，为此，不妨先来了解一些语言模型方的知识。</p>
+<h3 id="统计语言模型"><a href="#统计语言模型" class="headerlink" title="统计语言模型"></a>统计语言模型</h3><p>当今的互联网迅猛发展，每天都在产生大量的文本、图片、语音和视频数据，要对这些数据进行处理并从中挖掘出有价值的信息，离不开白然语言处理 <strong><code>(Nature Language Processing, NLP)</code></strong> 技术，其中<strong>统计语言模型</strong> <strong><code>(Statistical Language Model)</code></strong> 就是很重要的一环，它是所有 <strong><code>NLP</code></strong> 的基础，被广泛应用于语音识别、机器翻译、分词、词性标注和信息检索等任务。</p>
+<blockquote>
+<p><strong><code>例3.1</code></strong> 在语音识别系统中，对于给定的语音段Voice，需要找到一个使概率 p(Tcxl Voicc) 最大的文本段 Text。利用 Bayes 公式，有<br>$$p ( \text {Text} | \text {Voice} ) = \frac { p ( \text {Voice} | T e x t ) \cdot p ( T e x t ) } { p ( \text {Voice} ) }$$<br>其中 $p ( \text {Voice} | \text { Text } )$ 为<strong>声学模型</strong>，而 $ p ( T e x t ) $ 为<strong>语言模型</strong>。</p>
+</blockquote>
 <p>简单地说，统计语言模型是用来计算一个句子的概率的<strong>概率模型</strong>，它通常基于一个语料库来构建。那什么叫做一个句子的概率呢?假设 $W = w _ { 1 } ^ { T } = \left( w _ { 1 } , w _ { 2 } , \cdots , w _ { T } \right)$ 表示由 $T$ 个词 $w _ { 1 } , w _ { 2 } , \cdots , w _ { T }$ 按顺序构成的一个句子，则 $w _ { 1 } , w _ { 2 } , \cdots , w _ { T }$ 的联合概率</p>
 <p>$$p ( W ) = p \left( w _ { 1 } ^ { T } \right) = p \left( w _ { 1 } , w _ { 2 } , \cdots , w _ { T } \right)$$</p>
-<p>就是这个句子的概率。利用 Bayes 公式，上式可以被链式地分解为</p>
+<p>就是这个句子的概率。利用 <strong><code>Bayes</code></strong> 公式，上式可以被链式地分解为</p>
 <p>$$p \left( w _ { 1 } ^ { T } \right) = p \left( w _ { 1 } \right) \cdot p \left( w _ { 2 } | w _ { 1 } \right) \cdot p \left( w _ { 3 } | w _ { 1 } ^ { 2 } \right) \cdots p \left( w _ { T } | w _ { 1 } ^ { T - 1 } \right) \tag{3.1}$$</p>
 <p>其中的(条件)概率 $p \left( w _ { 1 } \right) , p \left( w _ { 2 } | w _ { 1 } \right) , p \left( w _ { 3 } | w _ { 1 } ^ { 2 } \right) , \cdots , p \left( w _ { T } | w _ { 1 } ^ { T - 1 } \right)$ 就是<strong>语言模型的参数</strong>，若这些参数已经全部算得，那么给定一个句子 $w _ { 1 } ^ { T }$，就可以很快地算出相应的 $p \left( w _ { 1 } ^ { T } \right)$了。</p>
 <p>看起来好像很简单，是吧？但是，具体实现起来还是有点麻烦。例如，先来看看<strong>模型参数的个数</strong>。刚才是考虑一个给定的长度为 $T$ 的句子，就需要计算 $T$ 个参数。不妨假设语料库对应词典 $D$ 的大小(即词汇量)为 $N$，那么，如果考虑长度为 $T$ 的任意句子，理论上就有 $N^T$ 种可能，而每种可能都要计算 $T$ 个参数，总共就需要计算 $TN^T$ 个参数。当然，这里只是简单估算，并没有考虑重复参数，但这个量级还是有蛮吓人。此外，这些慨率计算好后，还得保存下来，因此，存储这些信息也需要很大的内存开销。</p>
-<p>另外，这些<strong>参数如何计算呢</strong>？常见的方法有 n-gram 模型、决策树、最大熵模型、最大熵马尔科夫模型、条件随机场、神经网络等方法。本文只讨论 <strong>n-gram 模型</strong>和<strong>神经网络</strong>两种方法，首先来看看 n-gram 模型。</p>
-<h3 id="n-gram模型"><a href="#n-gram模型" class="headerlink" title="n-gram模型"></a>n-gram模型</h3><p>考虑 $p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) ( k &gt; 1 )$ 的近似计算。利用 Bayes公式，有</p>
+<p>另外，这些<strong>参数如何计算呢</strong>？常见的方法有 <strong><code>n-gram</code></strong> 模型、决策树、最大熵模型、最大熵马尔科夫模型、条件随机场、神经网络等方法。本文只讨论 <strong>n-gram 模型</strong>和<strong>神经网络</strong>两种方法，首先来看看 <strong><code>n-gram</code></strong> 模型。</p>
+<h3 id="n-gram模型"><a href="#n-gram模型" class="headerlink" title="n-gram模型"></a>n-gram模型</h3><p>考虑 $p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) ( k &gt; 1 )$ 的近似计算。利用 <strong><code>Bayes公式</code></strong>，有</p>
 <p>$$p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) = \frac { p \left( w _ { 1 } ^ { k } \right) } { p \left( w _ { 1 } ^ { k - 1 } \right) }$$</p>
 <p>根据大数定理，当语料库是够大时，$p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right)$ 可近似地表示为</p>
 <p>$$ p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) \approx \frac { count \left( w _ { 1 } ^ { k } \right) } { count \left( w _ { 1 } ^ { k - 1 } \right) } \tag{3.2}$$</p>
 <p>其中 $ count \left( w _ { 1 } ^ { k } \right)$ 和 $ count \left( w _ { 1 } ^ { k-1 } \right)$ 分别表示词串 $w_1^k$ 和 $w_1^{k-1}$ 在语料中出现的次数。可想而知，当 $k$ 很大时，$ count \left( w _ { 1 } ^ { k } \right)$ 和 $ count \left( w _ { 1 } ^ { k-1 } \right)$ 的统计将会多么耗时。</p>
-<p>从公式(3.1)可以看出：一个词出现的概率与它前面的所有词都相关。如果假定一个词出现的慨率只与它前面固定数日的词相关呢？这就是 n-gram 模型的基本思想，它作了一个 $n- 1$ 阶的 <strong>Markov 假设</strong>，认为一个词出现的概率就只与它前面的 $n- 1$ 个词相关，即</p>
+<p>从 <strong><code>公式(3.1)</code></strong> 可以看出：一个词出现的概率与它前面的所有词都相关。如果假定一个词出现的慨率只与它前面固定数日的词相关呢？这就是 n-gram 模型的基本思想，它作了一个 $n- 1$ 阶的 <strong>Markov 假设</strong>，认为一个词出现的概率就只与它前面的 $n- 1$ 个词相关，即</p>
 <p>$$p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) \approx p \left( w _ { k } | w _ { k - n + 1 } ^ { k - 1 } \right)$$</p>
-<p>于是，(3.2) 就变成了</p>
+<p>于是，<strong><code>(3.2)</code></strong> 就变成了</p>
 <p>$$p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) \approx \frac { count \left( w _ { k - n + 1 } ^ { k } \right) } { count \left( w _ { k - n + 1 } ^ { k - 1 } \right) } \tag{3.3}$$</p>
 <p>以 $n=2$ 为例，就有<br>$$p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) \approx \frac { count \left( w _ { k - 1 } , w _ { k } \right) } { count \left( w _ { k - 1 } \right) }$$</p>
-<p>这样一简化，不仅使得单个参数的统计变得更容易(统计时需要匹配的词串更短)，也使得参数的总数变少了。</p>
-<p>那么，n-gram 中的参数 $n$ 取多大比较合适呢？一般来说，$n$ 的选取需要同时考虑计算复杂度和模型效果两个因素。</p>
+<p>这样一简化，不仅使得单个参数的统计变得更容易（统计时需要匹配的词串更短），也使得参数的总数变少了。</p>
+<p>那么，<strong><code>n-gram</code></strong> 中的参数 $n$ 取多大比较合适呢？一般来说，$n$ 的选取需要同时考虑计算复杂度和模型效果两个因素。</p>
 <p><img src="https://i.loli.net/2019/02/03/5c569bee0b2a2.png" alt="04_table"></p>
-<p>在<strong>计算复杂度</strong>方面，表1给出了 n-gram 模型中模型参数数量随着 $n$ 的逐渐增大而变化的情况，其中假定词典大小 $N = 200000$ (汉语的词汇量大致是这个量级)。事实上，模型参数的量级是 $N$ 的指数函数 $(O(N^n))$，显然 $n$ 不能取得太大，实际应用中最多的是采用 $n=3$ 的三元模型。</p>
-<p>在<strong>模型效果</strong>方面，理论上是 $n$ 越大，效果越好。现如今，互联网的海量数据以及机器性能的提升使得计算更高阶的语言模型(如$ n &gt; 10 $)成为可能，但需要注意的是，当 $n$ 大到一定程度时，模型效果的提升幅度会变小。例如，当 $n$ 从 1 到 2,再从 2 到 3 时模型的效果上升显著，而从 3 到 4 时，效果的提升就不显著了（具体可参考吴军在《数学之美》中的相关章节）事实上，这里还涉及到一个<strong>可靠性</strong>和<strong>可区别性</strong>的问题，参数越多，可区别性越好，但同时单个参数的实例变少从而降低了可靠性，因此需要在可掌性和可区别性之问进行折中。</p>
-<p>另外，n-gram 模型中还有一个叫做<strong>平滑化</strong>的重要环节。回到公式(3.3)，考虑两个问题： </p>
+<p>在<strong>计算复杂度</strong>方面，表1给出了 <strong><code>n-gram</code></strong> 模型中模型参数数量随着 $n$ 的逐渐增大而变化的情况，其中假定词典大小 $N = 200000$ (汉语的词汇量大致是这个量级)。事实上，模型参数的量级是 $N$ 的指数函数 $(O(N^n))$，显然 $n$ 不能取得太大，实际应用中最多的是采用 $n=3$ 的三元模型。</p>
+<p>在<strong>模型效果</strong>方面，理论上是 $n$ 越大，效果越好。现如今，互联网的海量数据以及机器性能的提升使得计算更高阶的语言模型(如$ n &gt; 10 $)成为可能，但需要注意的是，当 $n$ 大到一定程度时，模型效果的提升幅度会变小。例如，当 $n$ 从 1 到 2，再从 2 到 3 时模型的效果上升显著，而从 3 到 4 时，效果的提升就不显著了（具体可参考吴军在《数学之美》中的相关章节）事实上，这里还涉及到一个<strong>可靠性</strong>和<strong>可区别性</strong>的问题，参数越多，可区别性越好，但同时单个参数的实例变少从而降低了可靠性，因此需要在可掌性和可区别性之问进行折中。</p>
+<p>另外，<strong><code>n-gram</code></strong> 模型中还有一个叫做<strong>平滑化</strong>的重要环节。回到 <strong><code>公式(3.3)</code></strong>，考虑两个问题： </p>
 <ol>
 <li>若 $ count \left( w _ { k - n + 1 } ^ { k } \right) = 0 $，能否认为 $ p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) $ 就等于 0 呢？</li>
 <li>若$ count \left( w _ { k - n + 1 } ^ { k } \right) = count \left( w _ { k - n + 1 } ^ { k - 1 } \right) $，能否认为 $ p \left( w _ { k } | w _ { 1 } ^ { k - 1 } \right) $ 就等于 1 呢？</li>
 </ol>
 <p>显然不能！但这是一个无法回避的问题，哪怕你的语料库有多么大。平滑化技术就是用来处理这个问题的，这里不展开讨论。</p>
-<p>总结起米，n-gram 模型是这样一种模型，其主要工作是在语料中统计各种词串出现的次数以及平滑化处理。概率值计算好之后就有储起来，下次需要计算一个句子的概率时，只需找到相关的概率参数，将它们连乘起来就好了。</p>
+<p>总结起米，<strong><code>n-gram</code></strong> 模型是这样一种模型，其主要工作是在语料中统计各种词串出现的次数以及平滑化处理。概率值计算好之后就有储起来，下次需要计算一个句子的概率时，只需找到相关的概率参数，将它们连乘起来就好了。</p>
 <p>然而，在机器学习领域有一种通用的招数是这样的：对所考虑的问题建模后先为其构造一个目标函数，然后对这个目标函数进行优化，从而求得一组最优的参数，最后利用这组最优参数对应的模型来进行预测。</p>
 <p>对于统计语言模型而言，利用<strong>最大似然</strong>，可把日标函数设为</p>
 <p>$$\prod _ { w \in \mathcal { C } } p ( w | C o n t e x t ( w ) )$$</p>
@@ -461,13 +463,13 @@
 <p>然后对这个函数进行最大化。</p>
 <p>从(3.4)可见，概率 $ p(w|Context(w))$ 已被视为关于 $w$ 和 $Context(w)$ 的函数，即</p>
 <p>$$p ( w | \text { Context } ( w ) ) = F ( w , \text { Context } ( w ) , \theta )$$</p>
-<p>其中 $\theta $ 为<strong>待定参数集</strong>。这样一来，一旦对(3.4) 进行优化得到最优参数集 $\theta^\ast $ 后，$F$ 也就唯一被确定了，以后任何概率 $ p(w|Context(w))$ 就可以通过函数 $ F(w, Context(w),\theta^\ast) $ 来计算了。与 n-gram 相比，这种方法不需要(事先计算并)保存所有的概率值，而是通过直接计算来获取，且通过选取合适的模型可使得 $\theta $ 中参数的个数远小于 n-gram 中模型参数的个数。</p>
+<p>其中 $\theta $ 为<strong>待定参数集</strong>。这样一来，一旦对 <strong><code>(3.4)</code></strong> 进行优化得到最优参数集 $\theta^\ast $ 后，$F$ 也就唯一被确定了，以后任何概率 $ p(w|Context(w))$ 就可以通过函数 $ F(w, Context(w),\theta^\ast) $ 来计算了。与 n-gram 相比，这种方法不需要(事先计算并)保存所有的概率值，而是通过直接计算来获取，且通过选取合适的模型可使得 $\theta $ 中参数的个数远小于 <strong><code>n-gram</code></strong> 中模型参数的个数。</p>
 <p>很显然，对于这样-一种方法，最关键的地方就在于<strong>函数 $F$ 的构造</strong>了。下一小节将介绍一种通过神经网络来构造 $F$ 的方法。之所以特意介绍这个方法，是因为它可以视为 word2vec 中算法框架的前身或者说基础。</p>
-<h3 id="神经概率语-言模型"><a href="#神经概率语-言模型" class="headerlink" title="神经概率语 言模型"></a>神经概率语 言模型</h3><p>本小节介绍 Bengio 等人在文《A neural probabilistic language model. Journal of Machine Learning Research》(2003)中提出的一种神经概率语言模型。该模型中用到了一个重要的工具——词向量。</p>
+<h3 id="神经概率语-言模型"><a href="#神经概率语-言模型" class="headerlink" title="神经概率语 言模型"></a>神经概率语 言模型</h3><p>本小节介绍 <strong>Bengio</strong> 等人在文《A neural probabilistic language model. Journal of Machine Learning Research》(2003)中提出的一种神经概率语言模型。该模型中用到了一个重要的工具——词向量。</p>
 <p>什么是词向量呢？简单来说就是，对词典 $\mathcal { D }$ 中的任意词 $w$，指定一个固定长度的实值向量 $\mathbf { v } ( w ) \in \mathbb { R } ^ { m }$，$\mathbf { v } ( w )$ 就称为 $w$ 的词向量，$m$ 为词向量的长度。关于词向量的进一步理解将放到下一小节来讲解。</p>
-<p>既然是神经概率语言模型，其中当然要用到一个神经网络啦。下图给出了这个神经网络的结构示意图，它包括四个层：<strong>输入</strong>(Input) 层、<strong>投影</strong>(Projection) 层、<strong>隐藏</strong>(Hidden)层和<strong>输出</strong>(OutPut)层。其中 $W,U$ 分别为投影层与隐藏层以及隐藏层和输出层之间的权值矩阵，$p, q$ 分别为隐藏层和输出层上的偏置向量。</p>
+<p>既然是神经概率语言模型，其中当然要用到一个神经网络啦。下图给出了这个神经网络的结构示意图，它包括四个层：<strong>输入</strong>(Input) 层、<strong>投影</strong>(Projection) 层、<strong>隐藏</strong>(Hidden)层和<strong>输出</strong>(OutPut)层。其中 $W, U$ 分别为投影层与隐藏层以及隐藏层和输出层之间的权值矩阵，$p, q$ 分别为隐藏层和输出层上的偏置向量。</p>
 <p><img src="https://i.loli.net/2019/02/03/5c56b68b85db9.png" alt="05_W2V_network"></p>
-<p><strong>注3.2</strong> 当提及 Bengio 文中的神经网络时，人们更多将其视为如图5所示的三层结构。本文将其描述为如图4所示的四层结构，一方面是便于描述，另一方面是便于和 word2vec 中使用的网络结构进行对比。</p>
+<p><strong>注3.2</strong> 当提及 <strong>Bengio</strong> 文中的神经网络时，人们更多将其视为如图5所示的三层结构。本文将其描述为如图4所示的四层结构，一方面是便于描述，另一方面是便于和 <strong><code>word2vec</code></strong>中使用的网络结构进行对比。</p>
 <p><img src="https://i.loli.net/2019/02/03/5c56ba1226b04.png" alt="06_W2V_network"></p>
 <p><strong>注3.3</strong> 作者在文中还考虑了投影层和输出层的神经元之问有边相连的情形，因而也会多出一个相应的权值矩阵，本文忽略了这种情形，但这并不影响对算法本质的理解。在数值实验中，作者发现引入投影层和输出层之间的权值矩阵虽然不能提高模型效果，但可以减少训练的选代次数。</p>
 <p>对于语料 $\mathcal { C }$ 中的任意一个词 $w$，将 $Context(w)$ 取为其前面的 $n-1$ 个词(类似于n-gram)，这样二元对 $(Context(w),w)$ 就是一个<strong>训练样本</strong>了。接下来，讨论样本 $(Context(w),w)$ 经过如图4所示的神经网络时是如何参与运算的。注意，一旦语料 $\mathcal { C }$ 和词向量长度 $m$ 给定后，投影层和输出层的规模就确定了，前者为 $(n- 1)m$，后者为 $N = | \mathcal { D } |$ 即语料 $\mathcal { C }$ 的词汇量大小。而急藏层的规模 $n_h$ 是可调参数由用户指定。</p>
@@ -478,7 +480,7 @@
 <p>经过上述两步计算得到的 $\mathbf { y } _ { w } = \left( y _ { w , 1 } , y _ { w , 2 } , \cdots , y _ { w , N } \right) ^ { \top }$ 只是一个长度为 $N$ 的向量，其分量不能表示概率。如果想要 $ \mathbf{ y } _ w $ 的分量 $y_{w,i}$，表示当上下文为 $Context(w)$ 时下一个词恰为词典 $\mathcal { D }$ 中第 $i$ 个词的慨率，则还需要做一个 <strong>softmax</strong> 归一化，归一化后，$p(w|Context(w))$就可以表示为</p>
 <p>$$ p ( w | \text { Context } ( w ) ) = \frac { e ^ { y _ { w , i_w } } } { \sum _ { i = 1 } ^ { N } e ^ { y _ { w , i } } } \tag{3.6}$$</p>
 <p>其中 $i_w$ 表示词 $w$ 在词典 $\mathcal { D }$ 中的索引。</p>
-<p>公式(3.6)给出了概率 $p(w|Context(w))$ 的函数表示，即找到了上一小节中提到的函数 $F(w, Context(w), \theta)$，那么其中待确定的参数 $\theta$ 有哪些呢？总结起来，包括两部分</p>
+<p><strong><code>公式(3.6)</code></strong> 给出了概率 $p(w|Context(w))$ 的函数表示，即找到了上一小节中提到的函数 $F(w, Context(w), \theta)$，那么其中待确定的参数 $\theta$ 有哪些呢？总结起来，包括两部分</p>
 <ul>
 <li>词向量：$\mathbf { v } ( w ) \in \mathbb { R } ^ { m } , w \in \mathcal { D }$以及填允向量。</li>
 <li>神经网络参数：$W \in \mathbb { R } ^ { n _ { h } \times ( n - 1 ) m } , \mathbf { p } \in \mathbb { R } ^ { n _ { h } } ; U \in \mathbb { R } ^ { N \times n _ { h } } , \mathbf { q } \in \mathbb { R } ^ { N }$</li>
@@ -491,27 +493,32 @@
 <li>$n_h$ 由用户指定，通常不需取得太大，如 $10^2$ 量级；</li>
 <li>$N$ 是语料词汇量的大小，与语料相关，但通常是 $10^4 \sim 10^5$ 量级。</li>
 </ol>
-<p>再结合(3.5)和(3.6)，不难发现，整个模型的大部分计算集中在隐藏层和输出层之间的矩阵向量运算，以及输出层上的 softmax 归一化运算。因此后续的相关研究工作中，有很多是针对这一部分进行优化的，其中就包括了 word2vec 的工作。<br>与 n-gram 模型相比，神经概率语言模型有什么<strong>优势</strong>呢？主要有以下两点：</p>
+<p>再结合 <strong><code>(3.5)</code></strong> 和 <strong><code>(3.6)</code></strong>，不难发现，整个模型的大部分计算集中在隐藏层和输出层之间的矩阵向量运算，以及输出层上的 <strong><code>softmax</code></strong> 归一化运算。因此后续的相关研究工作中，有很多是针对这一部分进行优化的，其中就包括了 <strong><code>word2vec</code></strong> 的工作。<br>与 <strong><code>n-gram</code></strong> 模型相比，神经概率语言模型有什么<strong>优势</strong>呢？主要有以下两点：</p>
 <ol>
-<li><p>词语之间的相似性可以通过词向量来体现<br>举例来说，如果某个(英语) 语料中 $S_1$ = “A dog is runing in the room” 出现了 10000 次，而 $S_1$ = “A cat is ruuning in the room” 只出现了 1 次。按照 n-gram 模型的做法，$p(S1)$ 肯定会远大于 $p(S2)$。注意，$S1$ 和 $S2$ 的唯一区别在于 dog 和 cat，而这两个词无论是句法还是语义上都扮演了相同的角色，因此，$p(S1)$ 和$p(S2)$ 应该很相近才对。<br>然而，由神经概率语言模型算得的 $p(S1)$ 和 $p(S2)$ 是大致相等的。原因在于：(1)在神经概率语言模型中假定了“相似的”的词对应的词向量也是相似的；(2)概率函数关于词向量是光滑的，即词向量中的一个小变化对概率的影响也只是一个小变化。这样一来，对于下面这些句子<br>A dog is running in the room<br>A cat is running in the room<br>The cat is running in a room<br>A dog is walking in a bedroom<br>The dog was walking in the room<br>只要在语料库中出现一个，共他句子的概率也会相应地增大。</p>
+<li><p>词语之间的相似性可以通过词向量来体现<br>举例来说，如果某个(英语) 语料中 $S_1$ = “A dog is runing in the room” 出现了 10000 次，而 $S_1$ = “A cat is ruuning in the room” 只出现了 1 次。按照 n-gram 模型的做法，$p(S1)$ 肯定会远大于 $p(S2)$。注意，$S1$ 和 $S2$ 的唯一区别在于 dog 和 cat，而这两个词无论是句法还是语义上都扮演了相同的角色，因此，$p(S1)$ 和$p(S2)$ 应该很相近才对。<br>然而，由神经概率语言模型算得的 $p(S1)$ 和 $p(S2)$ 是大致相等的。原因在于：(1)在神经概率语言模型中假定了“相似的”的词对应的词向量也是相似的；(2)概率函数关于词向量是光滑的，即词向量中的一个小变化对概率的影响也只是一个小变化。这样一来，对于下面这些句子</p>
+<blockquote>
+<p>A dog is running in the room<br>A cat is running in the room<br>The cat is running in a room<br>A dog is walking in a bedroom<br>The dog was walking in the room<br>只要在语料库中出现一个，共他句子的概率也会相应地增大。</p>
+</blockquote>
 </li>
-<li><p>基于词向量的模型自带平滑化功能（由(3.6)可知，$p(w|Context(w)) \in (0,1)$不会为零），不再需要像 n-gram 那样进行额外处理了。</p>
+<li><p>基于词向量的模型自带平滑化功能（由<strong><code>(3.6)</code></strong>可知，$p(w|Context(w)) \in (0,1)$不会为零），不再需要像 <strong><code>n-gram</code></strong> 那样进行额外处理了。</p>
 </li>
 </ol>
 <p>最后，我们回过头来想想，词向量在整个神经概率语言模型中扮演了什么角色呢？训练时，它是用来帮助构造目标函数的辅助参数，训练完成后，它也好像只是语言模型的一个副产品。但这个副产品可不能小觑，下一小节将对其作进一步阐述。</p>
 <h3 id="词向量的理解"><a href="#词向量的理解" class="headerlink" title="词向量的理解"></a>词向量的理解</h3><p>通过上一小节的讨论，相信大家对词向量已经有一个初步的认识了。接下来，对词向量做进一步介绍。</p>
 <p>在 <strong>NLP</strong> 任务中，我们将自然语言交给机器学习算法来处理，但机器无法直接理解人类的语言，因此首先要做的事情就是将语言数学化，如何对自然语言进行数学化呢？词向量提供了一种很好的方式。</p>
-<p>一种最简单的词向量是 <strong>one-hot representation</strong>，就是用一个很长的向量来表示一个词，向量的长度为词典 $\mathcal { D }$ 的大小 $N$，向量的分量只有一个 1，其它全为 0，1 的位置对应该词在词典中的索引。但这种词向量表示有一些缺点，如容易受维数灾难的因扰，尤其是将其用于 Deep Learning 场景时；又如，它不能很好地刻画词与词之间的相似性。</p>
-<p>另一种词向量是 <strong>Distributed Representation</strong>, 它最早是 Hinton 于 1986 年提出的，可以克服 one-hot representation 的上述缺点其基本想法是：通过训练将某种语言中的每一个词映射成一个固定长度的短向量（当然这里的“短”是相对于 one-hot representation 的“长”而言的），所有这些向量构成一个词向量空间，而每一向量则可视为该空间中的一个点，在这个空间上引入“距离”，就可以根据词之间的距离来判断它们之间的(词法、语义上的)相似性了。word2vec 中采用的就是这种 Distributed Representalion 的词向量。</p>
-<p>为什么叫做 Distributed Representation？很多人问到这个问题我的一个理解是这样的：对于 one-hot representation，向量中只有一个非零分量，非常集中（有点孤注一掷的感觉）；而对于 Distributed Representetion，向量中有大量非零分量，相对分散（有点风险平摊的感觉），把词的信息分布到各个分量中去了。这一点，跟并行计算里的分布式并行很像。</p>
-<p>为更好地理解上述思想，我们来举一个通 俗的例子。</p>
-<p><strong>例3.2</strong> 假设在二维平面上分布有 a 个不同的点，给定其中的某个点，现在想在平面上找到与这个点最相近的一个点。<br>我们是怎么做的呢？首先，建立一个直角坐标系，基于该坐标系，其上的每个点就唯一地对应一个坐标 (x, y)；接着引入欧氏距离，最后分别计算这个点与其他 a-1 个点之间的距离，对应最小距离值的那个（或那些）点便是我们要找的点了。</p>
-<p>上面的例子中，坐标 (x, y) 的地位就相当于词向量，它用来将中面上一个点的位置在数学上作量化。坐标系建立好以后，要得到某个点的坐标是很容易的。然而，在 <strong>NLP</strong> 任务中，要得到词向量就复杂得多了，而且词向量并不唯一，其质量依赖于训练语料、训练算法等因素。</p>
-<p>如何获取词向量呢？有很多不同模型可用来估计词向量，包括有名的 LSA(Latent Semantic Analysis) 和 LDA(Latcnt Dirichlet Allocation)。此外，利用神经网络算法也是一一种常用的方法，上一小节介绍的神经概率语言模型就是一个很好的实例。当然，在那个模型中，目标是生成语言模型，词向量只是一个副产品。事实上，大部分情况下，词向量和语言模型都是捆绑在一起的，训练完成后两者同时得到。用神经网络来训练语言模型的思想最早由百度 IDL（深度学习研究院）的徐伟提出。这方面最经典的文章要数 <strong>Bengio</strong> 于 2003 年发表在 <strong>JMLR</strong>上的<strong>《A Neural Probabilistic Language Model》</strong>，其后有一系列相关的研究工作，其中也包括谷歌 <strong>Tomas Mikolov</strong> 团队的 <strong>word2vec</strong>。</p>
+<p>一种最简单的词向量是 <strong>one-hot representation</strong>，就是用一个很长的向量来表示一个词，向量的长度为词典 $\mathcal { D }$ 的大小 $N$，向量的分量只有一个 <strong>1</strong>，其它全为 <strong>0</strong>，<strong>1</strong> 的位置对应该词在词典中的索引。但这种词向量表示有一些缺点，如容易受维数灾难的因扰，尤其是将其用于 <strong>Deep Learning</strong> 场景时；又如，它不能很好地刻画词与词之间的相似性。</p>
+<p>另一种词向量是 <strong>Distributed Representation</strong>, 它最早是 <strong>Hinton</strong> 于 1986 年提出的，可以克服 <strong><code>one-hot representation</code></strong> 的上述缺点其基本想法是：通过训练将某种语言中的每一个词映射成一个固定长度的短向量（当然这里的“短”是相对于 <strong><code>one-hot representation</code></strong> 的“长”而言的），所有这些向量构成一个词向量空间，而每一向量则可视为该空间中的一个点，在这个空间上引入“距离”，就可以根据词之间的距离来判断它们之间的(词法、语义上的)相似性了。<strong><code>word2vec</code></strong> 中采用的就是这种 <strong><code>Distributed Representalion</code></strong> 的词向量。</p>
+<p>为什么叫做 <strong><code>Distributed Representation</code></strong>？很多人问到这个问题我的一个理解是这样的：对于 <strong><code>one-hot representation</code></strong>，向量中只有一个非零分量，非常集中（有点孤注一掷的感觉）；而对于 <strong><code>Distributed Representetion</code></strong>，向量中有大量非零分量，相对分散（有点风险平摊的感觉），把词的信息分布到各个分量中去了。这一点，跟并行计算里的分布式并行很像。</p>
+<p>为更好地理解上述思想，我们来举一个通俗的例子。</p>
+<blockquote>
+<p><strong><code>例3.2</code></strong> 假设在二维平面上分布有 a 个不同的点，给定其中的某个点，现在想在平面上找到与这个点最相近的一个点。<br>我们是怎么做的呢？首先，建立一个直角坐标系，基于该坐标系，其上的每个点就唯一地对应一个坐标 <strong><code>(x, y)</code></strong>；接着引入欧氏距离，最后分别计算这个点与其他 a-1 个点之间的距离，对应最小距离值的那个（或那些）点便是我们要找的点了。</p>
+</blockquote>
+<p>上面的例子中，坐标 <strong><code>(x, y)</code></strong> 的地位就相当于词向量，它用来将中面上一个点的位置在数学上作量化。坐标系建立好以后，要得到某个点的坐标是很容易的。然而，在 <strong><code>NLP</code></strong> 任务中，要得到词向量就复杂得多了，而且词向量并不唯一，其质量依赖于训练语料、训练算法等因素。</p>
+<p>如何获取词向量呢？有很多不同模型可用来估计词向量，包括有名的 <strong>LSA</strong> <strong><code>(Latent Semantic Analysis)</code></strong> 和 <strong>LDA</strong> <strong><code>(Latcnt Dirichlet Allocation)</code></strong>。此外，利用神经网络算法也是一一种常用的方法，上一小节介绍的神经概率语言模型就是一个很好的实例。当然，在那个模型中，目标是生成语言模型，词向量只是一个副产品。事实上，大部分情况下，词向量和语言模型都是捆绑在一起的，训练完成后两者同时得到。用神经网络来训练语言模型的思想最早由百度 <strong>IDL</strong>（深度学习研究院）的徐伟提出。这方面最经典的文章要数 <strong>Bengio</strong> 于 2003 年发表在 <strong>JMLR</strong>上的<strong>《A Neural Probabilistic Language Model》</strong>，其后有一系列相关的研究工作，其中也包括谷歌 <strong>Tomas Mikolov</strong> 团队的 <strong>word2vec</strong>。</p>
 <p>一份好的词向量是很有价值的，下面介绍一个简单的例子，可以帮助我们更好地理解词向量的工作原理。</p>
 <p><img src="https://i.loli.net/2019/02/04/5c57c035b7391.png" alt="07_W2V_Space"></p>
 <p>考虑英语和西班牙语两种语言，通过训练分别得到它们对应的词向量空间 $E$(nglish) 和 $S$(panish)。从英语中取出五个词one, two, three, four, five，设其在 $E$ 中对应的词向量分别为 $u_1,u_2,u_3,u_4,u_5$，为方便作图，利用主成分分析 (PCA) 降维，得到相应的二维向量 $v_1,v_2,v_3,v_4,v_5$，在二维平面上将这五个点描出来，如上图左图所示。</p>
-<p>类似地，在西班牙语中取出(与one, two, three, four, five对应的) uno, dos, tres, cuatro, cinco，设其在 $S$ 中对应的词向量分别为 $s_1, s_2, s_3, s_4, s_5$，用 PCA 降维后的二维向量分别为 $t_1, t_2, t_3, t_4, t_s$，将它们在二维平面上描出来（可能还需作适当的旋转），如上图右图所示。</p>
+<p>类似地，在西班牙语中取出（与one, two, three, four, five对应的）uno, dos, tres, cuatro, cinco，设其在 $S$ 中对应的词向量分别为 $s_1, s_2, s_3, s_4, s_5$，用 PCA 降维后的二维向量分别为 $t_1, t_2, t_3, t_4, t_s$，将它们在二维平面上描出来（可能还需作适当的旋转），如上图右图所示。</p>
 <p>观察左、右两幅图，容易发现：五个词在两个向量空间中的相对位置差不多，这说明两种不同语言对应向量空间的结构之间具有相似性，从而进一步说明了在词向量空间中利用距离刻画词之间相似性的合理性。</p>
 <p>注意，词向量只是针对“词”来提的，事实上，我们也可以针对更细粒度或更粗粒度来进行推广，如<strong>字向量</strong>，<strong>句子向量</strong>和<strong>文档向量</strong>，它们能为字、句子、文档等单元提供更好的表示。</p>
 
