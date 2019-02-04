@@ -97,7 +97,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/02/04/5c57f1dd91f9b.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/04/5c5805d631c9f.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/04/5c5817ade12d5.png">
-<meta property="og:updated_time" content="2019-02-04T12:58:56.000Z">
+<meta property="og:updated_time" content="2019-02-04T15:12:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="详解 word2vec">
 <meta name="twitter:description" content="预备知识本节介绍 word2vec 中将用到的一些重要知识点，包括 sigmoid 函数、Beyes 公式和 Huffman 编码等。 sigmoid 函数sigmoid 函数是神经网络中常用的激活函数之一，其定义为$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$该函数的定义域为 $( - \infty , + \infty )$，值域为 $">
@@ -580,7 +580,6 @@
 <li>第4次: $ p(d_5^ w|\mathbf{x}_ w,\theta_4^w) = 1 - \sigma(\mathbf{x}_ w^\top\theta_4^w) $；</li>
 </ol>
 <p>但是，我们要求的是 $p($足球$|Context($足球$))$，它跟这 4 个概率值有什么关系呢？关系就是</p>
-<p>$$p(|Context(\text{“即”}))$$</p>
 <p>$$p(\text{足球}|Context(\text{足球})) = \prod _ { j = 2 } ^ { 5 } p \left( d _ { j } ^ { w } | \mathbf { x } _ { w } , \theta _ { j - 1 } ^ { w } \right)$$</p>
 <p>至此，通过 $w$ = “足球”的小例子，<strong>Hierarchical Softmax</strong> 的基本思想其实就已经介绍完了。小结一下：对于词典 $\mathcal { D }$ 中的任意词 $w$，<strong><code>Huffman树</code></strong> 中必存在一条从根结点到词 $w$ 对应结点的路径 $p^w$（且这条路径是唯一的）。路径 $p^w$ 上存在 $l^w-1$ 个分支，将每个分支看做一次二分类，每一次分类就产生一个概率，将这些概率乘起来，就是所需的 $p(w|Context(w))$。</p>
 <p>条件概率 $p(w|Context(w))$ 的一般公式可写为</p>
@@ -594,6 +593,27 @@
 <p>具体见 <strong><code>(3.6)式</code></strong> ，由于这里有个归一化操作，因此显然成立</p>
 <p>$$\sum _ { w \in \mathcal { D } } p ( w | Context ( w ) ) = 1$$</p>
 <p>然而，对于由 <strong><code>(4.3)</code></strong> 定义的概率，是否也能满足上式呢？这个问题留给读者思考。</p>
+<p>将 <strong><code>(4.3)</code></strong> 代入对数似然函数 <strong><code>(4.1)</code></strong>，便得</p>
+<p>$$\mathcal { L } = \sum _ { w \in \mathcal { C } } \log \prod _ { j = 2 } ^ { l ^ { w } } \lbrace [ \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) ] ^ { 1 - d _ { j } ^ { w } } \cdot [ 1 - \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) ] ^ { d _ { j } ^ { w } } \rbrace$$</p>
+<p>$$= \sum _ { w \in \mathcal { C } } \sum _ { j = 2 } ^ { l ^ { w } } \lbrace ( 1 - d _ { j } ^ { w } ) \cdot \log [ \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) ] + d _ { j } ^ { w } \cdot \log [ 1 - \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) ] \rbrace \tag{4.4}$$</p>
+<p>为下面梯度推导方便起见，将上式中双重求和符号下花括号里的内容简记为 $\mathcal { L } ( w , j )$，即</p>
+<p>$$\mathcal { L } ( w , j ) = \left( 1 - d _ { j } ^ { w } \right) \cdot \log \left[ \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] + d _ { j } ^ { w } \cdot \log \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \tag{4.5}$$</p>
+<p>至此，已经推导出对数似然函数 <strong><code>(4.4)</code></strong>，这就是 <strong>CBOW</strong> 模型的目标函数，接下来讨论它的优化，即如何将这个函数最大化。<strong><code>word2vec</code></strong> 里面采用的是<strong>随机梯度上升法</strong>。而梯度类算法的关键是给出相应的梯度计算公式，因此接下来重点讨论梯度的计算。</p>
+<p>随机梯度上升法的做法是：每取一个样本 $(Context(w), w)$，就对目标函数中的所有（相关）参数做一次刷新。观察目标函数 $\mathcal { L }$ 易知，该函数中的参数包括向量 $\mathbf { x } _ { w } , \theta _ { j - 1 } ^ { w } , w \in \mathcal { C } , j = 2 , \cdots , l ^ { w }$。为此，先给出函数 $\mathcal { L } ( w , j )$ 关于这些向量的梯度。</p>
+<p>首先考虑 $\mathcal { L } ( w , j )$ 关于 $\theta_{j-1}^w$ 的梯度计算。</p>
+<p>$$\frac { \partial \mathcal { L } ( w , j ) } { \partial \theta _ { j - 1 } ^ { w } } = \frac { \partial } { \partial \theta _ { j - 1 } ^ { w } } \left{ \left( 1 - d _ { j } ^ { w } \right) \cdot \log \left[ \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] + d _ { j } ^ { w } \cdot \log \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \right} $$</p>
+<p>$$= \left( 1 - d _ { j } ^ { w } \right) \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \mathbf { x } _ { w } - d _ { j } ^ { w } \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \mathbf { x } _ { w }$$</p>
+<p>$$= \left{ \left( 1 - d _ { j } ^ { w } \right) \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] - d _ { j } ^ { w } \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right} \mathbf { x } _ { w }$$</p>
+<p>$$= \left[ 1 - d _ { j } ^ { w } - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \mathbf { x } _ { w }$$</p>
+<p>$$\begin{array}{llll}<br>\frac { \partial \mathcal { L } ( w , j ) } { \partial \theta _ { j - 1 } ^ { w } } &amp; = &amp; \frac { \partial } { \partial \theta _ { j - 1 } ^ { w } } \left{ \left( 1 - d _ { j } ^ { w } \right) \cdot \log \left[ \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] + d _ { j } ^ { w } \cdot \log \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \right} \\<br>&amp; = &amp; \left( 1 - d _ { j } ^ { w } \right) \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \mathbf { x } _ { w } - d _ { j } ^ { w } \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \mathbf { x } _ { w } \\<br>&amp; = &amp; \left{ \left( 1 - d _ { j } ^ { w } \right) \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] - d _ { j } ^ { w } \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right} \mathbf { x } _ { w } \\<br>&amp; = &amp; \left[ 1 - d _ { j } ^ { w } - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \mathbf { x } _ { w }<br>\end{array}$$</p>
+<p>于是，$\theta_{j-1}^w$ 的更新公式可写为</p>
+<p>$$\theta _ { j - 1 } ^ { w } : = \theta _ { j - 1 } ^ { w } + \eta \left[ 1 - d _ { j } ^ { w } - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \mathbf { x } _ { w }$$</p>
+<p>其中 $\eta$ 表示<strong>学习率</strong>，下同。</p>
+<p>接下来考虑 $\mathcal { L } ( w , j )$ 关于 $\mathbf { x } _ { w }$ 的梯度。观察 <strong><code>(4.5)</code></strong> 可发现，$\mathcal { L } ( w , j )$ 中关于变量 $\mathbf { x } _ { w }$ 和 $\theta_{j-1}^w$ 是<strong>对称</strong>的（即两者可交换位置），因此，相应的梯度 $\frac { \partial \mathcal { L } ( w , j ) } { \partial \mathbf { x } _ { w } }$ 也只需在 $\frac { \partial \mathcal { L } ( w , j ) } { \partial \theta _ { j - 1 } ^ { w } }$ 的基础上对这两个向量交换位置就可以了，即</p>
+<p>$$\frac { \partial \mathcal { L } ( w , j ) } { \partial \mathbf { x } _ { w } } = \left[ 1 - d _ { j } ^ { w } - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \theta _ { j - 1 } ^ { w }$$</p>
+<p>到这里，细心的读者可能已经看出问题来了：我们的最终目的是要求词典 $\mathcal { D }$ 中每个词的词向量，而这里的 $\mathbf { x } _ { w }$ 表示的是 $Context(w)$ 中各词词向量的累加。那么，如何利用 $\frac { \partial \mathcal { L } ( w , j ) } { \partial \mathbf { x } _ { w } }$ 来对 $\mathbf { v } ( \widetilde { w } ) , \tilde { w } \in \text { Context } ( w )$ 进行更新呢？<strong><code>word2vec</code></strong> 中的做法很简单，直接取</p>
+<p>$$\mathbf { v } ( \widetilde { w } ) : = \mathbf { v } ( \widetilde { w } ) + \eta \sum _ { j = 2 } ^ { l ^ { w } } \frac { \partial \mathcal { L } ( w , j ) } { \partial \mathbf { x } _ { w } } , \quad \widetilde { w } \in \text { Context } ( w )$$</p>
+<p>求最小值用(随机)梯度下降法求最大值用(随机)梯度上升法这种基于梯度的方法通常统称为(随机)梯度下降法这里强调“上升”是想提醒大家这是在求最大值</p>
 
       
     </div>
