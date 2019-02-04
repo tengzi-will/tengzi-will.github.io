@@ -94,7 +94,10 @@
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c56b68b85db9.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c56ba1226b04.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/04/5c57c035b7391.png">
-<meta property="og:updated_time" content="2019-02-04T07:22:58.000Z">
+<meta property="og:image" content="https://i.loli.net/2019/02/04/5c57f1dd91f9b.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/04/5c5805d631c9f.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/04/5c5817ade12d5.png">
+<meta property="og:updated_time" content="2019-02-04T12:58:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="详解 word2vec">
 <meta name="twitter:description" content="预备知识本节介绍 word2vec 中将用到的一些重要知识点，包括 sigmoid 函数、Beyes 公式和 Huffman 编码等。 sigmoid 函数sigmoid 函数是神经网络中常用的激活函数之一，其定义为$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$该函数的定义域为 $( - \infty , + \infty )$，值域为 $">
@@ -461,7 +464,7 @@
 <p>当然，实际应用中常采用<strong>最大对数似然</strong>，即把日标函数设为</p>
 <p>$$\mathcal { L } = \sum _ { w \in \mathcal { C } } \log p ( w | \text {Context} ( w ) ) \tag{3.4}$$</p>
 <p>然后对这个函数进行最大化。</p>
-<p>从(3.4)可见，概率 $ p(w|Context(w))$ 已被视为关于 $w$ 和 $Context(w)$ 的函数，即</p>
+<p>从 <strong><code>(3.4)</code></strong> 可见，概率 $ p(w|Context(w))$ 已被视为关于 $w$ 和 $Context(w)$ 的函数，即</p>
 <p>$$p ( w | \text { Context } ( w ) ) = F ( w , \text { Context } ( w ) , \theta )$$</p>
 <p>其中 $\theta $ 为<strong>待定参数集</strong>。这样一来，一旦对 <strong><code>(3.4)</code></strong> 进行优化得到最优参数集 $\theta^\ast $ 后，$F$ 也就唯一被确定了，以后任何概率 $ p(w|Context(w))$ 就可以通过函数 $ F(w, Context(w),\theta^\ast) $ 来计算了。与 n-gram 相比，这种方法不需要(事先计算并)保存所有的概率值，而是通过直接计算来获取，且通过选取合适的模型可使得 $\theta $ 中参数的个数远小于 <strong><code>n-gram</code></strong> 中模型参数的个数。</p>
 <p>很显然，对于这样-一种方法，最关键的地方就在于<strong>函数 $F$ 的构造</strong>了。下一小节将介绍一种通过神经网络来构造 $F$ 的方法。之所以特意介绍这个方法，是因为它可以视为 word2vec 中算法框架的前身或者说基础。</p>
@@ -495,10 +498,7 @@
 </ol>
 <p>再结合 <strong><code>(3.5)</code></strong> 和 <strong><code>(3.6)</code></strong>，不难发现，整个模型的大部分计算集中在隐藏层和输出层之间的矩阵向量运算，以及输出层上的 <strong><code>softmax</code></strong> 归一化运算。因此后续的相关研究工作中，有很多是针对这一部分进行优化的，其中就包括了 <strong><code>word2vec</code></strong> 的工作。<br>与 <strong><code>n-gram</code></strong> 模型相比，神经概率语言模型有什么<strong>优势</strong>呢？主要有以下两点：</p>
 <ol>
-<li><p>词语之间的相似性可以通过词向量来体现<br>举例来说，如果某个(英语) 语料中 $S_1$ = “A dog is runing in the room” 出现了 10000 次，而 $S_1$ = “A cat is ruuning in the room” 只出现了 1 次。按照 n-gram 模型的做法，$p(S1)$ 肯定会远大于 $p(S2)$。注意，$S1$ 和 $S2$ 的唯一区别在于 dog 和 cat，而这两个词无论是句法还是语义上都扮演了相同的角色，因此，$p(S1)$ 和$p(S2)$ 应该很相近才对。<br>然而，由神经概率语言模型算得的 $p(S1)$ 和 $p(S2)$ 是大致相等的。原因在于：(1)在神经概率语言模型中假定了“相似的”的词对应的词向量也是相似的；(2)概率函数关于词向量是光滑的，即词向量中的一个小变化对概率的影响也只是一个小变化。这样一来，对于下面这些句子</p>
-<blockquote>
-<p>A dog is running in the room<br>A cat is running in the room<br>The cat is running in a room<br>A dog is walking in a bedroom<br>The dog was walking in the room<br>只要在语料库中出现一个，共他句子的概率也会相应地增大。</p>
-</blockquote>
+<li><p>词语之间的相似性可以通过词向量来体现<br>举例来说，如果某个(英语) 语料中 $S_1$ = “A dog is runing in the room” 出现了 10000 次，而 $S_1$ = “A cat is ruuning in the room” 只出现了 1 次。按照 n-gram 模型的做法，$p(S1)$ 肯定会远大于 $p(S2)$。注意，$S1$ 和 $S2$ 的唯一区别在于 dog 和 cat，而这两个词无论是句法还是语义上都扮演了相同的角色，因此，$p(S1)$ 和$p(S2)$ 应该很相近才对。<br>然而，由神经概率语言模型算得的 $p(S1)$ 和 $p(S2)$ 是大致相等的。原因在于：(1)在神经概率语言模型中假定了“相似的”的词对应的词向量也是相似的；(2)概率函数关于词向量是光滑的，即词向量中的一个小变化对概率的影响也只是一个小变化。这样一来，对于下面这些句子<br>A dog is running in the room<br>A cat is running in the room<br>The cat is running in a room<br>A dog is walking in a bedroom<br>The dog was walking in the room<br>只要在语料库中出现一个，共他句子的概率也会相应地增大。</p>
 </li>
 <li><p>基于词向量的模型自带平滑化功能（由<strong><code>(3.6)</code></strong>可知，$p(w|Context(w)) \in (0,1)$不会为零），不再需要像 <strong><code>n-gram</code></strong> 那样进行额外处理了。</p>
 </li>
@@ -521,6 +521,79 @@
 <p>类似地，在西班牙语中取出（与one, two, three, four, five对应的）uno, dos, tres, cuatro, cinco，设其在 $S$ 中对应的词向量分别为 $s_1, s_2, s_3, s_4, s_5$，用 PCA 降维后的二维向量分别为 $t_1, t_2, t_3, t_4, t_s$，将它们在二维平面上描出来（可能还需作适当的旋转），如上图右图所示。</p>
 <p>观察左、右两幅图，容易发现：五个词在两个向量空间中的相对位置差不多，这说明两种不同语言对应向量空间的结构之间具有相似性，从而进一步说明了在词向量空间中利用距离刻画词之间相似性的合理性。</p>
 <p>注意，词向量只是针对“词”来提的，事实上，我们也可以针对更细粒度或更粗粒度来进行推广，如<strong>字向量</strong>，<strong>句子向量</strong>和<strong>文档向量</strong>，它们能为字、句子、文档等单元提供更好的表示。</p>
+<h2 id="基于-Hierarchical-Softmax的模型"><a href="#基于-Hierarchical-Softmax的模型" class="headerlink" title="基于 Hierarchical Softmax的模型"></a>基于 Hierarchical Softmax的模型</h2><p>有了前面的准备，本节开始止式介绍 <strong><code>word2vec</code></strong> 中用到的两个重要模型—— <strong>CBOW</strong> 模型 <strong><code>(Continuous Bag-of Words Model)</code></strong> 和 <strong>Skip-gram</strong> 模型 <strong><code>(Continuous Skip-gran Model)</code></strong> 。关于这两个模型，作者 <strong>Tomas Mikolov</strong> 在文[5]给出了如图8和图9所示的示意图。</p>
+<p>由图可见，两个模型都包含三层：<strong>输人层</strong>、<strong>投影层</strong>和<strong>输出层</strong>。前者是在已知当前词 $w_t$ 的上下文 $w_{t-2},w_{t-1},w_{t+1},w_{t+2}$ 的前提下预测当前词$w_t$（见图8）；而后者恰恰相反，是在已知当前词 $w_t$ 的前提下，预测其上下文 $w_{t-2},w_{t-1},w_{t+1},w_{t+2}$ （见图9）。</p>
+<p><img src="https://i.loli.net/2019/02/04/5c57f1dd91f9b.png" alt="08_CBOW_Skip_gram"></p>
+<p>对于 <strong>CBOW</strong> 和 <strong>Skp-gram</strong> 两个模型，<strong><code>word2vec</code></strong> 给出了两套框架，它们分别基于 <strong><code>Hierarchical Softmax</code></strong> 和 <strong><code>Negative Sampling</code></strong> 来进行设计。本节介绍基于 <strong><code>Hierarchical Softmax</code></strong> 的 <strong>CBOW</strong> 和 <strong>Skip-gram</strong> 模型.</p>
+<p>在上节中，我们提到，基于神经网络的语言模型的目标函数通常取为如下<strong>对数似然函数</strong></p>
+<p>$$\mathcal { L } = \sum _ { w \in \mathcal { C } } \log p ( w | Context ( w ) ) \tag{4.1}$$</p>
+<p>其中的关键是条件概率函数 $p ( w | Context ( w ) )$ 的构造，文[2]中的模型就给出了这个函数的一种构造方法（见 <strong><code>(3.6)式</code></strong> ）。</p>
+<p>对于 <strong><code>word2vec</code></strong> 中基于 <strong><code>Hierarchical Softmax</code></strong> 的 <strong>CBOW</strong> 模型，优化的目标函数也形如 <strong><code>(4.1)</code></strong>；而对于基于 <strong><code>Hierarchical Softmax</code></strong> 的 <strong><code>Skip-gram</code></strong> 模型，优化的目标函数则形如</p>
+<p>$$\mathcal { L } = \sum _ { w \in \mathcal { C } } \log p ( Context ( w ) | w ) \tag{4.2}$$</p>
+<p>因此，讨论过程中我们应将重点放在 $p ( w | Context ( w ) )$ 或 $p ( Context ( w ) | w )$ 的构造上，意识到这一点很重要，因为它可以让我们目标明确、心无旁骛，不致于陷入到一些繁琐的细节当中去。接下来将从数学的角度对这两个模型进行详细介绍。</p>
+<h3 id="CBOW-模型"><a href="#CBOW-模型" class="headerlink" title="CBOW 模型"></a>CBOW 模型</h3><p>本小节介绍 <strong><code>word2vec</code></strong> 中的第一个模型—— <strong>CBOW</strong> 模型。</p>
+<h4 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h4><p>图10给出了 <strong>CBOW</strong> 模型的网络结构，它包括三层：输入层、投影层和输出层。下面以样本 $(Context(w), w)$ 为例（这里假设 $Context(w)$ 由 $w$ 前后各 $c$ 个词构成），对这三个层做简要说明。</p>
+<ol>
+<li><p><strong>输入层</strong>：包含 $Context(w)$ 中 $2c$ 个词的词向量$\mathbf { v } ( Context ( w ) _ { 1 }),\mathbf { v } ( Context ( w ) _ { 2 }),\cdots,\mathbf { v } ( Context ( w ) _ { 2c }) \in \mathbb { R } ^ { m }$ 。这里 $m$ 的含义同上表示词向量的长度。</p>
+</li>
+<li><p><strong>投影层</strong>：将输入层的 $2c$ 个向量做求和累加，即 $ \mathbf { x } _ { w } = \sum _ { i = 1 } ^ { 2 c } \mathbf { v } ( Context ( w ) _ { i } ) \in \mathbb { R } ^ { m }$。</p>
+</li>
+</ol>
+<p><img src="https://i.loli.net/2019/02/04/5c5805d631c9f.png" alt="09_CBOW"></p>
+<ol start="3">
+<li><strong>输出层</strong>：输出层对应一棵二叉树，它是以语料中出现过的词当叶子结点，以各词在语料中出现的次数当权值构造出来的 <strong><code>Huffman树</code></strong> 。在这棵 <strong><code>Huffman树</code></strong> 中，叶子结点共 $ N(=| \mathcal { D } |)$ 个，分别对应词典 $\mathcal { D }$ 中的词，非叶子结点 N-1 个(图中标成黄色的那些结点)。</li>
+</ol>
+<p>对比3.3节中神经概率语言模型的网络图（见图4）和 <strong>CBOW</strong> 模型的结构图（见图10），易知它们主要有以下三处不同：</p>
+<ol>
+<li>（从输入层到投影层的操作）前者是通过拼接，后者通过<strong>累加求和</strong>。</li>
+<li>（隐藏层）前者有隐藏层，后者<strong>无隐藏层</strong>。</li>
+<li>(输出层)前者是线性结构，后者是<strong>树形结构</strong>。</li>
+</ol>
+<p>在3.3节介绍的神经概率语言模型中，我们指出，模型的大部分计算集中在隐藏层和输出层之间的矩阵向量运算，以及输出层上的 <strong><code>softmax</code></strong> 归一化运算。而从上面的对比中可见，<strong>CBOW</strong> 模型对这些计算复杂度高的地方有针对性地进行了改变，首先，去掉了隐藏层，其次，输出层改用了 <strong><code>Huffman树</code></strong> ，从而为利用<strong><code>Hierarchical softmax</code></strong> 技术奠定了基础。</p>
+<h4 id="梯度计算"><a href="#梯度计算" class="headerlink" title="梯度计算"></a>梯度计算</h4><p><strong>Hierarchical Softmax</strong> 是 <strong><code>word2vec</code></strong> 中用于提高性能的一项关键技术，为描述方使起见，在具体介绍这个技术之前，先引入若干相关记号。考虑 <strong><code>Huffman树</code></strong> 中的某个叶子结点，假设它对应词典 $\mathcal { D }$ 中的词 $w$，记</p>
+<ol>
+<li>$p^w$：从根结点出发到达 $w$ 对应叶子结点的路径；</li>
+<li>$l^w$：路径 $p^w$ 中包含结点的个数；</li>
+<li>$p_1^w,p_2^w,\cdots,p_{l^w}^w$：路径 $p^w$ 中的 $l^w$ 个结点，其中 $p_1^w$ 表示根结点，$p_{l^w}^w$ 表示词 $w$ 对应的结点；</li>
+<li>$d_1^w,d_2^w,\cdots,d_{l^w}^w \in \lbrace 0,1 \rbrace$：词 $w$ 的Huffman编码，它由 $l^w- 1$ 位编码构成，$d_j^w$ 表示路径 $p^w$ 中第 $j$ 个结点对应的编码（根结点不对应编码）；</li>
+<li>$\theta_1^w,\theta_2^w,\cdots,\theta_{l^w-1}^w \in \mathbb { R } ^ { m }$：路径 $p^w$ 中<strong>非叶子结点</strong>对应的向量，$\theta_j^w$ 表示路径 $p^w$ 中第 $j$ 个非叶子结点对应的向量。</li>
+</ol>
+<p><strong><code>注4.1</code></strong> 按理说，我们要求的是词典 $\mathcal { D }$ 中每个词（即Huffman树中所有叶子节点）的向量，为什么这里还要为 <strong><code>Huffman树</code></strong> 中每一个非叶子结点也定义一个同长的向量呢？事实上，它们只是算法中的辅助向量，具体用途在下文中将会为大家解释清楚。</p>
+<p>好了，引入了这么一大堆抽象的记号，接下来，我们还是通过一个简单的例子把它们落到实处吧，看图11，仍以预备知识中 <strong><code>例2.1</code></strong> 为例考虑词 $w$ =“足球” 的情形。</p>
+<p>图11中由 4 条红色边串起来的 5 个节点就构成路径 $p^w$，其长度 $l^w=5$。$p_1^w,p_2^w,p_3^w,p_4^w,p_5^w$ 为路径 $p^w$ 上的 5 个结点，其中 $p_1^w$ 对应根结点。$d_2^w,d_3^w,d_4^w,d_5^w$ 分别为 1, 0, 0, 1，即“足球”的 <strong><code>Huffman编码</code></strong> 为 1001 。此外，$\theta_1^w,\theta_2^w,\theta_3^w,\theta_4^w$ 明分别表示路径 $p^w$ 上 4 个非叶了结点对应的向量。</p>
+<p><img src="https://i.loli.net/2019/02/04/5c5817ade12d5.png" alt="10_Example"></p>
+<p>那么，在如图10所示的网络结构下，如何定义条件慨率函数 $p ( w | Context ( w ) )$ 呢？更具体地说,就是如何利用向量 $\mathbf { x } _ { w } \in \mathbb { R } ^ { m }$ 以及 Huffman 树来定义函数 $p ( w | Context ( w ) )$ 呢？</p>
+<p>以图11中词 $w$ =“足球”为例。从根结点出发到达“足球”这个叶子节点，中间共经历了4次分支（每条红色的边对应一次分支），而每一次分支都可视为进行了一次<strong>二分类</strong>。</p>
+<p>既然是从二分类的角度来考虑问题，那么对于每一个非叶子结点，就需要为其左右孩了结点指定一个类别，即哪个是正类（标签为1），哪个是负类（标签为0）。碰巧除根结点以外，树中每个结点都对应了一个取值为 <strong><code>0</code></strong> 或 <strong><code>1</code></strong> 的 <strong><code>Huffman编码</code></strong> 因此，一种最白然的做法就是将 <strong><code>Huffman编码</code></strong> 为 <strong><code>1</code></strong> 的结点定义为正类，编码为 <strong><code>0</code></strong> 的结点定义为负类。当然，这只是个约定而已，你也可以将编码为 <strong><code>1</code></strong> 的结点定义为负类,而将编码为 <strong><code>0</code></strong> 的结点定义为正类。事实上，<strong><code>word2vec</code></strong> 选用的就是后者，为方便读者对照着文档看源码，下文中统一采用后者，即约定</p>
+<p>$$Label\left( p _ { i } ^ { w } \right) = 1 - d _ { i } ^ { w } , i = 2,3 , \cdots , l ^ { w }$$</p>
+<p>简言之就是，<strong>将一个结点进行分类时，分到左边就是负类,分到右边就是正类</strong>。</p>
+<p>根据预备知识2.2中介绍的逻辑回归，易知，一个结点被分为正类的概率是</p>
+<p>$$\sigma \left( \mathbf { x } _ { w } ^ { \top } \theta \right) = \frac { 1 } { 1 + e ^ { - \mathbf { x } _ { w } ^ { \top } \theta } }$$</p>
+<p>被分为负类的概率当然就等于</p>
+<p>$$1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta \right)$$</p>
+<p>注意，上式中有个叫 $\theta$ 的向量，它是待定多数，显然在这里非叶子结点对应的那些向量 $\theta_i^w$ 就可以扮演参数 $\theta$ 的角色（这也是为什么将它们取名为 $\theta_i^w$ 的原因）。</p>
+<p>对于从根结点出发到达“足球”这个叶子节点所经历的 4 次二分类，将每次分类结果的概率写出来就是</p>
+<ol>
+<li>第1次：$ p(d_2^ w|\mathbf{x}_ w,\theta_1^w) = 1 - \sigma(\mathbf{x}_ w^\top\theta_1^w) $；</li>
+<li>第2次: $ p(d_3^ w|\mathbf{x}_ w,\theta_2^w) = \sigma(\mathbf{x}_ w^\top\theta_2^w) $；</li>
+<li>第3次: $ p(d_4^ w|\mathbf{x}_ w,\theta_3^w) = \sigma(\mathbf{x}_ w^\top\theta_3^w) $；</li>
+<li>第4次: $ p(d_5^ w|\mathbf{x}_ w,\theta_4^w) = 1 - \sigma(\mathbf{x}_ w^\top\theta_4^w) $；</li>
+</ol>
+<p>但是，我们要求的是 $p($足球$|Context($足球$))$，它跟这 4 个概率值有什么关系呢？关系就是</p>
+<p>$$p(|Context(\text{“即”}))$$</p>
+<p>$$p(\text{足球}|Context(\text{足球})) = \prod _ { j = 2 } ^ { 5 } p \left( d _ { j } ^ { w } | \mathbf { x } _ { w } , \theta _ { j - 1 } ^ { w } \right)$$</p>
+<p>至此，通过 $w$ = “足球”的小例子，<strong>Hierarchical Softmax</strong> 的基本思想其实就已经介绍完了。小结一下：对于词典 $\mathcal { D }$ 中的任意词 $w$，<strong><code>Huffman树</code></strong> 中必存在一条从根结点到词 $w$ 对应结点的路径 $p^w$（且这条路径是唯一的）。路径 $p^w$ 上存在 $l^w-1$ 个分支，将每个分支看做一次二分类，每一次分类就产生一个概率，将这些概率乘起来，就是所需的 $p(w|Context(w))$。</p>
+<p>条件概率 $p(w|Context(w))$ 的一般公式可写为</p>
+<p>$$p ( w | Context ( w ) ) = \prod _ { j = 2 } ^ { l ^ { w } } p \left( d _ { j } ^ { w } | \mathbf { x } _ { w } , \theta _ { j - 1 } ^ { w } \right) \tag{4.3}$$</p>
+<p>其中</p>
+<p>$$p \left( d _ { j } ^ { w } | \mathbf { x } _ { w } , \theta _ { j - 1 } ^ { w } \right) = \begin{cases} { \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) , } &amp; { d _ { j } ^ { w } = 0 } \\ { 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) , } &amp; { d _ { j } ^ { w } = 1 } \end{cases} $$</p>
+<p>或者写成整体表达式</p>
+<p>$$p \left( d _ { j } ^ { w } | \mathbf { x } _ { w } , \theta _ { j - 1 } ^ { w } \right) = \left[ \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] ^ { 1 - d _ { j } ^ { w } } \cdot \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] ^ { d _ { j } ^ { w } }$$</p>
+<p><strong><code>注4.2</code></strong> 在3.3节中，最后得到的条件概率为</p>
+<p>$$p ( w | Context ( w ) ) = \frac { e ^ { y _ { w , i _ { w } } } } { \sum _ { i = 1 } ^ { N } e ^ { y _ { w , i } } }$$</p>
+<p>具体见 <strong><code>(3.6)式</code></strong> ，由于这里有个归一化操作，因此显然成立</p>
+<p>$$\sum _ { w \in \mathcal { D } } p ( w | Context ( w ) ) = 1$$</p>
+<p>然而，对于由 <strong><code>(4.3)</code></strong> 定义的概率，是否也能满足上式呢？这个问题留给读者思考。</p>
 
       
     </div>
@@ -719,7 +792,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#预备知识"><span class="nav-number">1.</span> <span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sigmoid-函数"><span class="nav-number">1.1.</span> <span class="nav-text">sigmoid 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑回归"><span class="nav-number">1.2.</span> <span class="nav-text">逻辑回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bayes-公式"><span class="nav-number">1.3.</span> <span class="nav-text">Bayes 公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Huffman-编码"><span class="nav-number">1.4.</span> <span class="nav-text">Huffman 编码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman-树"><span class="nav-number">1.4.1.</span> <span class="nav-text">Huffman 树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman树的构造"><span class="nav-number">1.4.2.</span> <span class="nav-text">Huffman树的构造</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman-编码-1"><span class="nav-number">1.4.3.</span> <span class="nav-text">Huffman 编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景知识"><span class="nav-number">2.</span> <span class="nav-text">背景知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#统计语言模型"><span class="nav-number">2.1.</span> <span class="nav-text">统计语言模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#n-gram模型"><span class="nav-number">2.2.</span> <span class="nav-text">n-gram模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#神经概率语-言模型"><span class="nav-number">2.3.</span> <span class="nav-text">神经概率语 言模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#词向量的理解"><span class="nav-number">2.4.</span> <span class="nav-text">词向量的理解</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#预备知识"><span class="nav-number">1.</span> <span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sigmoid-函数"><span class="nav-number">1.1.</span> <span class="nav-text">sigmoid 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑回归"><span class="nav-number">1.2.</span> <span class="nav-text">逻辑回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bayes-公式"><span class="nav-number">1.3.</span> <span class="nav-text">Bayes 公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Huffman-编码"><span class="nav-number">1.4.</span> <span class="nav-text">Huffman 编码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman-树"><span class="nav-number">1.4.1.</span> <span class="nav-text">Huffman 树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman树的构造"><span class="nav-number">1.4.2.</span> <span class="nav-text">Huffman树的构造</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman-编码-1"><span class="nav-number">1.4.3.</span> <span class="nav-text">Huffman 编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景知识"><span class="nav-number">2.</span> <span class="nav-text">背景知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#统计语言模型"><span class="nav-number">2.1.</span> <span class="nav-text">统计语言模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#n-gram模型"><span class="nav-number">2.2.</span> <span class="nav-text">n-gram模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#神经概率语-言模型"><span class="nav-number">2.3.</span> <span class="nav-text">神经概率语 言模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#词向量的理解"><span class="nav-number">2.4.</span> <span class="nav-text">词向量的理解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于-Hierarchical-Softmax的模型"><span class="nav-number">3.</span> <span class="nav-text">基于 Hierarchical Softmax的模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CBOW-模型"><span class="nav-number">3.1.</span> <span class="nav-text">CBOW 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#网络结构"><span class="nav-number">3.1.1.</span> <span class="nav-text">网络结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#梯度计算"><span class="nav-number">3.1.2.</span> <span class="nav-text">梯度计算</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
