@@ -93,7 +93,8 @@
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c569bee0b2a2.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c56b68b85db9.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c56ba1226b04.png">
-<meta property="og:updated_time" content="2019-02-04T03:20:30.000Z">
+<meta property="og:image" content="https://i.loli.net/2019/02/04/5c57c035b7391.png">
+<meta property="og:updated_time" content="2019-02-04T05:42:48.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="详解 word2vec">
 <meta name="twitter:description" content="预备知识本节介绍 word2vec 中将用到的一些重要知识点，包括 sigmoid 函数、Beyes 公式和 Huffman 编码等。 sigmoid 函数sigmoid 函数是神经网络中常用的激活函数之一，其定义为$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$该函数的定义域为 $( - \infty , + \infty )$，值域为 $">
@@ -372,7 +373,7 @@
 <p>其中 $\theta = \left( \theta _ { 0 } , \theta _ { 1 } , \cdots , \theta _ { n } \right) ^ { \top }$ 为待定参数。为了符号上简化起见，引入 $x_0= 1$ 将 $\mathbf { x }$ 扩展为 $\left( x_0, x_1, x_2,\cdots, x_n \right) ^ { \top }$，且在不引起混淆的情况下仍将其记为 $\mathbf { x }$。于是，$h_\theta$ 可简写为</p>
 <p>$$h _ { \theta } ( \mathbf { x } ) = \sigma \left( \theta ^ { \top } \mathbf { x } \right) = \frac { 1 } { 1 + e ^ { - \theta ^ { \top } \mathbf { x } } }$$</p>
 <p>取阀值 $T = 0.5$，则二分类的判别公式为 $\mathrm { x }$</p>
-<p>$$ y ( \mathrm { x } ) = \begin{cases}<br>    1 ,  &amp; { h_\theta (\mathrm { x }) \geq 0.5 } \\<br>    0 ,  &amp; { h_\theta (\mathrm { x }) &lt; 0.5 }<br>    \end{cases} $$</p>
+<p>$$ y ( \mathrm { x } ) = \begin{cases}<br>    1 ,  &amp; { h_\theta (\mathrm { x }) \geq 0.5 } \<br>    0 ,  &amp; { h_\theta (\mathrm { x }) &lt; 0.5 }<br>    \end{cases} $$</p>
 <p>那参数 $\theta$ 如何求呢？通常的做法是，先确定一个形如下式的<strong>整体损失函数</strong></p>
 <p>$$ J ( \theta ) = \frac { 1 } { m } \sum _ { i = 1 } ^ { m } \cos t \left( \mathbf { x } _ { i } , y _ { i } \right) $$</p>
 <p>然后对其进行优化，从而得到最优的参数 $ \theta^* $。</p>
@@ -471,11 +472,11 @@
 <p><strong>注3.3</strong> 作者在文中还考虑了投影层和输出层的神经元之问有边相连的情形，因而也会多出一个相应的权值矩阵，本文忽略了这种情形，但这并不影响对算法本质的理解。在数值实验中，作者发现引入投影层和输出层之间的权值矩阵虽然不能提高模型效果，但可以减少训练的选代次数。</p>
 <p>对于语料 $\mathcal { C }$ 中的任意一个词 $w$，将 $Context(w)$ 取为其前面的 $n-1$ 个词(类似于n-gram)，这样二元对 $(Context(w),w)$ 就是一个<strong>训练样本</strong>了。接下来，讨论样本 $(Context(w),w)$ 经过如图4所示的神经网络时是如何参与运算的。注意，一旦语料 $\mathcal { C }$ 和词向量长度 $m$ 给定后，投影层和输出层的规模就确定了，前者为 $(n- 1)m$，后者为 $N = | \mathcal { D } |$ 即语料 $\mathcal { C }$ 的词汇量大小。而急藏层的规模 $n_h$ 是可调参数由用户指定。</p>
 <p>为什么投影层的规模是 $(n-1)m$ 呢？因为输入层包含 $Context(w)$ 中 $n-1$ 个词的词向量，而投影层的向量 $X_w$ 是这样构造的：将输入层的 $n-1$ 个词向量按顺序首尾相接地拼起来形成一个长向量，其长度当然就是 $(n-1)m$ 了，有了向量 $X_w$，接下来的计算过程就很平凡了，具体为</p>
-<p>$$\left\lbrace \begin{array} { ll } { \mathbf { z } _ { w } = \tanh \left( W \mathbf { x } _ { w } + \mathbf { p } \right) } \ { \mathbf { y } _ { w } = U \mathbf { z } _ { w } + \mathbf { q } } \end{array} \right. \tag{3.5}$$</p>
+<p>$$\left\lbrace \begin{array} { ll } { \mathbf { z } _ { w } = \tanh \left( W \mathbf { x } _ { w } + \mathbf { p } \right) } \\ { \mathbf { y } _ { w } = U \mathbf { z } _ { w } + \mathbf { q } } \end{array} \right. \tag{3.5}$$</p>
 <p>其中 $tanh$ 为<strong>双曲正切函数</strong>，用来做隐藏层的<strong>激活函数</strong>，上式中，$tanh$ 作用在向量上表示它作用在向量的每一个分量上。</p>
 <p><strong>注3.4</strong> 有读者可能要问：对于语科中的一个给定句子的前几个词，其前面的词不足 $n-1$ 个怎么办？此时，可以人为地添加一个（或几个）填充向量就可以了，它们也参与训练过程。</p>
 <p>经过上述两步计算得到的 $\mathbf { y } _ { w } = \left( y _ { w , 1 } , y _ { w , 2 } , \cdots , y _ { w , N } \right) ^ { \top }$ 只是一个长度为 $N$ 的向量，其分量不能表示概率。如果想要 $ \mathbf{ y } _ w $ 的分量 $y_{w,i}$，表示当上下文为 $Context(w)$ 时下一个词恰为词典 $\mathcal { D }$ 中第 $i$ 个词的慨率，则还需要做一个 <strong>softmax</strong> 归一化，归一化后，$p(w|Context(w))$就可以表示为</p>
-<p>$$ p ( w | \text { Context } ( w ) ) = \frac { e ^ { y _ { w , i_w } } } { \sum _ { i = 1 } ^ { N } e ^ { y _ { w , i } } } $$ {3.6}</p>
+<p>$$ p ( w | \text { Context } ( w ) ) = \frac { e ^ { y _ { w , i_w } } } { \sum _ { i = 1 } ^ { N } e ^ { y _ { w , i } } } \tag{3.6}$$</p>
 <p>其中 $i_w$ 表示词 $w$ 在词典 $\mathcal { D }$ 中的索引。</p>
 <p>公式(3.6)给出了概率 $p(w|Context(w))$ 的函数表示，即找到了上一小节中提到的函数 $F(w, Context(w), \theta)$，那么其中待确定的参数 $\theta$ 有哪些呢？总结起来，包括两部分</p>
 <ul>
@@ -492,11 +493,27 @@
 </ol>
 <p>再结合(3.5)和(3.6)，不难发现，整个模型的大部分计算集中在隐藏层和输出层之间的矩阵向量运算，以及输出层上的 softmax 归一化运算。因此后续的相关研究工作中，有很多是针对这一部分进行优化的，其中就包括了 word2vec 的工作。<br>与 n-gram 模型相比，神经概率语言模型有什么<strong>优势</strong>呢？主要有以下两点：</p>
 <ol>
-<li>词语之间的相似性可以通过词向量来体现</li>
+<li><p>词语之间的相似性可以通过词向量来体现<br>举例来说，如果某个(英语) 语料中 $S_1$ = “A dog is runing in the room” 出现了 10000 次，而 $S_1$ = “A cat is ruuning in the room” 只出现了 1 次。按照 n-gram 模型的做法，$p(S1)$ 肯定会远大于 $p(S2)$。注意，$S1$ 和 $S2$ 的唯一区别在于 dog 和 cat，而这两个词无论是句法还是语义上都扮演了相同的角色，因此，$p(S1)$ 和$p(S2)$ 应该很相近才对。<br>然而，由神经概率语言模型算得的 $p(S1)$ 和 $p(S2)$ 是大致相等的。原因在于：(1)在神经概率语言模型中假定了“相似的”的词对应的词向量也是相似的；(2)概率函数关于词向量是光滑的，即词向量中的一个小变化对概率的影响也只是一个小变化。这样一来，对于下面这些句子<br>A dog is running in the room<br>A cat is running in the room<br>The cat is running in a room<br>A dog is walking in a bedroom<br>The dog was walking in the room<br>只要在语料库中出现一个，共他句子的概率也会相应地增大。</p>
+</li>
+<li><p>基于词向量的模型自带平滑化功能（由(3.6)可知，$p(w|Context(w)) \in (0,1)$不会为零），不再需要像 n-gram 那样进行额外处理了。</p>
+</li>
 </ol>
-<p>举例来说，如果某个(英语) 语料中 $S_1$ = “A dog is runing in the room” 出现了 10000 次，而 $S_1$ = “A cat is ruuning in the room” 只出现了 1 次。按照 n-gram 模型的做法，$p(S1)$ 肯定会远大于 $p(S2)$。注意，$S1$ 和 $S2$ 的唯一区别在于 dog 和 cat，而这两个词无论是句法还是语义上都扮演了相同的角色，因此，$p(S1)$ 和$p(S2)$ 应该很相近才对。<br>然而，由神经概率语言模型算得的 $p(S1)$ 和 $p(S2)$ 是大致相等的。原因在于：(1)在神经概率语言模型中假定了“相似的”的词对应的词向量也是相似的；(2)概率函数关于词向量是光滑的，即词向量中的一个小变化对概率的影响也只是一个小变化。这样一来，对于下面这些句子</p>
-<p>A dog is running in the room<br>A cat is running in the room<br>The cat is running in a room<br>A dog is walking in a bedroom<br>The dog was walking in the room</p>
-<p>只要在语料库中出现一个，共他句子的概率也会相应地增大。</p>
+<p>最后，我们回过头来想想，词向量在整个神经概率语言模型中扮演了什么角色呢？训练时，它是用来帮助构造目标函数的辅助参数，训练完成后，它也好像只是语言模型的一个副产品。但这个副产品可不能小觑，下一小节将对其作进一步阐述。</p>
+<h3 id="词向量的理解"><a href="#词向量的理解" class="headerlink" title="词向量的理解"></a>词向量的理解</h3><p>通过上一小节的讨论，相信大家对词向量已经有一个初步的认识了。接下来，对词向量做进一步介绍。</p>
+<p>在 <strong>NLP</strong> 任务中，我们将自然语言交给机器学习算法来处理，但机器无法直接理解人类的语言，因此首先要做的事情就是将语言数学化，如何对自然语言进行数学化呢？词向量提供了一种很好的方式。</p>
+<p>一种最简单的词向量是 <strong>one-hot representation</strong>，就是用一个很长的向量来表示一个词，向量的长度为词典 $\mathcal { D }$ 的大小 $N$，向量的分量只有一个 1，其它全为 0，1 的位置对应该词在词典中的索引。但这种词向量表示有一些缺点，如容易受维数灾难的因扰，尤其是将其用于 Deep Learning 场景时；又如，它不能很好地刻画词与词之间的相似性。</p>
+<p>另一种词向量是 <strong>Distributed Representation</strong>, 它最早是 Hinton 于 1986 年提出的，可以克服 one-hot representation 的上述缺点其基本想法是：通过训练将某种语言中的每一个词映射成一个固定长度的短向量（当然这里的“短”是相对于 one-hot representation 的“长”而言的），所有这些向量构成一个词向量空间，而每一向量则可视为该空间中的一个点，在这个空间上引入“距离”，就可以根据词之间的距离来判断它们之间的(词法、语义上的)相似性了。word2vec 中采用的就是这种 Distributed Representalion 的词向量。</p>
+<p>为什么叫做 Distributed Representation？很多人问到这个问题我的一个理解是这样的：对于 one-hot representation，向量中只有一个非零分量，非常集中（有点孤注一掷的感觉）；而对于 Distributed Representetion，向量中有大量非零分量，相对分散（有点风险平摊的感觉），把词的信息分布到各个分量中去了。这一点，跟并行计算里的分布式并行很像。</p>
+<p>为更好地理解上述思想，我们来举一个通 俗的例子。</p>
+<p><strong>例3.2</strong> 假设在二维平面上分布有 a 个不同的点，给定其中的某个点，现在想在平面上找到与这个点最相近的一个点。<br>我们是怎么做的呢？首先，建立一个直角坐标系，基于该坐标系，其上的每个点就唯一地对应一个坐标 (x, y)；接着引入欧氏距离，最后分别计算这个点与其他 a-1 个点之间的距离，对应最小距离值的那个（或那些）点便是我们要找的点了。</p>
+<p>上面的例子中，坐标 (x, y) 的地位就相当于词向量，它用来将中面上一个点的位置在数学上作量化。坐标系建立好以后，要得到某个点的坐标是很容易的。然而，在 <strong>NLP</strong> 任务中，要得到词向量就复杂得多了，而且词向量并不唯一，其质量依赖于训练语料、训练算法等因素。</p>
+<p>如何获取词向量呢？有很多不同模型可用来估计词向量，包括有名的 LSA(Latent Semantic Analysis) 和 LDA(Latcnt Dirichlet Allocation)。此外，利用神经网络算法也是一一种常用的方法，上一小节介绍的神经概率语言模型就是一个很好的实例。当然，在那个模型中，目标是生成语言模型，词向量只是一个副产品。事实上，大部分情况下，词向量和语言模型都是捆绑在一起的，训练完成后两者同时得到。用神经网络来训练语言模型的思想最早由百度 IDL（深度学习研究院）的徐伟提出。这方面最经典的文章要数 <strong>Bengio</strong> 于 2003 年发表在 <strong>JMLR</strong>上的<strong>《A Neural Probabilistic Language Model》</strong>，其后有一系列相关的研究工作，其中也包括谷歌 <strong>Tomas Mikolov</strong> 团队的 <strong>word2vec</strong>。</p>
+<p>一份好的词向量是很有价值的，下面介绍一个简单的例子，可以帮助我们更好地理解词向量的工作原理。</p>
+<p><img src="https://i.loli.net/2019/02/04/5c57c035b7391.png" alt="07_W2V_Space"></p>
+<p>考虑英语和西班牙语两种语言，通过训练分别得到它们对应的词向量空间 $E$(nglish) 和 $S$(panish)。从英语中取出五个词one, two, three, four, five，设其在 $E$ 中对应的词向量分别为 $u_1,u_2,u_3,u_4,u_5$，为方便作图，利用主成分分析 (PCA) 降维，得到相应的二维向量 $v_1,v_2,v_3,v_4,v_5$，在二维平面上将这五个点描出来，如上图左图所示。</p>
+<p>类似地，在西班牙语中取出(与one, two, three, four, five对应的) uno, dos, tres, cuatro, cinco，设其在 $S$ 中对应的词向量分别为 $s_1, s_2, s_3, s_4, s_5$，用 PCA 降维后的二维向量分别为 $t_1, t_2, t_3, t_4, t_s$，将它们在二维平面上描出来（可能还需作适当的旋转），如上图右图所示。</p>
+<p>观察左、右两幅图，容易发现：五个词在两个向量空间中的相对位置差不多，这说明两种不同语言对应向量空间的结构之间具有相似性，从而进一步说明了在词向量空间中利用距离刻画词之间相似性的合理性。</p>
+<p>注意，词向量只是针对“词”来提的，事实上，我们也可以针对更细粒度或更粗粒度来进行推广，如<strong>字向量</strong>，<strong>句子向量</strong>和<strong>文档向量</strong>，它们能为字、句子、文档等单元提供更好的表示。</p>
 
       
     </div>
@@ -695,7 +712,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#预备知识"><span class="nav-number">1.</span> <span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sigmoid-函数"><span class="nav-number">1.1.</span> <span class="nav-text">sigmoid 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑回归"><span class="nav-number">1.2.</span> <span class="nav-text">逻辑回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bayes-公式"><span class="nav-number">1.3.</span> <span class="nav-text">Bayes 公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Huffman-编码"><span class="nav-number">1.4.</span> <span class="nav-text">Huffman 编码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman-树"><span class="nav-number">1.4.1.</span> <span class="nav-text">Huffman 树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman树的构造"><span class="nav-number">1.4.2.</span> <span class="nav-text">Huffman树的构造</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman-编码-1"><span class="nav-number">1.4.3.</span> <span class="nav-text">Huffman 编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景知识"><span class="nav-number">2.</span> <span class="nav-text">背景知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#统计语言模型"><span class="nav-number">2.1.</span> <span class="nav-text">统计语言模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#n-gram模型"><span class="nav-number">2.2.</span> <span class="nav-text">n-gram模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#神经概率语-言模型"><span class="nav-number">2.3.</span> <span class="nav-text">神经概率语 言模型</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#预备知识"><span class="nav-number">1.</span> <span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sigmoid-函数"><span class="nav-number">1.1.</span> <span class="nav-text">sigmoid 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑回归"><span class="nav-number">1.2.</span> <span class="nav-text">逻辑回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bayes-公式"><span class="nav-number">1.3.</span> <span class="nav-text">Bayes 公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Huffman-编码"><span class="nav-number">1.4.</span> <span class="nav-text">Huffman 编码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman-树"><span class="nav-number">1.4.1.</span> <span class="nav-text">Huffman 树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman树的构造"><span class="nav-number">1.4.2.</span> <span class="nav-text">Huffman树的构造</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Huffman-编码-1"><span class="nav-number">1.4.3.</span> <span class="nav-text">Huffman 编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#背景知识"><span class="nav-number">2.</span> <span class="nav-text">背景知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#统计语言模型"><span class="nav-number">2.1.</span> <span class="nav-text">统计语言模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#n-gram模型"><span class="nav-number">2.2.</span> <span class="nav-text">n-gram模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#神经概率语-言模型"><span class="nav-number">2.3.</span> <span class="nav-text">神经概率语 言模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#词向量的理解"><span class="nav-number">2.4.</span> <span class="nav-text">词向量的理解</span></a></li></ol></li></ol></div>
             
 
           </div>
