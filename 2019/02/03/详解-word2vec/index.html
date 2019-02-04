@@ -93,7 +93,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c569bee0b2a2.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c56b68b85db9.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/03/5c56ba1226b04.png">
-<meta property="og:updated_time" content="2019-02-04T03:03:32.000Z">
+<meta property="og:updated_time" content="2019-02-04T03:20:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="详解 word2vec">
 <meta name="twitter:description" content="预备知识本节介绍 word2vec 中将用到的一些重要知识点，包括 sigmoid 函数、Beyes 公式和 Huffman 编码等。 sigmoid 函数sigmoid 函数是神经网络中常用的激活函数之一，其定义为$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$该函数的定义域为 $( - \infty , + \infty )$，值域为 $">
@@ -372,12 +372,12 @@
 <p>其中 $\theta = \left( \theta _ { 0 } , \theta _ { 1 } , \cdots , \theta _ { n } \right) ^ { \top }$ 为待定参数。为了符号上简化起见，引入 $x_0= 1$ 将 $\mathbf { x }$ 扩展为 $\left( x_0, x_1, x_2,\cdots, x_n \right) ^ { \top }$，且在不引起混淆的情况下仍将其记为 $\mathbf { x }$。于是，$h_\theta$ 可简写为</p>
 <p>$$h _ { \theta } ( \mathbf { x } ) = \sigma \left( \theta ^ { \top } \mathbf { x } \right) = \frac { 1 } { 1 + e ^ { - \theta ^ { \top } \mathbf { x } } }$$</p>
 <p>取阀值 $T = 0.5$，则二分类的判别公式为 $\mathrm { x }$</p>
-<p>$$ y ( \mathrm { x } ) = \begin{cases}<br>    1 ,  &amp; { h_\theta (\mathrm { x }) \geq 0.5 } \<br>    0 ,  &amp; { h_\theta (\mathrm { x }) &lt; 0.5 }<br>    \end{cases} $$</p>
+<p>$$ y ( \mathrm { x } ) = \begin{cases}<br>    1 ,  &amp; { h_\theta (\mathrm { x }) \geq 0.5 } \\<br>    0 ,  &amp; { h_\theta (\mathrm { x }) &lt; 0.5 }<br>    \end{cases} $$</p>
 <p>那参数 $\theta$ 如何求呢？通常的做法是，先确定一个形如下式的<strong>整体损失函数</strong></p>
 <p>$$ J ( \theta ) = \frac { 1 } { m } \sum _ { i = 1 } ^ { m } \cos t \left( \mathbf { x } _ { i } , y _ { i } \right) $$</p>
 <p>然后对其进行优化，从而得到最优的参数 $ \theta^* $。</p>
 <p>实际应用中，单个样本的损失函数 $ cost \left( \mathbf { x } _ { i } , y _ { i } \right) $ 常取为<strong>对数似然函数</strong></p>
-<p>$$ cost \left( \mathbf { x } _ { i } , y _ { i } \right) = \begin{cases} { - \log( h _ { \theta } (\mathbf{ x } _ { i } ) ) , } &amp; { y_i = 1 } \ { - \log ( 1 - h_\theta ( \mathbf { x } _ { i } ) ) , } &amp; { y_i = 0 } \end{cases} $$</p>
+<p>$$ cost \left( \mathbf { x } _ { i } , y _ { i } \right) = \begin{cases} { - \log( h _ { \theta } (\mathbf{ x } _ { i } ) ) , } &amp; { y_i = 1 } \\ { - \log ( 1 - h_\theta ( \mathbf { x } _ { i } ) ) , } &amp; { y_i = 0 } \end{cases} $$</p>
 <p>注意，上式是一个分段函数，也可将其写成如下的整体表达式</p>
 <p>$$ cost \left( \mathbf { x } _ { i } , y _ { i } \right) = - y _ { i } \cdot \log \left( h _ { \theta } \left( \mathbf { x } _ { i } \right) \right) - \left( 1 - y _ { i } \right) \cdot \log \left( 1 - h _ { \theta } \left( \mathbf { x } _ { i } \right) \right) $$</p>
 <h3 id="Bayes-公式"><a href="#Bayes-公式" class="headerlink" title="Bayes 公式"></a>Bayes 公式</h3><p>贝叶斯公式是英国数学家 <strong>贝叶斯(Thomas Bayes)</strong> 提出来的，用来描述两个条件概率之间的关系。若记 $P(A),P(B)$ 分别表示事件 $A$ 和事件 $B$ 发生的概率，$P(A|B)$ 表示事件 $B$ 发生的情况下事件 $A$ 发生的概率，$P(A, B)$ 表示事件 $A, B$ 同时发生的概率，则有</p>
@@ -471,7 +471,7 @@
 <p><strong>注3.3</strong> 作者在文中还考虑了投影层和输出层的神经元之问有边相连的情形，因而也会多出一个相应的权值矩阵，本文忽略了这种情形，但这并不影响对算法本质的理解。在数值实验中，作者发现引入投影层和输出层之间的权值矩阵虽然不能提高模型效果，但可以减少训练的选代次数。</p>
 <p>对于语料 $\mathcal { C }$ 中的任意一个词 $w$，将 $Context(w)$ 取为其前面的 $n-1$ 个词(类似于n-gram)，这样二元对 $(Context(w),w)$ 就是一个<strong>训练样本</strong>了。接下来，讨论样本 $(Context(w),w)$ 经过如图4所示的神经网络时是如何参与运算的。注意，一旦语料 $\mathcal { C }$ 和词向量长度 $m$ 给定后，投影层和输出层的规模就确定了，前者为 $(n- 1)m$，后者为 $N = | \mathcal { D } |$ 即语料 $\mathcal { C }$ 的词汇量大小。而急藏层的规模 $n_h$ 是可调参数由用户指定。</p>
 <p>为什么投影层的规模是 $(n-1)m$ 呢？因为输入层包含 $Context(w)$ 中 $n-1$ 个词的词向量，而投影层的向量 $X_w$ 是这样构造的：将输入层的 $n-1$ 个词向量按顺序首尾相接地拼起来形成一个长向量，其长度当然就是 $(n-1)m$ 了，有了向量 $X_w$，接下来的计算过程就很平凡了，具体为</p>
-<p>$$\left{ \begin{array} { l } { \mathbf { z } _ { w } = \tanh \left( W \mathbf { x } _ { w } + \mathbf { p } \right) } \ { \mathbf { y } _ { w } = U \mathbf { z } _ { w } + \mathbf { q } } \end{array} \right. \tag{3.5}$$</p>
+<p>$$\left\lbrace \begin{array} { ll } { \mathbf { z } _ { w } = \tanh \left( W \mathbf { x } _ { w } + \mathbf { p } \right) } \ { \mathbf { y } _ { w } = U \mathbf { z } _ { w } + \mathbf { q } } \end{array} \right. \tag{3.5}$$</p>
 <p>其中 $tanh$ 为<strong>双曲正切函数</strong>，用来做隐藏层的<strong>激活函数</strong>，上式中，$tanh$ 作用在向量上表示它作用在向量的每一个分量上。</p>
 <p><strong>注3.4</strong> 有读者可能要问：对于语科中的一个给定句子的前几个词，其前面的词不足 $n-1$ 个怎么办？此时，可以人为地添加一个（或几个）填充向量就可以了，它们也参与训练过程。</p>
 <p>经过上述两步计算得到的 $\mathbf { y } _ { w } = \left( y _ { w , 1 } , y _ { w , 2 } , \cdots , y _ { w , N } \right) ^ { \top }$ 只是一个长度为 $N$ 的向量，其分量不能表示概率。如果想要 $ \mathbf{ y } _ w $ 的分量 $y_{w,i}$，表示当上下文为 $Context(w)$ 时下一个词恰为词典 $\mathcal { D }$ 中第 $i$ 个词的慨率，则还需要做一个 <strong>softmax</strong> 归一化，归一化后，$p(w|Context(w))$就可以表示为</p>
