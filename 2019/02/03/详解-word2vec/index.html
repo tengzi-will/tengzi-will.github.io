@@ -97,7 +97,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/02/04/5c57f1dd91f9b.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/04/5c5805d631c9f.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/04/5c5817ade12d5.png">
-<meta property="og:updated_time" content="2019-02-04T15:12:50.000Z">
+<meta property="og:updated_time" content="2019-02-05T03:11:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="详解 word2vec">
 <meta name="twitter:description" content="预备知识本节介绍 word2vec 中将用到的一些重要知识点，包括 sigmoid 函数、Beyes 公式和 Huffman 编码等。 sigmoid 函数sigmoid 函数是神经网络中常用的激活函数之一，其定义为$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$该函数的定义域为 $( - \infty , + \infty )$，值域为 $">
@@ -498,7 +498,10 @@
 </ol>
 <p>再结合 <strong><code>(3.5)</code></strong> 和 <strong><code>(3.6)</code></strong>，不难发现，整个模型的大部分计算集中在隐藏层和输出层之间的矩阵向量运算，以及输出层上的 <strong><code>softmax</code></strong> 归一化运算。因此后续的相关研究工作中，有很多是针对这一部分进行优化的，其中就包括了 <strong><code>word2vec</code></strong> 的工作。<br>与 <strong><code>n-gram</code></strong> 模型相比，神经概率语言模型有什么<strong>优势</strong>呢？主要有以下两点：</p>
 <ol>
-<li><p>词语之间的相似性可以通过词向量来体现<br>举例来说，如果某个(英语) 语料中 $S_1$ = “A dog is runing in the room” 出现了 10000 次，而 $S_1$ = “A cat is ruuning in the room” 只出现了 1 次。按照 n-gram 模型的做法，$p(S1)$ 肯定会远大于 $p(S2)$。注意，$S1$ 和 $S2$ 的唯一区别在于 dog 和 cat，而这两个词无论是句法还是语义上都扮演了相同的角色，因此，$p(S1)$ 和$p(S2)$ 应该很相近才对。<br>然而，由神经概率语言模型算得的 $p(S1)$ 和 $p(S2)$ 是大致相等的。原因在于：(1)在神经概率语言模型中假定了“相似的”的词对应的词向量也是相似的；(2)概率函数关于词向量是光滑的，即词向量中的一个小变化对概率的影响也只是一个小变化。这样一来，对于下面这些句子<br>A dog is running in the room<br>A cat is running in the room<br>The cat is running in a room<br>A dog is walking in a bedroom<br>The dog was walking in the room<br>只要在语料库中出现一个，共他句子的概率也会相应地增大。</p>
+<li><p>词语之间的相似性可以通过词向量来体现<br>举例来说，如果某个(英语) 语料中 $S_1$ = “A dog is runing in the room” 出现了 10000 次，而 $S_1$ = “A cat is ruuning in the room” 只出现了 1 次。按照 n-gram 模型的做法，$p(S1)$ 肯定会远大于 $p(S2)$。注意，$S1$ 和 $S2$ 的唯一区别在于 dog 和 cat，而这两个词无论是句法还是语义上都扮演了相同的角色，因此，$p(S1)$ 和$p(S2)$ 应该很相近才对。<br>然而，由神经概率语言模型算得的 $p(S1)$ 和 $p(S2)$ 是大致相等的。原因在于：(1)在神经概率语言模型中假定了“相似的”的词对应的词向量也是相似的；(2)概率函数关于词向量是光滑的，即词向量中的一个小变化对概率的影响也只是一个小变化。这样一来，对于下面这些句子只要在语料库中出现一个，其他句子的概率也会相应地增大。</p>
+<blockquote>
+<p>A dog is running in the room<br>A cat is running in the room<br>The cat is running in a room<br>A dog is walking in a bedroom<br>The dog was walking in the room</p>
+</blockquote>
 </li>
 <li><p>基于词向量的模型自带平滑化功能（由<strong><code>(3.6)</code></strong>可知，$p(w|Context(w)) \in (0,1)$不会为零），不再需要像 <strong><code>n-gram</code></strong> 那样进行额外处理了。</p>
 </li>
@@ -558,7 +561,7 @@
 <li>$d_1^w,d_2^w,\cdots,d_{l^w}^w \in \lbrace 0,1 \rbrace$：词 $w$ 的Huffman编码，它由 $l^w- 1$ 位编码构成，$d_j^w$ 表示路径 $p^w$ 中第 $j$ 个结点对应的编码（根结点不对应编码）；</li>
 <li>$\theta_1^w,\theta_2^w,\cdots,\theta_{l^w-1}^w \in \mathbb { R } ^ { m }$：路径 $p^w$ 中<strong>非叶子结点</strong>对应的向量，$\theta_j^w$ 表示路径 $p^w$ 中第 $j$ 个非叶子结点对应的向量。</li>
 </ol>
-<p><strong><code>注4.1</code></strong> 按理说，我们要求的是词典 $\mathcal { D }$ 中每个词（即Huffman树中所有叶子节点）的向量，为什么这里还要为 <strong><code>Huffman树</code></strong> 中每一个非叶子结点也定义一个同长的向量呢？事实上，它们只是算法中的辅助向量，具体用途在下文中将会为大家解释清楚。</p>
+<p><strong>注4.1</strong> 按理说，我们要求的是词典 $\mathcal { D }$ 中每个词（即Huffman树中所有叶子节点）的向量，为什么这里还要为 <strong><code>Huffman树</code></strong> 中每一个非叶子结点也定义一个同长的向量呢？事实上，它们只是算法中的辅助向量，具体用途在下文中将会为大家解释清楚。</p>
 <p>好了，引入了这么一大堆抽象的记号，接下来，我们还是通过一个简单的例子把它们落到实处吧，看图11，仍以预备知识中 <strong><code>例2.1</code></strong> 为例考虑词 $w$ =“足球” 的情形。</p>
 <p>图11中由 4 条红色边串起来的 5 个节点就构成路径 $p^w$，其长度 $l^w=5$。$p_1^w,p_2^w,p_3^w,p_4^w,p_5^w$ 为路径 $p^w$ 上的 5 个结点，其中 $p_1^w$ 对应根结点。$d_2^w,d_3^w,d_4^w,d_5^w$ 分别为 1, 0, 0, 1，即“足球”的 <strong><code>Huffman编码</code></strong> 为 1001 。此外，$\theta_1^w,\theta_2^w,\theta_3^w,\theta_4^w$ 明分别表示路径 $p^w$ 上 4 个非叶了结点对应的向量。</p>
 <p><img src="https://i.loli.net/2019/02/04/5c5817ade12d5.png" alt="10_Example"></p>
@@ -588,7 +591,7 @@
 <p>$$p \left( d _ { j } ^ { w } | \mathbf { x } _ { w } , \theta _ { j - 1 } ^ { w } \right) = \begin{cases} { \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) , } &amp; { d _ { j } ^ { w } = 0 } \\ { 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) , } &amp; { d _ { j } ^ { w } = 1 } \end{cases} $$</p>
 <p>或者写成整体表达式</p>
 <p>$$p \left( d _ { j } ^ { w } | \mathbf { x } _ { w } , \theta _ { j - 1 } ^ { w } \right) = \left[ \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] ^ { 1 - d _ { j } ^ { w } } \cdot \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] ^ { d _ { j } ^ { w } }$$</p>
-<p><strong><code>注4.2</code></strong> 在3.3节中，最后得到的条件概率为</p>
+<p><strong>注4.2</strong> 在3.3节中，最后得到的条件概率为</p>
 <p>$$p ( w | Context ( w ) ) = \frac { e ^ { y _ { w , i _ { w } } } } { \sum _ { i = 1 } ^ { N } e ^ { y _ { w , i } } }$$</p>
 <p>具体见 <strong><code>(3.6)式</code></strong> ，由于这里有个归一化操作，因此显然成立</p>
 <p>$$\sum _ { w \in \mathcal { D } } p ( w | Context ( w ) ) = 1$$</p>
@@ -601,11 +604,11 @@
 <p>至此，已经推导出对数似然函数 <strong><code>(4.4)</code></strong>，这就是 <strong>CBOW</strong> 模型的目标函数，接下来讨论它的优化，即如何将这个函数最大化。<strong><code>word2vec</code></strong> 里面采用的是<strong>随机梯度上升法</strong>。而梯度类算法的关键是给出相应的梯度计算公式，因此接下来重点讨论梯度的计算。</p>
 <p>随机梯度上升法的做法是：每取一个样本 $(Context(w), w)$，就对目标函数中的所有（相关）参数做一次刷新。观察目标函数 $\mathcal { L }$ 易知，该函数中的参数包括向量 $\mathbf { x } _ { w } , \theta _ { j - 1 } ^ { w } , w \in \mathcal { C } , j = 2 , \cdots , l ^ { w }$。为此，先给出函数 $\mathcal { L } ( w , j )$ 关于这些向量的梯度。</p>
 <p>首先考虑 $\mathcal { L } ( w , j )$ 关于 $\theta_{j-1}^w$ 的梯度计算。</p>
-<p>$$\frac { \partial \mathcal { L } ( w , j ) } { \partial \theta _ { j - 1 } ^ { w } } = \frac { \partial } { \partial \theta _ { j - 1 } ^ { w } } \left{ \left( 1 - d _ { j } ^ { w } \right) \cdot \log \left[ \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] + d _ { j } ^ { w } \cdot \log \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \right} $$</p>
-<p>$$= \left( 1 - d _ { j } ^ { w } \right) \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \mathbf { x } _ { w } - d _ { j } ^ { w } \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \mathbf { x } _ { w }$$</p>
-<p>$$= \left{ \left( 1 - d _ { j } ^ { w } \right) \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] - d _ { j } ^ { w } \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right} \mathbf { x } _ { w }$$</p>
+<p>$$\frac { \partial \mathcal { L } ( w , j ) } { \partial \theta _ { j - 1 } ^ { w } } = \frac { \partial } { \partial \theta _ { j - 1 } ^ { w } } \lbrace ( 1 - d _ { j } ^ { w } ) \cdot \log [ \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) ] + d _ { j } ^ { w } \cdot \log [ 1 - \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) ] \rbrace $$</p>
+<p>$$= ( 1 - d _ { j } ^ { w } ) [ 1 - \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) ] \mathbf { x } _ { w } - d _ { j } ^ { w } \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) \mathbf { x } _ { w }$$</p>
+<p>$$= \lbrace ( 1 - d _ { j } ^ { w } ) [ 1 - \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) ] - d _ { j } ^ { w } \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) \rbrace \mathbf { x } _ { w }$$</p>
 <p>$$= \left[ 1 - d _ { j } ^ { w } - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \mathbf { x } _ { w }$$</p>
-<p>$$\begin{array}{llll}<br>\frac { \partial \mathcal { L } ( w , j ) } { \partial \theta _ { j - 1 } ^ { w } } &amp; = &amp; \frac { \partial } { \partial \theta _ { j - 1 } ^ { w } } \left{ \left( 1 - d _ { j } ^ { w } \right) \cdot \log \left[ \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] + d _ { j } ^ { w } \cdot \log \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \right} \\<br>&amp; = &amp; \left( 1 - d _ { j } ^ { w } \right) \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \mathbf { x } _ { w } - d _ { j } ^ { w } \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \mathbf { x } _ { w } \\<br>&amp; = &amp; \left{ \left( 1 - d _ { j } ^ { w } \right) \left[ 1 - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] - d _ { j } ^ { w } \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right} \mathbf { x } _ { w } \\<br>&amp; = &amp; \left[ 1 - d _ { j } ^ { w } - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \mathbf { x } _ { w }<br>\end{array}$$</p>
+<p>$$\begin{array}{llll}<br>\frac { \partial \mathcal { L } ( w , j ) } { \partial \theta _ { j - 1 } ^ { w } } &amp; = &amp; \frac { \partial } { \partial \theta _ { j - 1 } ^ { w } } \lbrace ( 1 - d _ { j } ^ { w } ) \cdot \log [ \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) ] + d _ { j } ^ { w } \cdot \log [ 1 - \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) ] \rbrace  \\<br>&amp; = &amp; ( 1 - d _ { j } ^ { w } ) [ 1 - \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) ] \mathbf { x } _ { w } - d _ { j } ^ { w } \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) \mathbf { x } _ { w } \\<br>&amp; = &amp; \lbrace ( 1 - d _ { j } ^ { w } ) [ 1 - \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) ] - d _ { j } ^ { w } \sigma ( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } ) \rbrace \mathbf { x } _ { w } \\<br>&amp; = &amp; \left[ 1 - d _ { j } ^ { w } - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \mathbf { x } _ { w }<br>\end{array}$$</p>
 <p>于是，$\theta_{j-1}^w$ 的更新公式可写为</p>
 <p>$$\theta _ { j - 1 } ^ { w } : = \theta _ { j - 1 } ^ { w } + \eta \left[ 1 - d _ { j } ^ { w } - \sigma \left( \mathbf { x } _ { w } ^ { \top } \theta _ { j - 1 } ^ { w } \right) \right] \mathbf { x } _ { w }$$</p>
 <p>其中 $\eta$ 表示<strong>学习率</strong>，下同。</p>
