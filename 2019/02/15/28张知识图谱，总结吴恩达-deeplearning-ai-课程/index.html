@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="吴恩达,深度学习,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="deeplearning.ai 系列课程相关的笔记和参考资料很多，这里就不过多提及。最近，发现有个来自微软的美女作者 Tess Ferrandez 制作并在 SlideShare 上分享了吴恩达深度学习专项课程 28 张精炼图解，可谓是把知识点做了很好的提炼和总结！我们一起来看一下。 1. 深度学习介绍 2. 逻辑回归 3. 浅层神经网络 4. 深层神经网络 5. 设置你的机器学习应用程序 6.">
+<meta name="keywords" content="吴恩达,深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="28张知识图谱，总结吴恩达 deeplearning.ai 课程">
+<meta property="og:url" content="http://yoursite.com/2019/02/15/28张知识图谱，总结吴恩达-deeplearning-ai-课程/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="deeplearning.ai 系列课程相关的笔记和参考资料很多，这里就不过多提及。最近，发现有个来自微软的美女作者 Tess Ferrandez 制作并在 SlideShare 上分享了吴恩达深度学习专项课程 28 张精炼图解，可谓是把知识点做了很好的提炼和总结！我们一起来看一下。 1. 深度学习介绍 2. 逻辑回归 3. 浅层神经网络 4. 深层神经网络 5. 设置你的机器学习应用程序 6.">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c66679d20efd.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c66682770a56.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666916b865b.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c66693b1f4cb.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c66697cf0fff.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c6669ba78233.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666a0f4432a.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666a9023bfd.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666a8aea3cd.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666ab50cb9d.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666aa2df688.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666a8c05c89.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666b290ce64.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666b22ea67d.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666b226ef0b.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666b3ac4baa.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666b217322c.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666b2605682.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666b406eed5.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666b2cb9ad4.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666b5632123.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666be3a04e8.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666f6fbd278.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666bddebb30.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666c05f3952.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666be1ab40a.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666bdc3f103.png">
+<meta property="og:image" content="https://i.loli.net/2019/02/15/5c666c0973f40.png">
+<meta property="og:updated_time" content="2019-02-15T07:49:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="28张知识图谱，总结吴恩达 deeplearning.ai 课程">
+<meta name="twitter:description" content="deeplearning.ai 系列课程相关的笔记和参考资料很多，这里就不过多提及。最近，发现有个来自微软的美女作者 Tess Ferrandez 制作并在 SlideShare 上分享了吴恩达深度学习专项课程 28 张精炼图解，可谓是把知识点做了很好的提炼和总结！我们一起来看一下。 1. 深度学习介绍 2. 逻辑回归 3. 浅层神经网络 4. 深层神经网络 5. 设置你的机器学习应用程序 6.">
+<meta name="twitter:image" content="https://i.loli.net/2019/02/15/5c66679d20efd.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/15/28张知识图谱，总结吴恩达-deeplearning-ai-课程/">
+
+
+
+
+
+  <title>28张知识图谱，总结吴恩达 deeplearning.ai 课程 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/15/28张知识图谱，总结吴恩达-deeplearning-ai-课程/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">28张知识图谱，总结吴恩达 deeplearning.ai 课程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-15T14:44:40+08:00">
+                2019-02-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>deeplearning.ai 系列课程相关的笔记和参考资料很多，这里就不过多提及。最近，发现有个来自微软的美女作者 Tess Ferrandez 制作并在 SlideShare 上分享了吴恩达深度学习专项课程 28 张精炼图解，可谓是把知识点做了很好的提炼和总结！我们一起来看一下。</p>
+<h3 id="1-深度学习介绍"><a href="#1-深度学习介绍" class="headerlink" title="1. 深度学习介绍"></a>1. 深度学习介绍</h3><p><img src="https://i.loli.net/2019/02/15/5c66679d20efd.png" alt="01"></p>
+<h3 id="2-逻辑回归"><a href="#2-逻辑回归" class="headerlink" title="2. 逻辑回归"></a>2. 逻辑回归</h3><p><img src="https://i.loli.net/2019/02/15/5c66682770a56.png" alt="02"></p>
+<h3 id="3-浅层神经网络"><a href="#3-浅层神经网络" class="headerlink" title="3. 浅层神经网络"></a>3. 浅层神经网络</h3><p><img src="https://i.loli.net/2019/02/15/5c666916b865b.png" alt="03"></p>
+<h3 id="4-深层神经网络"><a href="#4-深层神经网络" class="headerlink" title="4. 深层神经网络"></a>4. 深层神经网络</h3><p><img src="https://i.loli.net/2019/02/15/5c66693b1f4cb.png" alt="04"></p>
+<h3 id="5-设置你的机器学习应用程序"><a href="#5-设置你的机器学习应用程序" class="headerlink" title="5. 设置你的机器学习应用程序"></a>5. 设置你的机器学习应用程序</h3><p><img src="https://i.loli.net/2019/02/15/5c66697cf0fff.png" alt="05"></p>
+<h3 id="6-正则化防止过拟合"><a href="#6-正则化防止过拟合" class="headerlink" title="6. 正则化防止过拟合"></a>6. 正则化防止过拟合</h3><p><img src="https://i.loli.net/2019/02/15/5c6669ba78233.png" alt="06"></p>
+<h3 id="7-优化训练"><a href="#7-优化训练" class="headerlink" title="7. 优化训练"></a>7. 优化训练</h3><p><img src="https://i.loli.net/2019/02/15/5c666a0f4432a.png" alt="07"></p>
+<h3 id="8-优化算法"><a href="#8-优化算法" class="headerlink" title="8. 优化算法"></a>8. 优化算法</h3><p><img src="https://i.loli.net/2019/02/15/5c666a9023bfd.png" alt="08"></p>
+<h3 id="9-超参数调试"><a href="#9-超参数调试" class="headerlink" title="9. 超参数调试"></a>9. 超参数调试</h3><p><img src="https://i.loli.net/2019/02/15/5c666a8aea3cd.png" alt="09"></p>
+<h3 id="10-构建你的机器学习项目"><a href="#10-构建你的机器学习项目" class="headerlink" title="10. 构建你的机器学习项目"></a>10. 构建你的机器学习项目</h3><p><img src="https://i.loli.net/2019/02/15/5c666ab50cb9d.png" alt="10"></p>
+<h3 id="11-错误分析"><a href="#11-错误分析" class="headerlink" title="11. 错误分析"></a>11. 错误分析</h3><p><img src="https://i.loli.net/2019/02/15/5c666aa2df688.png" alt="11"></p>
+<h3 id="12-训练-vs-验证-测试-失配"><a href="#12-训练-vs-验证-测试-失配" class="headerlink" title="12. 训练 vs 验证/测试 失配"></a>12. 训练 vs 验证/测试 失配</h3><p><img src="https://i.loli.net/2019/02/15/5c666a8c05c89.png" alt="12"></p>
+<h3 id="13-扩展学习"><a href="#13-扩展学习" class="headerlink" title="13. 扩展学习"></a>13. 扩展学习</h3><p><img src="https://i.loli.net/2019/02/15/5c666b290ce64.png" alt="13"></p>
+<h3 id="14-卷积基础"><a href="#14-卷积基础" class="headerlink" title="14. 卷积基础"></a>14. 卷积基础</h3><p><img src="https://i.loli.net/2019/02/15/5c666b22ea67d.png" alt="14"></p>
+<h3 id="15-Padding"><a href="#15-Padding" class="headerlink" title="15. Padding"></a>15. Padding</h3><p><img src="https://i.loli.net/2019/02/15/5c666b226ef0b.png" alt="15"></p>
+<h3 id="16-深层-CNN"><a href="#16-深层-CNN" class="headerlink" title="16. 深层 CNN"></a>16. 深层 CNN</h3><p><img src="https://i.loli.net/2019/02/15/5c666b3ac4baa.png" alt="16"></p>
+<h3 id="17-典型的-CNN-模型"><a href="#17-典型的-CNN-模型" class="headerlink" title="17. 典型的 CNN 模型"></a>17. 典型的 CNN 模型</h3><p><img src="https://i.loli.net/2019/02/15/5c666b217322c.png" alt="17"></p>
+<h3 id="18-特别网络-ResNet"><a href="#18-特别网络-ResNet" class="headerlink" title="18. 特别网络-ResNet"></a>18. 特别网络-ResNet</h3><p><img src="https://i.loli.net/2019/02/15/5c666b2605682.png" alt="18"></p>
+<h3 id="19-实用建议"><a href="#19-实用建议" class="headerlink" title="19. 实用建议"></a>19. 实用建议</h3><p><img src="https://i.loli.net/2019/02/15/5c666b406eed5.png" alt="19"></p>
+<h3 id="20-检测算法"><a href="#20-检测算法" class="headerlink" title="20. 检测算法"></a>20. 检测算法</h3><p><img src="https://i.loli.net/2019/02/15/5c666b2cb9ad4.png" alt="20"></p>
+<h3 id="21-人脸识别"><a href="#21-人脸识别" class="headerlink" title="21. 人脸识别"></a>21. 人脸识别</h3><p><img src="https://i.loli.net/2019/02/15/5c666b5632123.png" alt="21"></p>
+<h3 id="22-神经风格迁移"><a href="#22-神经风格迁移" class="headerlink" title="22. 神经风格迁移"></a>22. 神经风格迁移</h3><p><img src="https://i.loli.net/2019/02/15/5c666be3a04e8.png" alt="22"></p>
+<h3 id="23-循环神经网络"><a href="#23-循环神经网络" class="headerlink" title="23. 循环神经网络"></a>23. 循环神经网络</h3><p><img src="https://i.loli.net/2019/02/15/5c666f6fbd278.png" alt="23"></p>
+<h3 id="24-更多-RNN-模型"><a href="#24-更多-RNN-模型" class="headerlink" title="24. 更多 RNN 模型"></a>24. 更多 RNN 模型</h3><p><img src="https://i.loli.net/2019/02/15/5c666bddebb30.png" alt="24"></p>
+<h3 id="25-NLP-词嵌入"><a href="#25-NLP-词嵌入" class="headerlink" title="25. NLP-词嵌入"></a>25. NLP-词嵌入</h3><p><img src="https://i.loli.net/2019/02/15/5c666c05f3952.png" alt="25"></p>
+<h3 id="26-词嵌入详解"><a href="#26-词嵌入详解" class="headerlink" title="26. 词嵌入详解"></a>26. 词嵌入详解</h3><p><img src="https://i.loli.net/2019/02/15/5c666be1ab40a.png" alt="26"></p>
+<h3 id="27-序列到序列基本模型"><a href="#27-序列到序列基本模型" class="headerlink" title="27. 序列到序列基本模型"></a>27. 序列到序列基本模型</h3><p><img src="https://i.loli.net/2019/02/15/5c666bdc3f103.png" alt="27"></p>
+<h3 id="28-序列到序列"><a href="#28-序列到序列" class="headerlink" title="28. 序列到序列"></a>28. 序列到序列</h3><p><img src="https://i.loli.net/2019/02/15/5c666c0973f40.png" alt="28"></p>
+<p>至此，28 张知识点精炼图已总结完毕!</p>
+<p><a href="https://redstonewill.com/1962/" target="_blank" rel="noopener">原文链接</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/吴恩达/" rel="tag"># 吴恩达</a>
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/03/详解-word2vec/" rel="next" title="详解 word2vec">
+                <i class="fa fa-chevron-left"></i> 详解 word2vec
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-深度学习介绍"><span class="nav-number">1.</span> <span class="nav-text">1. 深度学习介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-逻辑回归"><span class="nav-number">2.</span> <span class="nav-text">2. 逻辑回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-浅层神经网络"><span class="nav-number">3.</span> <span class="nav-text">3. 浅层神经网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-深层神经网络"><span class="nav-number">4.</span> <span class="nav-text">4. 深层神经网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-设置你的机器学习应用程序"><span class="nav-number">5.</span> <span class="nav-text">5. 设置你的机器学习应用程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-正则化防止过拟合"><span class="nav-number">6.</span> <span class="nav-text">6. 正则化防止过拟合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-优化训练"><span class="nav-number">7.</span> <span class="nav-text">7. 优化训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-优化算法"><span class="nav-number">8.</span> <span class="nav-text">8. 优化算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-超参数调试"><span class="nav-number">9.</span> <span class="nav-text">9. 超参数调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-构建你的机器学习项目"><span class="nav-number">10.</span> <span class="nav-text">10. 构建你的机器学习项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-错误分析"><span class="nav-number">11.</span> <span class="nav-text">11. 错误分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-训练-vs-验证-测试-失配"><span class="nav-number">12.</span> <span class="nav-text">12. 训练 vs 验证/测试 失配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-扩展学习"><span class="nav-number">13.</span> <span class="nav-text">13. 扩展学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-卷积基础"><span class="nav-number">14.</span> <span class="nav-text">14. 卷积基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-Padding"><span class="nav-number">15.</span> <span class="nav-text">15. Padding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-深层-CNN"><span class="nav-number">16.</span> <span class="nav-text">16. 深层 CNN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-典型的-CNN-模型"><span class="nav-number">17.</span> <span class="nav-text">17. 典型的 CNN 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18-特别网络-ResNet"><span class="nav-number">18.</span> <span class="nav-text">18. 特别网络-ResNet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19-实用建议"><span class="nav-number">19.</span> <span class="nav-text">19. 实用建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-检测算法"><span class="nav-number">20.</span> <span class="nav-text">20. 检测算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21-人脸识别"><span class="nav-number">21.</span> <span class="nav-text">21. 人脸识别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-神经风格迁移"><span class="nav-number">22.</span> <span class="nav-text">22. 神经风格迁移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-循环神经网络"><span class="nav-number">23.</span> <span class="nav-text">23. 循环神经网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#24-更多-RNN-模型"><span class="nav-number">24.</span> <span class="nav-text">24. 更多 RNN 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#25-NLP-词嵌入"><span class="nav-number">25.</span> <span class="nav-text">25. NLP-词嵌入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#26-词嵌入详解"><span class="nav-number">26.</span> <span class="nav-text">26. 词嵌入详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27-序列到序列基本模型"><span class="nav-number">27.</span> <span class="nav-text">27. 序列到序列基本模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28-序列到序列"><span class="nav-number">28.</span> <span class="nav-text">28. 序列到序列</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
