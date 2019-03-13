@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="LeNET-5模型简介LeNet-5 出自论文 Gradient-Based Learning Applied to Document Recognition，是一种用于手写体字符识别的非常高效的卷积神经网络。  下面的代码根据 LeNET-5 模型结构在每层卷积层的卷积核数量上做了相应调整，以 MNIST 数据集为例展示了 LeNET-5 在 Tensorflow 框架下的手写数字体识别。 模型">
+<meta name="keywords" content="MachineLearning, DeepLearning, ReinforcementLearning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="卷积神经网络 CNN 模型">
+<meta property="og:url" content="http://yoursite.com/2019/03/12/卷积神经网络-CNN-模型/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="LeNET-5模型简介LeNet-5 出自论文 Gradient-Based Learning Applied to Document Recognition，是一种用于手写体字符识别的非常高效的卷积神经网络。  下面的代码根据 LeNET-5 模型结构在每层卷积层的卷积核数量上做了相应调整，以 MNIST 数据集为例展示了 LeNET-5 在 Tensorflow 框架下的手写数字体识别。 模型">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/03/12/5c8757a34ee8c.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/12/5c87b1bc33f4b.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/12/5c87b69ae0aad.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/13/5c886309cc6a0.png">
+<meta property="og:updated_time" content="2019-03-13T12:28:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="卷积神经网络 CNN 模型">
+<meta name="twitter:description" content="LeNET-5模型简介LeNet-5 出自论文 Gradient-Based Learning Applied to Document Recognition，是一种用于手写体字符识别的非常高效的卷积神经网络。  下面的代码根据 LeNET-5 模型结构在每层卷积层的卷积核数量上做了相应调整，以 MNIST 数据集为例展示了 LeNET-5 在 Tensorflow 框架下的手写数字体识别。 模型">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/12/5c8757a34ee8c.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/12/卷积神经网络-CNN-模型/">
+
+
+
+
+
+  <title>卷积神经网络 CNN 模型 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/12/卷积神经网络-CNN-模型/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">卷积神经网络 CNN 模型</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-12T10:53:16+08:00">
+                2019-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="LeNET-5模型"><a href="#LeNET-5模型" class="headerlink" title="LeNET-5模型"></a>LeNET-5模型</h2><h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p><strong><code>LeNet-5</code></strong> 出自论文 Gradient-Based Learning Applied to Document Recognition，是一种用于手写体字符识别的非常高效的卷积神经网络。</p>
+<p><img src="https://i.loli.net/2019/03/12/5c8757a34ee8c.png" alt="01_LeNet-5"></p>
+<p>下面的代码根据 <strong><code>LeNET-5</code></strong> 模型结构在每层卷积层的卷积核数量上做了相应调整，以 <strong><code>MNIST</code></strong> 数据集为例展示了 <strong><code>LeNET-5</code></strong> 在 <strong><code>Tensorflow</code></strong> 框架下的手写数字体识别。</p>
+<h3 id="模型代码-Tensorflow"><a href="#模型代码-Tensorflow" class="headerlink" title="模型代码 Tensorflow"></a>模型代码 Tensorflow</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> tensorflow.examples.tutorials.mnist <span class="keyword">import</span> input_data</span><br><span class="line"></span><br><span class="line"><span class="comment">## 配置神经网络参数</span></span><br><span class="line"><span class="comment"># 输入与输出节点</span></span><br><span class="line">INPUT_NODE = <span class="number">784</span></span><br><span class="line">OUTPUT_NODE = <span class="number">10</span></span><br><span class="line">IMAGE_SIZE = <span class="number">28</span></span><br><span class="line">NUM_CHANNELS = <span class="number">1</span></span><br><span class="line">NUM_LABELS =<span class="number">10</span></span><br><span class="line"><span class="comment"># 第一层卷积神经网络的尺寸和深度</span></span><br><span class="line">CONV1_DEEP = <span class="number">32</span></span><br><span class="line">CONV1_SIZE = <span class="number">5</span></span><br><span class="line"><span class="comment"># 第二层卷积神经网络的尺寸和深度</span></span><br><span class="line">CONV2_DEEP = <span class="number">64</span></span><br><span class="line">CONV2_SIZE = <span class="number">5</span></span><br><span class="line"><span class="comment"># 全连接层的节点个数</span></span><br><span class="line">FC_SIZE = <span class="number">1024</span></span><br><span class="line"><span class="comment"># 神经网络中的超参数</span></span><br><span class="line">BATCH_SIZE = <span class="number">64</span>    <span class="comment"># 一个训练batch中训练数据个数</span></span><br><span class="line">LEARNING_RATE = <span class="number">1e-4</span>    <span class="comment"># AdamOptimizer学习率</span></span><br><span class="line">N_EPOCH = <span class="number">21</span>   <span class="comment"># 所有训练样本训练次数</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 载入数据集</span></span><br><span class="line">mnist = input_data.read_data_sets(<span class="string">'MNIST_data'</span>,one_hot=<span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算一共有多少个批次</span></span><br><span class="line">n_batch = mnist.train.num_examples // BATCH_SIZE</span><br><span class="line"><span class="comment"># 定义两个placeholder</span></span><br><span class="line">x = tf.placeholder(tf.float32, [<span class="keyword">None</span>, INPUT_NODE]) <span class="comment"># 28*28</span></span><br><span class="line">y = tf.placeholder(tf.float32, [<span class="keyword">None</span>, OUTPUT_NODE])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化权值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">weight_variable</span><span class="params">(shape)</span>:</span></span><br><span class="line">    initial = tf.truncated_normal(shape, stddev=<span class="number">0.1</span>)<span class="comment">#生成一个截断的正态分布</span></span><br><span class="line">    <span class="keyword">return</span> tf.Variable(initial)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化偏置</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bias_variable</span><span class="params">(shape)</span>:</span></span><br><span class="line">    initial = tf.constant(<span class="number">0.1</span>, shape=shape)</span><br><span class="line">    <span class="keyword">return</span> tf.Variable(initial)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 卷积层</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">conv2d</span><span class="params">(x, W)</span>:</span></span><br><span class="line">    <span class="comment">#x input tensor of shape `[batch, in_height, in_width, in_channels]`</span></span><br><span class="line">    <span class="comment">#W filter / kernel tensor of shape [filter_height, filter_width, in_channels, out_channels]</span></span><br><span class="line">    <span class="comment">#`strides[0] = strides[3] = 1`. strides[1]代表x方向的步长，strides[2]代表y方向的步长</span></span><br><span class="line">    <span class="comment">#padding: A `string` from: `"SAME", "VALID"`</span></span><br><span class="line">    <span class="keyword">return</span> tf.nn.conv2d(x, W, strides=[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>], padding=<span class="string">'SAME'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 池化层</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max_pool_2x2</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="comment">#ksize [1,x,y,1]</span></span><br><span class="line">    <span class="keyword">return</span> tf.nn.max_pool(x, ksize=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>], strides=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>], padding=<span class="string">'SAME'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变x的格式转为4D的格式[batch, in_height, in_width, in_channels]`</span></span><br><span class="line">x_image = tf.reshape(x,[<span class="number">-1</span>, IMAGE_SIZE, IMAGE_SIZE, NUM_CHANNELS]) <span class="comment"># 28*28*1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化第一个卷积层的权值和偏置</span></span><br><span class="line">W_conv1 = weight_variable([CONV1_SIZE, CONV1_SIZE, NUM_CHANNELS, CONV1_DEEP]) <span class="comment"># 5*5的采样窗口，输入通道数是1，输出通道数是32</span></span><br><span class="line">b_conv1 = bias_variable([CONV1_DEEP])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把x_image和权值向量进行卷积，再加上偏置值，然后应用于relu激活函数</span></span><br><span class="line">h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)</span><br><span class="line">h_pool1 = max_pool_2x2(h_conv1) <span class="comment"># 进行max-pooling</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化第二个卷积层的权值和偏置</span></span><br><span class="line">W_conv2 = weight_variable([CONV2_SIZE, CONV2_SIZE, CONV1_DEEP, CONV2_DEEP])<span class="comment">#5*5的采样窗口，输入通道数是32，输出通道数是64</span></span><br><span class="line">b_conv2 = bias_variable([CONV2_DEEP])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把h_pool1和权值向量进行卷积，再加上偏置值，然后应用于relu激活函数</span></span><br><span class="line">h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)</span><br><span class="line">h_pool2 = max_pool_2x2(h_conv2) <span class="comment"># 进行max-pooling</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 28*28的图片第一次卷积后还是28*28，第一次池化后变为14*14</span></span><br><span class="line"><span class="comment"># 第二次卷积后为14*14，第二次池化后变为了7*7</span></span><br><span class="line"><span class="comment"># 进过上面操作后得到64张7*7的平面</span></span><br><span class="line"><span class="comment"># (64,7,7,64)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取h_pool2层的输出tensor的形状</span></span><br><span class="line">pool_shape = h_pool2.get_shape().as_list()</span><br><span class="line">NODES = pool_shape[<span class="number">1</span>] * pool_shape[<span class="number">2</span>] * pool_shape[<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化第一个全连接层的权值</span></span><br><span class="line"><span class="comment">#上一层有7*7*64个神经元，全连接层有1024个神经元</span></span><br><span class="line">W_fc1 = weight_variable([NODES, FC_SIZE])</span><br><span class="line">b_fc1 = bias_variable([FC_SIZE])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把池化层2的输出扁平化为1维</span></span><br><span class="line">h_pool2_flat = tf.reshape(h_pool2, [<span class="number">-1</span>, NODES])</span><br><span class="line"><span class="comment"># 求第一个全连接层的输出</span></span><br><span class="line">h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)</span><br><span class="line"></span><br><span class="line"><span class="comment"># keep_prob用来表示神经元的输出概率</span></span><br><span class="line">keep_prob = tf.placeholder(tf.float32)</span><br><span class="line">h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化第二个全连接层</span></span><br><span class="line">W_fc2 = weight_variable([FC_SIZE, OUTPUT_NODE])</span><br><span class="line">b_fc2 = bias_variable([OUTPUT_NODE])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算输出</span></span><br><span class="line">prediction = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)</span><br><span class="line"><span class="comment"># 交叉熵代价函数</span></span><br><span class="line">cross_entropy = tf.losses.softmax_cross_entropy(y, prediction)</span><br><span class="line"><span class="comment"># 使用AdamOptimizer进行优化</span></span><br><span class="line">train_step = tf.train.AdamOptimizer(LEARNING_RATE).minimize(cross_entropy)</span><br><span class="line"><span class="comment"># 结果存放在一个布尔列表中</span></span><br><span class="line">correct_prediction = tf.equal(tf.argmax(prediction,<span class="number">1</span>), tf.argmax(y,<span class="number">1</span>))</span><br><span class="line"><span class="comment"># 求准确率</span></span><br><span class="line">accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    sess.run(tf.global_variables_initializer())</span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> range(N_EPOCH):</span><br><span class="line">        <span class="keyword">for</span> batch <span class="keyword">in</span> range(n_batch):</span><br><span class="line">            batch_xs,batch_ys =  mnist.train.next_batch(BATCH_SIZE)</span><br><span class="line">            sess.run(train_step,feed_dict=&#123;x:batch_xs, y:batch_ys,keep_prob:<span class="number">0.7</span>&#125;)</span><br><span class="line"></span><br><span class="line">        acc = sess.run(accuracy,feed_dict=&#123;x:mnist.test.images, y:mnist.test.labels,keep_prob:<span class="number">1.0</span>&#125;)</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">"Iter "</span> + str(epoch) + <span class="string">", Testing Accuracy= "</span> + str(acc))</span><br></pre></td></tr></table></figure>
+<h2 id="AlexNet模型"><a href="#AlexNet模型" class="headerlink" title="AlexNet模型"></a>AlexNet模型</h2><p>AlexNet 是2012年 ImageNet 竞赛冠军获得者 Hinton 和他的学生 Alex Krizhevsky 设计的。也是在那年之后，更多的更深的神经网路被提出，比如优秀的 VGG, GoogLeNet。</p>
+<p><img src="https://i.loli.net/2019/03/12/5c87b1bc33f4b.png" alt="02_AlexNet"></p>
+<h2 id="VGG16模型"><a href="#VGG16模型" class="headerlink" title="VGG16模型"></a>VGG16模型</h2><h3 id="简介-1"><a href="#简介-1" class="headerlink" title="简介"></a>简介</h3><p>在 2014 年提出来的模型。当这个模型被提出时，由于它的简洁性和实用性，马上成为了当时最流行的卷积神经网络模型。它在图像分类和目标检测任务中都表现出非常好的结果。在 2014 年的 ILSVRC 比赛中，VGG 在 Top-5 中取得了 92.3% 的正确率。</p>
+<p><img src="https://i.loli.net/2019/03/12/5c87b69ae0aad.png" alt="03_VGG16"></p>
+<h3 id="模型代码-Tensorflow-1"><a href="#模型代码-Tensorflow-1" class="headerlink" title="模型代码 Tensorflow"></a>模型代码 Tensorflow</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置神经网络参数</span></span><br><span class="line">INPUT_NODE = <span class="number">150528</span> <span class="comment"># 224*224*3</span></span><br><span class="line">OUTPUT_NODE = <span class="number">1000</span></span><br><span class="line">IMAGE_SIZE = <span class="number">224</span></span><br><span class="line">NUM_CHANNELS = <span class="number">3</span></span><br><span class="line">NUM_LABELS = <span class="number">1000</span></span><br><span class="line"><span class="comment"># 第一层卷积神经网络的尺寸和深度</span></span><br><span class="line">CONV1_DEEP = <span class="number">64</span></span><br><span class="line">CONV1_SIZE = <span class="number">3</span></span><br><span class="line"><span class="comment"># 第二层卷积神经网络的尺寸和深度</span></span><br><span class="line">CONV2_DEEP = <span class="number">128</span></span><br><span class="line">CONV2_SIZE = <span class="number">3</span></span><br><span class="line"><span class="comment"># 第三层卷积神经网络的尺寸和深度</span></span><br><span class="line">CONV3_DEEP = <span class="number">256</span></span><br><span class="line">CONV3_SIZE = <span class="number">3</span></span><br><span class="line"><span class="comment"># 第四层卷积神经网络的尺寸和深度</span></span><br><span class="line">CONV4_DEEP = <span class="number">512</span></span><br><span class="line">CONV4_SIZE = <span class="number">3</span></span><br><span class="line"><span class="comment"># 第五层卷积神经网络的尺寸和深度</span></span><br><span class="line">CONV5_DEEP = <span class="number">512</span></span><br><span class="line">CONV5_SIZE = <span class="number">3</span></span><br><span class="line"><span class="comment"># 全连接层的节点个数</span></span><br><span class="line">FC_SIZE = <span class="number">4096</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算一共有多少个批次</span></span><br><span class="line">n_batch = mnist.train.num_examples // BATCH_SIZE</span><br><span class="line"><span class="comment"># 定义两个placeholder</span></span><br><span class="line">x = tf.placeholder(tf.float32, [<span class="keyword">None</span>, INPUT_NODE]) <span class="comment"># 224*224*3</span></span><br><span class="line">y = tf.placeholder(tf.float32, [<span class="keyword">None</span>, OUTPUT_NODE])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化权值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">weight_variable</span><span class="params">(shape, name)</span>:</span></span><br><span class="line"><span class="comment">#     initial = tf.truncated_normal(shape, stddev=0.1)#生成一个截断的正态分布</span></span><br><span class="line">     initial = tf.truncated_normal_initializer(stddev=<span class="number">0.1</span>)</span><br><span class="line"><span class="comment">#    initial = tf.contrib.layers.xavier_initializer_conv2d()</span></span><br><span class="line">    <span class="keyword">return</span> tf.get_variable(name, shape=shape, initializer=initial)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化偏置</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bias_variable</span><span class="params">(shape, name)</span>:</span></span><br><span class="line"><span class="comment">#     initial = tf.constant(0.1, shape=shape)</span></span><br><span class="line">    initial = tf.constant_initializer(<span class="number">0.1</span>)</span><br><span class="line">    <span class="keyword">return</span> tf.get_variable(name, shape=shape, initializer=initial)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 卷积层</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">conv2d</span><span class="params">(x, W)</span>:</span></span><br><span class="line">    <span class="comment">#x input tensor of shape `[batch, in_height, in_width, in_channels]`</span></span><br><span class="line">    <span class="comment">#W filter / kernel tensor of shape [filter_height, filter_width, in_channels, out_channels]</span></span><br><span class="line">    <span class="comment">#`strides[0] = strides[3] = 1`. strides[1]代表x方向的步长，strides[2]代表y方向的步长</span></span><br><span class="line">    <span class="comment">#padding: A `string` from: `"SAME", "VALID"`</span></span><br><span class="line">    <span class="keyword">return</span> tf.nn.conv2d(x, W, strides=[<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>], padding=<span class="string">'SAME'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 池化层</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max_pool_2x2</span><span class="params">(x, name)</span>:</span></span><br><span class="line">    <span class="comment">#ksize [1,x,y,1]</span></span><br><span class="line">    <span class="keyword">return</span> tf.nn.max_pool(x, ksize=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>], strides=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>], padding=<span class="string">'SAME'</span>, name=name)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变x的格式转为4D的格式[batch, in_height, in_width, in_channels]`</span></span><br><span class="line">x_image = tf.reshape(x,[<span class="number">-1</span>, IMAGE_SIZE, IMAGE_SIZE, NUM_CHANNELS]) <span class="comment"># 224*224*3</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block1_conv1'</span>):</span><br><span class="line">    <span class="comment"># 初始化第一个卷积层的权值和偏置,并计算卷积结果</span></span><br><span class="line">    W_conv1 = weight_variable([CONV1_SIZE, CONV1_SIZE, NUM_CHANNELS, CONV1_DEEP], <span class="string">'weights'</span>) <span class="comment"># 3*3的采样窗口，输入通道数是3，输出通道数是64</span></span><br><span class="line">    b_conv1 = bias_variable([CONV1_DEEP], <span class="string">'bias'</span>)</span><br><span class="line">    h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block1_conv2'</span>):</span><br><span class="line">    <span class="comment"># 初始化第二个卷积层的权值和偏置,并计算卷积和池化结果</span></span><br><span class="line">    W_conv2 = weight_variable([CONV1_SIZE, CONV1_SIZE, CONV1_DEEP, CONV1_DEEP], <span class="string">'weights'</span>) <span class="comment"># 3*3采样窗口，输入通道数是64，输出通道数是64</span></span><br><span class="line">    b_conv2 = bias_variable([CONV1_DEEP], <span class="string">'bias'</span>)</span><br><span class="line">    h_conv2 = tf.nn.relu(conv2d(h_conv1, W_conv2) + b_conv2)</span><br><span class="line">    h_pool1 = max_pool_2x2(h_conv2, <span class="string">'pool1'</span>) <span class="comment"># 进行max-pooling</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block2_conv3'</span>):</span><br><span class="line">    <span class="comment"># 初始化第三个卷积层的权值和偏置,并计算卷积结果</span></span><br><span class="line">    W_conv3 = weight_variable([CONV2_SIZE, CONV2_SIZE, CONV1_DEEP, CONV2_DEEP], <span class="string">'weights'</span>) <span class="comment"># 3*3的采样窗口，输入通道数是64，输出通道数是128</span></span><br><span class="line">    b_conv3 = bias_variable([CONV2_DEEP], <span class="string">'bias'</span>)</span><br><span class="line">    h_conv3 = tf.nn.relu(conv2d(h_pool1, W_conv3) + b_conv3)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block2_conv4'</span>):</span><br><span class="line">    <span class="comment"># 初始化第四个卷积层的权值和偏置,并计算卷积和池化结果</span></span><br><span class="line">    W_conv4 = weight_variable([CONV2_SIZE, CONV2_SIZE, CONV2_DEEP, CONV2_DEEP], <span class="string">'weights'</span>) <span class="comment"># 3*3采样窗口，输入通道数是128，输出通道数是128</span></span><br><span class="line">    b_conv4 = bias_variable([CONV2_DEEP], <span class="string">'bias'</span>)</span><br><span class="line">    h_conv4 = tf.nn.relu(conv2d(h_conv3, W_conv4) + b_conv4)</span><br><span class="line">    h_pool2 = max_pool_2x2(h_conv4, <span class="string">'pool2'</span>) <span class="comment"># 进行max-pooling</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block3_conv5'</span>):</span><br><span class="line">    <span class="comment"># 初始化第五个卷积层的权值和偏置,并计算卷积结果</span></span><br><span class="line">    W_conv5 = weight_variable([CONV3_SIZE, CONV3_SIZE, CONV2_DEEP, CONV3_DEEP], <span class="string">'weights'</span>) <span class="comment"># 3*3采样窗口，输入通道数是128，输出通道数是256</span></span><br><span class="line">    b_conv5 = bias_variable([CONV3_DEEP], <span class="string">'bias'</span>)</span><br><span class="line">    h_conv5 = tf.nn.relu(conv2d(h_pool2, W_conv5) + b_conv5)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block3_conv6'</span>):</span><br><span class="line">    <span class="comment"># 初始化第六个卷积层的权值和偏置,并计算卷积结果</span></span><br><span class="line">    W_conv6 = weight_variable([CONV3_SIZE, CONV3_SIZE, CONV3_DEEP, CONV3_DEEP], <span class="string">'weights'</span>) <span class="comment"># 3*3采样窗口，输入通道数是256，输出通道数是256</span></span><br><span class="line">    b_conv6 = bias_variable([CONV3_DEEP], <span class="string">'bias'</span>)</span><br><span class="line">    h_conv6 = tf.nn.relu(conv2d(h_conv5, W_conv6) + b_conv6)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block3_conv7'</span>):</span><br><span class="line">    <span class="comment"># 初始化第七个卷积层的权值和偏置,并计算卷积和池化结果</span></span><br><span class="line">    W_conv7 = weight_variable([CONV3_SIZE, CONV3_SIZE, CONV3_DEEP, CONV3_DEEP], <span class="string">'weights'</span>) <span class="comment"># 3*3采样窗口，输入通道数是256，输出通道数是256</span></span><br><span class="line">    b_conv7 = bias_variable([CONV3_DEEP], <span class="string">'bias'</span>)</span><br><span class="line">    h_conv7 = tf.nn.relu(conv2d(h_conv6, W_conv7) + b_conv7)</span><br><span class="line">    h_pool3 = max_pool_2x2(h_conv7, <span class="string">'pool3'</span>) <span class="comment"># 进行max-pooling</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block4_conv8'</span>):</span><br><span class="line">    <span class="comment"># 初始化第八个卷积层的权值和偏置,并计算卷积结果</span></span><br><span class="line">    W_conv8 = weight_variable([CONV4_SIZE, CONV4_SIZE, CONV3_DEEP, CONV4_DEEP], <span class="string">'weights'</span>) <span class="comment"># 3*3采样窗口，输入通道数是256，输出通道数是512</span></span><br><span class="line">    b_conv8 = bias_variable([CONV4_DEEP], <span class="string">'bias'</span>)</span><br><span class="line">    h_conv8 = tf.nn.relu(conv2d(h_pool3, W_conv8) + b_conv8)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block4_conv9'</span>):</span><br><span class="line">    <span class="comment"># 初始化第九个卷积层的权值和偏置,并计算卷积结果</span></span><br><span class="line">    W_conv9 = weight_variable([CONV4_SIZE, CONV4_SIZE, CONV4_DEEP, CONV4_DEEP], <span class="string">'weights'</span>) <span class="comment"># 3*3采样窗口，输入通道数是512，输出通道数是512</span></span><br><span class="line">    b_conv9 = bias_variable([CONV4_DEEP], <span class="string">'bias'</span>)</span><br><span class="line">    h_conv9 = tf.nn.relu(conv2d(h_conv8, W_conv9) + b_conv9)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block4_conv10'</span>):</span><br><span class="line">    <span class="comment"># 初始化第十个卷积层的权值和偏置,并计算卷积和池化结果</span></span><br><span class="line">    W_conv10 = weight_variable([CONV4_SIZE, CONV4_SIZE, CONV4_DEEP, CONV4_DEEP], <span class="string">'weights'</span>) <span class="comment"># 3*3采样窗口，输入通道数是512，输出通道数是512</span></span><br><span class="line">    b_conv10 = bias_variable([CONV4_DEEP], <span class="string">'bias'</span>)</span><br><span class="line">    h_conv10 = tf.nn.relu(conv2d(h_conv9, W_conv10) + b_conv10)</span><br><span class="line">    h_pool4 = max_pool_2x2(h_conv10, <span class="string">'pool4'</span>) <span class="comment"># 进行max-pooling</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block5_conv11'</span>):</span><br><span class="line">    <span class="comment"># 初始化第十一个卷积层的权值和偏置,并计算卷积结果</span></span><br><span class="line">    W_conv11 = weight_variable([CONV5_SIZE, CONV5_SIZE, CONV4_DEEP, CONV5_DEEP], <span class="string">'weights'</span>) <span class="comment"># 3*3采样窗口，输入通道数是512，输出通道数是512</span></span><br><span class="line">    b_conv11 = bias_variable([CONV5_DEEP], <span class="string">'bias'</span>)</span><br><span class="line">    h_conv11 = tf.nn.relu(conv2d(h_pool4, W_conv11) + b_conv11)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block5_conv12'</span>):</span><br><span class="line">    <span class="comment"># 初始化第十二个卷积层的权值和偏置,并计算卷积结果</span></span><br><span class="line">    W_conv12 = weight_variable([CONV5_SIZE, CONV5_SIZE, CONV5_DEEP, CONV5_DEEP], <span class="string">'weights'</span>) <span class="comment"># 3*3采样窗口，输入通道数是512，输出通道数是512</span></span><br><span class="line">    b_conv12 = bias_variable([CONV5_DEEP], <span class="string">'bias'</span>)</span><br><span class="line">    h_conv12 = tf.nn.relu(conv2d(h_conv11, W_conv12) + b_conv12)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block5_conv13'</span>):</span><br><span class="line">    <span class="comment"># 初始化第十三个卷积层的权值和偏置,并计算卷积和池化结果</span></span><br><span class="line">    W_conv13 = weight_variable([CONV5_SIZE, CONV5_SIZE, CONV5_DEEP, CONV5_DEEP], <span class="string">'weights'</span>) <span class="comment"># 3*3采样窗口，输入通道数是512，输出通道数是512</span></span><br><span class="line">    b_conv13 = bias_variable([CONV5_DEEP], <span class="string">'bias'</span>)</span><br><span class="line">    h_conv13 = tf.nn.relu(conv2d(h_conv12, W_conv13) + b_conv13)</span><br><span class="line">    h_pool5 = max_pool_2x2(h_conv13, <span class="string">'pool5'</span>) <span class="comment"># 进行max-pooling</span></span><br><span class="line">    </span><br><span class="line"><span class="comment"># 获取h_pool2层的输出tensor的形状</span></span><br><span class="line">pool_shape = h_pool5.get_shape().as_list()</span><br><span class="line">NODES = pool_shape[<span class="number">1</span>] * pool_shape[<span class="number">2</span>] * pool_shape[<span class="number">3</span>]</span><br><span class="line">keep_prob = tf.placeholder(tf.float32)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block6_fc1'</span>):</span><br><span class="line">    <span class="comment"># 初始化第一个全连接层的权值</span></span><br><span class="line">    W_fc1 = weight_variable([NODES, FC_SIZE], <span class="string">'weights'</span>)</span><br><span class="line">    b_fc1 = bias_variable([FC_SIZE],<span class="string">'bias'</span>)</span><br><span class="line">    <span class="comment"># 把池化层2的输出扁平化为1维</span></span><br><span class="line">    h_pool5_flat = tf.reshape(h_pool5, [<span class="number">-1</span>, NODES])</span><br><span class="line">    <span class="comment"># 求第一个全连接层的输出</span></span><br><span class="line">    h_fc1 = tf.nn.relu(tf.matmul(h_pool5_flat, W_fc1) + b_fc1)</span><br><span class="line">    <span class="comment"># keep_prob用来表示神经元的输出概率</span></span><br><span class="line">    h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block6_fc2'</span>):</span><br><span class="line">    <span class="comment"># 初始化第二个全连接层</span></span><br><span class="line">    W_fc2 = weight_variable([FC_SIZE, FC_SIZE], <span class="string">'weights'</span>)</span><br><span class="line">    b_fc2 = bias_variable([FC_SIZE], <span class="string">'bias'</span>)</span><br><span class="line">    h_fc2 = tf.nn.relu(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)</span><br><span class="line">    h_fc2_drop = tf.nn.dropout(h_fc2, keep_prob)</span><br><span class="line">    </span><br><span class="line"><span class="keyword">with</span> tf.variable_scope(<span class="string">'block6_fc3'</span>):</span><br><span class="line">    W_fc3 = weight_variable([FC_SIZE, OUTPUT_NODE], <span class="string">'weights'</span>)</span><br><span class="line">    b_fc3 = bias_variable([OUTPUT_NODE], <span class="string">'bias'</span>)</span><br><span class="line">    h_fc3 = tf.nn.relu(tf.matmul(h_fc2_drop, W_fc3) + b_fc3)</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 计算输出</span></span><br><span class="line">prediction = tf.nn.softmax(h_fc3)</span><br><span class="line"><span class="comment"># 交叉熵代价函数</span></span><br><span class="line">cross_entropy = tf.losses.softmax_cross_entropy(y, prediction)</span><br><span class="line"><span class="comment"># 使用AdamOptimizer进行优化</span></span><br><span class="line">train_step = tf.train.AdamOptimizer(LEARNING_RATE).minimize(cross_entropy)</span><br><span class="line"><span class="comment"># 结果存放在一个布尔列表中</span></span><br><span class="line">correct_prediction = tf.equal(tf.argmax(prediction,<span class="number">1</span>), tf.argmax(y,<span class="number">1</span>))</span><br><span class="line"><span class="comment"># 求准确率</span></span><br><span class="line">accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))</span><br></pre></td></tr></table></figure>
+<h3 id="模型代码-Keras"><a href="#模型代码-Keras" class="headerlink" title="模型代码 Keras"></a>模型代码 Keras</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras <span class="keyword">import</span> Sequential</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Dense, Activation, Conv2D, MaxPooling2D, Flatten, Dropout</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Input</span><br><span class="line"><span class="keyword">from</span> keras.optimizers <span class="keyword">import</span> SGD</span><br><span class="line"></span><br><span class="line">model = Sequential()</span><br><span class="line"> </span><br><span class="line"><span class="comment"># BLOCK 1</span></span><br><span class="line">model.add(Conv2D(filters = <span class="number">64</span>, kernel_size = (<span class="number">3</span>, <span class="number">3</span>), activation = <span class="string">'relu'</span>, padding = <span class="string">'same'</span>, name = <span class="string">'block1_conv1'</span>, input_shape = (<span class="number">224</span>, <span class="number">224</span>, <span class="number">3</span>)))   </span><br><span class="line">model.add(Conv2D(filters = <span class="number">64</span>, kernel_size = (<span class="number">3</span>, <span class="number">3</span>), activation = <span class="string">'relu'</span>, padding = <span class="string">'same'</span>, name = <span class="string">'block1_conv2'</span>))</span><br><span class="line">model.add(MaxPooling2D(pool_size = (<span class="number">2</span>, <span class="number">2</span>), strides = (<span class="number">2</span>, <span class="number">2</span>), name = <span class="string">'block1_pool'</span>))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># BLOCK2</span></span><br><span class="line">model.add(Conv2D(filters = <span class="number">128</span>, kernel_size = (<span class="number">3</span>, <span class="number">3</span>), activation = <span class="string">'relu'</span>, padding = <span class="string">'same'</span>, name = <span class="string">'block2_conv1'</span>))   </span><br><span class="line">model.add(Conv2D(filters = <span class="number">128</span>, kernel_size = (<span class="number">3</span>, <span class="number">3</span>), activation = <span class="string">'relu'</span>, padding = <span class="string">'same'</span>, name = <span class="string">'block2_conv2'</span>))</span><br><span class="line">model.add(MaxPooling2D(pool_size = (<span class="number">2</span>, <span class="number">2</span>), strides = (<span class="number">2</span>, <span class="number">2</span>), name = <span class="string">'block2_pool'</span>))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># BLOCK3</span></span><br><span class="line">model.add(Conv2D(filters = <span class="number">256</span>, kernel_size = (<span class="number">3</span>, <span class="number">3</span>), activation = <span class="string">'relu'</span>, padding = <span class="string">'same'</span>, name = <span class="string">'block3_conv1'</span>))   </span><br><span class="line">model.add(Conv2D(filters = <span class="number">256</span>, kernel_size = (<span class="number">3</span>, <span class="number">3</span>), activation = <span class="string">'relu'</span>, padding = <span class="string">'same'</span>, name = <span class="string">'block3_conv2'</span>))</span><br><span class="line">model.add(Conv2D(filters = <span class="number">256</span>, kernel_size = (<span class="number">3</span>, <span class="number">3</span>), activation = <span class="string">'relu'</span>, padding = <span class="string">'same'</span>, name = <span class="string">'block3_conv3'</span>))</span><br><span class="line">model.add(MaxPooling2D(pool_size = (<span class="number">2</span>, <span class="number">2</span>), strides = (<span class="number">2</span>, <span class="number">2</span>), name = <span class="string">'block3_pool'</span>))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># BLOCK4</span></span><br><span class="line">model.add(Conv2D(filters = <span class="number">512</span>, kernel_size = (<span class="number">3</span>, <span class="number">3</span>), activation = <span class="string">'relu'</span>, padding = <span class="string">'same'</span>, name = <span class="string">'block4_conv1'</span>))   </span><br><span class="line">model.add(Conv2D(filters = <span class="number">512</span>, kernel_size = (<span class="number">3</span>, <span class="number">3</span>), activation = <span class="string">'relu'</span>, padding = <span class="string">'same'</span>, name = <span class="string">'block4_conv2'</span>))</span><br><span class="line">model.add(Conv2D(filters = <span class="number">512</span>, kernel_size = (<span class="number">3</span>, <span class="number">3</span>), activation = <span class="string">'relu'</span>, padding = <span class="string">'same'</span>, name = <span class="string">'block4_conv3'</span>))</span><br><span class="line">model.add(MaxPooling2D(pool_size = (<span class="number">2</span>, <span class="number">2</span>), strides = (<span class="number">2</span>, <span class="number">2</span>), name = <span class="string">'block4_pool'</span>))</span><br><span class="line"> </span><br><span class="line"><span class="comment"># BLOCK5</span></span><br><span class="line">model.add(Conv2D(filters = <span class="number">512</span>, kernel_size = (<span class="number">3</span>, <span class="number">3</span>), activation = <span class="string">'relu'</span>, padding = <span class="string">'same'</span>, name = <span class="string">'block5_conv1'</span>))   </span><br><span class="line">model.add(Conv2D(filters = <span class="number">512</span>, kernel_size = (<span class="number">3</span>, <span class="number">3</span>), activation = <span class="string">'relu'</span>, padding = <span class="string">'same'</span>, name = <span class="string">'block5_conv2'</span>))</span><br><span class="line">model.add(Conv2D(filters = <span class="number">512</span>, kernel_size = (<span class="number">3</span>, <span class="number">3</span>), activation = <span class="string">'relu'</span>, padding = <span class="string">'same'</span>, name = <span class="string">'block5_conv3'</span>))</span><br><span class="line">model.add(MaxPooling2D(pool_size = (<span class="number">2</span>, <span class="number">2</span>), strides = (<span class="number">2</span>, <span class="number">2</span>), name = <span class="string">'block5_pool'</span>))</span><br><span class="line"> </span><br><span class="line">model.add(Flatten())</span><br><span class="line">model.add(Dense(<span class="number">4096</span>, activation = <span class="string">'relu'</span>, name = <span class="string">'fc1'</span>))</span><br><span class="line">model.add(Dropout(<span class="number">0.5</span>))</span><br><span class="line">model.add(Dense(<span class="number">4096</span>, activation = <span class="string">'relu'</span>, name = <span class="string">'fc2'</span>))</span><br><span class="line">model.add(Dropout(<span class="number">0.5</span>))</span><br><span class="line">model.add(Dense(<span class="number">1000</span>, activation = <span class="string">'softmax'</span>, name = <span class="string">'prediction'</span>))</span><br><span class="line"></span><br><span class="line">model.summary()</span><br></pre></td></tr></table></figure>
+<h3 id="Keras-application中的VGG16模型"><a href="#Keras-application中的VGG16模型" class="headerlink" title="Keras.application中的VGG16模型"></a>Keras.application中的VGG16模型</h3><p>VGG16模型的权重由ImageNet训练而来。该模型在Theano和TensorFlow后端均可使用,并接受channels_first和channels_last两种输入维度顺序，模型的默认输入尺寸是224x224。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> keras</span><br><span class="line"></span><br><span class="line">model = keras.applications.vgg16.VGG16(include_top=<span class="keyword">True</span>, weights=<span class="string">'imagenet'</span>, input_tensor=<span class="keyword">None</span>, input_shape=<span class="keyword">None</span>, pooling=<span class="keyword">None</span>, classes=<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+<p>参数说明</p>
+<ul>
+<li>include_top：是否保留顶层的3个全连接网络</li>
+<li>weights：None代表随机初始化，即不加载预训练权重。’imagenet’代表加载预训练权重</li>
+<li>input_tensor：可填入Keras tensor作为模型的图像输出tensor</li>
+<li>input_shape：可选，仅当include_top=False有效，应为长为3的tuple，指明输入图片的shape，图片的宽高必须大于48，如(200,200,3)</li>
+</ul>
+<p>返回值</p>
+<ul>
+<li>pooling：当include_top=False时，该参数指定了池化方式。None代表不池化，最后一个卷积层的输出为4D张量。‘avg’代表全局平均池化，‘max’代表全局最大值池化。</li>
+<li>classes：可选，图片分类的类别数，仅当include_top=True并且不加载预训练权重时可用。</li>
+</ul>
+<h2 id="GoogleNet-Inception"><a href="#GoogleNet-Inception" class="headerlink" title="GoogleNet/Inception"></a>GoogleNet/Inception</h2><p><img src="https://i.loli.net/2019/03/13/5c886309cc6a0.png" alt="04_GoogleNet"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/09/Tensorflow-学习笔记/" rel="next" title="Tensorflow 学习笔记">
+                <i class="fa fa-chevron-left"></i> Tensorflow 学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#LeNET-5模型"><span class="nav-number">1.</span> <span class="nav-text">LeNET-5模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型代码-Tensorflow"><span class="nav-number">1.2.</span> <span class="nav-text">模型代码 Tensorflow</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AlexNet模型"><span class="nav-number">2.</span> <span class="nav-text">AlexNet模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VGG16模型"><span class="nav-number">3.</span> <span class="nav-text">VGG16模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介-1"><span class="nav-number">3.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型代码-Tensorflow-1"><span class="nav-number">3.2.</span> <span class="nav-text">模型代码 Tensorflow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型代码-Keras"><span class="nav-number">3.3.</span> <span class="nav-text">模型代码 Keras</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Keras-application中的VGG16模型"><span class="nav-number">3.4.</span> <span class="nav-text">Keras.application中的VGG16模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GoogleNet-Inception"><span class="nav-number">4.</span> <span class="nav-text">GoogleNet/Inception</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
