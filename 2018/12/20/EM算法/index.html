@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/03/22/5c947f92736c9.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/22/5c94ba039df26.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/22/5c94bb30b43a1.png">
-<meta property="og:updated_time" content="2019-03-22T10:55:08.000Z">
+<meta property="og:updated_time" content="2019-03-22T12:10:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EM算法">
 <meta name="twitter:description" content="从极大似然说起问题描述假设我们需要调查我们学校学生的身高分布。我们先假设学校所有学生的身高服从正态分布 $N\left(\mu, \sigma^{2}\right)$ 。(注意：极大似然估计的前提一定是要假设数据总体的分布，如果不知道数据分布，是无法使用极大似然估计的)，这个分布的均值 $\mu$ 和方差 $\sigma^{2}$ 未知，如果我们估计出这两个参数，那我们就得到了结果。那么怎样估计这">
@@ -429,7 +429,7 @@
 <p>特别地，如果 $f$ 是严格凸函数，当且仅当 $p(x=E(x))=1$，(即随机变量是常量) 时等号成立。</p>
 <p><img src="https://i.loli.net/2019/03/22/5c947f92736c9.png" alt="01_Jensen"></p>
 <p>注：若函数 $f$ 是凹函数，<strong>Jensen</strong> 不等式符号相反。</p>
-<h4 id="期望"><a href="#期望" class="headerlink" title="期望"></a>期望</h4><p>对于离散型随机变量 $X$ 的概率分布为 $p_{i}=p\left{X=x_{i}\right}$，数学期望 $E(X)$ 为：</p>
+<h4 id="期望"><a href="#期望" class="headerlink" title="期望"></a>期望</h4><p>对于离散型随机变量 $X$ 的概率分布为 $p_{i}=p{X=x_{i}}$，数学期望 $E(X)$ 为：</p>
 <p>$$E(X)=\sum_{i} x_{i} p_{i}$$</p>
 <p>$p_i$ 是权值，满足两个条件 $1 \geq p_{i} \geq 0, \sum_{i} p_{i}=1$ 。</p>
 <p>若连续型随机变量 $X$ 的概率密度函数为 $f(x)$，则数学期望 $E(X)$ 为：</p>
@@ -444,7 +444,7 @@
 <p>增加隐含变量 $z$ 之后，我们的目标变成了找到合适的 $\theta$ 和 $z$ 让对数似然函数极大：</p>
 <p>$$\theta, z=\arg \max _ {\theta, z} L(\theta, z)=\arg \max _ {\theta, z} \sum_{i=1}^{m} \log \sum_{z^{(i)}} P\left(x^{(i)}, z^{(i)} | \theta\right)$$</p>
 <p>不就是多了一个隐变量 $z$ 吗？那我们自然而然会想到分别对未知的 $\theta$ 和 $z$ 分别求偏导，这样做可行吗？</p>
-<p>理论上是可行的，然而如果对分别对未知的 $$ 和 $$ 分别求偏导，由于 $$ 是 $$ 边缘概率，转化为 $$ 求导后形式会非常复杂（可以想象下 $$) 复合函数的求导，所以很难求解得到 $$ 和 $$ 。那么我们想一下可不可以将加号从 $log$ 中提取出来呢？我们可以对这个式子进行缩放如下：</p>
+<p>理论上是可行的，然而如果对分别对未知的 $\theta$ 和 $z$ 分别求偏导，由于 $\log P\left(x^{(i)} | \theta\right)$ 是 $P\left(x^{(i)}, z^{(i)} | \theta\right)$ 边缘概率，转化为 $\log P\left(x^{(i)} | \theta\right)$ 求导后形式会非常复杂（可以想象下 $\log \left(f_{1}(x)+f_{2}(x)+\ldots\right.)$) 复合函数的求导，所以很难求解得到 $z$ 和 $\theta$ 。那么我们想一下可不可以将加号从 $log$ 中提取出来呢？我们可以对这个式子进行缩放如下：</p>
 <p>$$ \begin{aligned} \sum_{i=1}^{m} \log \sum_{z^{(i)}} P\left(x^{(i)}, z^{(i)} | \theta\right) &amp;=\sum_{i=1}^{m} \log \sum_{z^{(i)}} Q_{i}\left(z^{(i)}\right) \frac{P\left(x^{(i)}, z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)} \ &amp; \geq \sum_{i=1}^{m} \sum_{z^{(i)}} Q_{i}\left(z^{(i)}\right) \log \frac{P\left(x^{(i)}, z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)} \end{aligned} $$</p>
 <p>上面第(1)式引入了一个未知的新的分布 $Q_{i}\left(z^{(i)}\right)$，满足：</p>
 <p>$$\sum_{z} Q_{i}(z)=1,0 \leq Q_{i}(z) \leq 1$$</p>
