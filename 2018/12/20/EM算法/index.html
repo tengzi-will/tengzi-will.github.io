@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/03/22/5c947f92736c9.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/22/5c94ba039df26.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/22/5c94bb30b43a1.png">
-<meta property="og:updated_time" content="2019-03-22T12:10:16.000Z">
+<meta property="og:updated_time" content="2019-03-22T12:46:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EM算法">
 <meta name="twitter:description" content="从极大似然说起问题描述假设我们需要调查我们学校学生的身高分布。我们先假设学校所有学生的身高服从正态分布 $N\left(\mu, \sigma^{2}\right)$ 。(注意：极大似然估计的前提一定是要假设数据总体的分布，如果不知道数据分布，是无法使用极大似然估计的)，这个分布的均值 $\mu$ 和方差 $\sigma^{2}$ 未知，如果我们估计出这两个参数，那我们就得到了结果。那么怎样估计这">
@@ -387,8 +387,11 @@
 <p>假设线性回归模型具有如下形式: $h(x)=\sum_{j=1}^{d} \theta_{j} x_{ij}+\epsilon=\theta^{T} x_i+\epsilon$ ，其中 $x_i \in R^{1 \times d}, \theta \in R^{1 \times d}$ ， 误 差 $\epsilon \in R$ ， 当前已知 $X=\left(x_{1}, \cdots, x_{m}\right)^{T} \in R^{m \times d}$ ， 如何求 $ \theta $ 呢？</p>
 <ul>
 <li>最小二乘估计：最合理的参数应该使得模型能最好地拟合样本数据，也就是估计值和观测值之差的平方和最小，其推导过程如下所示：<br>$$ J(\theta)=\sum_{i=1}^{n}\left(h_{\theta}\left(x_{i}\right)-y_{i}\right)^{2} $$<br>求解方法是通过梯度下降算法，通过训练数据不断迭代得到最终的值。</li>
-<li>极大似然法：最合理的参数应该使得从模型中抽取该 $m$ 组样本观测值的概率极大，也就是似然函数极大。假设误差项 $\epsilon \in N\left(0, \sigma^{2}\right)$，则 $y_{i} \in N\left(\theta x_{i}, \sigma^{2}\right)$<br>$$p\left(y_{i} | x_{i} ; \theta\right)=\frac{1}{\sqrt{2 \pi} \sigma} \exp \left(-\frac{\left(y_{i}-\theta^{T} x_{i}\right)^{2}}{2 \sigma^{2}}\right)$$<br>$$\begin{aligned} L(\theta) &amp;=\prod_{i=1}^{m} p\left(y_{i} | x_{i} ; \theta\right) \ &amp;=\prod_{i=1}^{m} \frac{1}{\sqrt{2 \pi} \sigma} \exp \left(-\frac{\left(y_{i}-\theta^{T} x_{i}\right)^{2}}{2 \sigma^{2}}\right) \end{aligned}$$<br>$$\begin{aligned} H(\theta) &amp;=\log (L(\theta)) \ &amp;=\log \prod_{i=1}^{m} \frac{1}{\sqrt{2 \pi} \sigma} \exp \left(-\frac{\left(y_{i}-\theta^{T} x_{i}\right)^{2}}{2 \sigma^{2}}\right) \ &amp;=\sum_{i=1}^{m} \log \frac{1}{\sqrt{2 \pi} \sigma} \exp \left(-\frac{\left(y_{i}-\theta^{T} x_{i}\right)^{2}}{2 \sigma^{2}}\right) \ &amp;=-\frac{1}{2 \sigma^{2}} \sum_{i=1}^{m}\left(y_{i}-\theta^{T} x_{i}\right)^{2}-m \ln \sigma \sqrt{2 \pi} \end{aligned}$$<br>令 $J(\theta)=\frac{1}{2} \sum_{i=1}^{m}\left(y_{i}-\theta^{T} x_{i}\right)^{2}$ 则 $ \arg \max _ {\theta} H(\theta) \Leftrightarrow \arg \min _ {\theta} J(\theta)$，即将极大似然函数等价于极小化平方和。<br>这时可以发现，此时的极大化似然函数和最初的最小二乘损失函数的估计结果是等价的。但是要注意这两者只是恰好有着相同的表达结果，原理和出发点完全不同。</li>
+<li>极大似然法：最合理的参数应该使得从模型中抽取该 $m$ 组样本观测值的概率极大，也就是似然函数极大。假设误差项 $\epsilon \in N\left(0, \sigma^{2}\right)$，则 $y_{i} \in N\left(\theta x_{i}, \sigma^{2}\right)$</li>
+<li>$$p\left(y_{i} | x_{i} ; \theta\right)=\frac{1}{\sqrt{2 \pi} \sigma} \exp \left(-\frac{\left(y_{i}-\theta^{T} x_{i}\right)^{2}}{2 \sigma^{2}}\right)$$</li>
 </ul>
+<p>$$\begin{array}{llll} L(\theta) &amp;=&amp; \prod_{i=1}^{m} p\left(y_{i} | x_{i} ; \theta\right) \\<br>&amp;=&amp;\prod_{i=1}^{m} \frac{1}{\sqrt{2 \pi} \sigma} \exp \left(-\frac{\left(y_{i}-\theta^{T} x_{i}\right)^{2}}{2 \sigma^{2}}\right) \\ H(\theta) &amp;=&amp;\log (L(\theta)) \\<br>&amp;=&amp;\log \prod_{i=1}^{m} \frac{1}{\sqrt{2 \pi} \sigma} \exp \left(-\frac{\left(y_{i}-\theta^{T} x_{i}\right)^{2}}{2 \sigma^{2}}\right) \\<br>&amp;=&amp;\sum_{i=1}^{m} \log \frac{1}{\sqrt{2 \pi} \sigma} \exp \left(-\frac{\left(y_{i}-\theta^{T} x_{i}\right)^{2}}{2 \sigma^{2}}\right) \\<br>&amp;=&amp;-\frac{1}{2 \sigma^{2}} \sum_{i=1}^{m}\left(y_{i}-\theta^{T} x_{i}\right)^{2}-m \ln \sigma \sqrt{2 \pi} \end{array}$$</p>
+<p>令 $J(\theta)=\frac{1}{2} \sum_{i=1}^{m}\left(y_{i}-\theta^{T} x_{i}\right)^{2}$ 则 $ \arg \max _ {\theta} H(\theta) \Leftrightarrow \arg \min _ {\theta} J(\theta)$，即将极大似然函数等价于极小化平方和。<br>这时可以发现，此时的极大化似然函数和最初的最小二乘损失函数的估计结果是等价的。但是要注意这两者只是恰好有着相同的表达结果，原理和出发点完全不同。</p>
 <p><strong>应用二：分类问题中极小化交叉熵</strong> （极小化代价函数）</p>
 <p>在分类问题中，交叉熵的本质就是似然函数的极大化，逻辑回归的假设函数为：</p>
 <p>$$h(x)=\hat{y}=\frac{1}{1+e^{-\theta^{T} x+b}}$$</p>
@@ -396,8 +399,7 @@
 <p>当 y = 1 时，$p_{1}=p(y=1 | x, \theta)=\hat{y}$</p>
 <p>当 y = 0 时，$p_{0}=p(y=0 | x, \theta)=1-\hat{y}$</p>
 <p>合并上面两式子，可以得到 $p(y | x, \theta)=\hat{y}^{y}(1-\hat{y})^{1-y}$</p>
-<p>$$\begin{aligned} L(\theta) &amp;=\prod_{i=1}^{m} p\left(y_{i} | x_{i} ; \theta\right) \ &amp;=\prod_{i=1}^{m} \hat{y}_ {i}^{y_{i}}\left(1-\hat{y}_ {i}\right)^{1-y_{i}} \end{aligned}$$</p>
-<p>$$\begin{aligned} H(\theta) &amp;=\log (L(\theta)) \ &amp;=\log \prod_{i=1}^{m} \hat{y}_ {i}^{y_{i}}\left(1-\hat{y}_ {i}\right)^{1-y_{i}} \ &amp;=\sum_{i=1}^{m} \log \hat{y}_ {i}^{y_{i}}\left(1-\hat{y}_ {i}\right)^{1-y_{i}} \ &amp;=\sum_{i=1}^{m} y_{i} \log \hat{y}_ {i}+\left(1-y_{i}\right) \log \left(1-\hat{y}_ {i}\right) \end{aligned}$$</p>
+<p>$$\begin{array}{llll} L(\theta) &amp;=\prod_{i=1}^{m} p\left(y_{i} | x_{i} ; \theta\right) \\ &amp;=\prod_{i=1}^{m} \hat{y}_ {i}^{y_{i}}\left(1-\hat{y}_ {i}\right)^{1-y_{i}} \\<br>H(\theta) &amp;=\log (L(\theta)) \\<br>&amp;=\log \prod_{i=1}^{m} \hat{y}_ {i}^{y_{i}}\left(1-\hat{y}_ {i}\right)^{1-y_{i}} \\<br>&amp;=\sum_{i=1}^{m} \log \hat{y}_ {i}^{y_{i}}\left(1-\hat{y}_ {i}\right)^{1-y_{i}} \\<br>&amp;=\sum_{i=1}^{m} y_{i} \log \hat{y}_ {i}+\left(1-y_{i}\right) \log \left(1-\hat{y}_ {i}\right) \end{array}$$</p>
 <p>令 $J(\theta)=-H(\theta)=-\sum_{i=1}^{m} y_{i} \log \hat{y}_ {i}+\left(1-y_{i}\right) \log \left(1-\hat{y}_ {i}\right)$ 则 $\arg \max _ {\theta} H(\theta) \Leftrightarrow \arg \min _ {\theta} J(\theta)$， 即将极大似然函数等价于极小化交叉熵。</p>
 <h2 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h2><h3 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h3><p>上面我们先假设学校所有学生的身高服从正态分布 $N\left(\mu, \sigma^{2}\right)$。实际情况并不是这样的，男生和女生分别服从两种不同的正态分布，即男生 $\in N\left(\mu_{1}, \sigma_{1}^{2}\right)$，女生 $\in N\left(\mu_{2}, \sigma_{2}^{2}\right)$，(<strong>注意：EM算法和极大似然估计的前提是一样的，都要假设数据总体的分布，如果不知道数据分布，是无法使用EM算法的</strong>)那么该怎样评估学生的身高分布呢？</p>
 <p>简单啊，我们可以随便抽 100 个男生和 100 个女生，将男生和女生分开，对他们单独进行极大似然估计。分别求出男生和女生的分布。</p>
@@ -445,7 +447,7 @@
 <p>$$\theta, z=\arg \max _ {\theta, z} L(\theta, z)=\arg \max _ {\theta, z} \sum_{i=1}^{m} \log \sum_{z^{(i)}} P\left(x^{(i)}, z^{(i)} | \theta\right)$$</p>
 <p>不就是多了一个隐变量 $z$ 吗？那我们自然而然会想到分别对未知的 $\theta$ 和 $z$ 分别求偏导，这样做可行吗？</p>
 <p>理论上是可行的，然而如果对分别对未知的 $\theta$ 和 $z$ 分别求偏导，由于 $\log P\left(x^{(i)} | \theta\right)$ 是 $P\left(x^{(i)}, z^{(i)} | \theta\right)$ 边缘概率，转化为 $\log P\left(x^{(i)} | \theta\right)$ 求导后形式会非常复杂（可以想象下 $\log \left(f_{1}(x)+f_{2}(x)+\ldots\right.)$) 复合函数的求导，所以很难求解得到 $z$ 和 $\theta$ 。那么我们想一下可不可以将加号从 $log$ 中提取出来呢？我们可以对这个式子进行缩放如下：</p>
-<p>$$ \begin{aligned} \sum_{i=1}^{m} \log \sum_{z^{(i)}} P\left(x^{(i)}, z^{(i)} | \theta\right) &amp;=\sum_{i=1}^{m} \log \sum_{z^{(i)}} Q_{i}\left(z^{(i)}\right) \frac{P\left(x^{(i)}, z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)} \ &amp; \geq \sum_{i=1}^{m} \sum_{z^{(i)}} Q_{i}\left(z^{(i)}\right) \log \frac{P\left(x^{(i)}, z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)} \end{aligned} $$</p>
+<p>$$ \begin{array}{llll} \sum_{i=1}^{m} \log \sum_{z^{(i)}} P\left(x^{(i)}, z^{(i)} | \theta\right) &amp;=\sum_{i=1}^{m} \log \sum_{z^{(i)}} Q_{i}\left(z^{(i)}\right) \frac{P\left(x^{(i)}, z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)} \\<br>&amp; \geq \sum_{i=1}^{m} \sum_{z^{(i)}} Q_{i}\left(z^{(i)}\right) \log \frac{P\left(x^{(i)}, z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)} \end{array} $$</p>
 <p>上面第(1)式引入了一个未知的新的分布 $Q_{i}\left(z^{(i)}\right)$，满足：</p>
 <p>$$\sum_{z} Q_{i}(z)=1,0 \leq Q_{i}(z) \leq 1$$</p>
 <p>上面第(2)式用到了 <strong>Jensen</strong> 不等式 (对数函数是凹函数)：</p>
