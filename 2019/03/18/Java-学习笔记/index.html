@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,code,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基本语法面向对象（一）类及对象类的组成成分： 属性（成员变量，Field） 方法（成员方法，函数，Method）  属性关于变量的分类：  按照数据类型的不同：基本数据类型（8种）&amp;amp; 引用数据类型 按照声明的位置的不同：成员变量 &amp;amp; 局部变量  成员变量与局部变量异同点： 相同点：  遵循变量声明的格式： 数据类型 变量名 = 初始化值 都有作用域  不同点：  声明的位置的不同。">
+<meta name="keywords" content="java,code">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 学习笔记">
+<meta property="og:url" content="http://yoursite.com/2019/03/18/Java-学习笔记/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="基本语法面向对象（一）类及对象类的组成成分： 属性（成员变量，Field） 方法（成员方法，函数，Method）  属性关于变量的分类：  按照数据类型的不同：基本数据类型（8种）&amp;amp; 引用数据类型 按照声明的位置的不同：成员变量 &amp;amp; 局部变量  成员变量与局部变量异同点： 相同点：  遵循变量声明的格式： 数据类型 变量名 = 初始化值 都有作用域  不同点：  声明的位置的不同。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-03-21T14:02:12.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 学习笔记">
+<meta name="twitter:description" content="基本语法面向对象（一）类及对象类的组成成分： 属性（成员变量，Field） 方法（成员方法，函数，Method）  属性关于变量的分类：  按照数据类型的不同：基本数据类型（8种）&amp;amp; 引用数据类型 按照声明的位置的不同：成员变量 &amp;amp; 局部变量  成员变量与局部变量异同点： 相同点：  遵循变量声明的格式： 数据类型 变量名 = 初始化值 都有作用域  不同点：  声明的位置的不同。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/18/Java-学习笔记/">
+
+
+
+
+
+  <title>Java 学习笔记 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/18/Java-学习笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java 学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-18T21:03:32+08:00">
+                2019-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><h2 id="面向对象（一）"><a href="#面向对象（一）" class="headerlink" title="面向对象（一）"></a>面向对象（一）</h2><h3 id="类及对象"><a href="#类及对象" class="headerlink" title="类及对象"></a>类及对象</h3><h4 id="类的组成成分："><a href="#类的组成成分：" class="headerlink" title="类的组成成分："></a>类的组成成分：</h4><ol>
+<li>属性（成员变量，Field）</li>
+<li>方法（成员方法，函数，Method）</li>
+</ol>
+<h5 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h5><p>关于变量的分类：</p>
+<ol>
+<li>按照数据类型的不同：基本数据类型（8种）&amp; 引用数据类型</li>
+<li>按照声明的位置的不同：成员变量 &amp; 局部变量</li>
+</ol>
+<p>成员变量与局部变量异同点：</p>
+<p>相同点：</p>
+<ol>
+<li>遵循变量声明的格式： 数据类型 变量名 = 初始化值</li>
+<li>都有作用域</li>
+</ol>
+<p>不同点：</p>
+<ol>
+<li>声明的位置的不同。成员变量：声明在类里，方法外；局部变量：声明在方法内，方法的形参部分，代码块内。</li>
+<li>成员变量的修饰符有四个：public private protected 缺省；局部变量没有修饰符，与所在的方法修饰符相同。</li>
+<li>初始化值：一定会有初始化值。局部变量：一定要显式的赋值。（局部变量没有默认初始化值）；成员变量:如果在声明的时候，不显式的赋值，那么不同数据类型会有不同的默认初始化值。<ul>
+<li>byte short int long ==&gt;0</li>
+<li>float double ==&gt;0.0</li>
+<li>char ==&gt;空格</li>
+<li>boolean ==&gt;false </li>
+<li>引用类型变量==&gt;null</li>
+</ul>
+</li>
+<li>二者在内存中存放的位置不同。成员变量：存在于堆空间中；局部变量：栈空间中。</li>
+</ol>
+<h5 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h5><p>提供某种功能的实现。</p>
+<p>1&gt; 格式：权限修饰符 返回值类型（void:无返回值/具体的返回值） 方法名(形参) {}， 示例如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;<span class="comment">//方法体&#125;</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String n)</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>2&gt; 关于返回值类型：</p>
+<ul>
+<li>void：表明此方法不需要返回值</li>
+<li>有返回值的方法：在方法的最后一定有 return + 返回值类型对应的变量</li>
+<li>记忆：void 与 return 不可以同时出现一个方法内。像一对“冤家”。</li>
+</ul>
+<p>3&gt; 方法内可以调用本类的其他方法或属性，但是不能在方法内再定义方法！</p>
+<h4 id="面向对象编程的思想的落地法则一"><a href="#面向对象编程的思想的落地法则一" class="headerlink" title="面向对象编程的思想的落地法则一"></a>面向对象编程的思想的落地法则一</h4><p>1&gt; 设计并创建类及类的成分<br>2&gt; 实例化类的对象<br>3&gt; 通过 <strong><code>对象.属性</code></strong> 或 <strong><code>对象.方法</code></strong> 的形式完成某项功能</p>
+<h4 id="类的初始化的内存解析"><a href="#类的初始化的内存解析" class="headerlink" title="类的初始化的内存解析"></a>类的初始化的内存解析</h4><p>内存划分的结构:</p>
+<ul>
+<li>栈(stack)：局部变量 、对象的引用名、数组的引用名</li>
+<li>堆(heap)：new 出来的 “东西”（如：对象的实体，数组的实体），含成员变量</li>
+<li>方法区：含字符串常量</li>
+<li>静态域：声明为 static 的变量</li>
+</ul>
+<h3 id="方法的重载"><a href="#方法的重载" class="headerlink" title="方法的重载"></a>方法的重载</h3><p>要求：</p>
+<ol>
+<li>同一个类中 </li>
+<li>方法名必须相同</li>
+<li>方法的参数列表不同（①参数的个数不同②参数类型不同）</li>
+<li>方法的重载与方法的返回值类型没有关系</li>
+</ol>
+<p>代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如下的四个方法构成重载</span></span><br><span class="line"><span class="comment">//定义两个int型变量的和</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> i + j;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//定义三个int型变量的和</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j,<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> i + j + k;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//定义两个double型数据的和</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getSum</span><span class="params">(<span class="keyword">double</span> d1,<span class="keyword">double</span> d2)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> d1 + d2;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//定义三个double型数组的和</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getSum</span><span class="params">(<span class="keyword">double</span> d1,<span class="keyword">double</span> d2,<span class="keyword">double</span> d3)</span></span>&#123;</span><br><span class="line">	System.out.println(d1 + d2 + d3);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//不能与如上的几个方法构成重载</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSum1</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j,<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> i + j + k;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j,<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">	System.out.println(i + j + k);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//以下的两个方法构成重载。</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">(<span class="keyword">int</span> i,String str)</span></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method1</span><span class="params">(String str1,<span class="keyword">int</span> j)</span></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="可变个数的形参的方法"><a href="#可变个数的形参的方法" class="headerlink" title="可变个数的形参的方法"></a>可变个数的形参的方法</h3><p>可变个数的形参的方法：</p>
+<ol>
+<li>格式：对于方法的形参： 数据类型 … 形参名</li>
+<li>可变个数的形参的方法与同名的方法之间构成重载</li>
+<li>可变个数的形参在调用时，个数从0开始，到无穷多个都可以。</li>
+<li>使用可变多个形参的方法与方法的形参使用数组是一致的。</li>
+<li>若方法中存在可变个数的形参，那么一定要声明在方法形参的最后。</li>
+<li>在一个方法中，最多声明一个可变个数的形参。</li>
+</ol>
+<p>代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如下四个方法构成重载</span></span><br><span class="line"><span class="comment">//在类中一旦定义了重载的可变个数的形参的方法以后，如下的两个方法可以省略</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">()</span></span>&#123;</span><br><span class="line">    System.out.println(<span class="string">"hello world!"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(String str1)</span></span>&#123;</span><br><span class="line">	System.out.println(<span class="string">"hello "</span> + str1);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//可变个数的形参的方法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(String ... args)</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; args.length;i++)&#123;</span><br><span class="line">		System.out.println(args[i] + <span class="string">"$"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//System.out.println("=====");</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//public void sayHello(String ... args,int i)&#123; //错误写法	</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello</span><span class="params">(<span class="keyword">int</span> i,String ... args)</span></span>&#123;</span><br><span class="line">	System.out.println(i);</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>;j &lt; args.length;j++)&#123;</span><br><span class="line">		System.out.println(args[j] + <span class="string">"$"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">	</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sayHello1</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; args.length;i++)&#123;</span><br><span class="line">		System.out.println(args[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="java的值传递机制"><a href="#java的值传递机制" class="headerlink" title="java的值传递机制"></a>java的值传递机制</h3><h3 id="面向对象的特征一：封装性"><a href="#面向对象的特征一：封装性" class="headerlink" title="面向对象的特征一：封装性"></a>面向对象的特征一：封装性</h3><h3 id="构造器"><a href="#构造器" class="headerlink" title="构造器"></a>构造器</h3><h3 id="this关键字"><a href="#this关键字" class="headerlink" title="this关键字"></a>this关键字</h3><h3 id="package-amp-import"><a href="#package-amp-import" class="headerlink" title="package &amp; import"></a>package &amp; import</h3><h2 id="面向对象（二）"><a href="#面向对象（二）" class="headerlink" title="面向对象（二）"></a>面向对象（二）</h2><h3 id="面向对象的特征二：继承性"><a href="#面向对象的特征二：继承性" class="headerlink" title="面向对象的特征二：继承性"></a>面向对象的特征二：继承性</h3><h4 id="为什么要有继承"><a href="#为什么要有继承" class="headerlink" title="为什么要有继承"></a>为什么要有继承</h4><p>#### </p>
+<h3 id="关键字super"><a href="#关键字super" class="headerlink" title="关键字super"></a>关键字super</h3><h3 id="子类对象实例化的全过程"><a href="#子类对象实例化的全过程" class="headerlink" title="子类对象实例化的全过程"></a>子类对象实例化的全过程</h3><h3 id="面向对象的特征三：多态性"><a href="#面向对象的特征三：多态性" class="headerlink" title="面向对象的特征三：多态性"></a>面向对象的特征三：多态性</h3><h3 id="Object类"><a href="#Object类" class="headerlink" title="Object类"></a>Object类</h3><h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ol>
+<li><strong><code>java.lang.Object</code></strong> 类，是所有类的根父类！</li>
+<li><strong><code>Object</code></strong> 类仅有一个空参的构造器 <strong><code>public Object(){ }</code></strong></li>
+</ol>
+<h4 id="关于equals-方法："><a href="#关于equals-方法：" class="headerlink" title="关于equals()方法："></a>关于equals()方法：</h4><p>equals(Object obj)<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> (<span class="keyword">this</span> == obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>1&gt; 基本数据类型：根据基本数据类型的值判断是否相等。相等返回 true，反之返回 false<br>注：两端数据类型可以不同，在不同的情况下，也可以返回 true。<br>2&gt; 引用数据类型：比较引用类型变量的地址值是否相等。</p>
+<p>equals():</p>
+<ul>
+<li>①只能处理引用类型变量  ②在 <strong>Object</strong> 类，发现 <strong>equals()</strong> 仍然比较的两个引用变量的地址值是否相等</li>
+<li>像 <strong><code>String</code></strong> 包装类 <strong><code>File</code></strong> 类 <strong><code>Date</code></strong> 类这些重写 <strong><code>Object</code></strong> 类的 <strong><code>equals()</code></strong> 方法，比较是两个对象的”实体内容”是否完全相同。</li>
+<li>若我们自定义一个类，希望比较两个对象的属性值都相同的情况下返回 true 的话，就需要重写 <strong><code>Object</code></strong> 类的 <strong><code>equals(Object obj)</code></strong> 方法</li>
+</ul>
+<h4 id="关于toString-方法"><a href="#关于toString-方法" class="headerlink" title="关于toString()方法"></a>关于toString()方法</h4><p>当我们输出一个对象的引用时，会调用 <strong><code>toString()</code></strong> 方法.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getClass().getName() + <span class="string">"@"</span> + Integer.toHexString(hashCode());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注1：当我们没有重写 <strong><code>Object</code></strong> 类的 <strong><code>toString()</code></strong> 方法时，打印的就是对象所在的类，以及对象实体在堆空间的位置<br>注2：一般我们需要重写 <strong><code>Object</code></strong> 类的 <strong><code>toString()</code></strong> 方法，将此对象的各个属性值返回。<br>注3：像 <strong><code>String</code></strong> 类 <strong><code>Date</code></strong> <strong><code>File</code></strong> 类、包装类都重写了 <strong><code>toString()</code></strong> 方法。</p>
+<h3 id="包装类-Wrapper"><a href="#包装类-Wrapper" class="headerlink" title="包装类 Wrapper"></a>包装类 Wrapper</h3><h4 id="什么是包装类"><a href="#什么是包装类" class="headerlink" title="什么是包装类"></a>什么是包装类</h4><p>基本数据类型由于不是类，不能够使用 java 类库里提供的大量的方法。所有在设计上，<br>我们让每一个基本数据类型都对应一个类，同时数据存储的范围还不变。此时相当于<br>基本数据类型就具有了类的特点。这些类即为包装类（wrapper 或封装类）</p>
+<table>
+<thead>
+<tr>
+<th>基本数据类型</th>
+<th>包装类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean</td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td>byte</td>
+<td>Byte</td>
+</tr>
+<tr>
+<td>short</td>
+<td>Short</td>
+</tr>
+<tr>
+<td>int</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>long</td>
+<td>Long</td>
+</tr>
+<tr>
+<td>char</td>
+<td>Character</td>
+</tr>
+<tr>
+<td>float</td>
+<td>Float</td>
+</tr>
+<tr>
+<td>double</td>
+<td>Double</td>
+</tr>
+</tbody>
+</table>
+<h4 id="基本数据类型、包装类、String类之间的转换"><a href="#基本数据类型、包装类、String类之间的转换" class="headerlink" title="基本数据类型、包装类、String类之间的转换"></a>基本数据类型、包装类、String类之间的转换</h4><p><strong>基本数据类型 -&gt; 包装类：</strong></p>
+<ol>
+<li>通过构造器：Integer t = new Integer(ll)</li>
+<li>通过字符串参数：Float f = new Float(“32.1F”)</li>
+<li>自动装箱</li>
+</ol>
+<p><strong>包装类 -&gt; 基本数据类型：</strong></p>
+<ol>
+<li>调用包装类的方法：xxxValue()</li>
+<li>自动拆箱</li>
+</ol>
+<p><strong>String类 -&gt; 包装类：</strong><br>参考 基本数据类型 -&gt; 包装类</p>
+<p><strong>包装类 -&gt; String类：</strong></p>
+<ol>
+<li>包装类对象的 toString() 方法</li>
+<li>条用包装类的 toString(形参)</li>
+</ol>
+<p><strong>基本数据类型 -&gt; String类：</strong></p>
+<ol>
+<li>String 类的 valueOf(3.4f) 方法</li>
+<li>23.4 + “”</li>
+</ol>
+<p><strong>String类 -&gt; 基本数据类型：</strong></p>
+<ol>
+<li>调用相应包装类的 parseXxx(String） 静态方法</li>
+<li>通过包装类的构造器：boolean b = new Boolean(“true”)</li>
+</ol>
+<h2 id="面向对象（三）"><a href="#面向对象（三）" class="headerlink" title="面向对象（三）"></a>面向对象（三）</h2><h3 id="static-关键字"><a href="#static-关键字" class="headerlink" title="static 关键字"></a>static 关键字</h3><p>当我们编写一个类时，其实就是在描述其对象的属性和行为，而并没有产生实质上的对象，只有通过 new 关键字才会产生出对象，这时系统才会分配内存空间给对象，其方法才可以供外部调用。我们有时候希望无论是否产生了对象或无论产生了多少对象的情况下，某些特定的数据在内存空间里只有一份，例如所有的中国人都有个国家名称，每一个中国人都共享这个国家名称，不必在每一个中国人的实例对象中都单独分配一个用于代表国家名称的变量。</p>
+<p><strong>static</strong>:静态的，可以用来修饰属性、方法、代码块（或初始化块）、内部类</p>
+<p><strong>static</strong> 修饰属性（类变量）:</p>
+<ol>
+<li>由类创建的所有的对象，都共用这一个属性</li>
+<li>当其中一个对象对此属性进行修改，会导致其他对象对此属性的一个调用。vs 实例变量（非static修饰的属性，各个对象各自拥有一套副本）</li>
+<li>类变量随着类的加载而加载的，而且独一份</li>
+<li>静态的变量可以直接通过 <strong><code>类.类变量</code></strong> 的形式来调用</li>
+<li>类变量的加载是要早于对象。所以当有对象以后，可以 <strong><code>对象.类变量</code></strong> 使用。但是 <strong><code>类.实例变量</code></strong> 是不行的。</li>
+<li>类变量存在于静态域中。</li>
+</ol>
+<p><strong>static</strong> 修饰方法（类方法）:</p>
+<ol>
+<li>随着类的加载而加载，在内存中也是独一份</li>
+<li>可以直接通过 <strong><code>类.类方法</code></strong> 的方式调用</li>
+<li>静态方法内部可以调用静态的属性或静态的方法，而不能调用非静态的属性或方法。反之，非静态的方法是可以调用静态的属性或静态的方法</li>
+<li>静态的方法内是不可以有 this 或 super 关键字的！</li>
+<li>静态的结构 ( static 的属性、方法、代码块、内部类 ) 的生命周期要早于非静态的结构，同时被回收也要晚于非静态的结构</li>
+</ol>
+<h3 id="单例-Singleton-设计模式"><a href="#单例-Singleton-设计模式" class="headerlink" title="单例 Singleton 设计模式"></a>单例 Singleton 设计模式</h3><h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><p><strong>设计模式</strong>是在大量的实践中总结和理论化之后优选的代码结构、编程风格、以及<strong>解决问题的思考方式</strong>。设计模式就像是经典的棋谱，不同的棋局，我们用不同的棋谱，免去我们自己再思考和摸索。</p>
+<p>所谓类的单例设计模式，就是采取一定的方法保证在整个的软件系统中，对某个类<strong>只能存在一个对象实例</strong>，并且该类只提供一个取得其对象实例的方法。如果我们要让类在一个虚拟机中只能产生一个对象，我们首先必须将类的构造方法的访问权限设置为 private，这样，就不能用 new 操作符在类的外部产生类的对象了，但在类内部仍可以产生该类的对象。因为在类的外部开始还无法得到类的对象，只能调用该类的某个静态方法以返回类内部创建的对象，静态方法只能访问类中的静态成员变量，所以，指向类内部产生的该类对象的变量也必须定义成静态的。</p>
+<h4 id="java示例"><a href="#java示例" class="headerlink" title="java示例"></a>java示例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//饿汉式1</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</span><br><span class="line">	<span class="comment">//1.私有化构造器，使得类的外部不能够调用此构造器</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	<span class="comment">//2.创建类的对象，同时设置为private的，通过公共的方法调用，体现封装性</span></span><br><span class="line">	<span class="comment">//3.要求此对象也为static的</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">	<span class="comment">//4.此公共的方法，必须为static </span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> instance;	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//饿汉式2</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</span><br><span class="line">	<span class="comment">//1.私有化构造器，使得类的外部不能够调用此构造器</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	<span class="comment">//2.创建类的对象，同时设置为private的，通过公共的方法来调用，体现封装性</span></span><br><span class="line">	<span class="comment">//4.要求此对象也为static的</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">null</span>;</span><br><span class="line">	<span class="keyword">static</span>&#123;</span><br><span class="line">		instance  = <span class="keyword">new</span> Singleton();	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//3.此公共的方法，必须为static </span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> instance;	</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//懒汉式</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">null</span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(instance == <span class="keyword">null</span>)&#123;<span class="comment">//可能存在线程安全问题的！</span></span><br><span class="line">			instance = <span class="keyword">new</span> Singleton();		</span><br><span class="line">		&#125;	</span><br><span class="line">		<span class="keyword">return</span> instance;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="main-方法"><a href="#main-方法" class="headerlink" title="main() 方法"></a>main() 方法</h3><h4 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">     <span class="comment">//方法体     </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h4><ol>
+<li>main()是一个方法，是主方法，为程序的入口</li>
+<li>权限修饰符：public protected 缺省 private —面向对象的封装性</li>
+<li>对于方法来讲：static final abstract </li>
+<li>方法的返回值：void /  具体的返回值类型（基本的数据类型 &amp; 引用数据类型），方法内部一定要有return</li>
+<li>方法名：命名的规则：xxxYyyZzz。给方法命名时，要见名之意</li>
+<li>形参列表：同一个方法名不同的形参列表的诸多个方法间构成重载。   形参 &amp; 实参—方法的参数传递机制：值传递</li>
+<li>方法体：方法定义的是一种功能，具体的实现由方法体操作。</li>
+</ol>
+<h3 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h3><ul>
+<li>代码块：是类的第4个成员</li>
+<li>作用：用来初始化类的属性</li>
+<li>分类：只能用static来修饰</li>
+</ul>
+<h4 id="静态代码块："><a href="#静态代码块：" class="headerlink" title="静态代码块："></a>静态代码块：</h4><ol>
+<li>里面可以有输出语句</li>
+<li>随着类的加载而加载，而且只被加载一次</li>
+<li>多个静态代码块之间按照顺序结构执行</li>
+<li>静态代码块的执行要早于非静态代码块的执行。</li>
+<li><p>静态的代码块中只能执行静态的结构(类属性，类方法)</p>
+<h4 id="非静态代码块："><a href="#非静态代码块：" class="headerlink" title="非静态代码块："></a>非静态代码块：</h4></li>
+<li>可以对类的属性(静态的 &amp; 非静态的)进行初始化操作，同时也可以调用本类声明的方法(静态的 &amp; 非静态的)</li>
+<li>里面可以有输出语句</li>
+<li>一个类中可以有多个非静态的代码块，多个代码块之间按照顺序结构执行</li>
+<li>每创建一个类的对象，非静态代码块就加载一次。</li>
+<li>非静态代码块的执行要早于构造器</li>
+</ol>
+<p>关于属性赋值的操作：<br>①默认的初始化<br>②显式的初始化或代码块初始化(此处两个结构按照顺序执行)<br>③构造器中；<br>—————以上是对象的属性初始化的过程—————<br>④通过方法对对象的相应属性进行修改</p>
+<h3 id="final-关键字"><a href="#final-关键字" class="headerlink" title="final 关键字"></a>final 关键字</h3><p>final:最终的 ，可以用来修饰类、属性、方法</p>
+<ol>
+<li>final修饰类：这个类就不能被继承。如：String类、StringBuffer类、System类</li>
+<li>final修饰方法：不能被重写。如：Object 类的 getClass()</li>
+<li>final修饰属性：此属性就是一个常量，一旦初始化后，不可再被赋值。习惯上，常量用大写字符表示。此常量不能使用默认初始化，但是可以显式的赋值、或者在代码块或构造器中赋值。</li>
+<li>变量用static final修饰：全局常量。比如：Math 类的PI</li>
+</ol>
+<p>注：final 与finally finalize() 区分开</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/code/" rel="tag"># code</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/14/强化学习-Reinforcement-Learning-模型综述/" rel="next" title="强化学习 Reinforcement Learning 模型综述">
+                <i class="fa fa-chevron-left"></i> 强化学习 Reinforcement Learning 模型综述
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本语法"><span class="nav-number">1.</span> <span class="nav-text">基本语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象（一）"><span class="nav-number">2.</span> <span class="nav-text">面向对象（一）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类及对象"><span class="nav-number">2.1.</span> <span class="nav-text">类及对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类的组成成分："><span class="nav-number">2.1.1.</span> <span class="nav-text">类的组成成分：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#属性"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#面向对象编程的思想的落地法则一"><span class="nav-number">2.1.2.</span> <span class="nav-text">面向对象编程的思想的落地法则一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类的初始化的内存解析"><span class="nav-number">2.1.3.</span> <span class="nav-text">类的初始化的内存解析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法的重载"><span class="nav-number">2.2.</span> <span class="nav-text">方法的重载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可变个数的形参的方法"><span class="nav-number">2.3.</span> <span class="nav-text">可变个数的形参的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java的值传递机制"><span class="nav-number">2.4.</span> <span class="nav-text">java的值传递机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象的特征一：封装性"><span class="nav-number">2.5.</span> <span class="nav-text">面向对象的特征一：封装性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造器"><span class="nav-number">2.6.</span> <span class="nav-text">构造器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#this关键字"><span class="nav-number">2.7.</span> <span class="nav-text">this关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#package-amp-import"><span class="nav-number">2.8.</span> <span class="nav-text">package &amp; import</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象（二）"><span class="nav-number">3.</span> <span class="nav-text">面向对象（二）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象的特征二：继承性"><span class="nav-number">3.1.</span> <span class="nav-text">面向对象的特征二：继承性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么要有继承"><span class="nav-number">3.1.1.</span> <span class="nav-text">为什么要有继承</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关键字super"><span class="nav-number">3.2.</span> <span class="nav-text">关键字super</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#子类对象实例化的全过程"><span class="nav-number">3.3.</span> <span class="nav-text">子类对象实例化的全过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向对象的特征三：多态性"><span class="nav-number">3.4.</span> <span class="nav-text">面向对象的特征三：多态性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object类"><span class="nav-number">3.5.</span> <span class="nav-text">Object类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特点"><span class="nav-number">3.5.1.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于equals-方法："><span class="nav-number">3.5.2.</span> <span class="nav-text">关于equals()方法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于toString-方法"><span class="nav-number">3.5.3.</span> <span class="nav-text">关于toString()方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包装类-Wrapper"><span class="nav-number">3.6.</span> <span class="nav-text">包装类 Wrapper</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是包装类"><span class="nav-number">3.6.1.</span> <span class="nav-text">什么是包装类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基本数据类型、包装类、String类之间的转换"><span class="nav-number">3.6.2.</span> <span class="nav-text">基本数据类型、包装类、String类之间的转换</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象（三）"><span class="nav-number">4.</span> <span class="nav-text">面向对象（三）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#static-关键字"><span class="nav-number">4.1.</span> <span class="nav-text">static 关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例-Singleton-设计模式"><span class="nav-number">4.2.</span> <span class="nav-text">单例 Singleton 设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概念"><span class="nav-number">4.2.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java示例"><span class="nav-number">4.2.2.</span> <span class="nav-text">java示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#main-方法"><span class="nav-number">4.3.</span> <span class="nav-text">main() 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#格式"><span class="nav-number">4.3.1.</span> <span class="nav-text">格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#要点"><span class="nav-number">4.3.2.</span> <span class="nav-text">要点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码块"><span class="nav-number">4.4.</span> <span class="nav-text">代码块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#静态代码块："><span class="nav-number">4.4.1.</span> <span class="nav-text">静态代码块：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非静态代码块："><span class="nav-number">4.4.2.</span> <span class="nav-text">非静态代码块：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final-关键字"><span class="nav-number">4.5.</span> <span class="nav-text">final 关键字</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
