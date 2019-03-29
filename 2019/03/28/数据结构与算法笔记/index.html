@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,java,数据结构,算法,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="数据结构与算法基本数据结构类型 基本数据结构关系 Data Structure &amp;amp; AlgorithmData Structure  Array Stack / Queue PriorityQueue LinkedList Queue / Priority queue Stack Tree / Binary Search Tree HashTable Disjoint Set Trie B">
+<meta name="keywords" content="python,java,数据结构,算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法笔记">
+<meta property="og:url" content="http://yoursite.com/2019/03/28/数据结构与算法笔记/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="数据结构与算法基本数据结构类型 基本数据结构关系 Data Structure &amp;amp; AlgorithmData Structure  Array Stack / Queue PriorityQueue LinkedList Queue / Priority queue Stack Tree / Binary Search Tree HashTable Disjoint Set Trie B">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9c269614517.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9c272185693.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9c294f2fbb1.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9c29c3e436e.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9c2a7eefe72.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9c2b6274b97.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9c2ba818ded.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9c2c1e60c1b.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9c394f51a49.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9c394f3084a.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9c394f44b82.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9cc0a4af4cf.png">
+<meta property="og:image" content="https://i.loli.net/2019/03/28/5c9cc1a6a3327.png">
+<meta property="og:updated_time" content="2019-03-29T02:20:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构与算法笔记">
+<meta name="twitter:description" content="数据结构与算法基本数据结构类型 基本数据结构关系 Data Structure &amp;amp; AlgorithmData Structure  Array Stack / Queue PriorityQueue LinkedList Queue / Priority queue Stack Tree / Binary Search Tree HashTable Disjoint Set Trie B">
+<meta name="twitter:image" content="https://i.loli.net/2019/03/28/5c9c269614517.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/28/数据结构与算法笔记/">
+
+
+
+
+
+  <title>数据结构与算法笔记 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/数据结构与算法笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据结构与算法笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T09:28:34+08:00">
+                2019-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="数据结构与算法"><a href="#数据结构与算法" class="headerlink" title="数据结构与算法"></a>数据结构与算法</h2><h3 id="基本数据结构类型"><a href="#基本数据结构类型" class="headerlink" title="基本数据结构类型"></a>基本数据结构类型</h3><p><img src="https://i.loli.net/2019/03/28/5c9c269614517.png" alt="01_Data Structure"></p>
+<h3 id="基本数据结构关系"><a href="#基本数据结构关系" class="headerlink" title="基本数据结构关系"></a>基本数据结构关系</h3><p><img src="https://i.loli.net/2019/03/28/5c9c272185693.png" alt="02_Structure_Tree"></p>
+<h3 id="Data-Structure-amp-Algorithm"><a href="#Data-Structure-amp-Algorithm" class="headerlink" title="Data Structure &amp; Algorithm"></a>Data Structure &amp; Algorithm</h3><p><strong>Data Structure</strong></p>
+<ul>
+<li>Array</li>
+<li>Stack / Queue</li>
+<li>PriorityQueue</li>
+<li>LinkedList</li>
+<li>Queue / Priority queue</li>
+<li>Stack</li>
+<li>Tree / Binary Search Tree</li>
+<li>HashTable</li>
+<li>Disjoint Set</li>
+<li>Trie</li>
+<li>BloomFilter</li>
+<li>LRU Cache</li>
+</ul>
+<p><strong>Algorithm</strong></p>
+<ul>
+<li>Greedy</li>
+<li>Recursion/Backtrace</li>
+<li>Traversal</li>
+<li>Breadth-first/Depth-first search</li>
+<li>Divide and Conquer</li>
+<li>Dynamic ProgrammingBinary Search</li>
+<li>Graph</li>
+</ul>
+<p><strong>System Design</strong></p>
+<ul>
+<li>System architecture overview</li>
+<li>Design+ scalability + flexibility</li>
+<li>Typical system design questions</li>
+</ul>
+<h2 id="数组、链表（Array、-Linked-List）"><a href="#数组、链表（Array、-Linked-List）" class="headerlink" title="数组、链表（Array、 Linked List）"></a>数组、链表（Array、 Linked List）</h2><h3 id="数组-Array"><a href="#数组-Array" class="headerlink" title="数组 Array"></a>数组 Array</h3><p>基本结构如下图所示：</p>
+<p><img src="https://i.loli.net/2019/03/28/5c9c294f2fbb1.png" alt="03_Array"></p>
+<p>插入与删除操作：</p>
+<p><img src="https://i.loli.net/2019/03/28/5c9c29c3e436e.png" alt="04_Inserting_Deleting"></p>
+<p>Array 时间复杂度</p>
+<ul>
+<li>Access: O(1)</li>
+<li>Insert: 平均 O(n)</li>
+<li>Delete: 平均 O(n)</li>
+</ul>
+<h3 id="链表-Linked-List"><a href="#链表-Linked-List" class="headerlink" title="链表 Linked List"></a>链表 Linked List</h3><p>基本链表结构如下图所示：</p>
+<p><img src="https://i.loli.net/2019/03/28/5c9c2a7eefe72.png" alt="05_Linked_List"></p>
+<p>节点的插入：</p>
+<p><img src="https://i.loli.net/2019/03/28/5c9c2b6274b97.png" alt="06_Inserting"></p>
+<p>节点的删除：</p>
+<p><img src="https://i.loli.net/2019/03/28/5c9c2ba818ded.png" alt="07_Deleting"></p>
+<p>双链表基本结构如下图所示：</p>
+<p><img src="https://i.loli.net/2019/03/28/5c9c2c1e60c1b.png" alt="08_Doubly Linked List"></p>
+<p>Linked List 时间复杂度</p>
+<table>
+<thead>
+<tr>
+<th>space</th>
+<th>prepend</th>
+<th>append</th>
+<th>lookup</th>
+<th>insert</th>
+<th>delete</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>O(1)</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>O(1)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="代码实战"><a href="#代码实战" class="headerlink" title="代码实战"></a>代码实战</h3><h4 id="问题一-反转链表（206）"><a href="#问题一-反转链表（206）" class="headerlink" title="问题一 反转链表（206）"></a>问题一 反转链表（206）</h4><h5 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h5><p>反转一个单链表。</p>
+<p>示例</p>
+<blockquote>
+<p>输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL<br>输出: 5-&gt;4-&gt;3-&gt;2-&gt;1-&gt;NULL</p>
+</blockquote>
+<h5 id="解法代码"><a href="#解法代码" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * public class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseList</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        ListNode cur = head;</span><br><span class="line">        ListNode prev = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">while</span> (cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">            ListNode temp = cur.next;</span><br><span class="line">            cur.next = prev;</span><br><span class="line">            prev = cur;</span><br><span class="line">            cur = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> prev;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"># class ListNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.next = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reverseList</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">        cur, prev = head, <span class="keyword">None</span></span><br><span class="line">        <span class="keyword">while</span> cur:</span><br><span class="line">            cur.next, prev, cur = prev, cur, cur.next</span><br><span class="line">        <span class="keyword">return</span> prev</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>：<strong>Python</strong> 的代码比较特殊，在移动“指针”变量 <strong><code>cur</code></strong> 和 <strong><code>prev</code></strong> 的时候只需要一行代码(11行)，而 <strong>Java</strong> 和 <strong>C++</strong> 由于断开“指针”的时候可能会造成后续节点地址丢失，所以要用一个临时变量记录被断开的节点地址。</p>
+<h4 id="问题二-两两交换链表中的节点（24）"><a href="#问题二-两两交换链表中的节点（24）" class="headerlink" title="问题二 两两交换链表中的节点（24）"></a>问题二 两两交换链表中的节点（24）</h4><h5 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>
+<p>示例</p>
+<blockquote>
+<p>给定 1-&gt;2-&gt;3-&gt;4, 你应该返回 2-&gt;1-&gt;4-&gt;3.</p>
+</blockquote>
+<h5 id="解法代码-1"><a href="#解法代码-1" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * public class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">swapPairs</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        ListNode self = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">        ListNode pre = self;</span><br><span class="line">        pre.next = head;</span><br><span class="line">        <span class="keyword">while</span>(pre.next != <span class="keyword">null</span> &amp;&amp; pre.next.next != <span class="keyword">null</span>)&#123;</span><br><span class="line">            ListNode a = pre.next;</span><br><span class="line">            ListNode b = a.next;</span><br><span class="line">            ListNode temp = b.next;</span><br><span class="line">            pre.next = b;</span><br><span class="line">            b.next = a;</span><br><span class="line">            a.next = temp;</span><br><span class="line">            pre = a;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> self.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"># class ListNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.next = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">swapPairs</span><span class="params">(self, head: ListNode)</span> -&gt; ListNode:</span></span><br><span class="line">        pre, pre.next = self, head</span><br><span class="line">        <span class="keyword">while</span> pre.next <span class="keyword">and</span> pre.next.next:</span><br><span class="line">            a = pre.next</span><br><span class="line">            b = a.next</span><br><span class="line">            pre.next, b.next, a.next = b, a, b.next</span><br><span class="line">            pre = a</span><br><span class="line">        <span class="keyword">return</span> self.next</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>： <strong><code>a</code></strong> 和 <strong><code>b</code></strong> 指向相邻两个节点， <strong><code>pre</code></strong> 指向相邻两个节点的前驱节点。其中 <strong>Python</strong> 代码中的创建一个新节点的语句比较特别 <strong><code>per = self</code></strong> 相当于 <strong>Java</strong> 中的 <strong><code>ListNode self = new ListNode(0); ListNode pre = self;</code></strong> 这两句话。最后注意循环语句的终止条件。</p>
+<h4 id="问题三-环形链表（141）"><a href="#问题三-环形链表（141）" class="headerlink" title="问题三 环形链表（141）"></a>问题三 环形链表（141）</h4><h5 id="问题描述-2"><a href="#问题描述-2" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个链表，判断链表中是否有环。</p>
+<p>为了表示给定链表中的环，我们使用整数 <code>pos</code> 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 <code>pos</code> 是 <code>-1</code>，则在该链表中没有环。</p>
+<p>示例 1：</p>
+<blockquote>
+<p>输入：head = [3,2,0,-4], pos = 1<br>输出：true<br>解释：链表中有一个环，其尾部连接到第二个节点。<br><img src="https://i.loli.net/2019/03/28/5c9c394f51a49.png" alt="09_1"></p>
+</blockquote>
+<p>示例 2：</p>
+<blockquote>
+<p>输入：head = [1,2], pos = 0<br>输出：true<br>解释：链表中有一个环，其尾部连接到第一个节点。<br><img src="https://i.loli.net/2019/03/28/5c9c394f3084a.png" alt="09_2"></p>
+</blockquote>
+<p>示例 3：</p>
+<blockquote>
+<p>输入：head = [1], pos = -1<br>输出：false<br>解释：链表中没有环。<br><img src="https://i.loli.net/2019/03/28/5c9c394f44b82.png" alt="09_3"></p>
+</blockquote>
+<h5 id="解题思路分析"><a href="#解题思路分析" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li>方法一（硬做）<br>从头指针开始往后遍历后续节点，在指定时间内找到空指针 null，证明有环；否则无环。</li>
+<li>方法二（set，判重）<br>利用集合 <strong>set</strong> 判断是否遍历到重复节点，从头节点开始遍历链表，没遍历一个节点，将其放入集合 <strong>set</strong>，若遍历指针在找到空指针 <strong><code>null</code></strong> 前，<strong>set</strong> 出现重复元素，证明有环；若遍历到 <strong><code>null</code></strong> 时，<strong>set</strong> 中没有出现重复元素，证明无环。</li>
+<li>方法三（快慢指针，龟兔赛跑）<br>快慢指针开始均指向头节点，遍历时快指针走两步，慢指针走一步，若快慢指针到达 null 没有相遇，证明无环；否则（相遇），证明有环。</li>
+</ul>
+<h5 id="解法一：龟兔赛跑"><a href="#解法一：龟兔赛跑" class="headerlink" title="解法一：龟兔赛跑"></a>解法一：龟兔赛跑</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) &#123;</span></span><br><span class="line"><span class="comment"> *         val = x;</span></span><br><span class="line"><span class="comment"> *         next = null;</span></span><br><span class="line"><span class="comment"> *     &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasCycle</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        ListNode fast = head;</span><br><span class="line">        ListNode slow = head;</span><br><span class="line">        <span class="keyword">while</span>(fast != <span class="keyword">null</span> &amp;&amp; slow !=<span class="keyword">null</span> &amp;&amp; fast.next !=<span class="keyword">null</span>)&#123;</span><br><span class="line">            fast = fast.next.next;</span><br><span class="line">            slow = slow.next;</span><br><span class="line">            <span class="keyword">if</span>(fast == slow)</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"># class ListNode(object):</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.next = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">hasCycle</span><span class="params">(self, head)</span>:</span></span><br><span class="line">        fast = slow = head</span><br><span class="line">        <span class="keyword">while</span> slow <span class="keyword">and</span> fast <span class="keyword">and</span> fast.next:</span><br><span class="line">            fast = fast.next.next</span><br><span class="line">            slow = slow.next</span><br><span class="line">            <span class="keyword">if</span> fast == slow:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure></p>
+<h5 id="解法二：利用集合"><a href="#解法二：利用集合" class="headerlink" title="解法二：利用集合"></a>解法二：利用集合</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasCycle</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        Set&lt;ListNode&gt; set = <span class="keyword">new</span> HashSet&lt;ListNode&gt;();</span><br><span class="line">        ListNode p = head;</span><br><span class="line">        <span class="keyword">while</span>(p != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(set.contains(p))</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                set.add(p);</span><br><span class="line">            p = p.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">hasCycle</span><span class="params">(self, head)</span>:</span></span><br><span class="line">        collection = set([])</span><br><span class="line">        p = head</span><br><span class="line">        <span class="keyword">while</span> p:</span><br><span class="line">            <span class="keyword">if</span> p <span class="keyword">in</span> collection:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                collection.add(p)</span><br><span class="line">            p = p.next</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure></p>
+<p>在以上代码的基础上做了点修改，先把遍历指针 <strong><code>p</code></strong> 加入集合 <strong><code>collection</code></strong> ，使用 <strong><code>len()</code></strong> 方法计算 <strong><code>collection</code></strong> 长度，如果 <strong><code>p</code></strong> 不在集合中，长度自然增加，利用集合存放不重复元素的性质，也可以解题。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">hasCycle</span><span class="params">(self, head)</span>:</span></span><br><span class="line">        collection = set([])</span><br><span class="line">        p = head</span><br><span class="line">        <span class="keyword">while</span> p:</span><br><span class="line">            len1 = len(collection)</span><br><span class="line">            collection.add(p)</span><br><span class="line">            len2 = len(collection)</span><br><span class="line">            <span class="keyword">if</span> len1 == len2:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            p = p.next</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="问题四-环形链表Ⅱ（142）"><a href="#问题四-环形链表Ⅱ（142）" class="headerlink" title="问题四 环形链表Ⅱ（142）"></a>问题四 环形链表Ⅱ（142）</h4><h5 id="问题描述-3"><a href="#问题描述-3" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个链表，返回链表开始入环的第一个节点。如果链表无环，则返回 <code>null</code>。</p>
+<p>为了表示给定链表中的环，我们使用整数 <code>pos</code> 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 <code>pos</code> 是 <code>-1</code>，则在该链表中没有环。<br>说明：不允许修改给定的链表。</p>
+<p>示例同 <strong><code>问题三</code></strong></p>
+<h5 id="解法代码-2"><a href="#解法代码-2" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">detectCycle</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">        Set set = <span class="keyword">new</span> HashSet();</span><br><span class="line">        ListNode p = head;</span><br><span class="line">        <span class="keyword">while</span>(p != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(set.contains(p))</span><br><span class="line">                <span class="keyword">return</span> p;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                set.add(p);</span><br><span class="line">            p = p.next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">detectCycle</span><span class="params">(self, head)</span>:</span></span><br><span class="line">        collection = set([])</span><br><span class="line">        p = head</span><br><span class="line">        <span class="keyword">while</span> p:</span><br><span class="line">            <span class="keyword">if</span> p <span class="keyword">in</span> collection:</span><br><span class="line">                <span class="keyword">return</span> p</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                collection.add(p)</span><br><span class="line">            p = p.next</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">None</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>：该解题思路与 <strong><code>问题三</code></strong> 一致，只对上题代码稍作修改。</p>
+<h3 id="k个一组翻转链表（25）"><a href="#k个一组翻转链表（25）" class="headerlink" title="k个一组翻转链表（25）"></a>k个一组翻转链表（25）</h3><h5 id="问题描述-4"><a href="#问题描述-4" class="headerlink" title="问题描述"></a>问题描述</h5><p>给出一个链表，每 <code>k</code> 个节点一组进行翻转，并返回翻转后的链表。</p>
+<p><code>k</code> 是一个正整数，它的值小于或等于链表的长度。如果节点总数不是 <code>k</code> 的整数倍，那么将最后剩余节点保持原有顺序。</p>
+<p>示例 :</p>
+<blockquote>
+<p>给定这个链表：1-&gt;2-&gt;3-&gt;4-&gt;5<br>当 k = 2 时，应当返回: 2-&gt;1-&gt;4-&gt;3-&gt;5<br>当 k = 3 时，应当返回: 3-&gt;2-&gt;1-&gt;4-&gt;5</p>
+</blockquote>
+<p>说明 :</p>
+<blockquote>
+<p>你的算法只能使用常数的额外空间。<br>你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>
+</blockquote>
+<h5 id="解题思路分析-1"><a href="#解题思路分析-1" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li>方法一：利用栈<br>新建一个新链表头节点，将原链表元素顺序入栈（一次进入k个），栈满后依次弹出栈顶元素加入新链表直至栈空，然后再将原链表前k个节点依次入栈，重复上述步骤。</li>
+<li>方法二：直接反转</li>
+</ul>
+<h5 id="解法代码-3"><a href="#解法代码-3" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * public class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">reverseKGroup</span><span class="params">(ListNode head, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        ListNode self = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">        self.next = <span class="keyword">null</span>;</span><br><span class="line">        ListNode rear = self;</span><br><span class="line">        ListNode cur = head;</span><br><span class="line">        <span class="keyword">while</span>(head != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">int</span> cnt = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span>(cnt &lt; k &amp;&amp; cur != <span class="keyword">null</span>)&#123;</span><br><span class="line">                cnt ++;</span><br><span class="line">                cur = cur.next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(cnt != k)&#123;</span><br><span class="line">                rear.next = head;</span><br><span class="line">                <span class="keyword">return</span> self.next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                ListNode temp = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">while</span>(head != cur)&#123;</span><br><span class="line">                    temp = head.next;</span><br><span class="line">                    head.next = rear.next;</span><br><span class="line">                    rear.next = head;</span><br><span class="line">                    head = temp;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">while</span>(rear.next != <span class="keyword">null</span>) rear = rear.next;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> self.next;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h2 id="堆栈、队列（Stack、Queue）"><a href="#堆栈、队列（Stack、Queue）" class="headerlink" title="堆栈、队列（Stack、Queue）"></a>堆栈、队列（Stack、Queue）</h2><ol>
+<li>Stack - First In First Out (FIFO)<br>• Array or Linked List</li>
+<li>Queue - First In Last Out (FILO)<br>• Array or Linked List</li>
+</ol>
+<h3 id="堆栈-Stack"><a href="#堆栈-Stack" class="headerlink" title="堆栈 Stack"></a>堆栈 Stack</h3><p><img src="https://i.loli.net/2019/03/28/5c9cc0a4af4cf.png" alt="10_stack"></p>
+<h3 id="队列-Queue"><a href="#队列-Queue" class="headerlink" title="队列 Queue"></a>队列 Queue</h3><p><img src="https://i.loli.net/2019/03/28/5c9cc1a6a3327.png" alt="11_queue"></p>
+<h3 id="问题X-（）"><a href="#问题X-（）" class="headerlink" title="问题X （）"></a>问题X （）</h3><h5 id="问题描述-5"><a href="#问题描述-5" class="headerlink" title="问题描述"></a>问题描述</h5><h5 id="解题思路分析-2"><a href="#解题思路分析-2" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><h5 id="解法代码-4"><a href="#解法代码-4" class="headerlink" title="解法代码"></a>解法代码</h5><h5 id="解法二：利用集合-1"><a href="#解法二：利用集合-1" class="headerlink" title="解法二：利用集合"></a>解法二：利用集合</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/25/Java-学习笔记-基础类/" rel="next" title="Java 学习笔记 基础类">
+                <i class="fa fa-chevron-left"></i> Java 学习笔记 基础类
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构与算法"><span class="nav-number">1.</span> <span class="nav-text">数据结构与算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本数据结构类型"><span class="nav-number">1.1.</span> <span class="nav-text">基本数据结构类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本数据结构关系"><span class="nav-number">1.2.</span> <span class="nav-text">基本数据结构关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-Structure-amp-Algorithm"><span class="nav-number">1.3.</span> <span class="nav-text">Data Structure &amp; Algorithm</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组、链表（Array、-Linked-List）"><span class="nav-number">2.</span> <span class="nav-text">数组、链表（Array、 Linked List）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数组-Array"><span class="nav-number">2.1.</span> <span class="nav-text">数组 Array</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链表-Linked-List"><span class="nav-number">2.2.</span> <span class="nav-text">链表 Linked List</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实战"><span class="nav-number">2.3.</span> <span class="nav-text">代码实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题一-反转链表（206）"><span class="nav-number">2.3.1.</span> <span class="nav-text">问题一 反转链表（206）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题二-两两交换链表中的节点（24）"><span class="nav-number">2.3.2.</span> <span class="nav-text">问题二 两两交换链表中的节点（24）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-1"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-1"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题三-环形链表（141）"><span class="nav-number">2.3.3.</span> <span class="nav-text">问题三 环形链表（141）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-2"><span class="nav-number">2.3.3.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析"><span class="nav-number">2.3.3.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法一：龟兔赛跑"><span class="nav-number">2.3.3.3.</span> <span class="nav-text">解法一：龟兔赛跑</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法二：利用集合"><span class="nav-number">2.3.3.4.</span> <span class="nav-text">解法二：利用集合</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题四-环形链表Ⅱ（142）"><span class="nav-number">2.3.4.</span> <span class="nav-text">问题四 环形链表Ⅱ（142）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-3"><span class="nav-number">2.3.4.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-2"><span class="nav-number">2.3.4.2.</span> <span class="nav-text">解法代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k个一组翻转链表（25）"><span class="nav-number">2.4.</span> <span class="nav-text">k个一组翻转链表（25）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-4"><span class="nav-number">2.4.0.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-1"><span class="nav-number">2.4.0.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-3"><span class="nav-number">2.4.0.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#堆栈、队列（Stack、Queue）"><span class="nav-number">3.</span> <span class="nav-text">堆栈、队列（Stack、Queue）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#堆栈-Stack"><span class="nav-number">3.1.</span> <span class="nav-text">堆栈 Stack</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#队列-Queue"><span class="nav-number">3.2.</span> <span class="nav-text">队列 Queue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题X-（）"><span class="nav-number">3.3.</span> <span class="nav-text">问题X （）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-5"><span class="nav-number">3.3.0.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-2"><span class="nav-number">3.3.0.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-4"><span class="nav-number">3.3.0.3.</span> <span class="nav-text">解法代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法二：利用集合-1"><span class="nav-number">3.3.0.4.</span> <span class="nav-text">解法二：利用集合</span></a></li></ol></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

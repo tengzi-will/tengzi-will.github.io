@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/03/22/5c947f92736c9.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/22/5c94ba039df26.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/22/5c94bb30b43a1.png">
-<meta property="og:updated_time" content="2019-03-22T13:48:50.000Z">
+<meta property="og:updated_time" content="2019-03-28T06:28:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EM算法">
 <meta name="twitter:description" content="从极大似然说起问题描述假设我们需要调查我们学校学生的身高分布。我们先假设学校所有学生的身高服从正态分布 $N\left(\mu, \sigma^{2}\right)$ 。(注意：极大似然估计的前提一定是要假设数据总体的分布，如果不知道数据分布，是无法使用极大似然估计的)，这个分布的均值 $\mu$ 和方差 $\sigma^{2}$ 未知，如果我们估计出这两个参数，那我们就得到了结果。那么怎样估计这">
@@ -373,7 +373,7 @@
 <p>$$ \hat{\theta}=\arg \max L(\theta) $$</p>
 <p>$ \hat{\theta}= $ 这个叫做 $ \theta $ 的极大似然估计量，即为我们所求的值。</p>
 <p><strong>问题三：那么怎么极大似然函数？</strong></p>
-<p>求 $ L(\theta) $ 对所有参数的偏导数，然后让这些偏导数为 0，假设有 &amp;n&amp; 个参数，就有 &amp;n&amp; 个方程组成的方程组，那么方程组的解就是似然函数的极值点了，从而得到对应的 $ \theta $ 了。</p>
+<p>求 $ L(\theta) $ 对所有参数的偏导数，然后让这些偏导数为 0，假设有 $n$ 个参数，就有 $n$ 个方程组成的方程组，那么方程组的解就是似然函数的极值点了，从而得到对应的 $ \theta $ 了。</p>
 <h3 id="极大似然估计"><a href="#极大似然估计" class="headerlink" title="极大似然估计"></a>极大似然估计</h3><p>极大似然估计可以看作是一个反推。多数情况下我们是根据已知条件来推算结果，而极大似然估计是已经知道了结果，然后寻求使该结果出现的可能性极大的条件，以此作为估计值。</p>
 <p>比如说，</p>
 <ul>
@@ -397,7 +397,7 @@
 <p>当 y = 0 时，$p_{0}=p(y=0 | x, \theta)=1-\hat{y}$</p>
 <p>合并上面两式子，可以得到 $p(y | x, \theta)=\hat{y}^{y}(1-\hat{y})^{1-y}$</p>
 <p>$$\begin{aligned} L(\theta) &amp;=\prod_{i=1}^{m} p\left(y_{i} | x_{i} ; \theta\right) \\ &amp;=\prod_{i=1}^{m} \hat{y}_ {i}^{y_{i}}\left(1-\hat{y}_ {i}\right)^{1-y_{i}} \\<br>H(\theta) &amp;=\log (L(\theta)) \\<br>&amp;=\log \prod_{i=1}^{m} \hat{y}_ {i}^{y_{i}}\left(1-\hat{y}_ {i}\right)^{1-y_{i}} \\<br>&amp;=\sum_{i=1}^{m} \log \hat{y}_ {i}^{y_{i}}\left(1-\hat{y}_ {i}\right)^{1-y_{i}} \\<br>&amp;=\sum_{i=1}^{m} y_{i} \log \hat{y}_ {i}+\left(1-y_{i}\right) \log \left(1-\hat{y}_ {i}\right) \end{aligned}$$</p>
-<p>令 $J(\theta)=-H(\theta)=-\sum_{i=1}^{m} y_{i} \log \hat{y}_ {i}+\left(1-y_{i}\right) \log \left(1-\hat{y}_ {i}\right)$ 则 $\arg \max _ {\theta} H(\theta) \Leftrightarrow \arg \min _ {\theta} J(\theta)$， 即将极大似然函数等价于极小化交叉熵。</p>
+<p>令 $J(\theta)=-H(\theta)=-\sum_{i=1}^{m} y_{i} \log \hat{y}_ {i}+\left(1-y_{i}\right) \log \left(1-\hat{y}_ {i}\right)$ 则 $\arg \max_{\theta} H(\theta) \Leftrightarrow \arg \min_{\theta} J(\theta)$， 即将极大似然函数等价于极小化交叉熵。</p>
 <h2 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h2><h3 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h3><p>上面我们先假设学校所有学生的身高服从正态分布 $N\left(\mu, \sigma^{2}\right)$。实际情况并不是这样的，男生和女生分别服从两种不同的正态分布，即男生 $\in N\left(\mu_{1}, \sigma_{1}^{2}\right)$，女生 $\in N\left(\mu_{2}, \sigma_{2}^{2}\right)$，(<strong>注意：EM算法和极大似然估计的前提是一样的，都要假设数据总体的分布，如果不知道数据分布，是无法使用EM算法的</strong>)那么该怎样评估学生的身高分布呢？</p>
 <p>简单啊，我们可以随便抽 100 个男生和 100 个女生，将男生和女生分开，对他们单独进行极大似然估计。分别求出男生和女生的分布。</p>
 <p>假如某些男生和某些女生好上了，纠缠起来了。咱们也不想那么残忍，硬把他们拉扯开。这时候，你从这 200 个人（的身高）里面随便给我指一个人（的身高），我都无法确定这个人（的身高）是男生（的身高）还是女生（的身高）。用数学的语言就是，抽取得到的每个样本都不知道是从哪个分布来的。那怎么办呢？</p>
@@ -449,7 +449,7 @@
 <p>$$\sum_{z} Q_{i}(z)=1,0 \leq Q_{i}(z) \leq 1$$</p>
 <p>上面第(2)式用到了 <strong>Jensen</strong> 不等式 (对数函数是凹函数)：</p>
 <p>$$\log (E(y)) \geq E(\log (y))$$</p>
-<p>其中：<br>$$E(y)=\sum_{i} \lambda_{i} y_{i}, \lambda_{i} \geq 0, \sum_{i} \lambda_{i}=1 $$<br>$$y_{i}=\frac{P\left(x^{(i)} \cdot z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)} $$<br>$$\lambda_{i}=Q_{i}\left(z^{(i)}\right) $$</p>
+<p>其中：<br>$$ \begin{aligned} E(y) &amp;= \sum_{i} \lambda_{i} y_{i}, \lambda_{i} \geq 0, \sum_{i} \lambda_{i}=1 \\<br>y_{i} &amp;= \frac{P\left(x^{(i)} \cdot z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)} \\<br>\lambda_{i} &amp;= Q_{i}\left(z^{(i)}\right) \end{aligned} $$</p>
 <p>也就是说 $\frac{P\left(x^{(i)}, z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)}$ 为第 $i$ 个样本，$Q_{i}\left(z^{(i)}\right)$ 为第 $i$ 个样本对应的权重，那么：</p>
 <p>$$E\left(\frac{P\left(x^{(i)} \cdot z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)}\right)=\sum_{z^{(i)}} Q_{i}\left(z^{(i)}\right) \frac{P\left(x^{(i)} \cdot z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)}$$</p>
 <p>上式实际上是我们构建了 $L(\theta, z)$ 的下界 (<strong>E</strong>步)，下一步要做的就是寻找一个合适的 $Q_{i}(z)$ 最优化这个下界(<strong>M</strong>步)。</p>
@@ -475,7 +475,7 @@
 <h3 id="EM算法流程"><a href="#EM算法流程" class="headerlink" title="EM算法流程"></a>EM算法流程</h3><p>现在我们总结下 EM 算法的流程。</p>
 <p>输入：观察数据 $x=\left(x^{(1)}, x^{(2)}, \ldots x^{(m)}\right)$，联合分布 $p(x, z | \theta)$，条件分布 $p(z | x, \theta)$，极大迭代次数 $J$。</p>
 <ol>
-<li>随机初始化模型参数 $$ 的初值 $$</li>
+<li>随机初始化模型参数 $\theta$ 的初值 $\theta^0$</li>
 <li>for $i$ from $1$ to $J$<br>a) <strong>E</strong>步：计算联合分布的条件概率期望：<br>$Q_{i}\left(z^{(i)}\right) :=P\left(z^{(i)} | x^{(i)}, \theta\right)$<br>b) <strong>M</strong>步：极大化 $L(\theta)$ ,得到 $\theta$:<br>$\theta :=\arg \max _ {\theta} \sum_{i=1}^{m} \sum_{z^{(i)}} Q_{i}\left(z^{(i)}\right) \log P\left(x^{(i)}, z^{(i)} | \theta\right)$<br>c) 重复<strong>E</strong>、<strong>M</strong>步骤直到 $\theta$ 收敛</li>
 <li>输出：模型参数 $\theta$</li>
 </ol>
@@ -650,7 +650,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -661,7 +661,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -672,7 +672,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
