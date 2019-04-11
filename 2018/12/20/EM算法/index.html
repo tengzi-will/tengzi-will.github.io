@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/03/22/5c947f92736c9.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/22/5c94ba039df26.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/22/5c94bb30b43a1.png">
-<meta property="og:updated_time" content="2019-03-28T06:28:12.000Z">
+<meta property="og:updated_time" content="2019-04-11T07:38:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EM算法">
 <meta name="twitter:description" content="从极大似然说起问题描述假设我们需要调查我们学校学生的身高分布。我们先假设学校所有学生的身高服从正态分布 $N\left(\mu, \sigma^{2}\right)$ 。(注意：极大似然估计的前提一定是要假设数据总体的分布，如果不知道数据分布，是无法使用极大似然估计的)，这个分布的均值 $\mu$ 和方差 $\sigma^{2}$ 未知，如果我们估计出这两个参数，那我们就得到了结果。那么怎样估计这">
@@ -444,7 +444,7 @@
 <p>$$\theta, z=\arg \max _ {\theta, z} L(\theta, z)=\arg \max _ {\theta, z} \sum_{i=1}^{m} \log \sum_{z^{(i)}} P\left(x^{(i)}, z^{(i)} | \theta\right)$$</p>
 <p>不就是多了一个隐变量 $z$ 吗？那我们自然而然会想到分别对未知的 $\theta$ 和 $z$ 分别求偏导，这样做可行吗？</p>
 <p>理论上是可行的，然而如果对分别对未知的 $\theta$ 和 $z$ 分别求偏导，由于 $\log P\left(x^{(i)} | \theta\right)$ 是 $P\left(x^{(i)}, z^{(i)} | \theta\right)$ 边缘概率，转化为 $\log P\left(x^{(i)} | \theta\right)$ 求导后形式会非常复杂（可以想象下 $\log \left(f_{1}(x)+f_{2}(x)+\ldots\right.)$) 复合函数的求导，所以很难求解得到 $z$ 和 $\theta$ 。那么我们想一下可不可以将加号从 $log$ 中提取出来呢？我们可以对这个式子进行缩放如下：</p>
-<p>$$ \begin{aligned} \sum_{i=1}^{m} \log \sum_{z^{(i)}} P\left(x^{(i)}, z^{(i)} | \theta\right) &amp;=\sum_{i=1}^{m} \log \sum_{z^{(i)}} Q_{i}\left(z^{(i)}\right) \frac{P\left(x^{(i)}, z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)} \\<br>&amp; \geq \sum_{i=1}^{m} \sum_{z^{(i)}} Q_{i}\left(z^{(i)}\right) \log \frac{P\left(x^{(i)}, z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)} \end{aligned} $$</p>
+<p>$$ \begin{aligned} \sum_{i=1}^{m} \log \sum_{z^{(i)}} P\left(x^{(i)}, z^{(i)} | \theta\right) &amp;=\sum_{i=1}^{m} \log \sum_{z^{(i)}} Q_{i}\left(z^{(i)}\right) \frac{P\left(x^{(i)}, z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)}  &amp;\tag{(1)} \\<br>&amp; \geq \sum_{i=1}^{m} \sum_{z^{(i)}} Q_{i}\left(z^{(i)}\right) \log \frac{P\left(x^{(i)}, z^{(i)} | \theta\right)}{Q_{i}\left(z^{(i)}\right)} &amp;\tag{(2)} \end{aligned} $$</p>
 <p>上面第(1)式引入了一个未知的新的分布 $Q_{i}\left(z^{(i)}\right)$，满足：</p>
 <p>$$\sum_{z} Q_{i}(z)=1,0 \leq Q_{i}(z) \leq 1$$</p>
 <p>上面第(2)式用到了 <strong>Jensen</strong> 不等式 (对数函数是凹函数)：</p>
