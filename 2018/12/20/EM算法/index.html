@@ -91,7 +91,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/03/22/5c94ba039df26.png">
 <meta property="og:image" content="https://i.loli.net/2019/03/22/5c94bb30b43a1.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/11/5caf02bde079b.png">
-<meta property="og:updated_time" content="2019-04-11T10:31:08.000Z">
+<meta property="og:updated_time" content="2019-04-12T01:50:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EM算法">
 <meta name="twitter:description" content="从极大似然说起问题描述假设我们需要调查我们学校学生的身高分布。我们先假设学校所有学生的身高服从正态分布 $N\left(\mu, \sigma^{2}\right)$ 。(注意：极大似然估计的前提一定是要假设数据总体的分布，如果不知道数据分布，是无法使用极大似然估计的)，这个分布的均值 $\mu$ 和方差 $\sigma^{2}$ 未知，如果我们估计出这两个参数，那我们就得到了结果。那么怎样估计这">
@@ -511,7 +511,7 @@
 <p><strong>CASE b</strong></p>
 <p>由于并不知道选择的是硬币 A 还是硬币 B，因此采用 <strong>EM</strong> 算法。</p>
 <p><strong>E步</strong>：初始化 $\hat {\theta}_ {A}^{(0)} = 0.60$ 和 $\hat {\theta}_ {B}^{(0)} = 0.50$ ，计算每个实验中选择的硬币是 A 和 B 的概率，例如第一个实验中选择 A 的概率为：</p>
-<p>$$P\left(z=A | y_{1}, \theta\right)=\frac{P\left(z=A, y_{1} | \theta\right)}{P\left(z=A, y_{1} | \theta\right)+P\left(z=B, y_{1} | \theta\right)}=\frac{(0.6)^{5} <em> (0.4)^{5}}{(0.6)^{5} </em> (0.4)^{5}+(0.5)^{10}}=0.45$$<br>$$P\left(z=B | y_{1}, \theta\right)=1-P\left(z=A | y_{1}, \theta\right)=0.55$$</p>
+<p>$$P(z=A | y_{1}, \theta)=\frac{P(z=A, y_{1} | \theta)}{P(z=A, y_{1} | \theta)+P(z=B, y_{1} | \theta)}=\frac{(0.6)^{5} \ast (0.4)^{5}}{(0.6)^{5} \ast (0.4)^{5}+(0.5)^{10}}=0.45$$<br>$$P(z=B | y_{1}, \theta)=1-P(z=A | y_{1}, \theta)=0.55$$</p>
 <p>计算出每个实验为硬币 A 和硬币 B 的概率，然后进行加权求和。</p>
 <p><strong>M步</strong>：求出似然函数下界  $Q(\theta, \theta^i)$，$y_j$ 代表第 $j$ 次实验正面朝上的个数，$\mu_j$ 代表第 $j$ 次实验选择硬币 A 的概率，$1-\mu_j$ 代表第 $j$ 次实验选择硬币 B 的概率 。</p>
 <p>$$\begin{aligned} Q\left(\theta, \theta^{i}\right) &amp;=\sum_{j=1}^{5} \sum_{z} P\left(z | y_{j}, \theta^{i}\right) \log P\left(y_{j}, z | \theta\right) \\ &amp;=\sum_{j=1}^{5} \mu_{j} \log \left(\theta_{A}^{y_{j}}\left(1-\theta_{A}\right)^{10-y_{j}}\right)+\left(1-\mu_{j}\right) \log \left(\theta_{B}^{y_{j}}\left(1-\theta_{B}\right)^{10-y_{j}}\right) \end{aligned}$$</p>
