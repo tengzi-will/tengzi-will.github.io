@@ -97,8 +97,8 @@
 <meta property="og:image" content="https://i.loli.net/2019/04/14/5cb33f471c201.png">
 <meta property="og:image" content="http://yoursite.com/支持向量机-SVM-详解/20190415100850127.png">
 <meta property="og:image" content="https://i.imgur.com/ACHoQSZ.gif">
-<meta property="og:image" content="http://yoursite.com/支持向量机-SVM-详解/20190415102542303.png">
-<meta property="og:updated_time" content="2019-04-15T04:30:12.000Z">
+<meta property="og:image" content="https://i.loli.net/2019/04/15/5cb40e578b473.png">
+<meta property="og:updated_time" content="2019-04-15T04:50:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="支持向量机 SVM 详解">
 <meta name="twitter:description" content="SVM 概述SVM 诞生于上世纪九十年代，由于它良好的性能，自一诞生便席卷了机器学习领域，并牢牢压制了神经网络领域好多年，据说 LeNet5（一种 CNN 手写数字识别算法，属于神经网络）自 1998 年诞生，在后来的好长一段时间并未能火起来，最主要的原因就是 SVM 这货，因为 SVM 也能达到类似的效果甚至超过 LeNet5， 而且比 LeNet5 计算量小。在不考虑集成学习和特定场景情况下，">
@@ -407,9 +407,9 @@
 <p><img src="https://i.loli.net/2019/04/14/5cb33f471c201.png" alt="10_C"></p>
 <h3 id="SVM-损失函数"><a href="#SVM-损失函数" class="headerlink" title="SVM 损失函数"></a>SVM 损失函数</h3><p>总结一下，关于线性支持向量机我们学了三种代价函数：</p>
 <ul>
-<li>合页损失函数 (hinge loss function)：<br>$$\min \frac{1}{m} \sum_{i=1}^{m} \max \left{0,1-y_{i}\left(w^{T} x_{i}+b\right)\right}+\frac{\lambda}{2}|w|_ {2}^{2}$$</li>
+<li>合页损失函数 (hinge loss function)：<br>$$\min \frac{1}{m} \sum_{i=1}^{m} \max {0,1-y_{i}(w^{T} x_{i}+b)}+\frac{\lambda}{2}|w|_ {2}^{2}$$</li>
 <li>硬间隔损失函数：<br>$$\min \frac{1}{2}|w|_ {2}^{2} \quad \text { s.t } y_{i}\left(w^{T} x_{i}+b\right) \geq 1(i=1,2, \ldots m)$$</li>
-<li>软间隔损失函数：<br>$$\begin{array}{c}{\min \frac{1}{2}|w|_ {2}^{2}+\frac{C}{m} \sum_{i=1}^{m} \xi_{i}} \\ {\text {s.t. } y_{i}\left(w^{T} x_{i}+b\right) \geq 1-\xi_{i} \quad(i=1,2, \ldots m)} \\ {\xi_{i} \geq 0(i=1,2, \ldots m)}\end{array}$$</li>
+<li>软间隔损失函数：<br>$$\begin{array}{c}{\min \frac{1}{2}|w|_ {2}^{2}+\frac{C}{m} \sum_{i=1}^{m} \xi_{i}} \\\\ {\text {s.t. } y_{i}\left(w^{T} x_{i}+b\right) \geq 1-\xi_{i} \quad(i=1,2, \ldots m)} \\\\ {\xi_{i} \geq 0(i=1,2, \ldots m)}\end{array}$$</li>
 </ul>
 <p>其实归根到底都是合页损失函数。</p>
 <p><strong>推导以后补充</strong></p>
@@ -423,11 +423,13 @@
 <p>我们令 $Z_1=X^2_1, Z_2=X^2_2, Z_3=X_2$ （其中 $Z_1, Z_2, Z_3$ 为三维空间的三个坐标）将其映射到三维空间中进行求解，如下图：</p>
 <p><img src="https://i.imgur.com/ACHoQSZ.gif" alt="11_2"></p>
 <p>可以找到一个平面，将红色的样本和蓝色样本区分开。</p>
-<p>下面展示了另一种特征映射和线性分类相结合的方式：<br><img src="/支持向量机-SVM-详解/20190415102542303.png" alt="11_3"></p>
+<p>下面展示了另一种特征映射和线性分类相结合的方式：<br><img src="https://i.loli.net/2019/04/15/5cb40e578b473.png" alt="11_3"></p>
 <p>也就是说对于在低维线性不可分的数据，在映射到了高维以后，就变成线性可分的了。这个思想我们同样可以运用到 <strong>SVM</strong> 的线性不可分数据上。也就是说，对于 <strong>SVM</strong> 线性不可分的低维特征数据，我们可以将其映射到高维，就可以运用线性可分 <strong>SVM</strong> 的进行求解了。</p>
 <h3 id="核函数的引入"><a href="#核函数的引入" class="headerlink" title="核函数的引入"></a>核函数的引入</h3><h4 id="核函数的定义"><a href="#核函数的定义" class="headerlink" title="核函数的定义"></a>核函数的定义</h4><p>假设 $\phi$ 是一个从低维的输入空间 $\chi$（欧式空间的子集或者离散集合）到高维的希尔伯特空间的 $H$ 映射。对于所有的 $x, z \in \chi$，都有 $K(x, z)$ 满足：<br>$$K(x, z)=\phi(x) \cdot \phi(z)$$<br>那么我们就称 $K(x, z)$ 为核函数，$\phi(x)$ 为映射函数 。式中 $\phi(x) \cdot \phi(z)$ 为 $\phi(x)$ 和 $\phi(z)$ 的内积。</p>
 <h4 id="核技巧在支持向量机中的应用"><a href="#核技巧在支持向量机中的应用" class="headerlink" title="核技巧在支持向量机中的应用"></a>核技巧在支持向量机中的应用</h4><p>回顾线性可分 <strong>SVM</strong> 对偶问题的优化目标函数：</p>
-<p>$$\underbrace{\min }_ {\alpha} \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)-\sum_{i=1}^{m} \alpha_{i} $$<br>$$ {\quad \text {s.t.} \sum_{i=1}^{m} \alpha_{i} y_{i}=0} $$<br>$${0 \leq \alpha_{i} \leq C ,i=1,2, \ldots m}$$</p>
+<p>$$\underbrace{\min }_ {\alpha} \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)-\sum_{i=1}^{m} \alpha_{i} \\\\ {\quad \text {s.t.} \sum_{i=1}^{m} \alpha_{i} y_{i}=0} \\\\ {0 \leq \alpha_{i} \leq C ,i=1,2, \ldots m}$$</p>
+<p>我们定义一个低维特征空间到高维特征空间的映射 $\phi$，将所有输入空间映射到一个更高维度的特征空间，让数据线性可分，我们就可以利用 <strong>SVM</strong> 的优化目标函数求出分类决策边界了。也就是说现在的 <strong>SVM</strong> 的优化目标函数变成：</p>
+<p>$$\underbrace{\min }_ {\alpha} \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j}[\phi(x_{i}) \cdot \phi(x_{j})]-\sum_{i=1}^{m} \alpha_{i}$$</p>
 
       
     </div>
