@@ -88,7 +88,7 @@
 <meta property="og:description" content="数据集   Country Age Salary Purchased     France 44 72000 No   Spain 27 48000 Yes   Germany 30 54000 No   Spain 38 61000 No   Germany 40  Yes   France 35 58000 Yes   Spain  52000 No   France 48 79000 Ye">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2019/04/25/5cc10d621ccbc.png">
-<meta property="og:updated_time" content="2019-04-25T05:12:18.000Z">
+<meta property="og:updated_time" content="2019-04-25T08:06:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习实战-数据预处理">
 <meta name="twitter:description" content="数据集   Country Age Salary Purchased     France 44 72000 No   Spain 27 48000 Yes   Germany 30 54000 No   Spain 38 61000 No   Germany 40  Yes   France 35 58000 Yes   Spain  52000 No   France 48 79000 Ye">
@@ -441,6 +441,7 @@
 <p>分别打印 <code>X_train</code> <code>X_test</code> <code>Y_train</code> 和 <code>Y_test</code> 运行结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Step 5: Splitting the datasets into training sets and Test sets</span><br><span class="line">X_train</span><br><span class="line">[[0.00000000e+00 1.00000000e+00 0.00000000e+00 4.00000000e+01</span><br><span class="line">  6.37777778e+04]</span><br><span class="line"> [1.00000000e+00 0.00000000e+00 0.00000000e+00 3.70000000e+01</span><br><span class="line">  6.70000000e+04]</span><br><span class="line"> [0.00000000e+00 0.00000000e+00 1.00000000e+00 2.70000000e+01</span><br><span class="line">  4.80000000e+04]</span><br><span class="line"> [0.00000000e+00 0.00000000e+00 1.00000000e+00 3.87777778e+01</span><br><span class="line">  5.20000000e+04]</span><br><span class="line"> [1.00000000e+00 0.00000000e+00 0.00000000e+00 4.80000000e+01</span><br><span class="line">  7.90000000e+04]</span><br><span class="line"> [0.00000000e+00 0.00000000e+00 1.00000000e+00 3.80000000e+01</span><br><span class="line">  6.10000000e+04]</span><br><span class="line"> [1.00000000e+00 0.00000000e+00 0.00000000e+00 4.40000000e+01</span><br><span class="line">  7.20000000e+04]</span><br><span class="line"> [1.00000000e+00 0.00000000e+00 0.00000000e+00 3.50000000e+01</span><br><span class="line">  5.80000000e+04]]</span><br><span class="line">X_test</span><br><span class="line">[[0.0e+00 1.0e+00 0.0e+00 3.0e+01 5.4e+04]</span><br><span class="line"> [0.0e+00 1.0e+00 0.0e+00 5.0e+01 8.3e+04]]</span><br><span class="line">Y_train</span><br><span class="line">[1 1 1 0 1 0 0 1]</span><br><span class="line">Y_test</span><br><span class="line">[0 0]</span><br></pre></td></tr></table></figure></p>
 <h2 id="第6步：特征量化"><a href="#第6步：特征量化" class="headerlink" title="第6步：特征量化"></a>第6步：特征量化</h2><p>大部分模型算法使用两点间的欧氏距离表示，但此特征在幅度、单位和范围姿态问题上变化很大。在距离计算中，高幅度的特征比低幅度特征权重更大。可用特征标准化或Z值归一化解决。导入 <strong><code>sklearn.preprocessing</code></strong> 库的 <strong><code>StandardScalar</code></strong> 类。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line">sc_X = StandardScaler()</span><br><span class="line">X_train = sc_X.fit_transform(X_train)</span><br><span class="line">X_test = sc_X.transform(X_test)</span><br></pre></td></tr></table></figure></p>
 <p>数据归一化后，打印<code>X_train</code> <code>X_test</code> 运行结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Step 6: Feature Scaling</span><br><span class="line">X_train</span><br><span class="line">[[-1.          2.64575131 -0.77459667  0.26306757  0.12381479]</span><br><span class="line"> [ 1.         -0.37796447 -0.77459667 -0.25350148  0.46175632]</span><br><span class="line"> [-1.         -0.37796447  1.29099445 -1.97539832 -1.53093341]</span><br><span class="line"> [-1.         -0.37796447  1.29099445  0.05261351 -1.11141978]</span><br><span class="line"> [ 1.         -0.37796447 -0.77459667  1.64058505  1.7202972 ]</span><br><span class="line"> [-1.         -0.37796447  1.29099445 -0.0813118  -0.16751412]</span><br><span class="line"> [ 1.         -0.37796447 -0.77459667  0.95182631  0.98614835]</span><br><span class="line"> [ 1.         -0.37796447 -0.77459667 -0.59788085 -0.48214934]]</span><br><span class="line">X_test</span><br><span class="line">[[-1.          2.64575131 -0.77459667 -1.45882927 -0.90166297]</span><br><span class="line"> [-1.          2.64575131 -0.77459667  1.98496442  2.13981082]]</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://github.com/Avik-Jain/100-Days-Of-ML-Code" target="_blank" rel="noopener">机器学习100天</a></p>
 
       
     </div>
@@ -508,6 +509,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/25/机器学习实战-线性回归/" rel="prev" title="机器学习实战-线性回归">
+                机器学习实战-线性回归 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -584,7 +589,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -606,7 +611,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -639,7 +644,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集"><span class="nav-number">1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第1步：导入库"><span class="nav-number">2.</span> <span class="nav-text">第1步：导入库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第2步：导入数据集"><span class="nav-number">3.</span> <span class="nav-text">第2步：导入数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第3步：处理丢失数据"><span class="nav-number">4.</span> <span class="nav-text">第3步：处理丢失数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第4步：解析分类数据"><span class="nav-number">5.</span> <span class="nav-text">第4步：解析分类数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将标签值解析为数字"><span class="nav-number">5.1.</span> <span class="nav-text">将标签值解析为数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建虚拟变量"><span class="nav-number">5.2.</span> <span class="nav-text">创建虚拟变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第5步：拆分数据集为训练集合和测试集合"><span class="nav-number">6.</span> <span class="nav-text">第5步：拆分数据集为训练集合和测试集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第6步：特征量化"><span class="nav-number">7.</span> <span class="nav-text">第6步：特征量化</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集"><span class="nav-number">1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第1步：导入库"><span class="nav-number">2.</span> <span class="nav-text">第1步：导入库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第2步：导入数据集"><span class="nav-number">3.</span> <span class="nav-text">第2步：导入数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第3步：处理丢失数据"><span class="nav-number">4.</span> <span class="nav-text">第3步：处理丢失数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第4步：解析分类数据"><span class="nav-number">5.</span> <span class="nav-text">第4步：解析分类数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将标签值解析为数字"><span class="nav-number">5.1.</span> <span class="nav-text">将标签值解析为数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建虚拟变量"><span class="nav-number">5.2.</span> <span class="nav-text">创建虚拟变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第5步：拆分数据集为训练集合和测试集合"><span class="nav-number">6.</span> <span class="nav-text">第5步：拆分数据集为训练集合和测试集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第6步：特征量化"><span class="nav-number">7.</span> <span class="nav-text">第6步：特征量化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">8.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
