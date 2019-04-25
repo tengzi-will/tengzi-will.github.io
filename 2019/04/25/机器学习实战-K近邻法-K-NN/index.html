@@ -91,7 +91,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/04/25/5cc178de8d35b.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/25/5cc1a3bbb4c02.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/25/5cc1a3bb21c80.png">
-<meta property="og:updated_time" content="2019-04-25T12:12:18.000Z">
+<meta property="og:updated_time" content="2019-04-25T13:18:18.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习实战-K近邻法 K-NN">
 <meta name="twitter:description" content="数据集 | 社交网络 第 1 步：导入相关库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 第 2 步：导入数据集123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2, 3]].valuesy = datase">
@@ -372,9 +372,11 @@
 <h2 id="第-6-步：对测试集进行预测"><a href="#第-6-步：对测试集进行预测" class="headerlink" title="第 6 步：对测试集进行预测"></a>第 6 步：对测试集进行预测</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y_pred = classifier.predict(X_test)</span><br></pre></td></tr></table></figure>
 <h2 id="第-7-步：生成混淆矩阵"><a href="#第-7-步：生成混淆矩阵" class="headerlink" title="第 7 步：生成混淆矩阵"></a>第 7 步：生成混淆矩阵</h2><p><strong>混淆矩阵</strong>可以对一个分类器性能进行分析，由此可以计算出许多指标，例如：<code>ROC</code> 曲线、正确率等。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix</span><br><span class="line">cm = confusion_matrix(y_test, y_pred)</span><br></pre></td></tr></table></figure></p>
 <p>打印混淆矩阵，<code>cm</code> 结果为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[64  4]</span><br><span class="line"> [ 3 29]]</span><br></pre></td></tr></table></figure></p>
-<h2 id="第-8-步：可视化"><a href="#第-8-步：可视化" class="headerlink" title="第 8 步：可视化"></a>第 8 步：可视化</h2><p>可视化相关代码详见另一篇文章《机器学习实战-逻辑回归》</p>
+<p>预测集中的 <code>0</code> 总共有 <code>68</code> 个，<code>1</code> 总共有 <code>32</code> 个。 在这个混淆矩阵中，实际有 <code>68</code> 个 <code>0</code>，但 <strong>K-NN</strong> 预测出有 <code>67(64+3)</code> 个 <code>0</code>，其中有 <code>3</code> 个实际上是 <code>1</code> 。 同时 <strong>K-NN</strong> 预测出有 <code>33(4+29)</code> 个 <code>1</code>，其中 <code>4</code> 个实际上是 <code>0</code> 。</p>
+<h2 id="第-8-步：可视化"><a href="#第-8-步：可视化" class="headerlink" title="第 8 步：可视化"></a>第 8 步：可视化</h2><p>可视化相关代码详见另一篇文章<a href="https://tengzi-will.github.io/2019/04/25/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" target="_blank" rel="noopener">《机器学习实战-逻辑回归》</a></p>
 <p><img src="https://i.loli.net/2019/04/25/5cc1a3bbb4c02.png" alt="03_train"></p>
 <p><img src="https://i.loli.net/2019/04/25/5cc1a3bb21c80.png" alt="04_test"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://github.com/Avik-Jain/100-Days-Of-ML-Code" target="_blank" rel="noopener">机器学习100天</a></p>
 
       
     </div>
@@ -442,6 +444,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/25/机器学习实战-支持向量机-SVM/" rel="prev" title="机器学习实战-支持向量机 SVM">
+                机器学习实战-支持向量机 SVM <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -518,7 +524,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -573,7 +579,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集-社交网络"><span class="nav-number">1.</span> <span class="nav-text">数据集 | 社交网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-1-步：导入相关库"><span class="nav-number">2.</span> <span class="nav-text">第 1 步：导入相关库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-2-步：导入数据集"><span class="nav-number">3.</span> <span class="nav-text">第 2 步：导入数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-3-步：将数据划分成训练集和测试集"><span class="nav-number">4.</span> <span class="nav-text">第 3 步：将数据划分成训练集和测试集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-4-步：特征缩放"><span class="nav-number">5.</span> <span class="nav-text">第 4 步：特征缩放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-5-步：使用K-NN对训练集数据进行训练"><span class="nav-number">6.</span> <span class="nav-text">第 5 步：使用K-NN对训练集数据进行训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-6-步：对测试集进行预测"><span class="nav-number">7.</span> <span class="nav-text">第 6 步：对测试集进行预测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-7-步：生成混淆矩阵"><span class="nav-number">8.</span> <span class="nav-text">第 7 步：生成混淆矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-8-步：可视化"><span class="nav-number">9.</span> <span class="nav-text">第 8 步：可视化</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集-社交网络"><span class="nav-number">1.</span> <span class="nav-text">数据集 | 社交网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-1-步：导入相关库"><span class="nav-number">2.</span> <span class="nav-text">第 1 步：导入相关库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-2-步：导入数据集"><span class="nav-number">3.</span> <span class="nav-text">第 2 步：导入数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-3-步：将数据划分成训练集和测试集"><span class="nav-number">4.</span> <span class="nav-text">第 3 步：将数据划分成训练集和测试集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-4-步：特征缩放"><span class="nav-number">5.</span> <span class="nav-text">第 4 步：特征缩放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-5-步：使用K-NN对训练集数据进行训练"><span class="nav-number">6.</span> <span class="nav-text">第 5 步：使用K-NN对训练集数据进行训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-6-步：对测试集进行预测"><span class="nav-number">7.</span> <span class="nav-text">第 6 步：对测试集进行预测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-7-步：生成混淆矩阵"><span class="nav-number">8.</span> <span class="nav-text">第 7 步：生成混淆矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-8-步：可视化"><span class="nav-number">9.</span> <span class="nav-text">第 8 步：可视化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">10.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
