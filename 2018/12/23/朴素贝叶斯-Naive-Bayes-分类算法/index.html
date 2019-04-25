@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Naive Bayes,机器学习,朴素贝叶斯算法,">
+  <meta name="keywords" content="机器学习,朴素贝叶斯算法,Naive Bayes,">
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="先验概率与后验概率先验概率先验概率(Prior probability)在维基百科中定义如下：  In Bayesian statistical inference, a prior probability distribution, often simply called the prior, of an uncertain quantity is the probability distrib">
-<meta name="keywords" content="Naive Bayes,机器学习,朴素贝叶斯算法">
+<meta name="keywords" content="机器学习,朴素贝叶斯算法,Naive Bayes">
 <meta property="og:type" content="article">
 <meta property="og:title" content="朴素贝叶斯 Naive Bayes 分类算法">
 <meta property="og:url" content="http://yoursite.com/2018/12/23/朴素贝叶斯-Naive-Bayes-分类算法/index.html">
 <meta property="og:site_name" content="LuoTeng&#39;s Blog">
 <meta property="og:description" content="先验概率与后验概率先验概率先验概率(Prior probability)在维基百科中定义如下：  In Bayesian statistical inference, a prior probability distribution, often simply called the prior, of an uncertain quantity is the probability distrib">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-24T09:50:04.000Z">
+<meta property="og:updated_time" content="2019-04-22T14:01:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="朴素贝叶斯 Naive Bayes 分类算法">
 <meta name="twitter:description" content="先验概率与后验概率先验概率先验概率(Prior probability)在维基百科中定义如下：  In Bayesian statistical inference, a prior probability distribution, often simply called the prior, of an uncertain quantity is the probability distrib">
@@ -403,7 +403,7 @@
 <p>经过上面的分析，最后求解 <strong><code>P(c|x)</code></strong> 的关键落在了求解 <strong><code>P(c)</code></strong> 与 <strong><code>P(x|c)</code></strong> 上，而这两个概率分布是必须要通过我们手上现有的数据集来进行估计。</p>
 <h2 id="贝叶斯在文本分类中的应用"><a href="#贝叶斯在文本分类中的应用" class="headerlink" title="贝叶斯在文本分类中的应用"></a>贝叶斯在文本分类中的应用</h2><p>贝叶斯如何应用在文本分类的任务中呢？</p>
 <p>假设我们有一个数据集，里面有很多个文档，每一个文档对应某一个类别，都是人工标注的。我们要做的任务就是利用已经有的数据集训练一个分类器（一种算法机制），等有了一篇新的文档，我们在不经过人工判断的情况下，利用已训练好的分类器（或算法)对该文档的类别进行判断。其实能够做文档分类的算法有很多，比如最近比较火的深度神经网络，但朴素贝叶斯算法对于文档的分类任务能够得到一个较好的效果，而且他的实现相较简单，算得上是一个性价比较高的算法。</p>
-<h3 id="数据建模"><a href="#数据建模" class="headerlink" title="数据建模"></a>数据建模</h3><p>假设我们一共有 <strong><code>N</code></strong> 篇文档，一共有 $ C_1 $ 、$ C_2 $ 、$ C_3 $ 三个类别，三个类别的个数为 $ c_1 $ 、$ c_2 $ 、$ c_3 $ ，每篇文档又有很多个单词，所以由 N 篇文档可以产生词项集合，由 <strong><code>N</code></strong> 篇文档中所有不重复的单词构成。假设 <strong><code>x</code></strong> 为某一篇文档，<strong><code>C</code></strong> 为文档的类别，那么在文档为 <strong><code>x</code></strong> 的条件下，该文档属于类别 $ C_1 $ 的概率为 $ P(C_1|x) $，同理该文档 x 被分类为 $ C_2 $ 和 $ C_3 $ 的概率分别为 $ P(C_2|x) $ 和 $ P(C_3|x) $，最后计算出这三个概率，哪个概率大，我们就认为文档 <strong><code>x</code></strong> 属于那个类别。</p>
+<h3 id="数据建模（伯努利模型）"><a href="#数据建模（伯努利模型）" class="headerlink" title="数据建模（伯努利模型）"></a>数据建模（伯努利模型）</h3><p>假设我们一共有 <strong><code>N</code></strong> 篇文档，一共有 $ C_1 $ 、$ C_2 $ 、$ C_3 $ 三个类别，三个类别的个数为 $ c_1 $ 、$ c_2 $ 、$ c_3 $ ，每篇文档又有很多个单词，所以由 N 篇文档可以产生词项集合，由 <strong><code>N</code></strong> 篇文档中所有不重复的单词构成。假设 <strong><code>x</code></strong> 为某一篇文档，<strong><code>C</code></strong> 为文档的类别，那么在文档为 <strong><code>x</code></strong> 的条件下，该文档属于类别 $ C_1 $ 的概率为 $ P(C_1|x) $，同理该文档 x 被分类为 $ C_2 $ 和 $ C_3 $ 的概率分别为 $ P(C_2|x) $ 和 $ P(C_3|x) $，最后计算出这三个概率，哪个概率大，我们就认为文档 <strong><code>x</code></strong> 属于那个类别。</p>
 <p>剩下的问题就是 <strong><code>P(c|x)</code></strong> 如何计算？根据贝叶斯定理：</p>
 <p>$$ P ( c | x ) = \frac { P ( c , x ) } { P ( x ) } = \frac { P ( x | c ) P ( c ) } { P ( x ) }  $$</p>
 <p>由于 P($C_1$|x)、P($C_2$|x)、P($C_3$|x) 的计算都含有 $ P(x) $ 项，最后比较大小我们只关注相对大小，而不关注绝对大小，所以该项可以约去，公式化简为：</p>
@@ -421,6 +421,11 @@
 <li>通过训练集计算出每个类别中词汇量总数、以及该类别中每个词项出现的频率（次数），从而估计出 单词 <strong><code>t</code></strong> 在 <strong><code>c</code></strong> 类文档中出现的概率 <strong><code>P(t|c)</code></strong> ；</li>
 <li>从训练集中抽取训练文档，通过 <strong><code>步骤1</code></strong>、<strong><code>步骤2</code></strong> 计算的指标，根据朴素贝叶斯公式对 <strong><code>P(c|x)</code></strong> 进行估计，得出文档 <strong><code>x</code></strong> 属于类 <strong><code>c</code></strong> 的概率。</li>
 </ol>
+<h2 id="贝叶斯算法模型"><a href="#贝叶斯算法模型" class="headerlink" title="贝叶斯算法模型"></a>贝叶斯算法模型</h2><p>关于贝叶斯算法的模型，根据处理先验条件概率 $ P( x | c ) $ 的方式的不同，又分为<strong>多项式模型</strong>、<strong>伯努利模型</strong>和<strong>混合模型</strong>。</p>
+<h3 id="多项式模型"><a href="#多项式模型" class="headerlink" title="多项式模型"></a>多项式模型</h3><p>$$ P( x | c ) = P( t_1 t_2 \cdots t_k | c ) = P( t_1 | c ) P( t_2 | c ) \cdots P( t_k | c ) $$<br>上面公式 $t_1 t_2 \cdots t_k$ 的取值<strong>允许重复</strong>计算，并且在计算 $P( t_i | c )$ 使用的是<strong>单词频率</strong>。</p>
+<h3 id="伯努利模型"><a href="#伯努利模型" class="headerlink" title="伯努利模型"></a>伯努利模型</h3><p>$$ P( x | c ) = P( t_1 t_2 \cdots t_k | c ) = P( t_1 | c ) P( t_2 | c ) \cdots P( t_k | c ) $$<br>上面公式 $t_1 t_2 \cdots t_k$ 的取值<strong>不允许重复</strong>，即重复单词只计算一次，并且在计算 $P( t_i | c )$ 使用的是<strong>文档频率</strong>。</p>
+<h3 id="高斯模型"><a href="#高斯模型" class="headerlink" title="高斯模型"></a>高斯模型</h3><p>当遇到连续变量预测，仅有该模型适用。计算 $P( t_i | c )$ 使用<strong>高斯分布的概率密度</strong>函数进行模拟。公式如下：</p>
+<p>$$P\left(x_{i} | Y=y_{k}\right)=\frac{1}{\sqrt{2 \pi} \sigma_{i k}} \exp \left(- \frac{\left(x_{i}-\mu_{i k}\right)^{2}}{2 \sigma_{i k}^{2}}\right)$$</p>
 
       
     </div>
@@ -462,11 +467,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Naive-Bayes/" rel="tag"># Naive Bayes</a>
-          
             <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
           
             <a href="/tags/朴素贝叶斯算法/" rel="tag"># 朴素贝叶斯算法</a>
+          
+            <a href="/tags/Naive-Bayes/" rel="tag"># Naive Bayes</a>
           
         </div>
       
@@ -568,7 +573,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -579,7 +584,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -590,7 +595,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -623,7 +628,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#先验概率与后验概率"><span class="nav-number">1.</span> <span class="nav-text">先验概率与后验概率</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先验概率"><span class="nav-number">1.1.</span> <span class="nav-text">先验概率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后验概率"><span class="nav-number">1.2.</span> <span class="nav-text">后验概率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区别"><span class="nav-number">1.3.</span> <span class="nav-text">区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯定理"><span class="nav-number">2.</span> <span class="nav-text">贝叶斯定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯在文本分类中的应用"><span class="nav-number">3.</span> <span class="nav-text">贝叶斯在文本分类中的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据建模"><span class="nav-number">3.1.</span> <span class="nav-text">数据建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法计算流程"><span class="nav-number">3.2.</span> <span class="nav-text">算法计算流程</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#先验概率与后验概率"><span class="nav-number">1.</span> <span class="nav-text">先验概率与后验概率</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先验概率"><span class="nav-number">1.1.</span> <span class="nav-text">先验概率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后验概率"><span class="nav-number">1.2.</span> <span class="nav-text">后验概率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区别"><span class="nav-number">1.3.</span> <span class="nav-text">区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯定理"><span class="nav-number">2.</span> <span class="nav-text">贝叶斯定理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯在文本分类中的应用"><span class="nav-number">3.</span> <span class="nav-text">贝叶斯在文本分类中的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据建模（伯努利模型）"><span class="nav-number">3.1.</span> <span class="nav-text">数据建模（伯努利模型）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法计算流程"><span class="nav-number">3.2.</span> <span class="nav-text">算法计算流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝叶斯算法模型"><span class="nav-number">4.</span> <span class="nav-text">贝叶斯算法模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多项式模型"><span class="nav-number">4.1.</span> <span class="nav-text">多项式模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#伯努利模型"><span class="nav-number">4.2.</span> <span class="nav-text">伯努利模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高斯模型"><span class="nav-number">4.3.</span> <span class="nav-text">高斯模型</span></a></li></ol></li></ol></div>
             
 
           </div>

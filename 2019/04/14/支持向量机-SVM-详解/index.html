@@ -98,7 +98,7 @@
 <meta property="og:image" content="http://yoursite.com/支持向量机-SVM-详解/20190415100850127.png">
 <meta property="og:image" content="https://i.imgur.com/ACHoQSZ.gif">
 <meta property="og:image" content="https://i.loli.net/2019/04/15/5cb40e578b473.png">
-<meta property="og:updated_time" content="2019-04-15T04:50:06.000Z">
+<meta property="og:updated_time" content="2019-04-22T08:21:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="支持向量机 SVM 详解">
 <meta name="twitter:description" content="SVM 概述SVM 诞生于上世纪九十年代，由于它良好的性能，自一诞生便席卷了机器学习领域，并牢牢压制了神经网络领域好多年，据说 LeNet5（一种 CNN 手写数字识别算法，属于神经网络）自 1998 年诞生，在后来的好长一段时间并未能火起来，最主要的原因就是 SVM 这货，因为 SVM 也能达到类似的效果甚至超过 LeNet5， 而且比 LeNet5 计算量小。在不考虑集成学习和特定场景情况下，">
@@ -373,13 +373,18 @@
 <li>当训练数据线性不可分时，支持向量机通过核技巧和软间隔最大化学习分类器，称为非线性支持向量机；<br><img src="https://i.loli.net/2019/04/14/5cb31eae83c60.png" alt="03_SVM_Kernel"></li>
 </ul>
 <p>此外，<strong>SVM</strong> 既支持二元分类也支持多元分类，既支持分类问题也支持回归问题。</p>
-<h2 id="线性可分支持向量机"><a href="#线性可分支持向量机" class="headerlink" title="线性可分支持向量机"></a>线性可分支持向量机</h2><h3 id="函数间隔与几何间隔"><a href="#函数间隔与几何间隔" class="headerlink" title="函数间隔与几何间隔"></a>函数间隔与几何间隔</h3><h3 id="对偶问题"><a href="#对偶问题" class="headerlink" title="对偶问题"></a>对偶问题</h3><h2 id="软间隔支持向量机"><a href="#软间隔支持向量机" class="headerlink" title="软间隔支持向量机"></a>软间隔支持向量机</h2><h3 id="线性分类-SVM-面临的问题"><a href="#线性分类-SVM-面临的问题" class="headerlink" title="线性分类 SVM 面临的问题"></a>线性分类 SVM 面临的问题</h3><p>在节中，我们对线性可分 <strong>SVM</strong> 的算法的原理和流程进行了总结，如下图所示，为线性可分的数据集，我们可以采用线性可分的支持向量机，也称为硬间隔支持向量机。</p>
+<h2 id="线性可分支持向量机"><a href="#线性可分支持向量机" class="headerlink" title="线性可分支持向量机"></a>线性可分支持向量机</h2><h3 id="函数间隔与几何间隔"><a href="#函数间隔与几何间隔" class="headerlink" title="函数间隔与几何间隔"></a>函数间隔与几何间隔</h3><h3 id="凸优化问题"><a href="#凸优化问题" class="headerlink" title="凸优化问题"></a>凸优化问题</h3><ol>
+<li>无约束优化问题（费马定理）：<br>$$\min f(x)$$</li>
+<li>带等式约束的优化问题（拉格朗日乘子法）：<br>$$\begin{array}{c}{\min f(x)} \\ {\text { s.t. } h_{i}(x)=0, \quad i=1,2, \cdots n} \\ \mathcal{L}(x, \lambda)=f(x)+\sum_{i=1}^{n} \lambda_{i} h_{i}(x) \end{array}$$</li>
+<li>带不等式约束的优化问题（KKT条件）：<br>$$\begin{array}{c}{\min f(x)} \\ {\text {s.t.} h_{i}(x)=0, \quad i=1,2, \cdots, n} \\ {g_{i}(x) \leq 0, \quad i=1,2, \cdots, k} \\ \mathcal{L}(x, \lambda, v)=f(x)+\sum_{i=1}^{k} \lambda_{i} g_{i}(x)+\sum_{i=1}^{n} v_{i} h_{i}(x) \end{array}$$</li>
+</ol>
+<h3 id="对偶问题"><a href="#对偶问题" class="headerlink" title="对偶问题"></a>对偶问题</h3><h3 id="序列最小化-SMO-算法"><a href="#序列最小化-SMO-算法" class="headerlink" title="序列最小化 SMO 算法"></a>序列最小化 SMO 算法</h3><h2 id="软间隔支持向量机"><a href="#软间隔支持向量机" class="headerlink" title="软间隔支持向量机"></a>软间隔支持向量机</h2><h3 id="线性分类-SVM-面临的问题"><a href="#线性分类-SVM-面临的问题" class="headerlink" title="线性分类 SVM 面临的问题"></a>线性分类 SVM 面临的问题</h3><p>在节中，我们对线性可分 <strong>SVM</strong> 的算法的原理和流程进行了总结，如下图所示，为线性可分的数据集，我们可以采用线性可分的支持向量机，也称为硬间隔支持向量机。</p>
 <p><img src="https://i.loli.net/2019/04/14/5cb326af74957.png" alt="06_Hard"></p>
 <p>当数据集中参杂了一些噪声，如下图所示，由于参杂了一个红色的噪声点，导致模型学习到的决策边界由下图中的粗虚线移动到了粗实线。</p>
 <p><img src="https://i.loli.net/2019/04/14/5cb326af80405.png" alt="07_noise"></p>
 <p><strong>上图是粗实线作为决策边界更合理，还是粗虚线作为决策边界更合理？</strong>很显然是粗虚线更合理，因为粗虚线忽略了噪音的影响，其 <strong>margin</strong> 更大，在测试集上的效果要优于粗实线。</p>
 <p><strong>如何解决这些问题呢？</strong> <strong>SVM</strong> 引入了<strong>软间隔最大化</strong>的方法来解决。</p>
-<h2 id="软间隔-SVM"><a href="#软间隔-SVM" class="headerlink" title="软间隔 SVM"></a>软间隔 SVM</h2><p>回顾下最大硬间隔的 <strong>SVM</strong>：</p>
+<h3 id="硬间隔-SVM-回顾"><a href="#硬间隔-SVM-回顾" class="headerlink" title="硬间隔 SVM 回顾"></a>硬间隔 SVM 回顾</h3><p>回顾下最大硬间隔的 <strong>SVM</strong>：</p>
 <p>$$\min \frac{1}{2}|w|_ {2}^{2} \quad \text { s.t } y_{i}\left(w^{T} x_{i}+b\right) \geq 1(i=1,2, \ldots m)$$</p>
 <p>硬间隔支持向量机，如下图所示：</p>
 <p><img src="https://i.loli.net/2019/04/14/5cb33f469343f.png" alt="08_Hard"></p>
@@ -405,7 +410,7 @@
 <p>最小化 $\frac{1}{2}||w||_ 2^2$ 意味着让支持向量距离超平面的距离尽可能大，最小化 $\sum\limits_{i=1}^{m}\xi_i $ 意味着保证 <strong>margin</strong> 内的点尽可能远离超平面，对误分类的点不要偏离的太远。$C$ 是协调两者关系的系数，需要调参来选择。</p>
 <p>下面是取不同的 $C$ 值的分类器对比情况，这两种分类器的性能相差不大，都比较差。$C$ 越小，<strong>margin</strong> 越大，$C$ 越大，<strong>margin</strong> 越小。$C$ 越大，$\sum\limits_{i=1}^{m}\xi_i$  作用越大，模型会更多得关注噪声点和误分类点，即决策边界周围的点，$C$ 越小，模型会更多关注距离决策边界更远的点，当 $C=0$ 时，软间隔变成了硬间隔。 $C$ 的取值可以采用交叉验证的方式求得。</p>
 <p><img src="https://i.loli.net/2019/04/14/5cb33f471c201.png" alt="10_C"></p>
-<h3 id="SVM-损失函数"><a href="#SVM-损失函数" class="headerlink" title="SVM 损失函数"></a>SVM 损失函数</h3><p>总结一下，关于线性支持向量机我们学了三种代价函数：</p>
+<h2 id="SVM-损失函数"><a href="#SVM-损失函数" class="headerlink" title="SVM 损失函数"></a>SVM 损失函数</h2><p>总结一下，关于线性支持向量机我们学了三种代价函数：</p>
 <ul>
 <li>合页损失函数 (hinge loss function)：<br>$$\min \frac{1}{m} \sum_{i=1}^{m} \max {0,1-y_{i}(w^{T} x_{i}+b)}+\frac{\lambda}{2}|w|_ {2}^{2}$$</li>
 <li>硬间隔损失函数：<br>$$\min \frac{1}{2}|w|_ {2}^{2} \quad \text { s.t } y_{i}\left(w^{T} x_{i}+b\right) \geq 1(i=1,2, \ldots m)$$</li>
@@ -425,11 +430,22 @@
 <p>可以找到一个平面，将红色的样本和蓝色样本区分开。</p>
 <p>下面展示了另一种特征映射和线性分类相结合的方式：<br><img src="https://i.loli.net/2019/04/15/5cb40e578b473.png" alt="11_3"></p>
 <p>也就是说对于在低维线性不可分的数据，在映射到了高维以后，就变成线性可分的了。这个思想我们同样可以运用到 <strong>SVM</strong> 的线性不可分数据上。也就是说，对于 <strong>SVM</strong> 线性不可分的低维特征数据，我们可以将其映射到高维，就可以运用线性可分 <strong>SVM</strong> 的进行求解了。</p>
-<h3 id="核函数的引入"><a href="#核函数的引入" class="headerlink" title="核函数的引入"></a>核函数的引入</h3><h4 id="核函数的定义"><a href="#核函数的定义" class="headerlink" title="核函数的定义"></a>核函数的定义</h4><p>假设 $\phi$ 是一个从低维的输入空间 $\chi$（欧式空间的子集或者离散集合）到高维的希尔伯特空间的 $H$ 映射。对于所有的 $x, z \in \chi$，都有 $K(x, z)$ 满足：<br>$$K(x, z)=\phi(x) \cdot \phi(z)$$<br>那么我们就称 $K(x, z)$ 为核函数，$\phi(x)$ 为映射函数 。式中 $\phi(x) \cdot \phi(z)$ 为 $\phi(x)$ 和 $\phi(z)$ 的内积。</p>
+<h3 id="核函数的引入"><a href="#核函数的引入" class="headerlink" title="核函数的引入"></a>核函数的引入</h3><h4 id="核函数的定义"><a href="#核函数的定义" class="headerlink" title="核函数的定义"></a>核函数的定义</h4><p>假设 $\phi$ 是一个从低维的输入空间 $\chi$（欧式空间的子集或者离散集合）到高维的希尔伯特空间的 $H$ 映射。对于所有的 $x, z \in \chi$，都有 $K(x, z)$ 满足：</p>
+<p>$$K(x, z)=\phi(x) \cdot \phi(z)$$</p>
+<p>那么我们就称 $K(x, z)$ 为核函数，$\phi(x)$ 为映射函数 。式中 $\phi(x) \cdot \phi(z)$ 为 $\phi(x)$ 和 $\phi(z)$ 的内积。</p>
 <h4 id="核技巧在支持向量机中的应用"><a href="#核技巧在支持向量机中的应用" class="headerlink" title="核技巧在支持向量机中的应用"></a>核技巧在支持向量机中的应用</h4><p>回顾线性可分 <strong>SVM</strong> 对偶问题的优化目标函数：</p>
 <p>$$\underbrace{\min }_ {\alpha} \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)-\sum_{i=1}^{m} \alpha_{i} \\\\ {\quad \text {s.t.} \sum_{i=1}^{m} \alpha_{i} y_{i}=0} \\\\ {0 \leq \alpha_{i} \leq C ,i=1,2, \ldots m}$$</p>
 <p>我们定义一个低维特征空间到高维特征空间的映射 $\phi$，将所有输入空间映射到一个更高维度的特征空间，让数据线性可分，我们就可以利用 <strong>SVM</strong> 的优化目标函数求出分类决策边界了。也就是说现在的 <strong>SVM</strong> 的优化目标函数变成：</p>
-<p>$$\underbrace{\min }_ {\alpha} \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j}[\phi(x_{i}) \cdot \phi(x_{j})]-\sum_{i=1}^{m} \alpha_{i}$$</p>
+<p>$$\underbrace{\min }_ {\alpha} \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j}[\phi(x_{i}) \cdot \phi(x_{j})]-\sum_{i=1}^{m} \alpha_{i}$$<br>上式 $\phi(x_{i}) \cdot \phi(x_{j})$ 替换为核函数：<br>$$\underbrace{\min }_ {\alpha} \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j}K(x_i, x_j)-\sum_{i=1}^{m} \alpha_{i}$$</p>
+<p>同样，分类决策函数中的内积也可以用核函数代替，得到的超平面即为：</p>
+<p>$$f(x)={sign}\left(\sum_{i=1}^{m} \alpha_{i}^{\ast} y_{i}\left(\phi\left(x_{i}\right) \cdot \phi(x)\right)+b^{\ast}\right) = {sign}\left(\sum_{i=1}^{m} \alpha_{i}^{\ast} y_{i}K(x_i, x_j)+b^{\ast}\right) $$</p>
+<h3 id="核函数介绍"><a href="#核函数介绍" class="headerlink" title="核函数介绍"></a>核函数介绍</h3><p>从上面的分析发现，因此我们只需要定义核函数 $K(x,z)$，而不用显示的定义映射函数  $\phi$ ，即可求出 $\phi(x_i) \cdot \phi(x_j)$， 这样就省去了寻找映射函数的麻烦（映射函数有无数个）。但是却带来了另一个问题：我们怎样定义核函数 $K(x,z)$ 呢？</p>
+<p>其实已经有人帮我们找到了很多的核函数，而且常用的核函数也仅仅只有那么几个。下面我们简要介绍 <strong>sklearn</strong> 中默认可选的几个核函数。</p>
+<h4 id="线性核函数"><a href="#线性核函数" class="headerlink" title="线性核函数"></a>线性核函数</h4><p>线性核函数（<strong>Linear Kernel</strong>）其实就是线性可分 <strong>SVM</strong>，表达式为：</p>
+<p>$$K(x, z)=x \cdot z$$</p>
+<p>也就是说，线性 <strong>SVM</strong> 是非线性 <strong>SVM</strong> 的一个特殊的情况，即线性 <strong>SVM</strong> 是使用线性核函数的 <strong>SVM</strong>。</p>
+<h4 id="多项式核函数"><a href="#多项式核函数" class="headerlink" title="多项式核函数"></a>多项式核函数</h4><h4 id="高斯核函数"><a href="#高斯核函数" class="headerlink" title="高斯核函数"></a>高斯核函数</h4><h4 id="拉普拉斯核函数"><a href="#拉普拉斯核函数" class="headerlink" title="拉普拉斯核函数"></a>拉普拉斯核函数</h4><h4 id="Sigmoid核函数"><a href="#Sigmoid核函数" class="headerlink" title="Sigmoid核函数"></a>Sigmoid核函数</h4><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://zhuanlan.zhihu.com/p/36332083" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/36332083</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/36379394" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/36379394</a></p>
 
       
     </div>
@@ -495,6 +511,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/25/机器学习实战-数据预处理/" rel="prev" title="机器学习实战-数据预处理">
+                机器学习实战-数据预处理 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -571,7 +591,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -582,7 +602,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -593,7 +613,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -626,7 +646,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SVM-概述"><span class="nav-number">1.</span> <span class="nav-text">SVM 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性可分支持向量机"><span class="nav-number">2.</span> <span class="nav-text">线性可分支持向量机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数间隔与几何间隔"><span class="nav-number">2.1.</span> <span class="nav-text">函数间隔与几何间隔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对偶问题"><span class="nav-number">2.2.</span> <span class="nav-text">对偶问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软间隔支持向量机"><span class="nav-number">3.</span> <span class="nav-text">软间隔支持向量机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性分类-SVM-面临的问题"><span class="nav-number">3.1.</span> <span class="nav-text">线性分类 SVM 面临的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软间隔-SVM"><span class="nav-number">4.</span> <span class="nav-text">软间隔 SVM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引入松弛变量-xi"><span class="nav-number">4.1.</span> <span class="nav-text">引入松弛变量 $\xi$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-xi-的几何含义"><span class="nav-number">4.2.</span> <span class="nav-text">$1-\xi$ 的几何含义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化下界"><span class="nav-number">4.3.</span> <span class="nav-text">优化下界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软间隔-SVM-的优化目标"><span class="nav-number">4.4.</span> <span class="nav-text">软间隔 SVM 的优化目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SVM-损失函数"><span class="nav-number">4.5.</span> <span class="nav-text">SVM 损失函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非线性支持向量机与核函数"><span class="nav-number">5.</span> <span class="nav-text">非线性支持向量机与核函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#核函数的引入"><span class="nav-number">5.1.</span> <span class="nav-text">核函数的引入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#核函数的定义"><span class="nav-number">5.1.1.</span> <span class="nav-text">核函数的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#核技巧在支持向量机中的应用"><span class="nav-number">5.1.2.</span> <span class="nav-text">核技巧在支持向量机中的应用</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SVM-概述"><span class="nav-number">1.</span> <span class="nav-text">SVM 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性可分支持向量机"><span class="nav-number">2.</span> <span class="nav-text">线性可分支持向量机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#函数间隔与几何间隔"><span class="nav-number">2.1.</span> <span class="nav-text">函数间隔与几何间隔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#凸优化问题"><span class="nav-number">2.2.</span> <span class="nav-text">凸优化问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对偶问题"><span class="nav-number">2.3.</span> <span class="nav-text">对偶问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列最小化-SMO-算法"><span class="nav-number">2.4.</span> <span class="nav-text">序列最小化 SMO 算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软间隔支持向量机"><span class="nav-number">3.</span> <span class="nav-text">软间隔支持向量机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性分类-SVM-面临的问题"><span class="nav-number">3.1.</span> <span class="nav-text">线性分类 SVM 面临的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬间隔-SVM-回顾"><span class="nav-number">3.2.</span> <span class="nav-text">硬间隔 SVM 回顾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入松弛变量-xi"><span class="nav-number">3.3.</span> <span class="nav-text">引入松弛变量 $\xi$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-xi-的几何含义"><span class="nav-number">3.4.</span> <span class="nav-text">$1-\xi$ 的几何含义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化下界"><span class="nav-number">3.5.</span> <span class="nav-text">优化下界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软间隔-SVM-的优化目标"><span class="nav-number">3.6.</span> <span class="nav-text">软间隔 SVM 的优化目标</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SVM-损失函数"><span class="nav-number">4.</span> <span class="nav-text">SVM 损失函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非线性支持向量机与核函数"><span class="nav-number">5.</span> <span class="nav-text">非线性支持向量机与核函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#核函数的引入"><span class="nav-number">5.1.</span> <span class="nav-text">核函数的引入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#核函数的定义"><span class="nav-number">5.1.1.</span> <span class="nav-text">核函数的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#核技巧在支持向量机中的应用"><span class="nav-number">5.1.2.</span> <span class="nav-text">核技巧在支持向量机中的应用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#核函数介绍"><span class="nav-number">5.2.</span> <span class="nav-text">核函数介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#线性核函数"><span class="nav-number">5.2.1.</span> <span class="nav-text">线性核函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多项式核函数"><span class="nav-number">5.2.2.</span> <span class="nav-text">多项式核函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#高斯核函数"><span class="nav-number">5.2.3.</span> <span class="nav-text">高斯核函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#拉普拉斯核函数"><span class="nav-number">5.2.4.</span> <span class="nav-text">拉普拉斯核函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sigmoid核函数"><span class="nav-number">5.2.5.</span> <span class="nav-text">Sigmoid核函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
