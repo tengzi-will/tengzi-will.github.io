@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="数据集社交网络-Social_Network_Ads.csv 导入需要用到的python库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 导入数据集123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2, 3]]">
+<meta name="description" content="基本步骤数据集社交网络-Social_Network_Ads.csv 导入需要用到的python库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 导入数据集123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2,">
 <meta name="keywords" content="机器学习,决策树,Decision Trees">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机器学习实战-决策树">
 <meta property="og:url" content="http://yoursite.com/2019/04/26/机器学习实战-决策树/index.html">
 <meta property="og:site_name" content="LuoTeng&#39;s Blog">
-<meta property="og:description" content="数据集社交网络-Social_Network_Ads.csv 导入需要用到的python库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 导入数据集123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2, 3]]">
+<meta property="og:description" content="基本步骤数据集社交网络-Social_Network_Ads.csv 导入需要用到的python库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 导入数据集123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2,">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2019/04/26/5cc2c63772c60.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/26/5cc2c93d26a87.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/26/5cc2c93dda574.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/26/5cc3128b78616.png">
-<meta property="og:updated_time" content="2019-04-26T14:11:46.000Z">
+<meta property="og:updated_time" content="2019-04-27T07:40:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习实战-决策树">
-<meta name="twitter:description" content="数据集社交网络-Social_Network_Ads.csv 导入需要用到的python库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 导入数据集123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2, 3]]">
+<meta name="twitter:description" content="基本步骤数据集社交网络-Social_Network_Ads.csv 导入需要用到的python库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 导入数据集123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2,">
 <meta name="twitter:image" content="https://i.loli.net/2019/04/26/5cc2c63772c60.png">
 
 
@@ -359,19 +359,156 @@
 
       
         <p><img src="https://i.loli.net/2019/04/26/5cc2c63772c60.png" alt="01_Decision Trees"></p>
-<h2 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h2><p><a href="https://github.com/MLEveryday/100-Days-Of-ML-Code/blob/master/datasets/Social_Network_Ads.csv" target="_blank" rel="noopener">社交网络-Social_Network_Ads.csv</a></p>
-<h2 id="导入需要用到的python库"><a href="#导入需要用到的python库" class="headerlink" title="导入需要用到的python库"></a>导入需要用到的python库</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></table></figure>
-<h2 id="导入数据集"><a href="#导入数据集" class="headerlink" title="导入数据集"></a>导入数据集</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dataset = pd.read_csv(<span class="string">'Social_Network_Ads.csv'</span>)</span><br><span class="line">X = dataset.iloc[:, [<span class="number">2</span>, <span class="number">3</span>]].values</span><br><span class="line">y = dataset.iloc[:, <span class="number">4</span>].values</span><br></pre></td></tr></table></figure>
-<h2 id="将数据集拆分为训练集和测试集"><a href="#将数据集拆分为训练集和测试集" class="headerlink" title="将数据集拆分为训练集和测试集"></a>将数据集拆分为训练集和测试集</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.25</span>, random_state=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="对测试集进行决策树分类拟合"><a href="#对测试集进行决策树分类拟合" class="headerlink" title="对测试集进行决策树分类拟合"></a>对测试集进行决策树分类拟合</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier</span><br><span class="line">classifier = DecisionTreeClassifier(criterion=<span class="string">'entropy'</span>, random_state=<span class="number">0</span>)</span><br><span class="line">classifier.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
-<h2 id="预测测试集的结果"><a href="#预测测试集的结果" class="headerlink" title="预测测试集的结果"></a>预测测试集的结果</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y_pred = classifier.predict(X_test)</span><br></pre></td></tr></table></figure>
+<h2 id="基本步骤"><a href="#基本步骤" class="headerlink" title="基本步骤"></a>基本步骤</h2><h3 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h3><p><a href="https://github.com/MLEveryday/100-Days-Of-ML-Code/blob/master/datasets/Social_Network_Ads.csv" target="_blank" rel="noopener">社交网络-Social_Network_Ads.csv</a></p>
+<h3 id="导入需要用到的python库"><a href="#导入需要用到的python库" class="headerlink" title="导入需要用到的python库"></a>导入需要用到的python库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></table></figure>
+<h3 id="导入数据集"><a href="#导入数据集" class="headerlink" title="导入数据集"></a>导入数据集</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dataset = pd.read_csv(<span class="string">'Social_Network_Ads.csv'</span>)</span><br><span class="line">X = dataset.iloc[:, [<span class="number">2</span>, <span class="number">3</span>]].values</span><br><span class="line">y = dataset.iloc[:, <span class="number">4</span>].values</span><br></pre></td></tr></table></figure>
+<h3 id="将数据集拆分为训练集和测试集"><a href="#将数据集拆分为训练集和测试集" class="headerlink" title="将数据集拆分为训练集和测试集"></a>将数据集拆分为训练集和测试集</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.25</span>, random_state=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="对测试集进行决策树分类拟合"><a href="#对测试集进行决策树分类拟合" class="headerlink" title="对测试集进行决策树分类拟合"></a>对测试集进行决策树分类拟合</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> DecisionTreeClassifier</span><br><span class="line">classifier = DecisionTreeClassifier(criterion=<span class="string">'entropy'</span>, random_state=<span class="number">0</span>)</span><br><span class="line">classifier.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
+<p>为了防止过拟合，对于决策树有时会进行剪枝处理，在分类器中我们可以通过设置参数 <strong><code>max_depth</code></strong> 和 <strong><code>min_samples_split</code></strong> 调节决策的<strong>深度</strong>与<strong>内部节点再划分所需最小样本数</strong>。</p>
+<h3 id="预测测试集的结果"><a href="#预测测试集的结果" class="headerlink" title="预测测试集的结果"></a>预测测试集的结果</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y_pred = classifier.predict(X_test)</span><br></pre></td></tr></table></figure>
+<h3 id="制作混淆矩阵"><a href="#制作混淆矩阵" class="headerlink" title="制作混淆矩阵"></a>制作混淆矩阵</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix</span><br><span class="line">cm = confusion_matrix(y_test, y_pred)</span><br></pre></td></tr></table></figure>
 <p>打印混淆矩阵，<code>cm</code> 结果为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[62  6]</span><br><span class="line"> [ 3 29]]</span><br></pre></td></tr></table></figure></p>
-<h2 id="制作混淆矩阵"><a href="#制作混淆矩阵" class="headerlink" title="制作混淆矩阵"></a>制作混淆矩阵</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix</span><br><span class="line">cm = confusion_matrix(y_test, y_pred)</span><br></pre></td></tr></table></figure>
-<h2 id="结果进行可视化"><a href="#结果进行可视化" class="headerlink" title="结果进行可视化"></a>结果进行可视化</h2><p>可视化相关代码详见另一篇文章<a href="https://tengzi-will.github.io/2019/04/25/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" target="_blank" rel="noopener">《机器学习实战-逻辑回归》</a></p>
+<h3 id="结果进行可视化"><a href="#结果进行可视化" class="headerlink" title="结果进行可视化"></a>结果进行可视化</h3><p>可视化相关代码详见另一篇文章<a href="https://tengzi-will.github.io/2019/04/25/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" target="_blank" rel="noopener">《机器学习实战-逻辑回归》</a></p>
 <p><strong>训练集</strong>结果可视化如下图：<br><img src="https://i.loli.net/2019/04/26/5cc2c93d26a87.png" alt="02_train"></p>
 <p><strong>测试集</strong>结果可视化如下图：<br><img src="https://i.loli.net/2019/04/26/5cc2c93dda574.png" alt="03_test"></p>
-<h2 id="导出决策树"><a href="#导出决策树" class="headerlink" title="导出决策树"></a>导出决策树</h2><p>我们可以通过命令 <strong><code>pip install graphviz</code></strong> ，或者登陆 <a href="http://www.graphviz.org/" target="_blank" rel="noopener">graphviz官网</a>，下载相应的包。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> graphviz</span><br><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> export_graphviz</span><br><span class="line">dot_data = export_graphviz(classifier,</span><br><span class="line">                            out_file=<span class="keyword">None</span>,</span><br><span class="line">                            feature_names=[<span class="string">"Age"</span>, <span class="string">"EstimatedSalary"</span>],</span><br><span class="line">                            class_names=[<span class="string">"no"</span>, <span class="string">"yes"</span>],</span><br><span class="line">                            filled=<span class="keyword">True</span>,</span><br><span class="line">                            rounded=<span class="keyword">True</span>,</span><br><span class="line">                            special_characters=<span class="keyword">True</span>)</span><br><span class="line">graph = graphviz.Source(dot_data)</span><br><span class="line">graph.render(<span class="string">'computer'</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="导出决策树"><a href="#导出决策树" class="headerlink" title="导出决策树"></a>导出决策树</h3><p>我们可以通过命令 <strong><code>pip install graphviz</code></strong> ，或者登陆 <a href="http://www.graphviz.org/" target="_blank" rel="noopener">graphviz官网</a>，下载相应的包。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> graphviz</span><br><span class="line"><span class="keyword">from</span> sklearn.tree <span class="keyword">import</span> export_graphviz</span><br><span class="line">dot_data = export_graphviz(classifier,</span><br><span class="line">                            out_file=<span class="keyword">None</span>,</span><br><span class="line">                            feature_names=[<span class="string">"Age"</span>, <span class="string">"EstimatedSalary"</span>],</span><br><span class="line">                            class_names=[<span class="string">"no"</span>, <span class="string">"yes"</span>],</span><br><span class="line">                            filled=<span class="keyword">True</span>,</span><br><span class="line">                            rounded=<span class="keyword">True</span>,</span><br><span class="line">                            special_characters=<span class="keyword">True</span>)</span><br><span class="line">graph = graphviz.Source(dot_data)</span><br><span class="line">graph.render(<span class="string">'computer'</span>)</span><br></pre></td></tr></table></figure></p>
 <p>运行以上代码后，会在相对路径下生成一个 <code>pdf</code> 文件，图形保存在其中，如下所示：<br><img src="https://i.loli.net/2019/04/26/5cc3128b78616.png" alt="04_graphviz"></p>
+<h2 id="补充方法"><a href="#补充方法" class="headerlink" title="补充方法"></a>补充方法</h2><p>有时候我们遇到的数据集都是离散型的非数值，这时候需要对所有的特征值做预处理，将其转化为数字，我们可以使用 <strong><code>sklearn.feature_extraction</code></strong> 中的 <strong><code>DictVectorizer</code></strong> 类，该类的输入是一个字典，相当于将字典向量化。如何操作？我们看下面的例子。</p>
+<h3 id="数据集-1"><a href="#数据集-1" class="headerlink" title="数据集"></a>数据集</h3><table>
+<thead>
+<tr>
+<th>RID</th>
+<th>age</th>
+<th>income</th>
+<th>student</th>
+<th>credit_rating</th>
+<th>class_buys_computer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>youth</td>
+<td>high</td>
+<td>no</td>
+<td>fair</td>
+<td>no</td>
+</tr>
+<tr>
+<td>2</td>
+<td>youth</td>
+<td>high</td>
+<td>no</td>
+<td>excellent</td>
+<td>no</td>
+</tr>
+<tr>
+<td>3</td>
+<td>middle_aged</td>
+<td>high</td>
+<td>no</td>
+<td>fair</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>4</td>
+<td>senior</td>
+<td>medium</td>
+<td>no</td>
+<td>fair</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>5</td>
+<td>senior</td>
+<td>low</td>
+<td>yes</td>
+<td>fair</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>6</td>
+<td>senior</td>
+<td>low</td>
+<td>yes</td>
+<td>excellent</td>
+<td>no</td>
+</tr>
+<tr>
+<td>7</td>
+<td>middle_aged</td>
+<td>low</td>
+<td>yes</td>
+<td>excellent</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>8</td>
+<td>youth</td>
+<td>medium</td>
+<td>no</td>
+<td>fair</td>
+<td>no</td>
+</tr>
+<tr>
+<td>9</td>
+<td>youth</td>
+<td>low</td>
+<td>yes</td>
+<td>fair</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>10</td>
+<td>senior</td>
+<td>medium</td>
+<td>yes</td>
+<td>fair</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>11</td>
+<td>youth</td>
+<td>medium</td>
+<td>yes</td>
+<td>excellent</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>12</td>
+<td>middle_aged</td>
+<td>medium</td>
+<td>no</td>
+<td>excellent</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>13</td>
+<td>middle_aged</td>
+<td>high</td>
+<td>yes</td>
+<td>fair</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>14</td>
+<td>senior</td>
+<td>medium</td>
+<td>no</td>
+<td>excellent</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<h3 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h3><p>因为要将数据转化为字典形式的列表，所以我们用 <strong><code>csv.reader</code></strong> 一行一行读取数据，并进行数据转化。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="comment"># 读入数据</span></span><br><span class="line">dataset = open(<span class="string">r'AllElectronics.csv'</span>, <span class="string">'r'</span>)</span><br><span class="line">reader = csv.reader(dataset)</span><br><span class="line"><span class="comment"># 获取第一行数据（表头信息）</span></span><br><span class="line">headers = reader.__next__()</span><br></pre></td></tr></table></figure></p>
+<p>运行命令 print(headers) 打印表头信息，得到以下结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[&apos;RID&apos;, &apos;age&apos;, &apos;income&apos;, &apos;student&apos;, &apos;credit_rating&apos;, &apos;class_buys_computer&apos;]</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义两个列表</span></span><br><span class="line">featureList = []</span><br><span class="line">labelList = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> reader:</span><br><span class="line">    <span class="comment"># 把label存入list</span></span><br><span class="line">    labelList.append(row[<span class="number">-1</span>])</span><br><span class="line">    rowDict = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(row)<span class="number">-1</span>):</span><br><span class="line">        <span class="comment">#建立一个数据字典</span></span><br><span class="line">        rowDict[headers[i]] = row[i]</span><br><span class="line">    <span class="comment"># 把数据字典存入list</span></span><br><span class="line">    featureList.append(rowDict)</span><br></pre></td></tr></table></figure>
+<p>分别打印 <strong><code>featureList</code></strong> 和 <strong><code>labelList</code></strong> 得到以下结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">featureList：</span><br><span class="line">[&#123;&apos;age&apos;: &apos;youth&apos;, &apos;income&apos;: &apos;high&apos;, &apos;student&apos;: &apos;no&apos;, &apos;credit_rating&apos;: &apos;fair&apos;&#125;, </span><br><span class="line">&#123;&apos;age&apos;: &apos;youth&apos;, &apos;income&apos;: &apos;high&apos;, &apos;student&apos;: &apos;no&apos;, &apos;credit_rating&apos;: &apos;excellent&apos;&#125;, </span><br><span class="line">&#123;&apos;age&apos;: &apos;middle_aged&apos;, &apos;income&apos;: &apos;high&apos;, &apos;student&apos;: &apos;no&apos;, &apos;credit_rating&apos;: &apos;fair&apos;&#125;, </span><br><span class="line">&#123;&apos;age&apos;: &apos;senior&apos;, &apos;income&apos;: &apos;medium&apos;, &apos;student&apos;: &apos;no&apos;, &apos;credit_rating&apos;: &apos;fair&apos;&#125;, </span><br><span class="line">&#123;&apos;age&apos;: &apos;senior&apos;, &apos;income&apos;: &apos;low&apos;, &apos;student&apos;: &apos;yes&apos;, &apos;credit_rating&apos;: &apos;fair&apos;&#125;, </span><br><span class="line">&#123;&apos;age&apos;: &apos;senior&apos;, &apos;income&apos;: &apos;low&apos;, &apos;student&apos;: &apos;yes&apos;, &apos;credit_rating&apos;: &apos;excellent&apos;&#125;, </span><br><span class="line">&#123;&apos;age&apos;: &apos;middle_aged&apos;, &apos;income&apos;: &apos;low&apos;, &apos;student&apos;: &apos;yes&apos;, &apos;credit_rating&apos;: &apos;excellent&apos;&#125;, </span><br><span class="line">&#123;&apos;age&apos;: &apos;youth&apos;, &apos;income&apos;: &apos;medium&apos;, &apos;student&apos;: &apos;no&apos;, &apos;credit_rating&apos;: &apos;fair&apos;&#125;, </span><br><span class="line">&#123;&apos;age&apos;: &apos;youth&apos;, &apos;income&apos;: &apos;low&apos;, &apos;student&apos;: &apos;yes&apos;, &apos;credit_rating&apos;: &apos;fair&apos;&#125;, </span><br><span class="line">&#123;&apos;age&apos;: &apos;senior&apos;, &apos;income&apos;: &apos;medium&apos;, &apos;student&apos;: &apos;yes&apos;, &apos;credit_rating&apos;: &apos;fair&apos;&#125;, </span><br><span class="line">&#123;&apos;age&apos;: &apos;youth&apos;, &apos;income&apos;: &apos;medium&apos;, &apos;student&apos;: &apos;yes&apos;, &apos;credit_rating&apos;: &apos;excellent&apos;&#125;, </span><br><span class="line">&#123;&apos;age&apos;: &apos;middle_aged&apos;, &apos;income&apos;: &apos;medium&apos;, &apos;student&apos;: &apos;no&apos;, &apos;credit_rating&apos;: &apos;excellent&apos;&#125;, </span><br><span class="line">&#123;&apos;age&apos;: &apos;middle_aged&apos;, &apos;income&apos;: &apos;high&apos;, &apos;student&apos;: &apos;yes&apos;, &apos;credit_rating&apos;: &apos;fair&apos;&#125;, </span><br><span class="line">&#123;&apos;age&apos;: &apos;senior&apos;, &apos;income&apos;: &apos;medium&apos;, &apos;student&apos;: &apos;no&apos;, &apos;credit_rating&apos;: &apos;excellent&apos;&#125;]</span><br><span class="line">labelList：</span><br><span class="line">[&apos;no&apos;, &apos;no&apos;, &apos;yes&apos;, &apos;yes&apos;, &apos;yes&apos;, &apos;no&apos;, &apos;yes&apos;, &apos;no&apos;, &apos;yes&apos;, &apos;yes&apos;, &apos;yes&apos;, &apos;yes&apos;, &apos;yes&apos;, &apos;no&apos;]</span><br></pre></td></tr></table></figure></p>
+<h3 id="特征转化"><a href="#特征转化" class="headerlink" title="特征转化"></a>特征转化</h3><p>这一步利用 <strong><code>DictVectorizer</code></strong> 类将非数值形特征转化为 0 和 1 的表示。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction <span class="keyword">import</span> DictVectorizer</span><br><span class="line"><span class="comment"># 把数据转换成01表示</span></span><br><span class="line">vec = DictVectorizer()</span><br><span class="line">x_data = vec.fit_transform(featureList).toarray()</span><br></pre></td></tr></table></figure></p>
+<p>通过 <strong><code>print(vec.get_feature_names())</code></strong> 打印属性名称，并打印转化后的数据结果 <code>x_data</code> ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">vec.get_feature_names:</span><br><span class="line">[&apos;age=middle_aged&apos;, &apos;age=senior&apos;, &apos;age=youth&apos;, &apos;credit_rating=excellent&apos;, &apos;credit_rating=fair&apos;, &apos;income=high&apos;, &apos;income=low&apos;, &apos;income=medium&apos;, &apos;student=no&apos;, &apos;student=yes&apos;]</span><br><span class="line">x_data: </span><br><span class="line">[[0. 0. 1. 0. 1. 1. 0. 0. 1. 0.]</span><br><span class="line"> [0. 0. 1. 1. 0. 1. 0. 0. 1. 0.]</span><br><span class="line"> [1. 0. 0. 0. 1. 1. 0. 0. 1. 0.]</span><br><span class="line"> [0. 1. 0. 0. 1. 0. 0. 1. 1. 0.]</span><br><span class="line"> [0. 1. 0. 0. 1. 0. 1. 0. 0. 1.]</span><br><span class="line"> [0. 1. 0. 1. 0. 0. 1. 0. 0. 1.]</span><br><span class="line"> [1. 0. 0. 1. 0. 0. 1. 0. 0. 1.]</span><br><span class="line"> [0. 0. 1. 0. 1. 0. 0. 1. 1. 0.]</span><br><span class="line"> [0. 0. 1. 0. 1. 0. 1. 0. 0. 1.]</span><br><span class="line"> [0. 1. 0. 0. 1. 0. 0. 1. 0. 1.]</span><br><span class="line"> [0. 0. 1. 1. 0. 0. 0. 1. 0. 1.]</span><br><span class="line"> [1. 0. 0. 1. 0. 0. 0. 1. 1. 0.]</span><br><span class="line"> [1. 0. 0. 0. 1. 1. 0. 0. 0. 1.]</span><br><span class="line"> [0. 1. 0. 1. 0. 0. 0. 1. 1. 0.]]</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> LabelBinarizer</span><br><span class="line"><span class="comment"># 把标签转换成01表示</span></span><br><span class="line">lb = preprocessing.LabelBinarizer()</span><br><span class="line">y_data = lb.fit_transform(labelList)</span><br></pre></td></tr></table></figure>
+<p>打印转化后的数据结果 <code>y_data</code> ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">y_data: </span><br><span class="line">[[0]</span><br><span class="line"> [0]</span><br><span class="line"> [1]</span><br><span class="line"> [1]</span><br><span class="line"> [1]</span><br><span class="line"> [0]</span><br><span class="line"> [1]</span><br><span class="line"> [0]</span><br><span class="line"> [1]</span><br><span class="line"> [1]</span><br><span class="line"> [1]</span><br><span class="line"> [1]</span><br><span class="line"> [1]</span><br><span class="line"> [0]]</span><br></pre></td></tr></table></figure></p>
+<p>得到的 <code>x_data</code> 和 <code>y_data</code> 直接放入模型训练即可。</p>
 
       
     </div>
@@ -439,6 +576,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/27/机器学习实战-随机森林/" rel="prev" title="机器学习实战-随机森林">
+                机器学习实战-随机森林 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -515,7 +656,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">36</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -537,7 +678,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-count">59</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -570,7 +711,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集"><span class="nav-number">1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入需要用到的python库"><span class="nav-number">2.</span> <span class="nav-text">导入需要用到的python库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入数据集"><span class="nav-number">3.</span> <span class="nav-text">导入数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将数据集拆分为训练集和测试集"><span class="nav-number">4.</span> <span class="nav-text">将数据集拆分为训练集和测试集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对测试集进行决策树分类拟合"><span class="nav-number">5.</span> <span class="nav-text">对测试集进行决策树分类拟合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测测试集的结果"><span class="nav-number">6.</span> <span class="nav-text">预测测试集的结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#制作混淆矩阵"><span class="nav-number">7.</span> <span class="nav-text">制作混淆矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果进行可视化"><span class="nav-number">8.</span> <span class="nav-text">结果进行可视化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导出决策树"><span class="nav-number">9.</span> <span class="nav-text">导出决策树</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本步骤"><span class="nav-number">1.</span> <span class="nav-text">基本步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集"><span class="nav-number">1.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入需要用到的python库"><span class="nav-number">1.2.</span> <span class="nav-text">导入需要用到的python库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入数据集"><span class="nav-number">1.3.</span> <span class="nav-text">导入数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将数据集拆分为训练集和测试集"><span class="nav-number">1.4.</span> <span class="nav-text">将数据集拆分为训练集和测试集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对测试集进行决策树分类拟合"><span class="nav-number">1.5.</span> <span class="nav-text">对测试集进行决策树分类拟合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预测测试集的结果"><span class="nav-number">1.6.</span> <span class="nav-text">预测测试集的结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#制作混淆矩阵"><span class="nav-number">1.7.</span> <span class="nav-text">制作混淆矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果进行可视化"><span class="nav-number">1.8.</span> <span class="nav-text">结果进行可视化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导出决策树"><span class="nav-number">1.9.</span> <span class="nav-text">导出决策树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充方法"><span class="nav-number">2.</span> <span class="nav-text">补充方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集-1"><span class="nav-number">2.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预处理"><span class="nav-number">2.2.</span> <span class="nav-text">数据预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征转化"><span class="nav-number">2.3.</span> <span class="nav-text">特征转化</span></a></li></ol></li></ol></div>
             
 
           </div>
