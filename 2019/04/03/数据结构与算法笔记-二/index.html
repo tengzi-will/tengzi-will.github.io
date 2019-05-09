@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,java,数据结构,算法,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="递归 &amp;amp; 分治 Recursion Divide &amp;amp; Conquer  Recursion 递归 — 循环递归就是通过函数体来进⾏的循环！ 举个栗子：计算 $n!$，计算公式：$ n! = 1 \cdot 2 \cdot 3 \cdot … \cdot n $ 1234def Fatorial(n):    if n &amp;lt;= 1:        return 1    retu">
+<meta name="keywords" content="python,java,数据结构,算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法笔记 (二)">
+<meta property="og:url" content="http://yoursite.com/2019/04/03/数据结构与算法笔记-二/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="递归 &amp;amp; 分治 Recursion Divide &amp;amp; Conquer  Recursion 递归 — 循环递归就是通过函数体来进⾏的循环！ 举个栗子：计算 $n!$，计算公式：$ n! = 1 \cdot 2 \cdot 3 \cdot … \cdot n $ 1234def Fatorial(n):    if n &amp;lt;= 1:        return 1    retu">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2c0622fbf5.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2c1ccddf95.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2c555c8c73.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2c67016233.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2c861e59c9.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca2c9e20fe25.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca300e26a2ee.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca31208628e0.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca3120b29904.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca3120860761.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca3120b54758.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca3120a40d4d.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca3136c44066.png">
+<meta property="og:image" content="http://yoursite.com/数据结构与算法笔记/20190402034302385.png">
+<meta property="og:image" content="http://yoursite.com/数据结构与算法笔记/20190402034459679.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca35aba9e620.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/02/5ca35aba9e620.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/03/5ca49d02eaa6a.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/03/5ca49ce4aea46.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/03/5ca49ce93eec3.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/03/5ca49dc5c9a87.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/03/5ca49f5baf3fb.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca597dc8bb7b.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca597dcb54c8.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca59c032ed1b.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca59ce6bad53.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca59dc98d03b.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca5befb5c37b.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca5befb78614.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca5befba634d.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca5c1af3efe7.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/04/5ca5c1af413df.png">
+<meta property="og:updated_time" content="2019-04-11T06:19:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构与算法笔记 (二)">
+<meta name="twitter:description" content="递归 &amp;amp; 分治 Recursion Divide &amp;amp; Conquer  Recursion 递归 — 循环递归就是通过函数体来进⾏的循环！ 举个栗子：计算 $n!$，计算公式：$ n! = 1 \cdot 2 \cdot 3 \cdot … \cdot n $ 1234def Fatorial(n):    if n &amp;lt;= 1:        return 1    retu">
+<meta name="twitter:image" content="https://i.loli.net/2019/04/02/5ca2c0622fbf5.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/03/数据结构与算法笔记-二/">
+
+
+
+
+
+  <title>数据结构与算法笔记 (二) | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/03/数据结构与算法笔记-二/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据结构与算法笔记 (二)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-03T23:40:07+08:00">
+                2019-04-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="递归-amp-分治"><a href="#递归-amp-分治" class="headerlink" title="递归 &amp; 分治"></a>递归 &amp; 分治</h2><ol>
+<li>Recursion</li>
+<li>Divide &amp; Conquer</li>
+</ol>
+<h3 id="Recursion-递归-—-循环"><a href="#Recursion-递归-—-循环" class="headerlink" title="Recursion 递归 — 循环"></a>Recursion 递归 — 循环</h3><p>递归就是通过函数体来进⾏的循环！</p>
+<p><strong>举个栗子</strong>：<br>计算 $n!$，计算公式：$ n! = 1 \cdot 2 \cdot 3 \cdot … \cdot n $</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Fatorial</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> n &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> n * Factorial(n - <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>递归过程如下图：<br><img src="https://i.loli.net/2019/04/02/5ca2c0622fbf5.png" alt="30_Recursion"></p>
+<p><strong>举个栗子</strong>：<br>计算<strong>斐波拉契数列</strong> <strong><code>Fibonacci array</code></strong>: $1, 1, 2, 3, 5, 13, 21, 34, …$<br>计算公式：$F(n) = F(n-1) + F(n-2)$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">0</span> <span class="keyword">or</span> n == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> n</span><br><span class="line">    <span class="keyword">return</span> fib(n<span class="number">-1</span>) + fib(n<span class="number">-2</span>)</span><br></pre></td></tr></table></figure>
+<p>下图为 <strong>F(6)</strong> 的计算过程<br><img src="https://i.loli.net/2019/04/02/5ca2c1ccddf95.png" alt="31_F6"></p>
+<h3 id="递归代码通用模板"><a href="#递归代码通用模板" class="headerlink" title="递归代码通用模板"></a>递归代码通用模板</h3><p><img src="https://i.loli.net/2019/04/02/5ca2c555c8c73.png" alt="32_coding"></p>
+<h3 id="分治-Divde-amp-Conquer"><a href="#分治-Divde-amp-Conquer" class="headerlink" title="分治 - Divde &amp; Conquer"></a>分治 - Divde &amp; Conquer</h3><p>算法逻辑图：<br><img src="https://i.loli.net/2019/04/02/5ca2c67016233.png" alt="33_Divde_Conquer"></p>
+<p><strong>举个列子</strong>，将链表中的元素变成大写</p>
+<p><img src="https://i.loli.net/2019/04/02/5ca2c861e59c9.png" alt="34_super"></p>
+<p>咋看之下，使用<strong>分治</strong>与<strong>循环</strong>并无区别，但是分治算法每一个子问题互不相关，所以可以使用<strong>并行计算</strong>的方式<strong>加速</strong>。</p>
+<h3 id="分治代码通用模板"><a href="#分治代码通用模板" class="headerlink" title="分治代码通用模板"></a>分治代码通用模板</h3><p><img src="https://i.loli.net/2019/04/02/5ca2c9e20fe25.png" alt="35_coding"></p>
+<h3 id="代码实战"><a href="#代码实战" class="headerlink" title="代码实战"></a>代码实战</h3><h4 id="问题一-Pow-x-n-（50）"><a href="#问题一-Pow-x-n-（50）" class="headerlink" title="问题一 Pow(x, n)（50）"></a>问题一 Pow(x, n)（50）</h4><h5 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h5><p>实现 <code>pow(x, n)</code> ，即计算 <code>x</code> 的 <code>n</code> 次幂函数</p>
+<p><strong>示例 1</strong>:</p>
+<blockquote>
+<p>输入: 2.00000, 10<br>输出: 1024.00000</p>
+</blockquote>
+<p><strong>示例 2</strong>:</p>
+<blockquote>
+<p>输入: 2.10000, 3<br>输出: 9.26100</p>
+</blockquote>
+<p><strong>示例 3</strong>:</p>
+<blockquote>
+<p>输入: 2.00000, -2<br>输出: 0.25000<br>解释: 2-2 = 1/22 = 1/4 = 0.25</p>
+</blockquote>
+<p>说明:</p>
+<ul>
+<li>-100.0 &lt; x &lt; 100.0</li>
+<li>n 是 32 位有符号整数，其数值范围是 [−231, 231 − 1] 。</li>
+</ul>
+<h5 id="解题思路分析"><a href="#解题思路分析" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li><strong>方法一</strong>，调用库函数，时间复杂度 $O(1)$</li>
+<li><strong>方法二</strong>，暴力循环，时间复杂度 $O(n)$</li>
+<li><strong>方法三</strong>，分治：<br>① $target = x^n$；<br>② 当 $n$ 为偶数，分两段子问题，$y = x ^{n/2}$，$result = y^2$；<br>③ 当 $n$ 为奇数，也分两段子问题，$y = x ^{(n-1)/2}$，$result = xy^2$；<br>④ 终止条件，$x^1$ or $x^0$ </li>
+</ul>
+<h5 id="解法代码"><a href="#解法代码" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">myPow</span><span class="params">(<span class="keyword">double</span> x, <span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">double</span> res = <span class="number">1.0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=n; i != <span class="number">0</span>; i /= <span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i%<span class="number">2</span> != <span class="number">0</span>)&#123;</span><br><span class="line">                res *= x;</span><br><span class="line">            &#125;</span><br><span class="line">            x *= x;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> n &lt; <span class="number">0</span> ? <span class="number">1</span>/res : res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">myPow</span><span class="params">(self, x: float, n: int)</span> -&gt; float:</span></span><br><span class="line">        <span class="keyword">if</span> n == <span class="number">0</span>: <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> n == <span class="number">1</span>: <span class="keyword">return</span> x</span><br><span class="line">        <span class="keyword">elif</span> n &lt; <span class="number">0</span>: <span class="keyword">return</span> <span class="number">1</span> / self.myPow(x, -n)</span><br><span class="line">        <span class="keyword">if</span> n % <span class="number">2</span> == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> self.myPow(x*x, n/<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> x*self.myPow(x*x, n//<span class="number">2</span>)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">myPow</span><span class="params">(self, x: float, n: int)</span> -&gt; float:</span></span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">0</span>:</span><br><span class="line">            x = <span class="number">1</span>/x</span><br><span class="line">            n = -n</span><br><span class="line">        pow = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> n:</span><br><span class="line">            <span class="keyword">if</span> n &amp; <span class="number">1</span>:</span><br><span class="line">                pow*= x</span><br><span class="line">            x *= x</span><br><span class="line">            n &gt;&gt;= <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> pow</span><br></pre></td></tr></table></figure>
+<p><strong>总结</strong>：<strong>python</strong> 的第二段代码为最佳代码实现，利用位运算符的特性求解。<strong>Java</strong> 也是分治的思想，只不过利用循环实现的机制比较巧妙。</p>
+<h4 id="问题二-求众数（169）"><a href="#问题二-求众数（169）" class="headerlink" title="问题二 求众数（169）"></a>问题二 求众数（169）</h4><h5 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个大小为 <code>n</code> 的数组，找到其中的众数。众数是指在数组中出现次数大于 <code>⌊ n/2 ⌋</code> 的元素。</p>
+<p>你可以假设数组是非空的，并且给定的数组总是存在众数。</p>
+<p><strong>示例 1</strong>:</p>
+<blockquote>
+<p>输入: [3,2,3]<br>输出: 3</p>
+</blockquote>
+<p><strong>示例 2</strong>:</p>
+<blockquote>
+<p>输入: [2,2,1,1,1,2,2]<br>输出: 2</p>
+</blockquote>
+<h5 id="解题思路分析-1"><a href="#解题思路分析-1" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li><strong>方法一</strong>，暴力求解：写两层嵌套循环，第一层循环枚举所有元素，第二层循环计算该元素出现的次数，时间复杂度 $O(N^2)$ 。</li>
+<li><strong>方法二</strong>，利用 <code>Map</code>：一次循环计算出所有元素出现次数，时间复杂度 $O(N)$，空间复杂度 $O(N)$ 。</li>
+<li><strong>方法三</strong>，排序：计算重复次数，只要重复次数大于 <code>n/2</code> 即为所求。</li>
+<li><strong>方法四</strong>：分治：数组一分为二，分别放入函数求解众数，令左边结果为 <code>left</code> 右边结果为 <code>right</code>，若 <code>left == right</code> 说明已经找到；若不等，返回 <code>left</code> 和 <code>right</code> 出现次数较大者。</li>
+</ul>
+<h5 id="解法代码-1"><a href="#解法代码-1" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">majorityElement</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        Arrays.sort(nums);</span><br><span class="line">        <span class="keyword">int</span> a = <span class="number">0</span>, count = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;nums.length; i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(i == <span class="number">0</span>)&#123;</span><br><span class="line">                a = nums[i];</span><br><span class="line">                count++;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span>(nums[i] == a)</span><br><span class="line">                    count++;</span><br><span class="line">                <span class="keyword">else</span>&#123;</span><br><span class="line">                    a = nums[i];</span><br><span class="line">                    count=<span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(count &gt; nums.length/<span class="number">2</span>)</span><br><span class="line">                <span class="keyword">return</span> a;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Integer.MAX_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">majorityElement</span><span class="params">(self, nums: List[int])</span> -&gt; int:</span></span><br><span class="line">        dic = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> nums:</span><br><span class="line">            dic[item] = dic.get(item, <span class="number">0</span>)+<span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> max(dic, key=dic.get)</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>： <strong>Java</strong> 代码使用方法三，先对数组进行排序，然后按照顺序遍历所有元素，直到计算出出现频率 <code>count</code> 大于 <code>n/2</code> 的元素，返回该元素。 <strong>Python</strong> 的代码利用了字典，即 <strong>Map</strong> 结构，写起来比较简洁。后来悲剧的发现 <strong>Java</strong> 的代码其实只用两行就能实现，因为题目说了一定存在众数，所以排完序之后直接 <strong><code>return nums[nums.length/2]</code></strong> 。</p>
+<h2 id="贪⼼算法（Greedy-Algorithms"><a href="#贪⼼算法（Greedy-Algorithms" class="headerlink" title="贪⼼算法（Greedy Algorithms)"></a>贪⼼算法（Greedy Algorithms)</h2><ol>
+<li>什么是贪⼼算法</li>
+<li>何种情况下⽤到贪⼼算法</li>
+</ol>
+<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>贪⼼法，⼜称贪⼼算法、贪婪算法：在对问题求解时，总是做出在当前看来是最好的选择。</p>
+<p>我们用下面的例子来理解下什么是贪心算法：</p>
+<p><img src="https://i.loli.net/2019/04/02/5ca300e26a2ee.png" alt="36_Greedy"></p>
+<p>如上图所示，题目要求用 20，10，5，1 元的面值的钱币凑出恰好等于 36 元的数额，最少需要多少张纸币。贪心算法就是由大面值到小面值匹配，直至得到最优解。</p>
+<p>但是贪心算法<strong>不一定能够得到最优解</strong>，以上题为例。如将题目改为用 10，9，1 元的面值凑出 18，如果使用贪心算法先用 10 元面值匹配，余 8，剩下 8 只能用 1 元面值匹配，贪心算法的结果就是 1 张 10 元和 8 张 1 元，这显然不是正确答案（两张 9 元）。</p>
+<p>为何前一种情况可以使用贪心算法求解？主要系因为前一种情况的面值刚好成倍数关系。</p>
+<h3 id="适⽤-Greedy-的场景"><a href="#适⽤-Greedy-的场景" class="headerlink" title="适⽤ Greedy 的场景"></a>适⽤ Greedy 的场景</h3><p>简单地说，问题能够分解成⼦问题来解决，⼦问题的最优解能递推到最终问题的最优解。这种⼦问题最优解成为最优⼦结构。</p>
+<p>贪⼼算法与<strong>动态规划</strong>的不同在于它对每个⼦问题的解决⽅案都做出选择，不能回退。动态规划则会保存以前的运算结果，并根据以前的结果对当前进⾏选择，有回退功能。</p>
+<h3 id="代码实战-1"><a href="#代码实战-1" class="headerlink" title="代码实战"></a>代码实战</h3><h4 id="问题一-买卖股票的最佳时机-II（122）"><a href="#问题一-买卖股票的最佳时机-II（122）" class="headerlink" title="问题一 买卖股票的最佳时机 II（122）"></a>问题一 买卖股票的最佳时机 II（122）</h4><h5 id="问题描述-2"><a href="#问题描述-2" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个数组，它的第 <code>i</code> 个元素是一支给定股票第 <code>i</code> 天的价格。</p>
+<p>设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。<br>注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p>
+<p><strong>示例 1</strong>:<br>输入: [7,1,5,3,6,4]<br>输出: 7<br>解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。<br>随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。</p>
+<p><strong>示例 2</strong>:<br>输入: [1,2,3,4,5]<br>输出: 4<br>解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。<br>注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。</p>
+<p><strong>示例 3</strong>:<br>输入: [7,6,4,3,1]<br>输出: 0<br>解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。</p>
+<h5 id="解题思路分析-2"><a href="#解题思路分析-2" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li><strong>方法一</strong>，DFS（深度优先搜索）：依次遍历数组，每一天都可以选择买入或者卖出，计算所有可能的结果，得出最大的盈利。时间复杂度 $O(2^n)$ 。</li>
+<li><strong>方法二</strong>，贪心算法：只要后一天的价格比前一天价格高，就在前一天买入后一天卖出。时间复杂度 $O(n)$ 。</li>
+<li><strong>方法三</strong>，动态规划 DP：后面例题讲解。时间复杂度也为 $O(n)$ 。</li>
+</ul>
+<h5 id="解法代码-2"><a href="#解法代码-2" class="headerlink" title="解法代码"></a>解法代码</h5><h5 id="解法二：利用集合"><a href="#解法二：利用集合" class="headerlink" title="解法二：利用集合"></a>解法二：利用集合</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h2 id="⼴度优先搜索-BFS-与-深度优先搜索-DFS"><a href="#⼴度优先搜索-BFS-与-深度优先搜索-DFS" class="headerlink" title="⼴度优先搜索(BFS) 与 深度优先搜索(DFS)"></a>⼴度优先搜索(BFS) 与 深度优先搜索(DFS)</h2><h3 id="⼴度优先搜索-Breadth-First-Search"><a href="#⼴度优先搜索-Breadth-First-Search" class="headerlink" title="⼴度优先搜索(Breadth-First-Search)"></a>⼴度优先搜索(Breadth-First-Search)</h3><h4 id="在树（图-状态集）中寻找特定节点"><a href="#在树（图-状态集）中寻找特定节点" class="headerlink" title="在树（图/状态集）中寻找特定节点"></a>在树（图/状态集）中寻找特定节点</h4><p><img src="https://i.loli.net/2019/04/02/5ca31208628e0.png" alt="37_Find"></p>
+<h4 id="BFS-如何工作"><a href="#BFS-如何工作" class="headerlink" title="BFS 如何工作"></a>BFS 如何工作</h4><p><img src="https://i.loli.net/2019/04/02/5ca3120b29904.png" alt="38_BFS"></p>
+<h4 id="BFS-代码"><a href="#BFS-代码" class="headerlink" title="BFS 代码"></a>BFS 代码</h4><p><img src="https://i.loli.net/2019/04/02/5ca3120860761.png" alt="39_coding"></p>
+<p>上述代码既适合于树，也适合于<strong>图</strong>。</p>
+<h3 id="深度优先搜索-Depth-First-Search"><a href="#深度优先搜索-Depth-First-Search" class="headerlink" title="深度优先搜索(Depth-First-Search)"></a>深度优先搜索(Depth-First-Search)</h3><h4 id="DFS-如何工作"><a href="#DFS-如何工作" class="headerlink" title="DFS 如何工作"></a>DFS 如何工作</h4><p><strong>搜索树</strong>结构如下图：<br><img src="https://i.loli.net/2019/04/02/5ca3120b54758.png" alt="40_DFS_tree"></p>
+<p><strong>搜索图</strong>结构如下图：<br><img src="https://i.loli.net/2019/04/02/5ca3120a40d4d.png" alt="41_DFS_graph"></p>
+<p><strong>DFS 与 BFS 对比</strong>，如下图所示：<br><img src="https://i.loli.net/2019/04/02/5ca3136c44066.png" alt="42_vs"></p>
+<h4 id="DFS-代码"><a href="#DFS-代码" class="headerlink" title="DFS 代码"></a>DFS 代码</h4><p><strong>递归</strong>写法<br><img src="/数据结构与算法笔记/20190402034302385.png" alt="43_coding"></p>
+<p><strong>非递归</strong>写法<br><img src="/数据结构与算法笔记/20190402034459679.png" alt="44_coding"></p>
+<h3 id="代码实战-2"><a href="#代码实战-2" class="headerlink" title="代码实战"></a>代码实战</h3><h4 id="问题一-二叉树的层次遍历（102）"><a href="#问题一-二叉树的层次遍历（102）" class="headerlink" title="问题一  二叉树的层次遍历（102）"></a>问题一  二叉树的层次遍历（102）</h4><h5 id="问题描述-3"><a href="#问题描述-3" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个二叉树，返回其按层次遍历的节点值。（即逐层地，从左到右访问所有节点）。</p>
+<p>例如:</p>
+<blockquote>
+<p>给定二叉树: [3,9,20,null,null,15,7],<br>    3<br>   / \<br>  9  20<br>    /  \<br>   15   7</p>
+</blockquote>
+<p>返回其层次遍历结果：</p>
+<blockquote>
+<p>[<br>  [3],<br>  [9, 20],<br>  [15, 7]<br>]</p>
+</blockquote>
+<h5 id="解题思路分析-3"><a href="#解题思路分析-3" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li><strong>方法一</strong>，BFS：① 在队列中加入层级标识符；② 写一个 for 循环，逐层扫描</li>
+<li><strong>方法二</strong>，DFS：建立好结果的二维数组，在遍历的同时需要记录 level ，即层级，一边遍历一边写入结果。</li>
+</ul>
+<h5 id="解法代码-3"><a href="#解法代码-3" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; levelOrder(TreeNode root) &#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; res = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) <span class="keyword">return</span> res;</span><br><span class="line">        </span><br><span class="line">        Queue&lt;TreeNode&gt; q = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        q.add(root);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span>(!q.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">int</span> levelSize = q.size();</span><br><span class="line">            List&lt;Integer&gt; currLevel = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; levelSize; i++)&#123;</span><br><span class="line">                TreeNode currNode = q.poll();</span><br><span class="line">                currLevel.add(currNode.val);</span><br><span class="line">                <span class="keyword">if</span>(currNode.left != <span class="keyword">null</span>)</span><br><span class="line">                    q.add(currNode.left);</span><br><span class="line">                <span class="keyword">if</span>(currNode.right != <span class="keyword">null</span>)</span><br><span class="line">                    q.add(currNode.right);</span><br><span class="line">            &#125;</span><br><span class="line">            res.add(currLevel);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.left = None</span></span><br><span class="line"><span class="comment">#         self.right = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">levelOrder</span><span class="params">(self, root: TreeNode)</span> -&gt; List[List[int]]:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root: <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        result = []</span><br><span class="line">        queue = collections.deque()</span><br><span class="line">        queue.append(root)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># visited = set(root)</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> queue:</span><br><span class="line">            level_size = len(queue)</span><br><span class="line">            current_level = []</span><br><span class="line">            <span class="keyword">for</span> _ <span class="keyword">in</span> range(level_size):</span><br><span class="line">                node = queue.popleft()</span><br><span class="line">                current_level.append(node.val)</span><br><span class="line">                <span class="keyword">if</span> node.left: queue.append(node.left)</span><br><span class="line">                <span class="keyword">if</span> node.right: queue.append(node.right)</span><br><span class="line">                    </span><br><span class="line">            result.append(current_level)</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">levelOrder</span><span class="params">(self, root: TreeNode)</span> -&gt; List[List[int]]:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root: <span class="keyword">return</span> []</span><br><span class="line">        self.result = []</span><br><span class="line">        self._dfs(root, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> self.result</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_dfs</span><span class="params">(self, node, level)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> node: <span class="keyword">return</span> </span><br><span class="line">        <span class="keyword">if</span> len(self.result) &lt; level+<span class="number">1</span>:</span><br><span class="line">            self.result.append([])</span><br><span class="line">        self.result[level].append(node.val)</span><br><span class="line">        </span><br><span class="line">        self._dfs(node.left, level + <span class="number">1</span>)</span><br><span class="line">        self._dfs(node.right, level + <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>总结</strong>：<strong>Python</strong> 的第一段代码中使用了 <code>collections</code> 库中写好的双端队列，执行起来要比使用原生态的 <code>[]</code> 构造的 <code>queue</code> 快一倍。第二段代码使用 <strong>DFS</strong> 方法，思路比较非正常性，了解即可。</p>
+<h4 id="问题二-二叉树的最大深度（104）"><a href="#问题二-二叉树的最大深度（104）" class="headerlink" title="问题二 二叉树的最大深度（104）"></a>问题二 二叉树的最大深度（104）</h4><h5 id="问题描述-4"><a href="#问题描述-4" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个二叉树，找出其最大深度。</p>
+<p>二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。</p>
+<p><strong>说明:</strong> 叶子节点是指没有子节点的节点。</p>
+<p><strong>示例：</strong></p>
+<blockquote>
+<p>给定二叉树 <code>[3, 9, 20, null, null, 15, 7]</code>，</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/04/02/5ca35aba9e620.png" alt="45"><br>返回它的最大深度 <code>3</code> 。</p>
+<h5 id="解题思路分析-4"><a href="#解题思路分析-4" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li><strong>方法一</strong>，Recursion</li>
+<li><strong>方法二</strong>，BFS</li>
+<li><strong>方法三</strong>，DFS</li>
+</ul>
+<h5 id="解法一：Recursion"><a href="#解法一：Recursion" class="headerlink" title="解法一：Recursion"></a>解法一：Recursion</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> root == <span class="keyword">null</span> ? <span class="number">0</span></span><br><span class="line">            : <span class="number">1</span> + Math.max(maxDepth(root.left), maxDepth(root.right));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.left = None</span></span><br><span class="line"><span class="comment">#         self.right = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxDepth</span><span class="params">(self, root: TreeNode)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root: <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> + max(self.maxDepth(root.left), self.maxDepth(root.right))</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>：递归的代码思路比较清晰，写起来也比较简洁！</p>
+<h5 id="解法二：BFS-or-DFS"><a href="#解法二：BFS-or-DFS" class="headerlink" title="解法二：BFS or DFS"></a>解法二：BFS or DFS</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        Stack&lt;TreeNode&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        Map&lt;TreeNode, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(root, <span class="number">1</span>);</span><br><span class="line">        stack.push(root);</span><br><span class="line">        <span class="keyword">int</span> depth = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(!stack.isEmpty())&#123;</span><br><span class="line">            TreeNode currNode = stack.pop();</span><br><span class="line">            <span class="keyword">int</span> currDepth = map.get(currNode);</span><br><span class="line">            depth = Math.max(depth, currDepth);</span><br><span class="line">            <span class="keyword">if</span>(currNode.left != <span class="keyword">null</span>)&#123;</span><br><span class="line">                stack.push(currNode.left);</span><br><span class="line">                map.put(currNode.left, currDepth+<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(currNode.right != <span class="keyword">null</span>)&#123;</span><br><span class="line">                stack.push(currNode.right);</span><br><span class="line">                map.put(currNode.right, currDepth+<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> depth;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxDepth</span><span class="params">(self, root: TreeNode)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root: <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        depth = <span class="number">0</span>;</span><br><span class="line">        queue = collections.deque()</span><br><span class="line">        queue.append((<span class="number">1</span>, root))</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> queue:</span><br><span class="line">            level, node = queue.popleft()</span><br><span class="line">            <span class="keyword">if</span> depth &lt; level: depth = level</span><br><span class="line">            <span class="keyword">if</span> node.left: queue.append((level+<span class="number">1</span>, node.left))</span><br><span class="line">            <span class="keyword">if</span> node.right: queue.append((level+<span class="number">1</span>, node.right))</span><br><span class="line">        <span class="keyword">return</span> depth</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>： <strong>Java</strong> 的代码利用 <strong>Stack</strong> 实现 <strong>DFS</strong>,实现 <strong>DFS</strong> 搜索的过程中，利用了一个 <strong>Map</strong> 结构记录当前节点的层级；<strong>Python</strong> 的代码利用 <strong>Queue</strong> 实现 <strong>BFS</strong> 。</p>
+<h4 id="问题三-二叉树的最小深度（111）"><a href="#问题三-二叉树的最小深度（111）" class="headerlink" title="问题三 二叉树的最小深度（111）"></a>问题三 二叉树的最小深度（111）</h4><h5 id="问题描述-5"><a href="#问题描述-5" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个二叉树，找出其最小深度。</p>
+<p>最小深度是从根节点到最近叶子节点的最短路径上的节点数量。</p>
+<p><strong>说明</strong>: 叶子节点是指没有子节点的节点。</p>
+<p><strong>示例:</strong></p>
+<blockquote>
+<p>给定二叉树 [3, 9, 20, null, null, 15, 7],</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/04/02/5ca35aba9e620.png" alt="45"><br>返回它的最小深度 2.</p>
+<h5 id="解题思路分析-5"><a href="#解题思路分析-5" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><p>同 <code>问题二</code>，思路与求解最大深度一样。这里进使用递归方法求解。</p>
+<h5 id="解法代码-4"><a href="#解法代码-4" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(root.left == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="number">1</span> + minDepth(root.right);</span><br><span class="line">        <span class="keyword">if</span>(root.right == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="number">1</span> + minDepth(root.left);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> + Math.min(minDepth(root.left), minDepth(root.right));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"># class TreeNode:</span></span><br><span class="line"><span class="comment">#     def __init__(self, x):</span></span><br><span class="line"><span class="comment">#         self.val = x</span></span><br><span class="line"><span class="comment">#         self.left = None</span></span><br><span class="line"><span class="comment">#         self.right = None</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minDepth</span><span class="params">(self, root: TreeNode)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root: <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root.left: <span class="keyword">return</span> <span class="number">1</span> + self.minDepth(root.right);</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> root.right: <span class="keyword">return</span> <span class="number">1</span> + self.minDepth(root.left);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> + min(self.minDepth(root.left), self.minDepth(root.right))</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>：求解最小深度与求解最大深度的代码有点区别，在于递归的返回必须要求当前节点的左右子树均不为空，否则可能会出现问题。</p>
+<h4 id="问题四-括号生成（22）"><a href="#问题四-括号生成（22）" class="headerlink" title="问题四 括号生成（22）"></a>问题四 括号生成（22）</h4><h5 id="问题描述-6"><a href="#问题描述-6" class="headerlink" title="问题描述"></a>问题描述</h5><p>给出 <code>n</code> 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且有效的括号组合。</p>
+<p>例如，给出 <code>n = 3</code>，生成结果为：</p>
+<blockquote>
+<p>[<br>  “ ( ( ( ) ) ) “,<br>  “ ( ( ) ( ) ) “,<br>  “ ( ( ) ) ( ) “,<br>  “ ( ) ( ( ) ) “,<br>  “ ( ) ( ) ( ) “<br>]</p>
+</blockquote>
+<h5 id="解题思路分析-6"><a href="#解题思路分析-6" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li>方法一，数学归纳法</li>
+<li>方法二，递归 Recursion：<br>① 枚举所有可能情况，在判断所有情况的合法性；$O(2^{2n})$<br>② 改进，1. 局部不合法，不再递归；2. 左括号和右括号都只有 n 个限制，$O(2^n)$</li>
+</ul>
+<h5 id="解法代码-5"><a href="#解法代码-5" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">generateParenthesis</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        List&lt;String&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        gen(<span class="string">""</span>, result, n, n);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">gen</span><span class="params">(String sublist, List&lt;String&gt; result, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (left == <span class="number">0</span> &amp;&amp; right == <span class="number">0</span>) &#123;</span><br><span class="line">            result.add(sublist);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (left &gt; <span class="number">0</span>) </span><br><span class="line">            gen(sublist + <span class="string">"("</span>, result, left - <span class="number">1</span>, right);</span><br><span class="line">        <span class="keyword">if</span> (left &lt; right)</span><br><span class="line">            gen(sublist + <span class="string">")"</span>, result, left, right - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">generateParenthesis</span><span class="params">(self, n: int)</span> -&gt; List[str]:</span></span><br><span class="line">        self.list = []</span><br><span class="line">        self._gen(<span class="number">0</span>, <span class="number">0</span>, n, <span class="string">""</span>)</span><br><span class="line">        <span class="keyword">return</span> self.list</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_gen</span><span class="params">(self, left, right, n, result)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> left == n <span class="keyword">and</span> right == n:</span><br><span class="line">            <span class="keyword">return</span> self.list.append(result)</span><br><span class="line">        <span class="keyword">if</span> left &lt; n:</span><br><span class="line">            self._gen(left + <span class="number">1</span>, right, n, result + <span class="string">"("</span>)</span><br><span class="line">        <span class="keyword">if</span> left &gt; right <span class="keyword">and</span> right &lt; n:</span><br><span class="line">            self._gen(left, right + <span class="number">1</span>, n, result + <span class="string">")"</span>)</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>： <strong>Java</strong> 代码中 <strong>left</strong> 和 <strong>right</strong> 指代剩余括号数量，<strong>Python</strong> 代码中 <strong>left</strong> 和 <strong>right</strong> 指代已使用括号数量。</p>
+<h2 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h2><p><img src="https://i.loli.net/2019/04/03/5ca49d02eaa6a.png" alt="46_clip"></p>
+<h3 id="剪枝图例"><a href="#剪枝图例" class="headerlink" title="剪枝图例"></a>剪枝图例</h3><p><strong>九宫格状态空间</strong><br><img src="https://i.loli.net/2019/04/03/5ca49ce4aea46.png" alt="47_Tic_Tac_Toe"></p>
+<p><strong>其他棋类</strong><br><img src="https://i.loli.net/2019/04/03/5ca49ce93eec3.png" alt="48_other"></p>
+<p><strong>围棋的蒙特卡洛搜索树</strong><br><img src="https://i.loli.net/2019/04/03/5ca49dc5c9a87.png" alt="49_Go"></p>
+<h3 id="代码实战-3"><a href="#代码实战-3" class="headerlink" title="代码实战"></a>代码实战</h3><h4 id="问题一-N皇后（50）"><a href="#问题一-N皇后（50）" class="headerlink" title="问题一 N皇后（50）"></a>问题一 N皇后（50）</h4><h5 id="问题描述-7"><a href="#问题描述-7" class="headerlink" title="问题描述"></a>问题描述</h5><p><code>n</code> 皇后问题研究的是如何将 <code>n</code> 个皇后放置在 <code>n×n</code> 的棋盘上，并且使皇后彼此之间不能相互攻击。</p>
+<p><img src="https://i.loli.net/2019/04/03/5ca49f5baf3fb.png" alt="50"><br>上图为 <code>8</code> 皇后问题的一种解法。</p>
+<p>给定一个整数 <code>n</code>，返回所有不同的 <code>n</code> 皇后问题的解决方案。</p>
+<p>每一种解法包含一个明确的 <code>n</code> 皇后问题的棋子放置方案，该方案中 <strong><code>&#39;Q&#39;</code></strong> 和 <strong><code>&#39;.&#39;</code></strong> 分别代表了皇后和空位。</p>
+<p><strong>示例</strong>:</p>
+<blockquote>
+<p>输入: 4<br>输出: [<br> [“ . Q . . “,  // 解法 1<br>  “ . . . Q “,<br>  “ Q . . . “,<br>  “ . . Q . “],</p>
+</blockquote>
+<p>[“ . . Q . “,  // 解法 2<br> “ Q . . . “,<br> “ . . . Q “,<br> “ . Q . . “]<br>]<br>解释: 4 皇后问题存在两个不同的解法。</p>
+<h5 id="解题思路分析-7"><a href="#解题思路分析-7" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><h5 id="解法代码-6"><a href="#解法代码-6" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">solveNQueens</span><span class="params">(self, n: int)</span> -&gt; List[List[str]]:</span></span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">1</span>: <span class="keyword">return</span> []</span><br><span class="line">        self.result = []</span><br><span class="line">        self.cols = set(); self.pie = set(); self.na = set()</span><br><span class="line">        self.DFS(n, <span class="number">0</span>, [])</span><br><span class="line">        <span class="keyword">return</span> [[<span class="string">"."</span>*i + <span class="string">"Q"</span> + <span class="string">"."</span>*(n-i<span class="number">-1</span>) <span class="keyword">for</span> i <span class="keyword">in</span> sol] <span class="keyword">for</span> sol <span class="keyword">in</span> self.result]</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">DFS</span><span class="params">(self, n, row, cur_state)</span>:</span></span><br><span class="line">        <span class="comment"># recursion terminator</span></span><br><span class="line">        <span class="keyword">if</span> row &gt;= n:</span><br><span class="line">            self.result.append(cur_state)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> col <span class="keyword">in</span> range(n):</span><br><span class="line">            <span class="keyword">if</span> col <span class="keyword">in</span> self.cols <span class="keyword">or</span> row+col <span class="keyword">in</span> self.pie <span class="keyword">or</span> row-col <span class="keyword">in</span> self.na:</span><br><span class="line">                <span class="comment"># go die</span></span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment"># update this flags</span></span><br><span class="line">            self.cols.add(col)</span><br><span class="line">            self.pie.add(row+col)</span><br><span class="line">            self.na.add(row-col)</span><br><span class="line">            </span><br><span class="line">            self.DFS(n, row+<span class="number">1</span>, cur_state+[col])</span><br><span class="line">            </span><br><span class="line">            self.cols.remove(col)</span><br><span class="line">            self.pie.remove(row+col)</span><br><span class="line">            self.na.remove(row-col)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">solveNQueens</span><span class="params">(self, n: int)</span> -&gt; List[List[str]]:</span></span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">1</span>: <span class="keyword">return</span> []</span><br><span class="line">        self.result = []</span><br><span class="line">        self.DFS(n, [], [], [])</span><br><span class="line">        <span class="keyword">return</span> [[<span class="string">"."</span>*i + <span class="string">"Q"</span> + <span class="string">"."</span>*(n-i<span class="number">-1</span>) <span class="keyword">for</span> i <span class="keyword">in</span> sol] <span class="keyword">for</span> sol <span class="keyword">in</span> self.result]</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">DFS</span><span class="params">(self, n, cols, pie, na)</span>:</span></span><br><span class="line">        <span class="comment"># recursion terminator</span></span><br><span class="line">        row = len(cols)</span><br><span class="line">        <span class="keyword">if</span> row == n:</span><br><span class="line">            self.result.append(cols)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> col <span class="keyword">in</span> range(n):</span><br><span class="line">            <span class="keyword">if</span> col <span class="keyword">not</span> <span class="keyword">in</span> cols <span class="keyword">and</span> row+col <span class="keyword">not</span> <span class="keyword">in</span> pie <span class="keyword">and</span> row-col <span class="keyword">not</span> <span class="keyword">in</span> na:</span><br><span class="line">                self.DFS(n, cols+[col], pie+[row+col], na+[row-col])</span><br></pre></td></tr></table></figure>
+<p><strong>总结</strong>：<strong>Python</strong> 的第二段代码更加简洁，为第一段代码的改进。在第一段的基础上将 <strong>set</strong> 改为 <strong>list</strong> 直接传入函数！</p>
+<h4 id="问题二-解数独（37）"><a href="#问题二-解数独（37）" class="headerlink" title="问题二 解数独（37）"></a>问题二 解数独（37）</h4><h5 id="问题描述-8"><a href="#问题描述-8" class="headerlink" title="问题描述"></a>问题描述</h5><p>编写一个程序，通过已填充的空格来解决数独问题。</p>
+<p>一个数独的解法需<strong>遵循如下规则</strong>：</p>
+<ol>
+<li>数字 1-9 在每一行只能出现一次。</li>
+<li>数字 1-9 在每一列只能出现一次。</li>
+<li>数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。</li>
+</ol>
+<p>空白格用 <code>&#39;.&#39;</code> 表示。</p>
+<p><img src="https://i.loli.net/2019/04/04/5ca597dc8bb7b.png" alt="51_1"></p>
+<p>一个数独。</p>
+<p><img src="https://i.loli.net/2019/04/04/5ca597dcb54c8.png" alt="51_2"></p>
+<p>答案被标成红色。</p>
+<p>Note:</p>
+<ul>
+<li>给定的数独序列只包含数字 1-9 和字符 ‘.’ 。</li>
+<li>你可以假设给定的数独只有唯一解。</li>
+<li>给定数独永远是 9x9 形式的。</li>
+</ul>
+<h5 id="解题思路分析-8"><a href="#解题思路分析-8" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><p><strong>方法一</strong></p>
+<ul>
+<li>设置集合 <strong>set</strong> ：<code>row[9]</code>, <code>col[9]</code>, <code>block[3][3]</code>，用于判断空白格子填入数字的合法性。</li>
+<li>利用 <strong>DFS</strong> 按照先行后列的顺序依次遍历空格，枚举 1-9 中的数字填入空格，并判断填入数字的合法性。</li>
+</ul>
+<p><strong>方法二</strong></p>
+<ul>
+<li>在 <strong><code>方法一</code></strong> 的基础上进行改进，先枚举行和列空格较少的位置，因为枚举的选项较少，可以起到加速的效果。</li>
+<li>预处理数据，扫描整个表格，将空格能够填入的数字列举出来，并对每个空格能够填入数字的数量进行排序。按照由小到大的顺序进行 <strong>DFS</strong> 搜索。</li>
+</ul>
+<p><strong>方法三</strong> 使用高级数据结构</p>
+<ul>
+<li>DancingLink，了解即可。</li>
+</ul>
+<h5 id="解法代码-7"><a href="#解法代码-7" class="headerlink" title="解法代码"></a>解法代码</h5><h5 id="解法二：利用集合-1"><a href="#解法二：利用集合-1" class="headerlink" title="解法二：利用集合"></a>解法二：利用集合</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">solveSudoku</span><span class="params">(<span class="keyword">char</span>[][] board)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (board == <span class="keyword">null</span> || board.length == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">        solve(board);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">solve</span><span class="params">(<span class="keyword">char</span>[][] board)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; board.length; i++)</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; board[i].length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (board[i][j] == <span class="string">'.'</span>) &#123;</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">char</span> c = <span class="string">'1'</span>; c &lt;= <span class="string">'9'</span>; c++) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (isValid(board, i, j, c)) &#123;</span><br><span class="line">                            board[i][j] = c;</span><br><span class="line">                            <span class="keyword">if</span> (solve(board))</span><br><span class="line">                                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                            <span class="keyword">else</span></span><br><span class="line">                                board[i][j] = <span class="string">'.'</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isValid</span><span class="params">(<span class="keyword">char</span>[][] board, <span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">char</span> c)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; <span class="number">9</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (board[i][col] != <span class="string">'.'</span> &amp;&amp; board[i][col] == c) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">if</span> (board[row][i] != <span class="string">'.'</span> &amp;&amp; board[row][i] == c) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">if</span> (board[<span class="number">3</span> * (row/<span class="number">3</span>) + i/<span class="number">3</span>][<span class="number">3</span> * (col/<span class="number">3</span>) + i%<span class="number">3</span>] != <span class="string">'.'</span></span><br><span class="line">               &amp;&amp; board[<span class="number">3</span> * (row/<span class="number">3</span>) + i/<span class="number">3</span>][<span class="number">3</span> * (col/<span class="number">3</span>) + i%<span class="number">3</span>] == c) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h2 id="二分查找（Binary-Search）"><a href="#二分查找（Binary-Search）" class="headerlink" title="二分查找（Binary Search）"></a>二分查找（Binary Search）</h2><ol>
+<li>Sorte（单调递增或者递减）</li>
+<li>Bounded（存在上下界）</li>
+<li>Accessible by index（能够通过索引访问）</li>
+</ol>
+<h3 id="代码模板"><a href="#代码模板" class="headerlink" title="代码模板"></a>代码模板</h3><p><img src="https://i.loli.net/2019/04/04/5ca59c032ed1b.png" alt="52_coding"></p>
+<h3 id="二分查找示例图"><a href="#二分查找示例图" class="headerlink" title="二分查找示例图"></a>二分查找示例图</h3><p><img src="https://i.loli.net/2019/04/04/5ca59ce6bad53.png" alt="53_1_binary_search"><br><img src="https://i.loli.net/2019/04/04/5ca59dc98d03b.png" alt="53_2_binary_search"></p>
+<h3 id="代码实战-4"><a href="#代码实战-4" class="headerlink" title="代码实战"></a>代码实战</h3><h4 id="问题一-x-的平方根（69）"><a href="#问题一-x-的平方根（69）" class="headerlink" title="问题一 x 的平方根（69）"></a>问题一 x 的平方根（69）</h4><h5 id="问题描述-9"><a href="#问题描述-9" class="headerlink" title="问题描述"></a>问题描述</h5><p>实现 <code>int sqrt(int x)</code> 函数。计算并返回 <code>x</code> 的平方根，其中 <code>x</code> 是非负整数。<br>由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。</p>
+<p><strong>示例 1</strong>:</p>
+<blockquote>
+<p>输入: 4<br>输出: 2</p>
+</blockquote>
+<p><strong>示例 2</strong>:</p>
+<blockquote>
+<p>输入: 8<br>输出: 2<br>说明: 8 的平方根是 2.82842…,<br>     由于返回类型是整数，小数部分将被舍去。</p>
+</blockquote>
+<h5 id="解题思路分析-9"><a href="#解题思路分析-9" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li><strong>方法一</strong>，二分法：<br>因为 $y = x^2$ 是单调递增函数，所以可以使用二分法。令左界 <code>L = 0</code> ，右界 <code>R = y</code>，<code>mid = (L+R)/2</code>，若 <code>mid*mid &lt; y</code>，搜索右侧<code>[mid, R]</code>；反之搜索左侧<code>[L, mid]</code> 。</li>
+<li><strong>方法二</strong>，牛顿迭代法：<br>令 $f(x) = x^2 - y$，$x_{n+1} = x_n - \frac {f(x_n)}{f^(x_n) } $ ， 不停循环迭代即可以逼近真实值。</li>
+</ul>
+<h5 id="解法一：二分法"><a href="#解法一：二分法" class="headerlink" title="解法一：二分法"></a>解法一：二分法</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">mySqrt</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (x == <span class="number">0</span> || x == <span class="number">1</span>) <span class="keyword">return</span> x;</span><br><span class="line">        <span class="keyword">int</span> l = <span class="number">0</span>, r = x, res=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (l &lt;= r) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (l+r)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (mid == x/mid) <span class="keyword">return</span> mid;</span><br><span class="line">            <span class="keyword">if</span> (mid &gt; x/mid)</span><br><span class="line">                r = mid-<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                l = mid+<span class="number">1</span>;</span><br><span class="line">                res = mid;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mySqrt</span><span class="params">(self, x: int)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> x == <span class="number">1</span> <span class="keyword">or</span> x == <span class="number">0</span>: <span class="keyword">return</span> x</span><br><span class="line">        l, r, res = <span class="number">0</span>, x, <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> l &lt;= r:</span><br><span class="line">            mid = (l + r)//<span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> mid**<span class="number">2</span> == x:</span><br><span class="line">                <span class="keyword">return</span> mid</span><br><span class="line">            <span class="keyword">elif</span> mid**<span class="number">2</span> &lt; x:</span><br><span class="line">                l = mid + <span class="number">1</span></span><br><span class="line">                res = mid</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                r = mid - <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure></p>
+<h5 id="解法二：牛顿迭代法"><a href="#解法二：牛顿迭代法" class="headerlink" title="解法二：牛顿迭代法"></a>解法二：牛顿迭代法</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">mySqrt</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">double</span> r = x;</span><br><span class="line">        <span class="keyword">while</span> (Math.abs(r * r - x) &gt; <span class="number">0.5</span>)</span><br><span class="line">            r = (r + x / r) / <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">int</span>)r;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mySqrt</span><span class="params">(self, x: int)</span> -&gt; int:</span></span><br><span class="line">        r = x</span><br><span class="line">        <span class="keyword">while</span> abs(r**<span class="number">2</span> - x) &gt; <span class="number">0.5</span>:</span><br><span class="line">            r = (r + x/r) / <span class="number">2</span></span><br><span class="line">        <span class="keyword">return</span> int(r)</span><br></pre></td></tr></table></figure></p>
+<h2 id="字典树（trie）"><a href="#字典树（trie）" class="headerlink" title="字典树（trie）"></a>字典树（trie）</h2><ol>
+<li>Trie 树的数据结构</li>
+<li>Trie 树的核心思想</li>
+<li>Trie 树的基本性质</li>
+</ol>
+<h3 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h3><p><strong>Trie</strong> 树，即<strong>字典树</strong>，又称单词查找树或键树，是一种树形结构，是一种哈希树的变种。典型应用是用于统计和排序大量的字符串(但不仅限于字符串)，所以经常被搜索引擎系统用于文本词频统计。</p>
+<p>它的优点是：最大限度地减少无谓的字符串比较，查询效率比哈希表高。</p>
+<p><img src="https://i.loli.net/2019/04/04/5ca5befb5c37b.png" alt="54_structure"></p>
+<h3 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h3><p><strong>Trie</strong> 的核心思想是空间换时间。利用字符串的公共前缀来降低查询时间的开销以达到提高效率的目的。</p>
+<p><img src="https://i.loli.net/2019/04/04/5ca5befb78614.png" alt="55_practice"></p>
+<p><strong>存储结构</strong><br><img src="https://i.loli.net/2019/04/04/5ca5befba634d.png" alt="56_store_structure"></p>
+<h3 id="不同变成语言的结构实现"><a href="#不同变成语言的结构实现" class="headerlink" title="不同变成语言的结构实现"></a>不同变成语言的结构实现</h3><p><strong>Java</strong><br><img src="https://i.loli.net/2019/04/04/5ca5c1af3efe7.png" alt="57_java_trie"></p>
+<p><strong>Python</strong><br><img src="https://i.loli.net/2019/04/04/5ca5c1af413df.png" alt="58_python_trie"></p>
+<h3 id="基本性质"><a href="#基本性质" class="headerlink" title="基本性质"></a>基本性质</h3><ol>
+<li>根节点不包含字符，除根节点外每一个节点都只包含一个字符，或者不包含字符。</li>
+<li>从根节点到某一节点，路径上经过的字符连接起来，为该节点对应的字符串。</li>
+<li>每个节点的所有子节点包含的字符都不相同。</li>
+</ol>
+<h3 id="代码实战-5"><a href="#代码实战-5" class="headerlink" title="代码实战"></a>代码实战</h3><h4 id="问题一-实现-Trie-前缀树-（208）"><a href="#问题一-实现-Trie-前缀树-（208）" class="headerlink" title="问题一 实现 Trie (前缀树)（208）"></a>问题一 实现 Trie (前缀树)（208）</h4><h5 id="问题描述-10"><a href="#问题描述-10" class="headerlink" title="问题描述"></a>问题描述</h5><p>实现一个 <code>Trie</code> (前缀树)，包含 <code>insert</code>, <code>search</code>, 和 <code>startsWith</code> 这三个操作。</p>
+<p><strong>示例</strong>:</p>
+<blockquote>
+<p>Trie trie = new Trie();</p>
+<p>trie.insert(“apple”);<br>trie.search(“apple”);   // 返回 true<br>trie.search(“app”);     // 返回 false<br>trie.startsWith(“app”); // 返回 true<br>trie.insert(“app”);<br>trie.search(“app”);     // 返回 true</p>
+</blockquote>
+<p>说明:</p>
+<ul>
+<li>你可以假设所有的输入都是由小写字母 a-z 构成的。</li>
+<li>保证所有输入均为非空字符串。</li>
+</ul>
+<h5 id="解法代码-8"><a href="#解法代码-8" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TrieNode</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">char</span> val;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">boolean</span> isWord;</span><br><span class="line">    <span class="keyword">public</span> TrieNode[] children = <span class="keyword">new</span> TrieNode[<span class="number">26</span>];</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TrieNode</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    TrieNode(<span class="keyword">char</span> c) &#123;</span><br><span class="line">        TrieNode node = <span class="keyword">new</span> TrieNode();</span><br><span class="line">        node.val = c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Trie</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> TrieNode root;</span><br><span class="line">    <span class="comment">/** Initialize your data structure here. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Trie</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        root = <span class="keyword">new</span> TrieNode();</span><br><span class="line">        root.val = <span class="string">' '</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** Inserts a word into the trie. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(String word)</span> </span>&#123;</span><br><span class="line">        TrieNode node = root;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">char</span> c : word.toCharArray()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (node.children[c-<span class="string">'a'</span>] == <span class="keyword">null</span>)</span><br><span class="line">                node.children[c-<span class="string">'a'</span>] = <span class="keyword">new</span> TrieNode(c);</span><br><span class="line">            node = node.children[c-<span class="string">'a'</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        node.isWord = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** Returns if the word is in the trie. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">search</span><span class="params">(String word)</span> </span>&#123;</span><br><span class="line">        TrieNode node = root;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">char</span> c : word.toCharArray()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (node.children[c-<span class="string">'a'</span>] == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            node = node.children[c-<span class="string">'a'</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> node.isWord;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/** Returns if there is any word in the trie that starts with the given prefix. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">startsWith</span><span class="params">(String prefix)</span> </span>&#123;</span><br><span class="line">        TrieNode node = root;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">char</span> c : prefix.toCharArray()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (node.children[c-<span class="string">'a'</span>] == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            node = node.children[c-<span class="string">'a'</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Trie</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Initialize your data structure here.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.root = &#123;&#125;</span><br><span class="line">        self.end_of_word = <span class="string">"#"</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">insert</span><span class="params">(self, word: str)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Inserts a word into the trie.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        node = self.root</span><br><span class="line">        <span class="keyword">for</span> char <span class="keyword">in</span> word:</span><br><span class="line">            node = node.setdefault(char, &#123;&#125;)</span><br><span class="line">        node[self.end_of_word] = self.end_of_word</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(self, word: str)</span> -&gt; bool:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Returns if the word is in the trie.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        node = self.root</span><br><span class="line">        <span class="keyword">for</span> char <span class="keyword">in</span> word:</span><br><span class="line">            <span class="keyword">if</span> char <span class="keyword">not</span> <span class="keyword">in</span> node:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">            node = node[char]</span><br><span class="line">        <span class="keyword">return</span> self.end_of_word <span class="keyword">in</span> node</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">startsWith</span><span class="params">(self, prefix: str)</span> -&gt; bool:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Returns if there is any word in the trie that starts with the given prefix.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        node = self.root</span><br><span class="line">        <span class="keyword">for</span> char <span class="keyword">in</span> prefix:</span><br><span class="line">            <span class="keyword">if</span> char <span class="keyword">not</span> <span class="keyword">in</span> node:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">            node = node[char]</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="问题二-单词搜索-II（212）"><a href="#问题二-单词搜索-II（212）" class="headerlink" title="问题二 单词搜索 II（212）"></a>问题二 单词搜索 II（212）</h4><h5 id="问题描述-11"><a href="#问题描述-11" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个二维网格 <code>board</code> 和一个字典中的单词列表 <code>words</code>，找出所有同时在二维网格和字典中出现的单词。</p>
+<p>单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母在一个单词中不允许被重复使用。</p>
+<p><strong>示例</strong>：</p>
+<blockquote>
+<p>输入:<br>words = [“oath”,”pea”,”eat”,”rain”] and board =<br>[<br>  [‘o’, ‘a’, ‘a’, ‘n’],<br>  [‘e’, ‘t’, ‘a’, ‘e’],<br>  [‘i’, ‘h’, ‘k’, ‘r’],<br>  [‘i’, ‘f’, ‘l’, ‘v’]<br>]<br>输出: [“eat”,”oath”]</p>
+</blockquote>
+<p><strong>说明</strong>：<br>你可以假设所有输入都由小写字母 a-z 组成。</p>
+<p><strong>提示</strong>：</p>
+<ul>
+<li>你需要优化回溯算法以通过更大数据量的测试。你能否早点停止回溯？</li>
+<li>如果当前单词不存在于所有单词的前缀中，则可以立即停止回溯。什么样的数据结构可以有效地执行这样的操作？散列表是否可行？为什么？ 前缀树如何？如果你想学习如何实现一个基本的前缀树，请先查看这个问题： 实现Trie（前缀树）。</li>
+</ul>
+<h5 id="解题思路分析-10"><a href="#解题思路分析-10" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li><strong>方法一</strong>，DFS</li>
+<li><strong>方法二</strong>，Trie</li>
+</ul>
+<h5 id="解法代码-9"><a href="#解法代码-9" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    Set&lt;String&gt; res = <span class="keyword">new</span> HashSet&lt;String&gt;();</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;String&gt; <span class="title">findWords</span><span class="params">(<span class="keyword">char</span>[][] board, String[] words)</span> </span>&#123;</span><br><span class="line">        Trie trie = <span class="keyword">new</span> Trie();</span><br><span class="line">        <span class="keyword">for</span> (String word: words)</span><br><span class="line">            trie.insert(word);</span><br><span class="line">        <span class="keyword">int</span> n = board.length;</span><br><span class="line">        <span class="keyword">int</span> m = board[<span class="number">0</span>].length;</span><br><span class="line">        <span class="keyword">boolean</span>[][] visited = <span class="keyword">new</span> <span class="keyword">boolean</span>[n][m];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j &lt; m; j++) &#123;</span><br><span class="line">                dfs(board, visited, <span class="string">""</span>, i, j, trie);</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;String&gt;(res);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">char</span>[][] board, <span class="keyword">boolean</span>[][] visited, String str, <span class="keyword">int</span> i, <span class="keyword">int</span> j, Trie trie)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; <span class="number">0</span> || i &gt;= board.length || j &lt; <span class="number">0</span> || j &gt;= board[<span class="number">0</span>].length) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span> (visited[i][j]) <span class="keyword">return</span>;</span><br><span class="line">        </span><br><span class="line">        str += board[i][j];</span><br><span class="line">        <span class="keyword">if</span> (!trie.startsWith(str)) <span class="keyword">return</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (trie.search(str)) &#123;</span><br><span class="line">            res.add(str);</span><br><span class="line">        &#125;</span><br><span class="line">        visited[i][j] = <span class="keyword">true</span>;</span><br><span class="line">        dfs(board, visited, str, i-<span class="number">1</span>, j, trie);</span><br><span class="line">        dfs(board, visited, str, i+<span class="number">1</span>, j, trie);</span><br><span class="line">        dfs(board, visited, str, i, j-<span class="number">1</span>, trie);</span><br><span class="line">        dfs(board, visited, str, i, j+<span class="number">1</span>, trie);</span><br><span class="line">        visited[i][j] = <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">dx = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">-1</span>, <span class="number">1</span>]</span><br><span class="line">dy = [<span class="number">-1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line">END_OF_WORD = <span class="string">"#"</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">findWords</span><span class="params">(self, board: List[List[str]], words: List[str])</span> -&gt; List[str]:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> board <span class="keyword">or</span> <span class="keyword">not</span> board[<span class="number">0</span>]: <span class="keyword">return</span> []</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> words: <span class="keyword">return</span> []</span><br><span class="line">        </span><br><span class="line">        self.result = set()</span><br><span class="line">        root = collections.defaultdict()</span><br><span class="line">        <span class="keyword">for</span> word <span class="keyword">in</span> words:</span><br><span class="line">            node = root</span><br><span class="line">            <span class="keyword">for</span> char <span class="keyword">in</span> word:</span><br><span class="line">                node = node.setdefault(char,collections.defaultdict())</span><br><span class="line">            node[END_OF_WORD] = END_OF_WORD</span><br><span class="line">            </span><br><span class="line">        self.n, self.m = len(board), len(board[<span class="number">0</span>])</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.n):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(self.m):</span><br><span class="line">                <span class="keyword">if</span> board[i][j] <span class="keyword">in</span> root:</span><br><span class="line">                    self._dfs(board, i, j, <span class="string">""</span>, root)</span><br><span class="line">                    </span><br><span class="line">        <span class="keyword">return</span> list(self.result)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_dfs</span><span class="params">(self, board, i, j, cur_word, cur_dict)</span>:</span></span><br><span class="line">        cur_word += board[i][j]</span><br><span class="line">        cur_dict = cur_dict[board[i][j]]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> END_OF_WORD <span class="keyword">in</span> cur_dict:</span><br><span class="line">            self.result.add(cur_word)</span><br><span class="line">            </span><br><span class="line">        tmp, board[i][j] = board[i][j], <span class="string">"@"</span></span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> range(<span class="number">4</span>):</span><br><span class="line">            x, y = i + dx[k], j + dy[k]</span><br><span class="line">            <span class="keyword">if</span> <span class="number">0</span> &lt;= x &lt; self.n <span class="keyword">and</span> <span class="number">0</span> &lt;= y &lt; self.m \</span><br><span class="line">                <span class="keyword">and</span> board[x][y] != <span class="string">"@"</span> <span class="keyword">and</span> board[x][y] <span class="keyword">in</span> cur_dict:</span><br><span class="line">                self._dfs(board, x, y, cur_word, cur_dict)</span><br><span class="line">        board[i][j] = tmp</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>：<strong>Java</strong> 代码的解答过程思路比较清晰，但是光运行上述代码是不行的，还用到了上题中的 <code>Trie</code> 数据结构。<strong>Python</strong> 的代码比较简洁，对于数据访问的标记比较巧妙，不像 <strong>Java</strong> 开辟了一部分内存 <code>visited</code> 专门用来记录元素的访问情况。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/28/数据结构与算法笔记/" rel="next" title="数据结构与算法笔记">
+                <i class="fa fa-chevron-left"></i> 数据结构与算法笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/11/数据结构与算法笔记-三/" rel="prev" title="数据结构与算法笔记 (三)">
+                数据结构与算法笔记 (三) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#递归-amp-分治"><span class="nav-number">1.</span> <span class="nav-text">递归 &amp; 分治</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Recursion-递归-—-循环"><span class="nav-number">1.1.</span> <span class="nav-text">Recursion 递归 — 循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#递归代码通用模板"><span class="nav-number">1.2.</span> <span class="nav-text">递归代码通用模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分治-Divde-amp-Conquer"><span class="nav-number">1.3.</span> <span class="nav-text">分治 - Divde &amp; Conquer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分治代码通用模板"><span class="nav-number">1.4.</span> <span class="nav-text">分治代码通用模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实战"><span class="nav-number">1.5.</span> <span class="nav-text">代码实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题一-Pow-x-n-（50）"><span class="nav-number">1.5.1.</span> <span class="nav-text">问题一 Pow(x, n)（50）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码"><span class="nav-number">1.5.1.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题二-求众数（169）"><span class="nav-number">1.5.2.</span> <span class="nav-text">问题二 求众数（169）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-1"><span class="nav-number">1.5.2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-1"><span class="nav-number">1.5.2.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-1"><span class="nav-number">1.5.2.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贪⼼算法（Greedy-Algorithms"><span class="nav-number">2.</span> <span class="nav-text">贪⼼算法（Greedy Algorithms)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念"><span class="nav-number">2.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#适⽤-Greedy-的场景"><span class="nav-number">2.2.</span> <span class="nav-text">适⽤ Greedy 的场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实战-1"><span class="nav-number">2.3.</span> <span class="nav-text">代码实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题一-买卖股票的最佳时机-II（122）"><span class="nav-number">2.3.1.</span> <span class="nav-text">问题一 买卖股票的最佳时机 II（122）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-2"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-2"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-2"><span class="nav-number">2.3.1.3.</span> <span class="nav-text">解法代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法二：利用集合"><span class="nav-number">2.3.1.4.</span> <span class="nav-text">解法二：利用集合</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#⼴度优先搜索-BFS-与-深度优先搜索-DFS"><span class="nav-number">3.</span> <span class="nav-text">⼴度优先搜索(BFS) 与 深度优先搜索(DFS)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#⼴度优先搜索-Breadth-First-Search"><span class="nav-number">3.1.</span> <span class="nav-text">⼴度优先搜索(Breadth-First-Search)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在树（图-状态集）中寻找特定节点"><span class="nav-number">3.1.1.</span> <span class="nav-text">在树（图/状态集）中寻找特定节点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BFS-如何工作"><span class="nav-number">3.1.2.</span> <span class="nav-text">BFS 如何工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BFS-代码"><span class="nav-number">3.1.3.</span> <span class="nav-text">BFS 代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#深度优先搜索-Depth-First-Search"><span class="nav-number">3.2.</span> <span class="nav-text">深度优先搜索(Depth-First-Search)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DFS-如何工作"><span class="nav-number">3.2.1.</span> <span class="nav-text">DFS 如何工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DFS-代码"><span class="nav-number">3.2.2.</span> <span class="nav-text">DFS 代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实战-2"><span class="nav-number">3.3.</span> <span class="nav-text">代码实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题一-二叉树的层次遍历（102）"><span class="nav-number">3.3.1.</span> <span class="nav-text">问题一  二叉树的层次遍历（102）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-3"><span class="nav-number">3.3.1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-3"><span class="nav-number">3.3.1.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-3"><span class="nav-number">3.3.1.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题二-二叉树的最大深度（104）"><span class="nav-number">3.3.2.</span> <span class="nav-text">问题二 二叉树的最大深度（104）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-4"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-4"><span class="nav-number">3.3.2.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法一：Recursion"><span class="nav-number">3.3.2.3.</span> <span class="nav-text">解法一：Recursion</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法二：BFS-or-DFS"><span class="nav-number">3.3.2.4.</span> <span class="nav-text">解法二：BFS or DFS</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题三-二叉树的最小深度（111）"><span class="nav-number">3.3.3.</span> <span class="nav-text">问题三 二叉树的最小深度（111）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-5"><span class="nav-number">3.3.3.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-5"><span class="nav-number">3.3.3.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-4"><span class="nav-number">3.3.3.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题四-括号生成（22）"><span class="nav-number">3.3.4.</span> <span class="nav-text">问题四 括号生成（22）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-6"><span class="nav-number">3.3.4.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-6"><span class="nav-number">3.3.4.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-5"><span class="nav-number">3.3.4.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#剪枝"><span class="nav-number">4.</span> <span class="nav-text">剪枝</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#剪枝图例"><span class="nav-number">4.1.</span> <span class="nav-text">剪枝图例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实战-3"><span class="nav-number">4.2.</span> <span class="nav-text">代码实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题一-N皇后（50）"><span class="nav-number">4.2.1.</span> <span class="nav-text">问题一 N皇后（50）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-7"><span class="nav-number">4.2.1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-7"><span class="nav-number">4.2.1.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-6"><span class="nav-number">4.2.1.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题二-解数独（37）"><span class="nav-number">4.2.2.</span> <span class="nav-text">问题二 解数独（37）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-8"><span class="nav-number">4.2.2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-8"><span class="nav-number">4.2.2.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-7"><span class="nav-number">4.2.2.3.</span> <span class="nav-text">解法代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法二：利用集合-1"><span class="nav-number">4.2.2.4.</span> <span class="nav-text">解法二：利用集合</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二分查找（Binary-Search）"><span class="nav-number">5.</span> <span class="nav-text">二分查找（Binary Search）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码模板"><span class="nav-number">5.1.</span> <span class="nav-text">代码模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二分查找示例图"><span class="nav-number">5.2.</span> <span class="nav-text">二分查找示例图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实战-4"><span class="nav-number">5.3.</span> <span class="nav-text">代码实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题一-x-的平方根（69）"><span class="nav-number">5.3.1.</span> <span class="nav-text">问题一 x 的平方根（69）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-9"><span class="nav-number">5.3.1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-9"><span class="nav-number">5.3.1.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法一：二分法"><span class="nav-number">5.3.1.3.</span> <span class="nav-text">解法一：二分法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法二：牛顿迭代法"><span class="nav-number">5.3.1.4.</span> <span class="nav-text">解法二：牛顿迭代法</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字典树（trie）"><span class="nav-number">6.</span> <span class="nav-text">字典树（trie）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本结构"><span class="nav-number">6.1.</span> <span class="nav-text">基本结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#核心思想"><span class="nav-number">6.2.</span> <span class="nav-text">核心思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不同变成语言的结构实现"><span class="nav-number">6.3.</span> <span class="nav-text">不同变成语言的结构实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本性质"><span class="nav-number">6.4.</span> <span class="nav-text">基本性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实战-5"><span class="nav-number">6.5.</span> <span class="nav-text">代码实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题一-实现-Trie-前缀树-（208）"><span class="nav-number">6.5.1.</span> <span class="nav-text">问题一 实现 Trie (前缀树)（208）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-10"><span class="nav-number">6.5.1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-8"><span class="nav-number">6.5.1.2.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题二-单词搜索-II（212）"><span class="nav-number">6.5.2.</span> <span class="nav-text">问题二 单词搜索 II（212）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-11"><span class="nav-number">6.5.2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-10"><span class="nav-number">6.5.2.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-9"><span class="nav-number">6.5.2.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

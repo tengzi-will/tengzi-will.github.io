@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,java,数据结构,算法,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="位运算什么是位运算程序中的所有数在计算机内存中都是以二进制的形式储存的。位运算就是直接对整数在内存中的二进制位进行操作。比如，and 运算本来是一个逻辑运算符，但整数与整数之间也可以进行and 运算。举个例子，6 的二进制是 110，11 的二进制是 1011，那么 6 and 11 的结果就是 2，它是二进制对应位进行逻辑运算的结果（0 表示 False，1 表示 True，空位都当 0 处理）">
+<meta name="keywords" content="python,java,数据结构,算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法笔记 (三)">
+<meta property="og:url" content="http://yoursite.com/2019/04/11/数据结构与算法笔记-三/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="位运算什么是位运算程序中的所有数在计算机内存中都是以二进制的形式储存的。位运算就是直接对整数在内存中的二进制位进行操作。比如，and 运算本来是一个逻辑运算符，但整数与整数之间也可以进行and 运算。举个例子，6 的二进制是 110，11 的二进制是 1011，那么 6 and 11 的结果就是 2，它是二进制对应位进行逻辑运算的结果（0 表示 False，1 表示 True，空位都当 0 处理）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/04/03/5ca49f5baf3fb.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/09/5cac0d1a4c221.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/09/5cac0e6d4085c.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/09/5cac10379daa8.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/09/5cac30daab4d5.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/09/5cac93e2ea495.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/11/5caea1ccc7344.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/11/5caea8401d306.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/11/5caea83fe7125.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/11/5caea83fc2b16.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/11/5caea83fed1c9.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/11/5caeace2a3bb1.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/11/5caeace2cc820.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/11/5caeace260488.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/11/5caed54867535.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/11/5caed5489f476.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/11/5caed5486bbec.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/11/5caeddfe11b36.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb1d8e4e89db.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb1e017b5a1a.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb1e017b61e0.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb1e20e1c128.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/13/5cb1e20dd50c7.png">
+<meta property="og:updated_time" content="2019-04-15T15:12:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构与算法笔记 (三)">
+<meta name="twitter:description" content="位运算什么是位运算程序中的所有数在计算机内存中都是以二进制的形式储存的。位运算就是直接对整数在内存中的二进制位进行操作。比如，and 运算本来是一个逻辑运算符，但整数与整数之间也可以进行and 运算。举个例子，6 的二进制是 110，11 的二进制是 1011，那么 6 and 11 的结果就是 2，它是二进制对应位进行逻辑运算的结果（0 表示 False，1 表示 True，空位都当 0 处理）">
+<meta name="twitter:image" content="https://i.loli.net/2019/04/03/5ca49f5baf3fb.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/11/数据结构与算法笔记-三/">
+
+
+
+
+
+  <title>数据结构与算法笔记 (三) | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/数据结构与算法笔记-三/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据结构与算法笔记 (三)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-11T14:03:44+08:00">
+                2019-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h2><h3 id="什么是位运算"><a href="#什么是位运算" class="headerlink" title="什么是位运算"></a>什么是位运算</h3><p>程序中的所有数在计算机内存中都是以二进制的形式储存的。位运算就是直接对整数在内存中的二进制位进行操作。比如，and 运算本来是一个逻辑运算符，但整数与整数之间也可以进行and 运算。举个例子，6 的二进制是 110，11 的二进制是 1011，那么 6 and 11 的结果就是 2，它是二进制对应位进行逻辑运算的结果（0 表示 False，1 表示 True，空位都当 0 处理）。</p>
+<p>由于位运算直接对内存数据进行操作，不需要转成十进制，因此处理速度非常快。</p>
+<h3 id="常见的位运算符"><a href="#常见的位运算符" class="headerlink" title="常见的位运算符"></a>常见的位运算符</h3><table>
+<thead>
+<tr>
+<th>符号</th>
+<th>描述</th>
+<th>运算规则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&amp;</td>
+<td>与</td>
+<td>两个位都为 1 时，结果才为 1</td>
+</tr>
+<tr>
+<td>︱</td>
+<td>或</td>
+<td>两个位都为 0 时，结果才为 0</td>
+</tr>
+<tr>
+<td>^</td>
+<td>异或</td>
+<td>两个位相同为 0，相异为 1</td>
+</tr>
+<tr>
+<td>~</td>
+<td>取反</td>
+<td>0 变 1，1 变 0</td>
+</tr>
+<tr>
+<td>&lt;&lt;</td>
+<td>左移</td>
+<td>各二进位全部左移若干位，高位丢弃，低位补0</td>
+</tr>
+<tr>
+<td>&gt;&gt;</td>
+<td>右移</td>
+<td>各二进位全部右移若干位，对无符号数，高位补0，有符号数，各编译器处理方法不一样，有的补符号位（算术右移），有的补0（逻辑右移）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="XOR-异或"><a href="#XOR-异或" class="headerlink" title="XOR - 异或"></a>XOR - 异或</h3><blockquote>
+<p>异或：相同为 0 ，不同为 1 。也可用「不进位加法」来理解。</p>
+</blockquote>
+<p><strong>异或操作的一些特点</strong>：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">x ^ <span class="number">0</span> = x</span><br><span class="line">x ^ <span class="number">1</span>s = ~x // <span class="number">1</span>s = ~<span class="number">0</span></span><br><span class="line">x ^ (~x) = <span class="number">1</span>s</span><br><span class="line">x ^ x = <span class="number">0</span> // interesting <span class="keyword">and</span> important!</span><br><span class="line">a ^ b = c =&gt; a ^ c = b, b ^ c = a // swap</span><br><span class="line">a ^ b ^ c = a ^ (b ^ c) = (a ^ b) ^ c // associative</span><br></pre></td></tr></table></figure></p>
+<p><strong>实战常用的位运算操作</strong>：</p>
+<ul>
+<li>X &amp; 1 == 1 OR == 0 判断奇偶（x % 2 == 1）</li>
+<li>X = X &amp; (X - 1) =&gt; 清零最低位的 1</li>
+<li>X &amp; -X =&gt; X 为偶数得到最低位的 1（或结果为能被这个数整除的最大2的次幂），X 是奇数，则结果必为 1</li>
+</ul>
+<p><strong>更为复杂的位运算操作</strong>：</p>
+<ol>
+<li>将 <code>x</code> 最右边的 <code>n</code> 位清零 - <code>x &amp; (~0 &lt;&lt; n)</code></li>
+<li>获取 <code>x</code> 的第 <code>n</code> 位值（<code>0</code> 或者 <code>1</code>）- <code>(x &gt;&gt; n) &amp; 1</code></li>
+<li>获取 <code>x</code> 的第 <code>n</code> 位的幂值 - <code>x &amp; (1 &lt;&lt; (n - 1))</code></li>
+<li>仅将第 <code>n</code> 位置为 <code>1</code> - <code>x | (1 &lt;&lt; n)</code></li>
+<li>仅将第 <code>n</code> 位置为 <code>0</code> - <code>x &amp; (~(1 &lt;&lt; n))</code></li>
+<li>将 <code>x</code> 最高位至第 <code>n</code> 位（含）清零 - <code>x &amp; ((1 &lt;&lt; n) - 1)</code></li>
+<li>将第 <code>n</code> 位至第 <code>0</code> 位（含）清零 - <code>x &amp; (~((1 &lt;&lt; (n + 1)) - 1))</code></li>
+</ol>
+<h3 id="代码实战"><a href="#代码实战" class="headerlink" title="代码实战"></a>代码实战</h3><h4 id="问题一-位1的个数（191）"><a href="#问题一-位1的个数（191）" class="headerlink" title="问题一 位1的个数（191）"></a>问题一 位1的个数（191）</h4><h5 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h5><p>编写一个函数，输入是一个无符号整数，返回其二进制表达式中数字位数为 <code>1</code> 的个数（也被称为<strong>汉明重量</strong>。</p>
+<p><strong>示例 1：</strong></p>
+<blockquote>
+<p><strong>输入：</strong>00000000000000000000000000001011<br><strong>输出：</strong>3<br><strong>解释：</strong>输入的二进制串 <code>**00000000000000000000000000001011** 中，共有三位为 &#39;1&#39;。</code></p>
+</blockquote>
+<p><strong>示例 2：</strong></p>
+<blockquote>
+<p><strong>输入：</strong>00000000000000000000000010000000<br><strong>输出：</strong>1<br><strong>解释：</strong>输入的二进制串 <strong>00000000000000000000000010000000</strong> 中，共有一位为 ‘1’。</p>
+</blockquote>
+<p><strong>示例 3：</strong></p>
+<blockquote>
+<p><strong>输入：</strong>11111111111111111111111111111101<br><strong>输出：</strong>31<br><strong>解释：</strong>输入的二进制串 <strong>11111111111111111111111111111101</strong> 中，共有 31 位为 ‘1’。</p>
+</blockquote>
+<p><strong>提示：</strong></p>
+<ul>
+<li>请注意，在某些语言（如 Java）中，没有无符号整数类型。在这种情况下，输入和输出都将被指定为有符号整数类型，并且不应影响您的实现，因为无论整数是有符号的还是无符号的，其内部的二进制表示形式都是相同的。</li>
+<li>在 Java 中，编译器使用<a href="https://baike.baidu.com/item/%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%A1%A5%E7%A0%81/5295284" target="_blank" rel="noopener">二进制补码</a>记法来表示有符号整数。因此，在上面的 <strong>示例 3</strong> 中，输入表示有符号整数 <code>-3</code>。</li>
+</ul>
+<h5 id="解题思路分析"><a href="#解题思路分析" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li><strong>方法一</strong>，x % 2 → count++; x = x &gt;&gt; 1，时间复杂度为存储单元的位数(32)</li>
+<li><strong>方法二</strong>，x = x &amp; (x-1)，时间复杂度为 1 的个数</li>
+</ul>
+<h5 id="解法代码"><a href="#解法代码" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="comment">// you need to treat n as an unsigned value</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hammingWeight</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (; n != <span class="number">0</span>; n &amp;= n-<span class="number">1</span>)</span><br><span class="line">            ++ res;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">hammingWeight</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        count = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> n:</span><br><span class="line">            n = n &amp; (n - <span class="number">1</span>)</span><br><span class="line">            count += <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> count</span><br></pre></td></tr></table></figure></p>
+<h4 id="问题二-2的幂（231）"><a href="#问题二-2的幂（231）" class="headerlink" title="问题二 2的幂（231）"></a>问题二 2的幂（231）</h4><h5 id="问题描述-1"><a href="#问题描述-1" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个整数，编写一个函数来判断它是否是 <code>2</code> 的幂次方。</p>
+<p><strong>示例 1</strong>:</p>
+<blockquote>
+<p>输入: 1<br>输出: true<br>解释: $2^0$ = 1</p>
+</blockquote>
+<p><strong>示例 2</strong>:</p>
+<blockquote>
+<p>输入: 16<br>输出: true<br>解释: $2^4$ = 16</p>
+</blockquote>
+<p><strong>示例 3</strong>:</p>
+<blockquote>
+<p>输入: 218<br>输出: false</p>
+</blockquote>
+<h5 id="解题思路分析-1"><a href="#解题思路分析-1" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li><strong>方法一</strong>，mod</li>
+<li><strong>方法二</strong>，log =&gt; int</li>
+<li><strong>方法三</strong>，位运算，判断是否仅有一个 1</li>
+</ul>
+<h5 id="解法代码-1"><a href="#解法代码-1" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isPowerOfTwo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> n &gt; <span class="number">0</span> &amp;&amp; (n &amp; (n-<span class="number">1</span>)) == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">isPowerOfTwo</span><span class="params">(self, n: int)</span> -&gt; bool:</span></span><br><span class="line">        <span class="keyword">return</span> n &gt; <span class="number">0</span> <span class="keyword">and</span> <span class="keyword">not</span> (n &amp; (n<span class="number">-1</span>))</span><br></pre></td></tr></table></figure></p>
+<h4 id="问题三-比特位计数（338）"><a href="#问题三-比特位计数（338）" class="headerlink" title="问题三 比特位计数（338）"></a>问题三 比特位计数（338）</h4><h5 id="问题描述-2"><a href="#问题描述-2" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个非负整数 <code>num</code> 。对于 <code>0 ≤ i ≤ num</code> 范围中的每个数字 <code>i</code> ，计算其二进制数中的 <code>1</code> 的数目并将它们作为数组返回。</p>
+<p><strong>示例 1</strong>:</p>
+<blockquote>
+<p>输入: 2<br>输出: [0,1,1]</p>
+</blockquote>
+<p><strong>示例 2</strong>:</p>
+<blockquote>
+<p>输入: 5<br>输出: [0,1,1,2,1,2]</p>
+</blockquote>
+<h5 id="解题思路分析-2"><a href="#解题思路分析-2" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><h5 id="解法代码-2"><a href="#解法代码-2" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] countBits(<span class="keyword">int</span> num) &#123;</span><br><span class="line">        <span class="keyword">int</span>[] bits = <span class="keyword">new</span> <span class="keyword">int</span>[num+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i &lt;= num; i++) &#123;</span><br><span class="line">            bits[i] = bits[i &amp; (i-<span class="number">1</span>)] + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> bits;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">countBits</span><span class="params">(self, num: int)</span> -&gt; List[int]:</span></span><br><span class="line">        bits = [<span class="number">0</span>]*(num+<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,num+<span class="number">1</span>):</span><br><span class="line">            bits[i] = bits[i &amp; (i<span class="number">-1</span>)] + <span class="number">1</span></span><br><span class="line">        <span class="keyword">return</span> bits</span><br></pre></td></tr></table></figure></p>
+<h4 id="问题四-N皇后-II（52）"><a href="#问题四-N皇后-II（52）" class="headerlink" title="问题四 N皇后 II（52）"></a>问题四 N皇后 II（52）</h4><h5 id="问题描述-3"><a href="#问题描述-3" class="headerlink" title="问题描述"></a>问题描述</h5><p><code>n</code> 皇后问题研究的是如何将 <code>n</code> 个皇后放置在 <code>n×n</code> 的棋盘上，并且使皇后彼此之间不能相互攻击。</p>
+<p><img src="https://i.loli.net/2019/04/03/5ca49f5baf3fb.png" alt="50"><br>上图为 <code>8</code> 皇后问题的一种解法。</p>
+<p>给定一个整数 <code>n</code>，返回 <code>n</code> 皇后不同的解决方案的数量。</p>
+<p><strong>示例</strong>:</p>
+<blockquote>
+<p><strong>输入</strong>: 4<br><strong>输出</strong>: 2<br><strong>解释</strong>: 4 皇后问题存在如下两个不同的解法。<br>[<br> [“ . Q . . “,  // 解法 1<br>  “ . . . Q “,<br>  “ Q . . . “,<br>  “ . . Q . “],</p>
+</blockquote>
+<p> [“ . . Q . “,  // 解法 2<br>  “ Q . . . “,<br>  “ . . . Q “,<br>  “ . Q . . “]<br>]</p>
+<h5 id="解题思路分析-3"><a href="#解题思路分析-3" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><h5 id="解法代码-3"><a href="#解法代码-3" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">totalNQueens</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        DFS(n, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DFS</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> row, <span class="keyword">int</span> cols, <span class="keyword">int</span> pie, <span class="keyword">int</span> na)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (row &gt;= n) &#123;</span><br><span class="line">            count++;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> bits = (~(cols | pie | na) &amp; ((<span class="number">1</span> &lt;&lt; n) - <span class="number">1</span>));</span><br><span class="line">        <span class="keyword">while</span> (bits &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> p = bits &amp; -bits;</span><br><span class="line">            DFS(n, row+<span class="number">1</span>, cols | p, (pie | p) &lt;&lt; <span class="number">1</span>, (na | p) &gt;&gt; <span class="number">1</span>);</span><br><span class="line">            bits &amp;= bits -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">totalNQueens</span><span class="params">(self, n: int)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> n &lt; <span class="number">1</span>: <span class="keyword">return</span> []</span><br><span class="line">        self.count = <span class="number">0</span></span><br><span class="line">        self.DFS(n, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">return</span> self.count</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">DFS</span><span class="params">(self, n, row, cols, pie, na)</span>:</span></span><br><span class="line">        <span class="comment"># recursion terminator</span></span><br><span class="line">        <span class="keyword">if</span> row &gt;= n:</span><br><span class="line">            self.count += <span class="number">1</span></span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="comment"># 得到当前所有的空位</span></span><br><span class="line">        bits = (~(cols | pie | na)) &amp; ((<span class="number">1</span> &lt;&lt; n) - <span class="number">1</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> bits:</span><br><span class="line">            p = bits &amp; -bits <span class="comment"># 得到最低位的 1</span></span><br><span class="line">            self.DFS(n, row + <span class="number">1</span>, cols | p, (pie | p) &lt;&lt; <span class="number">1</span>, (na | p) &gt;&gt; <span class="number">1</span>)</span><br><span class="line">            bits = bits &amp; (bits - <span class="number">1</span>) <span class="comment"># 去掉最低位的 1</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>：使用位运算，代码简洁、逻辑清晰、运算快，但是理解起来有难度！</p>
+<h2 id="动态规划（Dynamic-Programming）"><a href="#动态规划（Dynamic-Programming）" class="headerlink" title="动态规划（Dynamic Programming）"></a>动态规划（Dynamic Programming）</h2><ol>
+<li>递归 + 记忆化 -&gt; 递推</li>
+<li>状态的定义：opt[n]，dp[n]，fib[n]</li>
+<li>状态转移方程：opt[n] = best_of(opt[n-1],opt[n-2],…)</li>
+<li>最优子结构</li>
+</ol>
+<h3 id="斐波那契数列"><a href="#斐波那契数列" class="headerlink" title="斐波那契数列"></a>斐波那契数列</h3><p>$0, 1, 1, 2, 3, 5, 8, 13, 21, …$</p>
+<p>递推公式:$F[n] = f[n-1] + F[n-2]$</p>
+<p><img src="https://i.loli.net/2019/04/09/5cac0d1a4c221.png" alt="59_1_Fibonacci"></p>
+<p><img src="https://i.loli.net/2019/04/09/5cac0e6d4085c.png" alt="59_2__Fibonacci"></p>
+<h3 id="COUNT-THE-PATHS"><a href="#COUNT-THE-PATHS" class="headerlink" title="COUNT THE PATHS"></a>COUNT THE PATHS</h3><p><img src="https://i.loli.net/2019/04/09/5cac10379daa8.png" alt="60_1_count_the_paths"></p>
+<p>绿色小人从起点走到终点，只能向右或下方移动（不能回退），粉色格子不能进入，请问一共有多少总路线？</p>
+<p><img src="https://i.loli.net/2019/04/09/5cac30daab4d5.png" alt="60_2_count_the_paths"></p>
+<p>动态规划的状态转移方程：<br>$$ opt[ i, j ] = opt[ i-1, j ] + opt[ i, j-1 ] $$</p>
+<h3 id="DP-vs-回溯-vs-贪心"><a href="#DP-vs-回溯-vs-贪心" class="headerlink" title="DP vs 回溯 vs 贪心"></a>DP vs 回溯 vs 贪心</h3><ul>
+<li>回溯（递归） —— 重复计算</li>
+<li>贪心 —— 永远局部最优</li>
+<li>DP —— 记录局部最优子结构 / 多种记录值</li>
+</ul>
+<h4 id="问题一-爬楼梯（70）"><a href="#问题一-爬楼梯（70）" class="headerlink" title="问题一 爬楼梯（70）"></a>问题一 爬楼梯（70）</h4><h5 id="问题描述-4"><a href="#问题描述-4" class="headerlink" title="问题描述"></a>问题描述</h5><p>假设你正在爬楼梯。需要 <code>n</code> 阶你才能到达楼顶。</p>
+<p>每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？</p>
+<p>注意：给定 <code>n</code> 是一个正整数。</p>
+<p><strong>示例 1</strong>：</p>
+<blockquote>
+<p>输入： 2<br>输出： 2<br>解释： 有两种方法可以爬到楼顶。</p>
+<ol>
+<li>1 阶 + 1 阶</li>
+<li>2 阶</li>
+</ol>
+</blockquote>
+<p><strong>示例 2</strong>：</p>
+<blockquote>
+<p>输入： 3<br>输出： 3<br>解释： 有三种方法可以爬到楼顶。</p>
+<ol>
+<li>1 阶 + 1 阶 + 1 阶</li>
+<li>1 阶 + 2 阶</li>
+<li>2 阶 + 1 阶</li>
+</ol>
+</blockquote>
+<h5 id="解题思路分析-4"><a href="#解题思路分析-4" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li><strong>方法一</strong>，回溯递归</li>
+<li><strong>方法二</strong>，动态规划</li>
+</ul>
+<h5 id="解法代码-4"><a href="#解法代码-4" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">climbStairs</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (n==<span class="number">0</span> || n==<span class="number">1</span> || n==<span class="number">2</span>) <span class="keyword">return</span> n;</span><br><span class="line">        <span class="keyword">int</span> a = <span class="number">1</span>, b = <span class="number">2</span>;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (n != <span class="number">2</span>) &#123;</span><br><span class="line">            res = a + b;</span><br><span class="line">            a = b;</span><br><span class="line">            b = res;</span><br><span class="line">            n -= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">climbStairs</span><span class="params">(self, n: int)</span> -&gt; int:</span></span><br><span class="line">        x, y = <span class="number">1</span>, <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">1</span>, n):</span><br><span class="line">            x, y = y, x + y</span><br><span class="line">        <span class="keyword">return</span> y</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>：该题的本质就是计算斐波拉契数列。</p>
+<h4 id="问题二-三角形最小路径和（120）"><a href="#问题二-三角形最小路径和（120）" class="headerlink" title="问题二 三角形最小路径和（120）"></a>问题二 三角形最小路径和（120）</h4><h5 id="问题描述-5"><a href="#问题描述-5" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个三角形，找出自顶向下的最小路径和。每一步只能移动到下一行中相邻的结点上。<br>例如，给定三角形：</p>
+<p><img src="https://i.loli.net/2019/04/09/5cac93e2ea495.png" alt="61"></p>
+<p>自顶向下的最小路径和为 11（即，<strong>2 + 3 + 5 + 1</strong> = 11）。</p>
+<p>说明：</p>
+<ul>
+<li>如果你可以只使用 O(n) 的额外空间（n 为三角形的总行数）来解决这个问题，那么你的算法会很加分。</li>
+</ul>
+<h5 id="解题思路分析-5"><a href="#解题思路分析-5" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li><strong>方法一</strong>，递归，时间复杂度 $O(2^n)$</li>
+<li><strong>方法二</strong>，贪心，该方法可能无法得到全局最优，不可行</li>
+<li><strong>方法三</strong>，动态规划，时间复杂度 $O(m \cdot n)$<br>①定义一个数组：$DP[i, j]$，表示从下往上走到达该点路径和的最小值。最后结果存在于$DP[0, 0]$。<br>②方程：$DP[i, j] = min(DP[i+1, j], DP[i+1, j+1]) + Triangle[i, j]$。<br>③初始值：$DP[m-1, j] = Triangle[m-1, j]$</li>
+</ul>
+<h5 id="解法代码-5"><a href="#解法代码-5" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minimumTotal</span><span class="params">(List&lt;List&lt;Integer&gt;&gt; triangle)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; mini = triangle.get(triangle.size()-<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = triangle.size()-<span class="number">2</span>; i&gt;=<span class="number">0</span>; --i)</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; triangle.get(i).size(); ++j)</span><br><span class="line">                mini.set(j, triangle.get(i).get(j) + Math.min(mini.get(j), mini.get(j+<span class="number">1</span>)));</span><br><span class="line">        <span class="keyword">return</span> mini.get(<span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minimumTotal</span><span class="params">(self, triangle: List[List[int]])</span> -&gt; int:</span></span><br><span class="line">        res = triangle[<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(triangle)<span class="number">-2</span>, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i+<span class="number">1</span>):</span><br><span class="line">                res[j] = triangle[i][j] + min(res[j], res[j+<span class="number">1</span>])</span><br><span class="line">        <span class="keyword">return</span> res[<span class="number">0</span>]</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>：<strong>Python</strong> 在写 <code>for</code> 循环的时候，语法比较特别，如何需要逆序（index 从大到小）循环遍历，可以使用语句：<code>range(n-1,-1,-1)</code> 或者 <code>reversed(list)</code>。</p>
+<h4 id="问题三-乘积最大子序列（152）"><a href="#问题三-乘积最大子序列（152）" class="headerlink" title="问题三 乘积最大子序列（152）"></a>问题三 乘积最大子序列（152）</h4><h5 id="问题描述-6"><a href="#问题描述-6" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个整数数组 <code>nums</code> ，找出一个序列中乘积最大的连续子序列（该序列至少包含一个数）。</p>
+<p><strong>示例 1</strong>:</p>
+<blockquote>
+<p>输入: [2, 3, -2, 4]<br>输出: 6<br>解释: 子数组 [2, 3] 有最大乘积 6。</p>
+</blockquote>
+<p><strong>示例 2</strong>:</p>
+<blockquote>
+<p>: [-2, 0, -1]<br>输出: 0<br>解释: 结果不能为 2, 因为 [-2, -1] 不是子数组。</p>
+</blockquote>
+<h5 id="解题思路分析-6"><a href="#解题思路分析-6" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li><strong>方法一</strong>，暴力求解，使用递归</li>
+<li><strong>方法二</strong>，DP动态规划</li>
+</ul>
+<h5 id="解法代码-6"><a href="#解法代码-6" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProduct</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> max = Integer.MIN_VALUE, imax = <span class="number">1</span>, imin = <span class="number">1</span>; </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;nums.length; i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i] &lt; <span class="number">0</span>)&#123; <span class="keyword">int</span> tmp = imax; imax = imin; imin = tmp;&#125; </span><br><span class="line">            imax = Math.max(imax*nums[i], nums[i]);</span><br><span class="line">            imin = Math.min(imin*nums[i], nums[i]);</span><br><span class="line">            </span><br><span class="line">            max = Math.max(max, imax);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxProduct</span><span class="params">(self, nums: List[int])</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> nums <span class="keyword">is</span> <span class="keyword">None</span>: <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        dp = [[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">2</span>)] <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">2</span>)]</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">1</span>], dp[<span class="number">0</span>][<span class="number">0</span>], res = nums[<span class="number">0</span>], nums[<span class="number">0</span>], nums[<span class="number">0</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(nums)):</span><br><span class="line">            x, y = i % <span class="number">2</span>, (i<span class="number">-1</span>) % <span class="number">2</span></span><br><span class="line">            dp[x][<span class="number">0</span>] = max(dp[y][<span class="number">0</span>] * nums[i], dp[y][<span class="number">1</span>] * nums[i], nums[i])</span><br><span class="line">            dp[x][<span class="number">1</span>] = min(dp[y][<span class="number">0</span>] * nums[i], dp[y][<span class="number">1</span>] * nums[i], nums[i])</span><br><span class="line">            res = max(res, dp[x][<span class="number">0</span>])</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure></p>
+<h4 id="问题四-买卖股票的最佳时机-IV（188）"><a href="#问题四-买卖股票的最佳时机-IV（188）" class="headerlink" title="问题四 买卖股票的最佳时机 IV（188）"></a>问题四 买卖股票的最佳时机 IV（188）</h4><h5 id="问题描述-7"><a href="#问题描述-7" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个数组，它的第 <code>i</code> 个元素是一支给定的股票在第 <code>i</code> 天的价格。<br>设计一个算法来计算你所能获取的最大利润。你最多可以完成 <code>k</code> 笔交易。</p>
+<p>注意: 你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。</p>
+<p><strong>示例 1</strong>:</p>
+<blockquote>
+<p>输入: [2,4,1], k = 2<br>输出: 2<br>解释: 在第 1 天 (股票价格 = 2) 的时候买入，在第 2 天 (股票价格 = 4) 的时候卖出，这笔交易所能获得利润 = 4-2 = 2 。</p>
+</blockquote>
+<p>示例 2:</p>
+<blockquote>
+<p>输入: [3,2,6,5,0,3], k = 2<br>输出: 7<br>解释: 在第 2 天 (股票价格 = 2) 的时候买入，在第 3 天 (股票价格 = 6) 的时候卖出, 这笔交易所能获得利润 = 6-2 = 4 。<br>     随后，在第 5 天 (股票价格 = 0) 的时候买入，在第 6 天 (股票价格 = 3) 的时候卖出, 这笔交易所能获得利润 = 3-0 = 3 。</p>
+</blockquote>
+<p>类似题型：121,122,123,309,188,714</p>
+<h5 id="解题思路分析-7"><a href="#解题思路分析-7" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><p>使用动态规划的算法，关键是要找到状态转移方程。<br><strong>状态转移方程</strong>：<br>$MP[i,k,0] = max(MP[i-1,k,0], MP[i-1,k-1,1]+P[i])$<br>$MP[i,k,1] = max(MP[i-1,k,1], MP[i-1,k,0]-P[i])$<br>其中，$MP[i][k][j]$，$i$ 表示天数（取值范围【0，n-1】），$k$ 表示交易次数（取值范围【0，k】）$j$ 表示是否持有股票（0：不持有；1：持有）</p>
+<h5 id="解法代码-7"><a href="#解法代码-7" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxProfit</span><span class="params">(<span class="keyword">int</span> k, <span class="keyword">int</span>[] prices)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(k &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(k &gt;= prices.length/<span class="number">2</span>) &#123;</span><br><span class="line">            <span class="keyword">int</span> max = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; prices.length; ++i) &#123;</span><br><span class="line">                <span class="keyword">if</span>(prices[i] &gt; prices[i-<span class="number">1</span>])</span><br><span class="line">                    max += prices[i] - prices[i-<span class="number">1</span>];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> max;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span>[][] t = <span class="keyword">new</span> <span class="keyword">int</span>[k][<span class="number">2</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k; ++i)</span><br><span class="line">            t[i][<span class="number">0</span>] = Integer.MIN_VALUE;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> p : prices) &#123;</span><br><span class="line">            t[<span class="number">0</span>][<span class="number">0</span>] = Math.max(t[<span class="number">0</span>][<span class="number">0</span>], -p);</span><br><span class="line">            t[<span class="number">0</span>][<span class="number">1</span>] = Math.max(t[<span class="number">0</span>][<span class="number">1</span>], t[<span class="number">0</span>][<span class="number">0</span>] + p);</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; k; ++i) &#123;</span><br><span class="line">                t[i][<span class="number">0</span>] = Math.max(t[i][<span class="number">0</span>], t[i-<span class="number">1</span>][<span class="number">1</span>] - p);</span><br><span class="line">                t[i][<span class="number">1</span>] = Math.max(t[i][<span class="number">1</span>], t[i][<span class="number">0</span>] + p);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> t[k-<span class="number">1</span>][<span class="number">1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Java</strong> 代码解题思路与上述分析稍微有点区别，但同样也是用到了动态规划思想。t[i][0]和t[i][1]分别表示第 <code>i</code> 比交易买入和卖出时各自的最大收益</p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">maxProfit</span><span class="params">(self, k: int, prices: List[int])</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> len(prices) &lt; <span class="number">2</span> <span class="keyword">or</span> k &lt; <span class="number">1</span>: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> k &gt; len(prices) // <span class="number">2</span> :</span><br><span class="line">            res = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(prices)):</span><br><span class="line">                res = res + max(<span class="number">0</span>, prices[i] - prices[i<span class="number">-1</span>])</span><br><span class="line">            <span class="keyword">return</span> res</span><br><span class="line">        </span><br><span class="line">        res = <span class="number">0</span></span><br><span class="line">        mp = [[[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">2</span>)] <span class="keyword">for</span> _ <span class="keyword">in</span> range(k+<span class="number">1</span>)] <span class="keyword">for</span> _ <span class="keyword">in</span> range(len(prices))]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(k+<span class="number">1</span>):</span><br><span class="line">            mp[<span class="number">0</span>][i][<span class="number">0</span>], mp[<span class="number">0</span>][i][<span class="number">1</span>] = float(<span class="string">'-inf'</span>), float(<span class="string">'-inf'</span>)</span><br><span class="line">                </span><br><span class="line">        mp[<span class="number">0</span>][<span class="number">0</span>][<span class="number">0</span>], mp[<span class="number">0</span>][<span class="number">0</span>][<span class="number">1</span>] = <span class="number">0</span>, -prices[<span class="number">0</span>]</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(prices)):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(k+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> j == <span class="number">0</span>: </span><br><span class="line">                    mp[i][j][<span class="number">0</span>] = mp[i<span class="number">-1</span>][j][<span class="number">0</span>]</span><br><span class="line">                <span class="keyword">else</span>: </span><br><span class="line">                    mp[i][j][<span class="number">0</span>] = max(mp[i<span class="number">-1</span>][j][<span class="number">0</span>], mp[i<span class="number">-1</span>][j<span class="number">-1</span>][<span class="number">1</span>]+prices[i])</span><br><span class="line">                mp[i][j][<span class="number">1</span>] = max(mp[i<span class="number">-1</span>][j][<span class="number">1</span>], mp[i<span class="number">-1</span>][j][<span class="number">0</span>]-prices[i])</span><br><span class="line">                </span><br><span class="line">        end = len(prices) - <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(k+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> mp[end][i][<span class="number">0</span>] &gt; res:</span><br><span class="line">                res = mp[end][i][<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>：<strong>leetcode</strong> 上给出的测试用例有点变态，会把 <code>k</code> 值设置的很大，超过了 <code>prices</code> 数组本身长度，该题就变成了无限制交易次数的情况，如果不作该判断，可能会造成代码运行超时。</p>
+<h4 id="问题五-最长上升子序列（300）"><a href="#问题五-最长上升子序列（300）" class="headerlink" title="问题五 最长上升子序列（300）"></a>问题五 最长上升子序列（300）</h4><h5 id="问题描述-8"><a href="#问题描述-8" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个无序的整数数组，找到其中最长上升子序列的长度。</p>
+<p><strong>示例</strong>:</p>
+<blockquote>
+<p>输入: [10, 9, 2, 5, 3, 7, 101, 18]<br>输出: 4<br>解释: 最长的上升子序列是 [2, 3, 7, 101]，它的长度是 4。</p>
+</blockquote>
+<p>说明:</p>
+<ul>
+<li>可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。</li>
+<li>你算法的时间复杂度应该为 $O(n^2)$ 。</li>
+</ul>
+<h5 id="解题思路分析-8"><a href="#解题思路分析-8" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li><strong>方法一</strong>，暴力求解：每个元素都有选与不选两种情况，时间复杂度 $O(2^n)$</li>
+<li><strong>方法二</strong>，动态规划：时间复杂度 $O(n^2)$<br>① 定义状态：$DP[i]$，表示从头 → $i$ 元素（$i$ 必选）的最长子序列的长度<br>② 状态转移方程：<br>$$DP[i] = max{DP[j]} + 1,j &lt; i,nums[i] &gt; nums[j]$$<br>③ 结果为 $max{DP[0],DP[1],DP[2],\cdots,DP[n-1]}$</li>
+<li><strong>方法三</strong>，二分查找：通过二分查找，优化一个最长上升子序列 LIS，时间复杂度 $O(nlogn)$ 。元素插入规则：若新进元素大于 LIS 中最后一个元素，直接放到 LIS 最后，否则找到比其大的所有元素的最小者，进行替换。</li>
+</ul>
+<h5 id="解法一：动态规划"><a href="#解法一：动态规划" class="headerlink" title="解法一：动态规划"></a>解法一：动态规划</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length ==<span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[nums.length];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i &lt; nums.length; i++) </span><br><span class="line">            dp[i] = <span class="number">1</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j &lt; i; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (nums[j] &lt; nums[i])</span><br><span class="line">                    dp[i] = Math.max(dp[i], dp[j]+<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            res = Math.max(dp[i], res);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lengthOfLIS</span><span class="params">(self, nums: List[int])</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> nums: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        dp = [<span class="number">1</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(len(nums))]</span><br><span class="line">        n = len(nums)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, n):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">0</span>, i):</span><br><span class="line">                <span class="keyword">if</span> nums[j] &lt; nums[i]:</span><br><span class="line">                    dp[i] = max(dp[i], dp[j]+<span class="number">1</span>)</span><br><span class="line">            </span><br><span class="line">        res = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, n):</span><br><span class="line">            <span class="keyword">if</span> dp[i] &gt; res:</span><br><span class="line">                res = dp[i]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure></p>
+<h5 id="解法二：二分查找"><a href="#解法二：二分查找" class="headerlink" title="解法二：二分查找"></a>解法二：二分查找</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">lengthOfLIS</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> item: nums) &#123;</span><br><span class="line">            <span class="keyword">if</span> (list.size() == <span class="number">0</span> || item &gt; list.get(list.size()-<span class="number">1</span>))</span><br><span class="line">                list.add(item);</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">int</span> index = find(list, item);</span><br><span class="line">                list.set(index, item);</span><br><span class="line">            &#125;       </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list.size();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">find</span><span class="params">(List&lt;Integer&gt; list, <span class="keyword">int</span> val)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> low = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> high = list.size()-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (low &lt;= high) &#123;</span><br><span class="line">            <span class="keyword">int</span> mid = (low + high) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (list.get(mid) &lt; val)</span><br><span class="line">                low = mid + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (list.get(mid) &gt; val)</span><br><span class="line">                high = mid - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> low;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">lengthOfLIS</span><span class="params">(self, nums: List[int])</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> nums: <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        </span><br><span class="line">        lis = []</span><br><span class="line">        <span class="keyword">for</span> item <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">if</span> lis == [] <span class="keyword">or</span> item &gt; lis[<span class="number">-1</span>]:</span><br><span class="line">                lis.append(item)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                index = self.find(lis, item)</span><br><span class="line">                lis[index] = item</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> len(lis)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">find</span><span class="params">(self, lis: List[int], val: int)</span> -&gt; int:</span></span><br><span class="line">        low, high = <span class="number">0</span>, len(lis)<span class="number">-1</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">while</span> low &lt;= high:</span><br><span class="line">            mid = (low + high) // <span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> lis[mid] &lt; val:</span><br><span class="line">                low = mid + <span class="number">1</span></span><br><span class="line">            <span class="keyword">elif</span> lis[mid] &gt; val:</span><br><span class="line">                high = mid - <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> mid</span><br><span class="line">        <span class="keyword">return</span> low</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>：该解题思路比较巧妙，按照正常的思维很难想得到，但是时间复杂度是最低的，也是最高效的方法。</p>
+<h4 id="问题六-零钱兑换（322）"><a href="#问题六-零钱兑换（322）" class="headerlink" title="问题六 零钱兑换（322）"></a>问题六 零钱兑换（322）</h4><h5 id="问题描述-9"><a href="#问题描述-9" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定不同面额的硬币 <code>coins</code> 和一个总金额 <code>amount</code>。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 <code>-1</code>。</p>
+<p><strong>示例 1</strong>:</p>
+<blockquote>
+<p>输入: coins = [1, 2, 5], amount = 11<br>输出: 3<br>解释: 11 = 5 + 5 + 1</p>
+</blockquote>
+<p><strong>示例 2</strong>:</p>
+<blockquote>
+<p>输入: coins = [2], amount = 3<br>输出: -1</p>
+</blockquote>
+<p><strong>说明</strong>:</p>
+<ul>
+<li>你可以认为每种硬币的数量是无限的。</li>
+</ul>
+<h5 id="解题思路分析-9"><a href="#解题思路分析-9" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><p>该问题可以转化为一个爬楼梯的问题：硬币为每次所走的楼梯数，总金额为所要到达的楼层数。</p>
+<ul>
+<li>方法一，暴力求解：计算每个硬币的取值范围，枚举所有情况。</li>
+<li>方法二，动态规划<br>① 定义状态：DP[i]，表示上到第 <code>i</code> 阶台阶最小的步数<br>② 状态转移方程：<br>$$DP[i] = min{DP[i-coins[j]]} + 1$$<br>③ 结果为 $DP[amount]$</li>
+</ul>
+<h5 id="解法代码-8"><a href="#解法代码-8" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">coinChange</span><span class="params">(<span class="keyword">int</span>[] coins, <span class="keyword">int</span> amount)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> Max = amount + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[amount+<span class="number">1</span>];</span><br><span class="line">        Arrays.fill(dp, Max);</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i &lt;= amount; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j &lt; coins.length; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (coins[j] &lt;= i)</span><br><span class="line">                    dp[i] = Math.min(dp[i-coins[j]]+<span class="number">1</span>, dp[i]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[amount] == Max ? -<span class="number">1</span>:dp[amount];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">coinChange</span><span class="params">(self, coins: List[int], amount: int)</span> -&gt; int:</span></span><br><span class="line">        dp = [amount+<span class="number">1</span>] * (amount+<span class="number">1</span>)</span><br><span class="line">        dp[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(amount+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(len(coins)):</span><br><span class="line">                <span class="keyword">if</span> coins[j] &lt;= i:</span><br><span class="line">                    dp[i] = min(dp[i-coins[j]]+<span class="number">1</span>, dp[i])</span><br><span class="line">        <span class="keyword">if</span> dp[amount] == amount+<span class="number">1</span>: <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">        <span class="keyword">else</span>: <span class="keyword">return</span> dp[amount]</span><br></pre></td></tr></table></figure></p>
+<h4 id="问题七-编辑距离（72）"><a href="#问题七-编辑距离（72）" class="headerlink" title="问题七 编辑距离（72）"></a>问题七 编辑距离（72）</h4><h5 id="问题描述-10"><a href="#问题描述-10" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定两个单词 <code>word1</code> 和 <code>word2</code>，计算出将 <code>word1</code> 转换成 <code>word2</code> 所使用的最少操作数 。</p>
+<p>你可以对一个单词进行如下三种操作：</p>
+<ul>
+<li>插入一个字符</li>
+<li>删除一个字符</li>
+<li>替换一个字符</li>
+</ul>
+<p><strong>示例 1</strong>:</p>
+<blockquote>
+<p>输入: word1 = “horse”, word2 = “ros”<br>输出: 3<br>解释:<br>horse -&gt; rorse (将 ‘h’ 替换为 ‘r’)<br>rorse -&gt; rose (删除 ‘r’)<br>rose -&gt; ros (删除 ‘e’)</p>
+</blockquote>
+<p><strong>示例 2</strong>:</p>
+<blockquote>
+<p>输入: word1 = “intention”, word2 = “execution”<br>输出: 5<br>解释:<br>intention -&gt; inention (删除 ‘t’)<br>inention -&gt; enention (将 ‘i’ 替换为 ‘e’)<br>enention -&gt; exention (将 ‘n’ 替换为 ‘x’)<br>exention -&gt; exection (将 ‘n’ 替换为 ‘c’)<br>exection -&gt; execution (插入 ‘u’)</p>
+</blockquote>
+<h5 id="解题思路分析-10"><a href="#解题思路分析-10" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><p>使用<strong>动态规划</strong>方法：<br>① 定义状态：$DP[i][j]$，表示 <code>word1</code> 的前 <code>i</code> 个字符变换到 <code>word2</code> 的前 <code>j</code> 个字符最少步数。<br>② 状态转移方程：<br>$$DP[i,j]=\left{\begin{array}{l}{DP[i-1,j-1]} &amp;,&amp; word1[i]=word1[j] \\ {1+min(DP[i-1,j],DP[i,j-1],DP[i-1,j-1])} &amp;,&amp; otherwise \end{array}\right.$$<br>③ 结果为 $DP[m][n]$，<code>m</code> 为 <code>word1</code> 的长度，<code>n</code> 为 <code>word2</code> 的长度。</p>
+<h5 id="解法代码-9"><a href="#解法代码-9" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minDistance</span><span class="params">(String word1, String word2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> m = word1.length();</span><br><span class="line">        <span class="keyword">int</span> n = word2.length();</span><br><span class="line">        <span class="keyword">int</span>[][] dp = <span class="keyword">new</span> <span class="keyword">int</span>[m+<span class="number">1</span>][n+<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">int</span> max = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;=m; i++) dp[i][<span class="number">0</span>] = i;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;=n; j++) dp[<span class="number">0</span>][j] = j;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=m; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">1</span>; j&lt;=n; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (word1.charAt(i-<span class="number">1</span>) == word2.charAt(j-<span class="number">1</span>))</span><br><span class="line">                    dp[i][j] = dp[i-<span class="number">1</span>][j-<span class="number">1</span>];</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    dp[i][j] = <span class="number">1</span>+((max=(dp[i-<span class="number">1</span>][j]&lt;dp[i][j-<span class="number">1</span>])?dp[i-<span class="number">1</span>][j]:dp[i][j-<span class="number">1</span>])&lt;dp[i-<span class="number">1</span>][j-<span class="number">1</span>]?max:dp[i-<span class="number">1</span>][j-<span class="number">1</span>]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[m][n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minDistance</span><span class="params">(self, word1: str, word2: str)</span> -&gt; int:</span></span><br><span class="line">        m, n = len(word1), len(word2)</span><br><span class="line">        dp = [[<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(n+<span class="number">1</span>)] <span class="keyword">for</span> _ <span class="keyword">in</span> range(m+<span class="number">1</span>)]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(m+<span class="number">1</span>): dp[i][<span class="number">0</span>] = i</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(n+<span class="number">1</span>): dp[<span class="number">0</span>][j] = j</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, m+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>, n+<span class="number">1</span>):</span><br><span class="line">                <span class="keyword">if</span> word1[i<span class="number">-1</span>]==word2[j<span class="number">-1</span>]:</span><br><span class="line">                    dp[i][j] = dp[i<span class="number">-1</span>][j<span class="number">-1</span>]</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    dp[i][j] = <span class="number">1</span> + min(dp[i<span class="number">-1</span>][j<span class="number">-1</span>], dp[i<span class="number">-1</span>][j], dp[i][j<span class="number">-1</span>])</span><br><span class="line">                </span><br><span class="line">        <span class="keyword">return</span> dp[m][n]</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>：该题是一个比较经典的面试题，需要好好理解其动态规划思想。其中 <strong>Java</strong> 的代码中有一个获取三个值中最小值的语法 <code>int min = ((min=(a&lt;b)?a:b)&lt;c?min:c);</code> 需要特别留意。</p>
+<h2 id="并查集（union-amp-find）"><a href="#并查集（union-amp-find）" class="headerlink" title="并查集（union &amp; find）"></a>并查集（union &amp; find）</h2><p><strong>并查集(union &amp; find)</strong> 是一种树型的数据结构，用于处理一些不交集(<strong>Disjoint Sets</strong>)的合并及查询问题。<br><strong>Find:</strong> 确定元素属于哪一个子集。它可以被用来确定两个元素是否属于同一子集。<br><strong>Union:</strong> 将两个子集合并成同一个集合。</p>
+<h3 id="在生活中的例子"><a href="#在生活中的例子" class="headerlink" title="在生活中的例子"></a>在生活中的例子</h3><p><img src="https://i.loli.net/2019/04/11/5caea1ccc7344.png" alt="62_union_find"></p>
+<ol>
+<li>小弟 -&gt; 老大</li>
+<li>帮派识别</li>
+<li>两种优化方式</li>
+</ol>
+<h3 id="并查集代码实现"><a href="#并查集代码实现" class="headerlink" title="并查集代码实现"></a>并查集代码实现</h3><p><img src="https://i.loli.net/2019/04/11/5caea8401d306.png" alt="63_code"></p>
+<p><img src="https://i.loli.net/2019/04/11/5caea83fe7125.png" alt="64_1_structure"></p>
+<p><img src="https://i.loli.net/2019/04/11/5caea83fc2b16.png" alt="64_2_structure"></p>
+<p><img src="https://i.loli.net/2019/04/11/5caea83fed1c9.png" alt="64_3_structure"></p>
+<h3 id="并查集优化"><a href="#并查集优化" class="headerlink" title="并查集优化"></a>并查集优化</h3><h4 id="优化一"><a href="#优化一" class="headerlink" title="优化一"></a>优化一</h4><p><img src="https://i.loli.net/2019/04/11/5caeace2a3bb1.png" alt="65_optimize1"></p>
+<p>优化代码：<br><img src="https://i.loli.net/2019/04/11/5caeace2cc820.png" alt="66_optimize_code"></p>
+<h4 id="优化二"><a href="#优化二" class="headerlink" title="优化二"></a>优化二</h4><p><img src="https://i.loli.net/2019/04/11/5caeace260488.png" alt="67_optimize2"></p>
+<h4 id="问题一-岛屿的个数（200）"><a href="#问题一-岛屿的个数（200）" class="headerlink" title="问题一 岛屿的个数（200）"></a>问题一 岛屿的个数（200）</h4><h5 id="问题描述-11"><a href="#问题描述-11" class="headerlink" title="问题描述"></a>问题描述</h5><p>给定一个由 ‘1’（陆地）和 ‘0’（水）组成的的二维网格，计算岛屿的数量。一个岛被水包围，并且它是通过水平方向或垂直方向上相邻的陆地连接而成的。你可以假设网格的四个边均被水包围。</p>
+<p><strong>示例 1</strong>:</p>
+<blockquote>
+<p>输入:<br>11110<br>11010<br>11000<br>00000<br>输出: 1</p>
+</blockquote>
+<p><strong>示例 2</strong>:</p>
+<blockquote>
+<p>输入:<br>11000<br>11000<br>00100<br>00011<br>输出: 3</p>
+</blockquote>
+<h5 id="解题思路分析-11"><a href="#解题思路分析-11" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><ul>
+<li>方法一，染色问题：遍历所有节点，若节点等于 <code>1</code>，<code>count++</code>，将该节点<strong>所有相邻节点</strong>以及<strong>相邻节点的相邻节点</strong>变为 <code>0</code>（DFS 或 BFS），不断循环直到所有节点变为 <code>0</code>，最后返回 <code>count</code> 。</li>
+<li>方法二，并查集<br>① 初始化：针对 <code>1</code> 节点指向自身；<br>② 遍历所有节点，相邻 <code>1</code> 节点合并，<code>0</code> 节点不管；<br>③ 遍历 <code>parents</code></li>
+</ul>
+<h5 id="解法代码-10"><a href="#解法代码-10" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h4 id="问题二-朋友圈（547）"><a href="#问题二-朋友圈（547）" class="headerlink" title="问题二 朋友圈（547）"></a>问题二 朋友圈（547）</h4><h5 id="问题描述-12"><a href="#问题描述-12" class="headerlink" title="问题描述"></a>问题描述</h5><p>班上有 <code>N</code> 名学生。其中有些人是朋友，有些则不是。他们的友谊具有是传递性。如果已知 <code>A</code> 是 <code>B</code> 的朋友，<code>B</code> 是 <code>C</code> 的朋友，那么我们可以认为 <code>A</code> 也是 <code>C</code> 的朋友。所谓的朋友圈，是指所有朋友的集合。</p>
+<p>给定一个 <code>N * N</code> 的矩阵 <code>M</code>，表示班级中学生之间的朋友关系。如果 <code>M[i][j] = 1</code>，表示已知第 <code>i</code> 个和 <code>j</code> 个学生互为朋友关系，否则为不知道。你必须输出所有学生中的已知的朋友圈总数。</p>
+<p><strong>示例 1</strong>:</p>
+<blockquote>
+<p>输入:<br>[[1,1,0],<br> [1,1,0],<br> [0,0,1]]<br>输出: 2<br>说明：已知学生0和学生1互为朋友，他们在一个朋友圈。<br>第2个学生自己在一个朋友圈。所以返回2。</p>
+</blockquote>
+<p><strong>示例 2</strong>:</p>
+<blockquote>
+<p>输入:<br>[[1,1,0],<br> [1,1,1],<br> [0,1,1]]<br>输出: 1<br>说明：已知学生 0 和学生 1 互为朋友，学生 1 和学生 2 互为朋友，所以学生 0 和学生 2 也是朋友，所以他们三个在一个朋友圈，返回 1。</p>
+</blockquote>
+<p>注意：</p>
+<ul>
+<li><code>N</code> 在 <code>[1,200]</code> 的范围内。</li>
+<li>对于所有学生，有 <code>M[i][i] = 1</code> 。</li>
+<li>如果有 <code>M[i][j] = 1</code>，则有 <code>M[j][i] = 1</code>。</li>
+</ul>
+<h5 id="解题思路分析-12"><a href="#解题思路分析-12" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><p>该题可以直接转化为 <strong>问题一 岛屿问题</strong>，解题代码一样。</p>
+<h5 id="解法代码-11"><a href="#解法代码-11" class="headerlink" title="解法代码"></a>解法代码</h5><p>略</p>
+<h2 id="LRU-Cache"><a href="#LRU-Cache" class="headerlink" title="LRU Cache"></a>LRU Cache</h2><ol>
+<li>记忆</li>
+<li>钱包 - 储物柜</li>
+<li>代码模板</li>
+</ol>
+<h3 id="LRU-Cache-特点"><a href="#LRU-Cache-特点" class="headerlink" title="LRU Cache 特点"></a>LRU Cache 特点</h3><p><img src="https://i.loli.net/2019/04/11/5caed54867535.png" alt="68_cache"></p>
+<ol>
+<li>Least recently used</li>
+<li>Double LinkedList</li>
+<li>$O(1)$查询</li>
+<li>$O(1)$修改、更新</li>
+</ol>
+<h3 id="替换算法原理"><a href="#替换算法原理" class="headerlink" title="替换算法原理"></a>替换算法原理</h3><p><img src="https://i.loli.net/2019/04/11/5caed5489f476.png" alt="69_LRU"></p>
+<p><img src="https://i.loli.net/2019/04/11/5caed5486bbec.png" alt="70_Double_Link"></p>
+<h3 id="LFU-Cache"><a href="#LFU-Cache" class="headerlink" title="LFU Cache"></a>LFU Cache</h3><ol>
+<li>LFU - least frequently used<br>最近最不常用页面替换算法</li>
+<li>LRU - least recently used<br>最近最少使用页面替换算法</li>
+</ol>
+<p><img src="https://i.loli.net/2019/04/11/5caeddfe11b36.png" alt="71_LFU"></p>
+<h4 id="问题一-LRU缓存机制（146）"><a href="#问题一-LRU缓存机制（146）" class="headerlink" title="问题一 LRU缓存机制（146）"></a>问题一 LRU缓存机制（146）</h4><h5 id="问题描述-13"><a href="#问题描述-13" class="headerlink" title="问题描述"></a>问题描述</h5><p>运用你所掌握的数据结构，设计和实现一个 <code>LRU</code> (最近最少使用) 缓存机制。它应该支持以下操作： 获取数据 <code>get</code> 和 写入数据 <code>put</code> 。</p>
+<p>获取数据 <code>get(key)</code> - 如果密钥 <code>(key)</code> 存在于缓存中，则获取密钥的值（总是正数），否则返回 <code>-1</code>。<br>写入数据 <code>put(key, value)</code> - 如果密钥不存在，则写入其数据值。当缓存容量达到上限时，它应该在写入新数据之前删除最近最少使用的数据值，从而为新的数据值留出空间。</p>
+<p><strong>进阶</strong>:<br>你是否可以在 $O(1)$ 时间复杂度内完成这两种操作？</p>
+<p><strong>示例</strong>:</p>
+<blockquote>
+<p>LRUCache cache = new LRUCache( 2 // 缓存容量 // );</p>
+<p>cache.put(1, 1);<br>cache.put(2, 2);<br>cache.get(1);       // 返回  1<br>cache.put(3, 3);    // 该操作会使得密钥 2 作废<br>cache.get(2);       // 返回 -1 (未找到)<br>cache.put(4, 4);    // 该操作会使得密钥 1 作废<br>cache.get(1);       // 返回 -1 (未找到)<br>cache.get(3);       // 返回  3<br>cache.get(4);       // 返回  4</p>
+</blockquote>
+<h5 id="解题思路分析-13"><a href="#解题思路分析-13" class="headerlink" title="解题思路分析"></a>解题思路分析</h5><h5 id="解法代码-12"><a href="#解法代码-12" class="headerlink" title="解法代码"></a>解法代码</h5><p><strong>Java代码</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span> </span>&#123;</span><br><span class="line">    LinkedHashMap&lt;Integer, Integer&gt; map = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LRUCache</span><span class="params">(<span class="keyword">int</span> capacity)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.map = <span class="keyword">new</span> LinkedHashMap(capacity) &#123;</span><br><span class="line">            <span class="function"><span class="keyword">protected</span> <span class="keyword">boolean</span> <span class="title">removeEldestEntry</span><span class="params">(Map.Entry eldest)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> size() &gt; capacity;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">(<span class="keyword">int</span> key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(key)) &#123;</span><br><span class="line">            <span class="keyword">int</span> v = map.remove(key);</span><br><span class="line">            map.put(key, v);</span><br><span class="line">            <span class="keyword">return</span> v;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(<span class="keyword">int</span> key, <span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(key)) &#123;</span><br><span class="line">            map.remove(key);</span><br><span class="line">            map.put(key, value);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            map.put(key, value);</span><br><span class="line">        &#125;    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Python代码</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LRUCache</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, capacity: int)</span>:</span></span><br><span class="line">        self.queue = collections.OrderedDict()</span><br><span class="line">        self.remain = capacity</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self, key: int)</span> -&gt; int:</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">not</span> <span class="keyword">in</span> self.queue:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            v = self.queue.pop(key)</span><br><span class="line">            self.queue[key] = v</span><br><span class="line">            <span class="keyword">return</span> v</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">put</span><span class="params">(self, key: int, value: int)</span> -&gt; <span class="keyword">None</span>:</span></span><br><span class="line">        <span class="keyword">if</span> key <span class="keyword">in</span> self.queue:</span><br><span class="line">            self.queue.pop(key)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> self.remain == <span class="number">0</span>:</span><br><span class="line">                self.queue.popitem(last=<span class="keyword">False</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                self.remain -= <span class="number">1</span></span><br><span class="line">        self.queue[key] = value</span><br></pre></td></tr></table></figure></p>
+<p><strong>总结</strong>：<strong>Java</strong> 代码最关键的部分为在初始化 <strong>LinkedHashMap</strong> 实例的同时重载了  <code>removeEldestEntry</code> 方法，该方法的重载使得当实例调用 <code>put</code> 方法时，如果缓存达到最大值 <strong>capacity</strong>，则自动移除最先插入缓存的元素。而 <strong>Python</strong> 的代码需要自己手动判断缓存是否达到最大值。</p>
+<h2 id="Bloom-Filter（布隆过滤器）"><a href="#Bloom-Filter（布隆过滤器）" class="headerlink" title="Bloom Filter（布隆过滤器）"></a>Bloom Filter（布隆过滤器）</h2><h3 id="哈希函数回顾"><a href="#哈希函数回顾" class="headerlink" title="哈希函数回顾"></a>哈希函数回顾</h3><p><img src="https://i.loli.net/2019/04/13/5cb1d8e4e89db.png" alt="72_hash"></p>
+<h3 id="布隆过滤器的特点"><a href="#布隆过滤器的特点" class="headerlink" title="布隆过滤器的特点"></a>布隆过滤器的特点</h3><p>一个很长的二进制向量和一个映射函数。</p>
+<p>布隆过滤器可以用于检索一个元素是否在一个集合中。</p>
+<p>它的优点是空间效率和查询时间都远远超过一般的算法，缺点是有一定的误识别率（仅针对判断元素是否存在于集合而言，对于判断是否不存在是100%正确的）和删除困难。</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1e017b5a1a.png" alt="73_Bloom"></p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1e017b61e0.png" alt="74_Bloom"></p>
+<h3 id="案列"><a href="#案列" class="headerlink" title="案列"></a>案列</h3><ol>
+<li>比特币<br>Redis VS BloomFilter</li>
+<li>分布式系统（Map-Reduce）</li>
+</ol>
+<p>比特币网络</p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1e20e1c128.png" alt="75_1_bitscoins"></p>
+<p><img src="https://i.loli.net/2019/04/13/5cb1e20dd50c7.png" alt="75_2_bitscoins"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/03/数据结构与算法笔记-二/" rel="next" title="数据结构与算法笔记 (二)">
+                <i class="fa fa-chevron-left"></i> 数据结构与算法笔记 (二)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/11/深度学习-速查手册/" rel="prev" title="深度学习 速查手册">
+                深度学习 速查手册 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#位运算"><span class="nav-number">1.</span> <span class="nav-text">位运算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是位运算"><span class="nav-number">1.1.</span> <span class="nav-text">什么是位运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的位运算符"><span class="nav-number">1.2.</span> <span class="nav-text">常见的位运算符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XOR-异或"><span class="nav-number">1.3.</span> <span class="nav-text">XOR - 异或</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实战"><span class="nav-number">1.4.</span> <span class="nav-text">代码实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题一-位1的个数（191）"><span class="nav-number">1.4.1.</span> <span class="nav-text">问题一 位1的个数（191）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码"><span class="nav-number">1.4.1.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题二-2的幂（231）"><span class="nav-number">1.4.2.</span> <span class="nav-text">问题二 2的幂（231）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-1"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-1"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-1"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题三-比特位计数（338）"><span class="nav-number">1.4.3.</span> <span class="nav-text">问题三 比特位计数（338）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-2"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-2"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-2"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题四-N皇后-II（52）"><span class="nav-number">1.4.4.</span> <span class="nav-text">问题四 N皇后 II（52）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-3"><span class="nav-number">1.4.4.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-3"><span class="nav-number">1.4.4.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-3"><span class="nav-number">1.4.4.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态规划（Dynamic-Programming）"><span class="nav-number">2.</span> <span class="nav-text">动态规划（Dynamic Programming）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#斐波那契数列"><span class="nav-number">2.1.</span> <span class="nav-text">斐波那契数列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#COUNT-THE-PATHS"><span class="nav-number">2.2.</span> <span class="nav-text">COUNT THE PATHS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DP-vs-回溯-vs-贪心"><span class="nav-number">2.3.</span> <span class="nav-text">DP vs 回溯 vs 贪心</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题一-爬楼梯（70）"><span class="nav-number">2.3.1.</span> <span class="nav-text">问题一 爬楼梯（70）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-4"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-4"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-4"><span class="nav-number">2.3.1.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题二-三角形最小路径和（120）"><span class="nav-number">2.3.2.</span> <span class="nav-text">问题二 三角形最小路径和（120）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-5"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-5"><span class="nav-number">2.3.2.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-5"><span class="nav-number">2.3.2.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题三-乘积最大子序列（152）"><span class="nav-number">2.3.3.</span> <span class="nav-text">问题三 乘积最大子序列（152）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-6"><span class="nav-number">2.3.3.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-6"><span class="nav-number">2.3.3.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-6"><span class="nav-number">2.3.3.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题四-买卖股票的最佳时机-IV（188）"><span class="nav-number">2.3.4.</span> <span class="nav-text">问题四 买卖股票的最佳时机 IV（188）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-7"><span class="nav-number">2.3.4.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-7"><span class="nav-number">2.3.4.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-7"><span class="nav-number">2.3.4.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题五-最长上升子序列（300）"><span class="nav-number">2.3.5.</span> <span class="nav-text">问题五 最长上升子序列（300）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-8"><span class="nav-number">2.3.5.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-8"><span class="nav-number">2.3.5.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法一：动态规划"><span class="nav-number">2.3.5.3.</span> <span class="nav-text">解法一：动态规划</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法二：二分查找"><span class="nav-number">2.3.5.4.</span> <span class="nav-text">解法二：二分查找</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题六-零钱兑换（322）"><span class="nav-number">2.3.6.</span> <span class="nav-text">问题六 零钱兑换（322）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-9"><span class="nav-number">2.3.6.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-9"><span class="nav-number">2.3.6.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-8"><span class="nav-number">2.3.6.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题七-编辑距离（72）"><span class="nav-number">2.3.7.</span> <span class="nav-text">问题七 编辑距离（72）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-10"><span class="nav-number">2.3.7.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-10"><span class="nav-number">2.3.7.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-9"><span class="nav-number">2.3.7.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并查集（union-amp-find）"><span class="nav-number">3.</span> <span class="nav-text">并查集（union &amp; find）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在生活中的例子"><span class="nav-number">3.1.</span> <span class="nav-text">在生活中的例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并查集代码实现"><span class="nav-number">3.2.</span> <span class="nav-text">并查集代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并查集优化"><span class="nav-number">3.3.</span> <span class="nav-text">并查集优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优化一"><span class="nav-number">3.3.1.</span> <span class="nav-text">优化一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化二"><span class="nav-number">3.3.2.</span> <span class="nav-text">优化二</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题一-岛屿的个数（200）"><span class="nav-number">3.3.3.</span> <span class="nav-text">问题一 岛屿的个数（200）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-11"><span class="nav-number">3.3.3.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-11"><span class="nav-number">3.3.3.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-10"><span class="nav-number">3.3.3.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题二-朋友圈（547）"><span class="nav-number">3.3.4.</span> <span class="nav-text">问题二 朋友圈（547）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-12"><span class="nav-number">3.3.4.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-12"><span class="nav-number">3.3.4.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-11"><span class="nav-number">3.3.4.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LRU-Cache"><span class="nav-number">4.</span> <span class="nav-text">LRU Cache</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LRU-Cache-特点"><span class="nav-number">4.1.</span> <span class="nav-text">LRU Cache 特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#替换算法原理"><span class="nav-number">4.2.</span> <span class="nav-text">替换算法原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LFU-Cache"><span class="nav-number">4.3.</span> <span class="nav-text">LFU Cache</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题一-LRU缓存机制（146）"><span class="nav-number">4.3.1.</span> <span class="nav-text">问题一 LRU缓存机制（146）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#问题描述-13"><span class="nav-number">4.3.1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解题思路分析-13"><span class="nav-number">4.3.1.2.</span> <span class="nav-text">解题思路分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#解法代码-12"><span class="nav-number">4.3.1.3.</span> <span class="nav-text">解法代码</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bloom-Filter（布隆过滤器）"><span class="nav-number">5.</span> <span class="nav-text">Bloom Filter（布隆过滤器）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#哈希函数回顾"><span class="nav-number">5.1.</span> <span class="nav-text">哈希函数回顾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#布隆过滤器的特点"><span class="nav-number">5.2.</span> <span class="nav-text">布隆过滤器的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#案列"><span class="nav-number">5.3.</span> <span class="nav-text">案列</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

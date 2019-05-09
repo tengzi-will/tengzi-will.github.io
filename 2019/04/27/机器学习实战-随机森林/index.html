@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,随机森林,Random Forests,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="随机森林（决策树）模型数据集社交网络-Social_Network_Ads.csv 导入库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 导入数据集123dataset = pd.read_csv(&apos;../datasets/Social_Network_Ads.csv&apos;)X = dataset.ilo">
+<meta name="keywords" content="机器学习,随机森林,Random Forests">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习实战-随机森林">
+<meta property="og:url" content="http://yoursite.com/2019/04/27/机器学习实战-随机森林/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="随机森林（决策树）模型数据集社交网络-Social_Network_Ads.csv 导入库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 导入数据集123dataset = pd.read_csv(&apos;../datasets/Social_Network_Ads.csv&apos;)X = dataset.ilo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/04/27/5cc3fa9c1e3f2.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/27/5cc4002315f2f.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/27/5cc4002419470.png">
+<meta property="og:updated_time" content="2019-04-28T08:56:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习实战-随机森林">
+<meta name="twitter:description" content="随机森林（决策树）模型数据集社交网络-Social_Network_Ads.csv 导入库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 导入数据集123dataset = pd.read_csv(&apos;../datasets/Social_Network_Ads.csv&apos;)X = dataset.ilo">
+<meta name="twitter:image" content="https://i.loli.net/2019/04/27/5cc3fa9c1e3f2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/27/机器学习实战-随机森林/">
+
+
+
+
+
+  <title>机器学习实战-随机森林 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/27/机器学习实战-随机森林/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习实战-随机森林</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-27T14:32:48+08:00">
+                2019-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/算法实战/" itemprop="url" rel="index">
+                    <span itemprop="name">算法实战</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://i.loli.net/2019/04/27/5cc3fa9c1e3f2.png" alt="01_Random Forests"></p>
+<h2 id="随机森林（决策树）模型"><a href="#随机森林（决策树）模型" class="headerlink" title="随机森林（决策树）模型"></a>随机森林（决策树）模型</h2><h3 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h3><p><a href="https://github.com/MLEveryday/100-Days-Of-ML-Code/blob/master/datasets/Social_Network_Ads.csv" target="_blank" rel="noopener">社交网络-Social_Network_Ads.csv</a></p>
+<h3 id="导入库"><a href="#导入库" class="headerlink" title="导入库"></a>导入库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></table></figure>
+<h3 id="导入数据集"><a href="#导入数据集" class="headerlink" title="导入数据集"></a>导入数据集</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dataset = pd.read_csv(<span class="string">'../datasets/Social_Network_Ads.csv'</span>)</span><br><span class="line">X = dataset.iloc[:, [<span class="number">2</span>, <span class="number">3</span>]].values</span><br><span class="line">y = dataset.iloc[:, <span class="number">4</span>].values</span><br></pre></td></tr></table></figure>
+<h3 id="将数据集拆分成训练集和测试集"><a href="#将数据集拆分成训练集和测试集" class="headerlink" title="将数据集拆分成训练集和测试集"></a>将数据集拆分成训练集和测试集</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.25</span>, random_state=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="特征缩放"><a href="#特征缩放" class="headerlink" title="特征缩放"></a>特征缩放</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line">sc = StandardScaler()</span><br><span class="line">X_train = sc.fit_transform(X_train)</span><br><span class="line">X_test = sc.transform(X_test)</span><br></pre></td></tr></table></figure>
+<h3 id="调试训练集的随机森林"><a href="#调试训练集的随机森林" class="headerlink" title="调试训练集的随机森林"></a>调试训练集的随机森林</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line">classifier = RandomForestClassifier(n_estimators = <span class="number">10</span>, criterion = <span class="string">'entropy'</span>, random_state = <span class="number">0</span>)</span><br><span class="line">classifier.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
+<h3 id="预测测试集结果"><a href="#预测测试集结果" class="headerlink" title="预测测试集结果"></a>预测测试集结果</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y_pred = classifier.predict(X_test)</span><br></pre></td></tr></table></figure>
+<h3 id="生成混淆矩阵，以及准确率、召回率分析结果"><a href="#生成混淆矩阵，以及准确率、召回率分析结果" class="headerlink" title="生成混淆矩阵，以及准确率、召回率分析结果"></a>生成混淆矩阵，以及准确率、召回率分析结果</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix, classification_report</span><br><span class="line">cm = confusion_matrix(y_test, y_pred)</span><br><span class="line">cr = cloasification_report(y_test, y_pred)</span><br></pre></td></tr></table></figure>
+<p>打印混淆矩阵 <code>cm</code> 以及分析结果（准确率，召回率，F1值）<code>cr</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">matrix:</span><br><span class="line">[[63  5]</span><br><span class="line"> [ 3 29]]</span><br><span class="line">report:</span><br><span class="line">             precision    recall  f1-score   support</span><br><span class="line">          0       0.95      0.93      0.94        68</span><br><span class="line">          1       0.85      0.91      0.88        32</span><br><span class="line">avg / total       0.92      0.92      0.92       100</span><br></pre></td></tr></table></figure></p>
+<h3 id="结果可视化"><a href="#结果可视化" class="headerlink" title="结果可视化"></a>结果可视化</h3><h4 id="将训练集结果可视化"><a href="#将训练集结果可视化" class="headerlink" title="将训练集结果可视化"></a>将训练集结果可视化</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> matplotlib.colors <span class="keyword">import</span> ListedColormap</span><br><span class="line">X_set, y_set = X_train, y_train</span><br><span class="line">X1, X2 = np.meshgrid(np.arange(start = X_set[:, <span class="number">0</span>].min() - <span class="number">1</span>, stop = X_set[:, <span class="number">0</span>].max() + <span class="number">1</span>, step = <span class="number">0.01</span>),</span><br><span class="line">                     np.arange(start = X_set[:, <span class="number">1</span>].min() - <span class="number">1</span>, stop = X_set[:, <span class="number">1</span>].max() + <span class="number">1</span>, step = <span class="number">0.01</span>))</span><br><span class="line">plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),</span><br><span class="line">             alpha = <span class="number">0.75</span>, cmap = ListedColormap((<span class="string">'red'</span>, <span class="string">'green'</span>)))</span><br><span class="line">plt.xlim(X1.min(), X1.max())</span><br><span class="line">plt.ylim(X2.min(), X2.max())</span><br><span class="line"><span class="keyword">for</span> i, j <span class="keyword">in</span> enumerate(np.unique(y_set)):</span><br><span class="line">    plt.scatter(X_set[y_set == j, <span class="number">0</span>], X_set[y_set == j, <span class="number">1</span>],</span><br><span class="line">                c = ListedColormap((<span class="string">'red'</span>, <span class="string">'green'</span>))(i), label = j)</span><br><span class="line">plt.title(<span class="string">'Random Forest Classification (Training set)'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Age'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Estimated Salary'</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/27/5cc4002315f2f.png" alt="02_train"></p>
+<h4 id="将测试集结果可视化"><a href="#将测试集结果可视化" class="headerlink" title="将测试集结果可视化"></a>将测试集结果可视化</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> matplotlib.colors <span class="keyword">import</span> ListedColormap</span><br><span class="line">X_set, y_set = X_test, y_test</span><br><span class="line">X1, X2 = np.meshgrid(np.arange(start = X_set[:, <span class="number">0</span>].min() - <span class="number">1</span>, stop = X_set[:, <span class="number">0</span>].max() + <span class="number">1</span>, step = <span class="number">0.01</span>),</span><br><span class="line">                     np.arange(start = X_set[:, <span class="number">1</span>].min() - <span class="number">1</span>, stop = X_set[:, <span class="number">1</span>].max() + <span class="number">1</span>, step = <span class="number">0.01</span>))</span><br><span class="line">plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),</span><br><span class="line">             alpha = <span class="number">0.75</span>, cmap = ListedColormap((<span class="string">'red'</span>, <span class="string">'green'</span>)))</span><br><span class="line">plt.xlim(X1.min(), X1.max())</span><br><span class="line">plt.ylim(X2.min(), X2.max())</span><br><span class="line"><span class="keyword">for</span> i, j <span class="keyword">in</span> enumerate(np.unique(y_set)):</span><br><span class="line">    plt.scatter(X_set[y_set == j, <span class="number">0</span>], X_set[y_set == j, <span class="number">1</span>],</span><br><span class="line">                c = ListedColormap((<span class="string">'red'</span>, <span class="string">'green'</span>))(i), label = j)</span><br><span class="line">plt.title(<span class="string">'Random Forest Classification (Test set)'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Age'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Estimated Salary'</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/04/27/5cc4002419470.png" alt="03_test"></p>
+<h2 id="随机森林（回归树）模型"><a href="#随机森林（回归树）模型" class="headerlink" title="随机森林（回归树）模型"></a>随机森林（回归树）模型</h2><p>待补充</p>
+<h2 id="调参-★"><a href="#调参-★" class="headerlink" title="调参 ★"></a>调参 ★</h2><p>在 <strong>scikit-learn</strong> 中，<strong>Random Forest</strong>（以下简称<strong>RF</strong>）的分类类是 <strong>RandomForestClassifier</strong>，回归类是 <strong>RandomForestRegressor</strong>。</p>
+<p><strong>RF</strong> 需要调参的参数也包括两部分，第一部分是 <strong>Bagging</strong> 框架的参数，第二部分是 <strong>CART</strong> 决策树的参数。下面我们就对这些参数做一个介绍。</p>
+<h3 id="RF-框架参数"><a href="#RF-框架参数" class="headerlink" title="RF 框架参数"></a>RF 框架参数</h3><p>首先我们关注于 <strong>RF</strong> 的 <strong>Bagging</strong> 框架的参数。这里可以和 <strong>GBDT</strong> 对比来学习。<strong>GBDT</strong> 的框架参数比较多，重要的有最大迭代器个数，步长和子采样比例，调参起来比较费力。但是 <strong>RF</strong> 则比较简单，这是因为 <strong>bagging</strong> 框架里的各个弱学习器之间是没有依赖关系的，这减小的调参的难度。换句话说，达到同样的调参效果，<strong>RF</strong> 调参时间要比 <strong>GBDT</strong> 少一些。</p>
+<p>下面我来看看 <strong>RF</strong> 重要的 <strong>Bagging</strong> 框架的参数，由于 <strong>RandomForestClassifier</strong> 和 <strong>RandomForestRegressor</strong> 参数绝大部分相同，这里会将它们一起讲，不同点会指出。</p>
+<ul>
+<li><strong>n_estimators</strong>：也就是弱学习器的最大迭代次数，或者说最大的弱学习器的个数。一般来说 <strong>n_estimators</strong> 太小，容易欠拟合，<strong>n_estimators</strong> 太大，计算量会太大，并且 <strong>n_estimators</strong> 到一定的数量后，再增大 <strong>n_estimators</strong> 获得的模型提升会很小，所以一般选择一个适中的数值。默认是 <code>100</code> 。</li>
+<li><strong>oob_score</strong>：即是否采用袋外样本来评估模型的好坏。默认识 <strong><code>False</code></strong> 。个人推荐设置为 <strong><code>True</code></strong> ，因为袋外分数反应了一个模型拟合后的泛化能力。</li>
+<li><strong>criterion</strong>: 即 <strong>CART</strong> 树做划分时对特征的评价标准。分类模型和回归模型的损失函数是不一样的。分类 <strong>RF</strong> 对应的 <strong>CART</strong> 分类树默认是基尼系数 <strong><code>gini</code></strong> ，另一个可选择的标准是<strong>信息增益</strong>。回归 <strong>RF</strong> 对应的 <strong>CART</strong> 回归树默认是均方差 <strong><code>mse</code></strong> ，另一个可以选择的标准是绝对值差 <strong><code>mae</code></strong> 。一般来说选择默认的标准就已经很好的。</li>
+</ul>
+<p>从上面可以看出， <strong>RF</strong> 重要的框架参数比较少，主要需要关注的是 <strong>n_estimators</strong>，即 <strong>RF</strong> 最大的决策树个数。</p>
+<h3 id="RF-决策树参数"><a href="#RF-决策树参数" class="headerlink" title="RF 决策树参数"></a>RF 决策树参数</h3><p>下面我们再来看 <strong>RF</strong> 的决策树参数：</p>
+<ul>
+<li><strong>RF</strong> 划分时考虑的最大特征数 <strong>max_features</strong>：<br>可以使用很多种类型的值，默认是 <strong><code>auto</code></strong> ，意味着划分时最多考虑 $\sqrt {N}$ 个特征；如果是 <strong><code>log2</code></strong> 意味着划分时最多考虑 $log_2N$ 个特征；如果是 <strong><code>sqrt</code></strong> 或者 <strong><code>auto</code></strong> 意味着划分时最多考虑$\sqrt {N}$ 个特征。如果是整数，代表考虑的特征<strong>绝对数</strong>。如果是浮点数，代表考虑特征<strong>百分比</strong>，即考虑（百分比 x $N$）取整后的特征数。其中 $N$ 为样本总特征数。一般我们用默认的 <strong><code>auto</code></strong> 就可以了，如果特征数非常多，我们可以灵活使用刚才描述的其他取值来控制划分时考虑的最大特征数，以控制决策树的生成时间。</li>
+<li>决策树最大深度 <strong>max_depth</strong>：<br>默认可以不输入，如果不输入的话，决策树在建立子树的时候不会限制子树的深度。一般来说，数据少或者特征少的时候可以不管这个值。如果模型样本量多，特征也多的情况下，推荐限制这个最大深度，具体的取值取决于数据的分布。常用的可以取值 <code>10-100</code> 之间。</li>
+<li>内部节点再划分所需最小样本数 <strong>min_samples_split</strong>：<br>这个值限制了子树继续划分的条件，如果某节点的样本数少于 <strong>min_samples_split</strong>，则不会继续再尝试选择最优特征来进行划分。默认是 <code>2</code>，如果样本量不大，不需要管这个值。如果样本量数量级非常大，则推荐增大这个值。</li>
+<li>叶子节点最少样本数 <strong>min_samples_leaf</strong>：<br>这个值限制了叶子节点最少的样本数，如果某叶子节点数目小于样本数，则会和兄弟节点一起被剪枝。 默认是 <code>1</code>，可以输入最少的样本数的整数，或者最少样本数占样本总数的百分比。如果样本量不大，不需要管这个值。如果样本量数量级非常大，则推荐增大这个值。</li>
+<li>叶子节点最小的样本权重 <strong>min_weight_fraction_leaf</strong>：<br>这个值限制了叶子节点所有样本权重和的最小值，如果小于这个值，则会和兄弟节点一起被剪枝。默认是 <code>0</code>，就是不考虑权重问题。一般来说，如果我们有较多样本有缺失值，或者分类树样本的分布类别偏差很大，就会引入样本权重，这时我们就要注意这个值了。</li>
+<li>最大叶子节点数 <strong>max_leaf_nodes</strong>：<br>通过限制最大叶子节点数，可以防止过拟合，默认是 <strong><code>None</code></strong> ，即不限制最大的叶子节点数。如果加了限制，算法会建立在最大叶子节点数内最优的决策树。如果特征不多，可以不考虑这个值，但是如果特征分成多的话，可以加以限制，具体的值可以通过交叉验证得到。</li>
+<li>节点划分最小不纯度 <strong>min_impurity_split</strong>：<br>这个值限制了决策树的增长，如果某节点的不纯度（基于基尼系数，均方差）小于这个阈值，则该节点不再生成子节点。即为叶子节点 。一般不推荐改动，默认值 <code>1e-7</code>。</li>
+</ul>
+<p>上面决策树参数中最重要的包括最大特征数 <strong>max_features</strong>， 最大深度 <strong>max_depth</strong>， 内部节点再划分所需最小样本数 <strong>min_samples_split</strong> 和叶子节点最少样本数 <strong>min_samples_leaf</strong>。</p>
+<h3 id="调参实例"><a href="#调参实例" class="headerlink" title="调参实例"></a>调参实例</h3><p>我们使用社交网络数据集为例，利用 <strong><code>sklearn.grid_search</code></strong> 中的 <strong><code>GridSearchCV</code></strong> 类进行网格搜索最佳参数，现有两种调参思路。</p>
+<ul>
+<li>串行调参思路：调整一个或几个参数，固定其他参数，得到所调整参数的最优。重复以上步骤，使得每个参数都得打最优</li>
+<li>并行调参思路：参数同时进行调整，不过计算量比较大，但是一次性能够找到最好的参数</li>
+</ul>
+<h4 id="载入需要的库"><a href="#载入需要的库" class="headerlink" title="载入需要的库"></a>载入需要的库</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.grid_search <span class="keyword">import</span> GridSearchCV</span><br></pre></td></tr></table></figure>
+<h4 id="调整参数-n-estimators"><a href="#调整参数-n-estimators" class="headerlink" title="调整参数 n_estimators"></a>调整参数 n_estimators</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">param_test1 = &#123;<span class="string">'n_estimators'</span>: list(range(<span class="number">10</span>, <span class="number">71</span>, <span class="number">10</span>))&#125;</span><br><span class="line">classifier = RandomForestClassifier(n_estimators=<span class="number">10</span>,</span><br><span class="line">                                    min_samples_split=<span class="number">20</span>,</span><br><span class="line">                                    min_samples_leaf=<span class="number">2</span>,</span><br><span class="line">                                    max_depth=<span class="number">9</span>,</span><br><span class="line">                                    criterion=<span class="string">'entropy'</span>,</span><br><span class="line">                                    oob_score=<span class="keyword">True</span>,</span><br><span class="line">                                    random_state=<span class="number">0</span>)</span><br><span class="line">gsearch1 = GridSearchCV(estimator=classifier, param_grid=param_test1, scoring=<span class="string">'roc_auc'</span>, cv=<span class="number">5</span>)</span><br><span class="line">gsearch1.fit(X_train, y_train)</span><br><span class="line">print(gsearch1.grid_scores_)</span><br><span class="line">print(gsearch1.best_params_)</span><br><span class="line">print(gsearch1.best_score_)</span><br></pre></td></tr></table></figure>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[mean: 0.93815, std: 0.03733, params: &#123;&apos;n_estimators&apos;: 10&#125;, </span><br><span class="line">mean: 0.93743, std: 0.03838, params: &#123;&apos;n_estimators&apos;: 20&#125;, </span><br><span class="line">mean: 0.94205, std: 0.03770, params: &#123;&apos;n_estimators&apos;: 30&#125;, </span><br><span class="line">mean: 0.94091, std: 0.03771, params: &#123;&apos;n_estimators&apos;: 40&#125;, </span><br><span class="line">mean: 0.94160, std: 0.03842, params: &#123;&apos;n_estimators&apos;: 50&#125;, </span><br><span class="line">mean: 0.94112, std: 0.03840, params: &#123;&apos;n_estimators&apos;: 60&#125;, </span><br><span class="line">mean: 0.94042, std: 0.03757, params: &#123;&apos;n_estimators&apos;: 70&#125;]</span><br><span class="line">&#123;&apos;n_estimators&apos;: 30&#125;</span><br><span class="line">0.9420531338494724</span><br></pre></td></tr></table></figure></p>
+<h4 id="调整参数-max-depth"><a href="#调整参数-max-depth" class="headerlink" title="调整参数 max_depth"></a>调整参数 max_depth</h4><p>得到了最佳的弱学习器迭代次数为 <code>30</code> ，我们将相应参数进行修改，接着我们对决策树最大深度 <strong>max_depth</strong> 和内部节点再划分所需最小样本数 <strong>min_samples_split</strong> 进行网格搜索。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">param_test2 = &#123;<span class="string">'max_depth'</span>: list(range(<span class="number">3</span>, <span class="number">12</span>, <span class="number">1</span>)), <span class="string">'min_samples_split'</span>: list(range(<span class="number">5</span>, <span class="number">101</span>, <span class="number">5</span>))&#125;</span><br><span class="line">classifier = RandomForestClassifier(n_estimators=<span class="number">30</span>,</span><br><span class="line">                                    min_samples_leaf=<span class="number">2</span>,</span><br><span class="line">                                    criterion=<span class="string">'entropy'</span>,</span><br><span class="line">                                    oob_score=<span class="keyword">True</span>,</span><br><span class="line">                                    random_state=<span class="number">0</span>)</span><br><span class="line">gsearch2 = GridSearchCV(estimator=classifier, param_grid=param_test2, scoring=<span class="string">'roc_auc'</span>, iid=<span class="keyword">False</span>, cv=<span class="number">5</span>)</span><br><span class="line">gsearch2.fit(X_train, y_train)</span><br><span class="line">print(gsearch2.best_params_)</span><br><span class="line">print(gsearch2.best_score_)</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;max_depth&apos;: 7, &apos;min_samples_split&apos;: 20&#125;</span><br><span class="line">0.9426982890941702</span><br></pre></td></tr></table></figure></p>
+<h4 id="调整参数-min-samples-split-和-min-samples-split"><a href="#调整参数-min-samples-split-和-min-samples-split" class="headerlink" title="调整参数 min_samples_split 和 min_samples_split"></a>调整参数 min_samples_split 和 min_samples_split</h4><p>对于内部节点再划分所需最小样本数 <strong>min_samples_split</strong> ，我们暂时不能一起定下来，因为这个还和决策树其他的参数存在关联。下面我们再对内部节点再划分所需最小样本数 <strong>min_samples_split</strong> 和叶子节点最少样本数 <strong>min_samples_leaf</strong> 一起调参。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">param_test3 = &#123;<span class="string">'min_samples_split'</span>: list(range(<span class="number">5</span>, <span class="number">51</span>, <span class="number">5</span>)), <span class="string">'min_samples_leaf'</span>: list(range(<span class="number">5</span>, <span class="number">51</span>, <span class="number">5</span>))&#125;</span><br><span class="line">classifier = RandomForestClassifier(n_estimators=<span class="number">30</span>,</span><br><span class="line">                                    max_depth=<span class="number">7</span>,</span><br><span class="line">                                    criterion=<span class="string">'entropy'</span>,</span><br><span class="line">                                    oob_score=<span class="keyword">True</span>,</span><br><span class="line">                                    random_state=<span class="number">0</span>)</span><br><span class="line">gsearch3 = GridSearchCV(estimator=classifier, param_grid=param_test3, scoring=<span class="string">'roc_auc'</span>, iid=<span class="keyword">False</span>, cv=<span class="number">5</span>)</span><br><span class="line">gsearch3.fit(X_train, y_train)</span><br><span class="line">print(gsearch3.best_params_)</span><br><span class="line">print(gsearch3.best_score_)</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;min_samples_leaf&apos;: 5, &apos;min_samples_split&apos;: 30&#125;</span><br><span class="line">0.9419350440517489</span><br></pre></td></tr></table></figure></p>
+<p>至此相关参数已调整完毕，不过这种串行调优方式并不能一次性找到最好的解。我们可以将参数可选的值一次性的导入网格，使得所有参数调优同步进行，但是这样会降低程序运行的效率，可能需要大量的计算资源。如果算力强大，还是值得一试的。</p>
+<h4 id="同步调参"><a href="#同步调参" class="headerlink" title="同步调参"></a>同步调参</h4><p>同步进行调参时，我本地电脑的程序根本无法运行，无奈把代码放到学校的服务器上用两个 <strong>GPU</strong> 同时跑的程序。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.grid_search <span class="keyword">import</span> GridSearchCV</span><br><span class="line"><span class="comment"># from sklearn.model_selection import GridSearchCV</span></span><br><span class="line">param_test = &#123;<span class="string">'n_estimators'</span>: list(range(<span class="number">10</span>, <span class="number">71</span>, <span class="number">5</span>)), </span><br><span class="line">               <span class="string">'max_depth'</span>: list(range(<span class="number">3</span>, <span class="number">12</span>, <span class="number">1</span>)), </span><br><span class="line">               <span class="string">'min_samples_split'</span>: list(range(<span class="number">2</span>, <span class="number">51</span>, <span class="number">2</span>)),</span><br><span class="line">               <span class="string">'min_samples_leaf'</span>: list(range(<span class="number">2</span>, <span class="number">51</span>, <span class="number">2</span>))&#125;</span><br><span class="line">classifier = RandomForestClassifier(</span><br><span class="line"><span class="comment">#                                     n_estimators=30,</span></span><br><span class="line"><span class="comment">#                                     min_samples_split=20,</span></span><br><span class="line"><span class="comment">#                                     min_samples_leaf=2,</span></span><br><span class="line"><span class="comment">#                                     max_depth=7,</span></span><br><span class="line">                                    criterion=<span class="string">'entropy'</span>,</span><br><span class="line">                                    oob_score=<span class="keyword">True</span>,</span><br><span class="line">                                    random_state=<span class="number">0</span>)</span><br><span class="line">gsearch = GridSearchCV(estimator=classifier, param_grid=param_test, scoring=<span class="string">'roc_auc'</span>, iid=<span class="keyword">False</span>, cv=<span class="number">5</span>, n_jobs=<span class="number">-1</span>)</span><br><span class="line">gsearch.fit(X_train, y_train)</span><br><span class="line">print(gsearch.best_params_)</span><br><span class="line">print(gsearch.best_score_)</span><br></pre></td></tr></table></figure></p>
+<p>输出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;max_depth&apos;: 4, &apos;min_samples_leaf&apos;: 16, &apos;min_samples_split&apos;: 34, &apos;n_estimators&apos;: 55&#125;</span><br><span class="line">0.9471759933430413</span><br></pre></td></tr></table></figure></p>
+<p>对比了一下同步调参和之前的调参结果，相差很大有没有，当参数组合起来进行同时调整的结果会跟一个一个调整参数有很大的出入。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/随机森林/" rel="tag"># 随机森林</a>
+          
+            <a href="/tags/Random-Forests/" rel="tag"># Random Forests</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/26/机器学习实战-决策树/" rel="next" title="机器学习实战-决策树">
+                <i class="fa fa-chevron-left"></i> 机器学习实战-决策树
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/27/机器学习实战-集成学习/" rel="prev" title="机器学习实战-集成学习">
+                机器学习实战-集成学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#随机森林（决策树）模型"><span class="nav-number">1.</span> <span class="nav-text">随机森林（决策树）模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集"><span class="nav-number">1.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入库"><span class="nav-number">1.2.</span> <span class="nav-text">导入库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入数据集"><span class="nav-number">1.3.</span> <span class="nav-text">导入数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将数据集拆分成训练集和测试集"><span class="nav-number">1.4.</span> <span class="nav-text">将数据集拆分成训练集和测试集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征缩放"><span class="nav-number">1.5.</span> <span class="nav-text">特征缩放</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调试训练集的随机森林"><span class="nav-number">1.6.</span> <span class="nav-text">调试训练集的随机森林</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预测测试集结果"><span class="nav-number">1.7.</span> <span class="nav-text">预测测试集结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成混淆矩阵，以及准确率、召回率分析结果"><span class="nav-number">1.8.</span> <span class="nav-text">生成混淆矩阵，以及准确率、召回率分析结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果可视化"><span class="nav-number">1.9.</span> <span class="nav-text">结果可视化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#将训练集结果可视化"><span class="nav-number">1.9.1.</span> <span class="nav-text">将训练集结果可视化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将测试集结果可视化"><span class="nav-number">1.9.2.</span> <span class="nav-text">将测试集结果可视化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#随机森林（回归树）模型"><span class="nav-number">2.</span> <span class="nav-text">随机森林（回归树）模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调参-★"><span class="nav-number">3.</span> <span class="nav-text">调参 ★</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RF-框架参数"><span class="nav-number">3.1.</span> <span class="nav-text">RF 框架参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RF-决策树参数"><span class="nav-number">3.2.</span> <span class="nav-text">RF 决策树参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调参实例"><span class="nav-number">3.3.</span> <span class="nav-text">调参实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#载入需要的库"><span class="nav-number">3.3.1.</span> <span class="nav-text">载入需要的库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调整参数-n-estimators"><span class="nav-number">3.3.2.</span> <span class="nav-text">调整参数 n_estimators</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调整参数-max-depth"><span class="nav-number">3.3.3.</span> <span class="nav-text">调整参数 max_depth</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调整参数-min-samples-split-和-min-samples-split"><span class="nav-number">3.3.4.</span> <span class="nav-text">调整参数 min_samples_split 和 min_samples_split</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同步调参"><span class="nav-number">3.3.5.</span> <span class="nav-text">同步调参</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

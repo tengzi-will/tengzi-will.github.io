@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,线性回归,Linear Regression,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="简单线性回归模型 数据集每一行数据表示一个学生的学习时间和考试分数。|Hours    |Scores ||——-|——-||2.5    |21     ||5.1    |47     ||3.2    |27     ||8.5    |75     ||3.5    |30     ||1.5    |20     ||9.2    |88     ||5.5    |60     ||8">
+<meta name="keywords" content="机器学习,线性回归,Linear Regression">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习实战-线性回归">
+<meta property="og:url" content="http://yoursite.com/2019/04/25/机器学习实战-线性回归/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="简单线性回归模型 数据集每一行数据表示一个学生的学习时间和考试分数。|Hours    |Scores ||——-|——-||2.5    |21     ||5.1    |47     ||3.2    |27     ||8.5    |75     ||3.5    |30     ||1.5    |20     ||9.2    |88     ||5.5    |60     ||8">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/04/25/5cc147465bc5f.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/25/5cc1532d3155f.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/25/5cc1569e6cb2f.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/25/5cc158152d187.png">
+<meta property="og:updated_time" content="2019-04-25T08:06:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习实战-线性回归">
+<meta name="twitter:description" content="简单线性回归模型 数据集每一行数据表示一个学生的学习时间和考试分数。|Hours    |Scores ||——-|——-||2.5    |21     ||5.1    |47     ||3.2    |27     ||8.5    |75     ||3.5    |30     ||1.5    |20     ||9.2    |88     ||5.5    |60     ||8">
+<meta name="twitter:image" content="https://i.loli.net/2019/04/25/5cc147465bc5f.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/25/机器学习实战-线性回归/">
+
+
+
+
+
+  <title>机器学习实战-线性回归 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/25/机器学习实战-线性回归/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习实战-线性回归</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-25T13:25:44+08:00">
+                2019-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/算法实战/" itemprop="url" rel="index">
+                    <span itemprop="name">算法实战</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="简单线性回归模型"><a href="#简单线性回归模型" class="headerlink" title="简单线性回归模型"></a>简单线性回归模型</h2><p><img src="https://i.loli.net/2019/04/25/5cc147465bc5f.png" alt="01_Simple_Linear_Regression"></p>
+<h3 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h3><p>每一行数据表示一个学生的<strong>学习时间</strong>和<strong>考试分数</strong>。<br>|Hours    |Scores |<br>|——-|——-|<br>|2.5    |21     |<br>|5.1    |47     |<br>|3.2    |27     |<br>|8.5    |75     |<br>|3.5    |30     |<br>|1.5    |20     |<br>|9.2    |88     |<br>|5.5    |60     |<br>|8.3    |81     |<br>|2.7    |25     |<br>|7.7    |85     |<br>|5.9    |62     |<br>|4.5    |41     |<br>|3.3    |42     |<br>|1.1    |17     |<br>|8.9    |95     |<br>|2.5    |30     |<br>|1.9    |24     |<br>|6.1    |67     |<br>|7.4    |69     |<br>|2.7    |30     |<br>|4.8    |54     |<br>|3.8    |35     |<br>|6.9    |76     |<br>|7.8    |86     |</p>
+<h3 id="第-1-步：数据预处理"><a href="#第-1-步：数据预处理" class="headerlink" title="第 1 步：数据预处理"></a>第 1 步：数据预处理</h3><p>这里导入我们需要的库，值得注意的是，这里多了一个 <strong><code>matplotlib.pyplot</code></strong>, <strong><code>matplotlib</code></strong> 是 <strong>python</strong> 上的一个 <strong>2D</strong> 绘图库, <strong><code>matplotlib</code></strong> 下的模块 <strong><code>pyplot</code></strong> 是一个有命令样式的函数集合， <strong><code>matplotlib.pyplot</code></strong> 是为我们对结果进行图像化作准备的。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br></pre></td></tr></table></figure></p>
+<h4 id="导入相关数据"><a href="#导入相关数据" class="headerlink" title="导入相关数据"></a>导入相关数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataset = pd.read_csv(<span class="string">'studentscores.csv'</span>)</span><br></pre></td></tr></table></figure>
+<p>打印数据集，运行代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">    Hours  Scores</span><br><span class="line">0     2.5      21</span><br><span class="line">1     5.1      47</span><br><span class="line">2     3.2      27</span><br><span class="line">3     8.5      75</span><br><span class="line">4     3.5      30</span><br><span class="line">5     1.5      20</span><br><span class="line">6     9.2      88</span><br><span class="line">7     5.5      60</span><br><span class="line">8     8.3      81</span><br><span class="line">9     2.7      25</span><br><span class="line">10    7.7      85</span><br><span class="line">11    5.9      62</span><br><span class="line">12    4.5      41</span><br><span class="line">13    3.3      42</span><br><span class="line">14    1.1      17</span><br><span class="line">15    8.9      95</span><br><span class="line">16    2.5      30</span><br><span class="line">17    1.9      24</span><br><span class="line">18    6.1      67</span><br><span class="line">19    7.4      69</span><br><span class="line">20    2.7      30</span><br><span class="line">21    4.8      54</span><br><span class="line">22    3.8      35</span><br><span class="line">23    6.9      76</span><br><span class="line">24    7.8      86</span><br></pre></td></tr></table></figure></p>
+<h4 id="切分数据为输入特征-X-与标签-Y"><a href="#切分数据为输入特征-X-与标签-Y" class="headerlink" title="切分数据为输入特征 X 与标签 Y"></a>切分数据为输入特征 X 与标签 Y</h4><p>这里我们需要使用 <strong><code>pandas</code></strong> 的 <strong><code>iloc</code></strong>(区分于 <strong><code>loc</code></strong> 根据 <strong><code>index</code></strong> 来索引， <strong><code>iloc</code></strong> 利用行号来索引)方法来对数据进行处理，第一个参数为行号，<strong><code>:</code></strong> 表示全部行，第二个参数 <strong><code>：1</code></strong> 表示截到第 <strong><code>1</code></strong> 列(也就是取第 <strong><code>0</code></strong> 列)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X = dataset.iloc[:, : <span class="number">1</span>].values</span><br><span class="line">Y = dataset.iloc[:, <span class="number">1</span>].values</span><br></pre></td></tr></table></figure></p>
+<p>打印 <code>X</code> 和 <code>Y</code> 运行结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">X:</span><br><span class="line">[[2.5]</span><br><span class="line"> [5.1]</span><br><span class="line"> [3.2]</span><br><span class="line"> [8.5]</span><br><span class="line"> [3.5]</span><br><span class="line"> [1.5]</span><br><span class="line"> [9.2]</span><br><span class="line"> [5.5]</span><br><span class="line"> [8.3]</span><br><span class="line"> [2.7]</span><br><span class="line"> [7.7]</span><br><span class="line"> [5.9]</span><br><span class="line"> [4.5]</span><br><span class="line"> [3.3]</span><br><span class="line"> [1.1]</span><br><span class="line"> [8.9]</span><br><span class="line"> [2.5]</span><br><span class="line"> [1.9]</span><br><span class="line"> [6.1]</span><br><span class="line"> [7.4]</span><br><span class="line"> [2.7]</span><br><span class="line"> [4.8]</span><br><span class="line"> [3.8]</span><br><span class="line"> [6.9]</span><br><span class="line"> [7.8]]</span><br><span class="line">Y:</span><br><span class="line">[21 47 27 75 30 20 88 60 81 25 85 62 41 42 17 95 30 24 67 69 30 54 35 76 86]</span><br></pre></td></tr></table></figure></p>
+<h4 id="划分训练集与测试集"><a href="#划分训练集与测试集" class="headerlink" title="划分训练集与测试集"></a>划分训练集与测试集</h4><p>导入 <strong><code>sklearn</code></strong> 库的 <strong><code>cross_validation</code></strong> 类来对数据进行训练集、测试集划分<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line">X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=<span class="number">1</span>/<span class="number">4</span>, random_state=<span class="number">0</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="第-2-步：训练集使用简单线性回归模型来训练"><a href="#第-2-步：训练集使用简单线性回归模型来训练" class="headerlink" title="第 2 步：训练集使用简单线性回归模型来训练"></a>第 2 步：训练集使用简单线性回归模型来训练</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line">regressor = LinearRegression()</span><br><span class="line">regressor = regressor.fit(X_train, Y_train)</span><br></pre></td></tr></table></figure>
+<h3 id="第-3-步：预测结果"><a href="#第-3-步：预测结果" class="headerlink" title="第 3 步：预测结果"></a>第 3 步：预测结果</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Y_pred = regressor.predict(X_test)</span><br></pre></td></tr></table></figure>
+<h3 id="第-4-步：可视化"><a href="#第-4-步：可视化" class="headerlink" title="第 4 步：可视化"></a>第 4 步：可视化</h3><h4 id="训练集结果可视化"><a href="#训练集结果可视化" class="headerlink" title="训练集结果可视化"></a>训练集结果可视化</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 散点图</span></span><br><span class="line">plt.scatter(X_train, Y_train, color=<span class="string">'red'</span>)</span><br><span class="line"><span class="comment"># 线图</span></span><br><span class="line">plt.plot(X_train, regressor.predict(X_train), color=<span class="string">'blue'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>运行结果如下图所示：<br><img src="https://i.loli.net/2019/04/25/5cc1532d3155f.png" alt="02_train"></p>
+<h4 id="测试集结果可视化"><a href="#测试集结果可视化" class="headerlink" title="测试集结果可视化"></a>测试集结果可视化</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 散点图</span></span><br><span class="line">plt.scatter(X_test, Y_test, color=<span class="string">'red'</span></span><br><span class="line"><span class="comment"># 线图</span></span><br><span class="line">plt.plot(X_test, Y_pred, color=<span class="string">'blue'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>测试集结果如下图所示：<br><img src="https://i.loli.net/2019/04/25/5cc1569e6cb2f.png" alt="03_test"></p>
+<h2 id="多元线性回归"><a href="#多元线性回归" class="headerlink" title="多元线性回归"></a>多元线性回归</h2><p><img src="https://i.loli.net/2019/04/25/5cc158152d187.png" alt="04_Multiple Linear Regression"></p>
+<h3 id="数据集-1"><a href="#数据集-1" class="headerlink" title="数据集"></a>数据集</h3><table>
+<thead>
+<tr>
+<th>R&amp;D Spend</th>
+<th>Administration</th>
+<th>Marketing Spend</th>
+<th>State</th>
+<th>Profit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>165349.2</td>
+<td>136897.8</td>
+<td>471784.1</td>
+<td>New York</td>
+<td>192261.83</td>
+</tr>
+<tr>
+<td>162597.7</td>
+<td>151377.59</td>
+<td>443898.53</td>
+<td>California</td>
+<td>191792.06</td>
+</tr>
+<tr>
+<td>153441.51</td>
+<td>101145.55</td>
+<td>407934.54</td>
+<td>Florida</td>
+<td>191050.39</td>
+</tr>
+<tr>
+<td>144372.41</td>
+<td>118671.85</td>
+<td>383199.62</td>
+<td>New York</td>
+<td>182901.99</td>
+</tr>
+<tr>
+<td>142107.34</td>
+<td>91391.77</td>
+<td>366168.42</td>
+<td>Florida</td>
+<td>166187.94</td>
+</tr>
+<tr>
+<td>131876.9</td>
+<td>99814.71</td>
+<td>362861.36</td>
+<td>New York</td>
+<td>156991.12</td>
+</tr>
+<tr>
+<td>134615.46</td>
+<td>147198.87</td>
+<td>127716.82</td>
+<td>California</td>
+<td>156122.51</td>
+</tr>
+<tr>
+<td>130298.13</td>
+<td>145530.06</td>
+<td>323876.68</td>
+<td>Florida</td>
+<td>155752.6</td>
+</tr>
+<tr>
+<td>120542.52</td>
+<td>148718.95</td>
+<td>311613.29</td>
+<td>New York</td>
+<td>152211.77</td>
+</tr>
+<tr>
+<td>123334.88</td>
+<td>108679.17</td>
+<td>304981.62</td>
+<td>California</td>
+<td>149759.96</td>
+</tr>
+<tr>
+<td>101913.08</td>
+<td>110594.11</td>
+<td>229160.95</td>
+<td>Florida</td>
+<td>146121.95</td>
+</tr>
+<tr>
+<td>100671.96</td>
+<td>91790.61</td>
+<td>249744.55</td>
+<td>California</td>
+<td>144259.4</td>
+</tr>
+<tr>
+<td>93863.75</td>
+<td>127320.38</td>
+<td>249839.44</td>
+<td>Florida</td>
+<td>141585.52</td>
+</tr>
+<tr>
+<td>91992.39</td>
+<td>135495.07</td>
+<td>252664.93</td>
+<td>California</td>
+<td>134307.35</td>
+</tr>
+<tr>
+<td>119943.24</td>
+<td>156547.42</td>
+<td>256512.92</td>
+<td>Florida</td>
+<td>132602.65</td>
+</tr>
+<tr>
+<td>114523.61</td>
+<td>122616.84</td>
+<td>261776.23</td>
+<td>New York</td>
+<td>129917.04</td>
+</tr>
+<tr>
+<td>78013.11</td>
+<td>121597.55</td>
+<td>264346.06</td>
+<td>California</td>
+<td>126992.93</td>
+</tr>
+<tr>
+<td>94657.16</td>
+<td>145077.58</td>
+<td>282574.31</td>
+<td>New York</td>
+<td>125370.37</td>
+</tr>
+<tr>
+<td>91749.16</td>
+<td>114175.79</td>
+<td>294919.57</td>
+<td>Florida</td>
+<td>124266.9</td>
+</tr>
+<tr>
+<td>86419.7</td>
+<td>153514.11</td>
+<td>0</td>
+<td>New York</td>
+<td>122776.86</td>
+</tr>
+<tr>
+<td>76253.86</td>
+<td>113867.3</td>
+<td>298664.47</td>
+<td>California</td>
+<td>118474.03</td>
+</tr>
+<tr>
+<td>78389.47</td>
+<td>153773.43</td>
+<td>299737.29</td>
+<td>New York</td>
+<td>111313.02</td>
+</tr>
+<tr>
+<td>73994.56</td>
+<td>122782.75</td>
+<td>303319.26</td>
+<td>Florida</td>
+<td>110352.25</td>
+</tr>
+<tr>
+<td>67532.53</td>
+<td>105751.03</td>
+<td>304768.73</td>
+<td>Florida</td>
+<td>108733.99</td>
+</tr>
+<tr>
+<td>77044.01</td>
+<td>99281.34</td>
+<td>140574.81</td>
+<td>New York</td>
+<td>108552.04</td>
+</tr>
+<tr>
+<td>64664.71</td>
+<td>139553.16</td>
+<td>137962.62</td>
+<td>California</td>
+<td>107404.34</td>
+</tr>
+<tr>
+<td>75328.87</td>
+<td>144135.98</td>
+<td>134050.07</td>
+<td>Florida</td>
+<td>105733.54</td>
+</tr>
+<tr>
+<td>72107.6</td>
+<td>127864.55</td>
+<td>353183.81</td>
+<td>New York</td>
+<td>105008.31</td>
+</tr>
+<tr>
+<td>66051.52</td>
+<td>182645.56</td>
+<td>118148.2</td>
+<td>Florida</td>
+<td>103282.38</td>
+</tr>
+<tr>
+<td>65605.48</td>
+<td>153032.06</td>
+<td>107138.38</td>
+<td>New York</td>
+<td>101004.64</td>
+</tr>
+<tr>
+<td>61994.48</td>
+<td>115641.28</td>
+<td>91131.24</td>
+<td>Florida</td>
+<td>99937.59</td>
+</tr>
+<tr>
+<td>61136.38</td>
+<td>152701.92</td>
+<td>88218.23</td>
+<td>New York</td>
+<td>97483.56</td>
+</tr>
+<tr>
+<td>63408.86</td>
+<td>129219.61</td>
+<td>46085.25</td>
+<td>California</td>
+<td>97427.84</td>
+</tr>
+<tr>
+<td>55493.95</td>
+<td>103057.49</td>
+<td>214634.81</td>
+<td>Florida</td>
+<td>96778.92</td>
+</tr>
+<tr>
+<td>46426.07</td>
+<td>157693.92</td>
+<td>210797.67</td>
+<td>California</td>
+<td>96712.8</td>
+</tr>
+<tr>
+<td>46014.02</td>
+<td>85047.44</td>
+<td>205517.64</td>
+<td>New York</td>
+<td>96479.51</td>
+</tr>
+<tr>
+<td>28663.76</td>
+<td>127056.21</td>
+<td>201126.82</td>
+<td>Florida</td>
+<td>90708.19</td>
+</tr>
+<tr>
+<td>44069.95</td>
+<td>51283.14</td>
+<td>197029.42</td>
+<td>California</td>
+<td>89949.14</td>
+</tr>
+<tr>
+<td>20229.59</td>
+<td>65947.93</td>
+<td>185265.1</td>
+<td>New York</td>
+<td>81229.06</td>
+</tr>
+<tr>
+<td>38558.51</td>
+<td>82982.09</td>
+<td>174999.3</td>
+<td>California</td>
+<td>81005.76</td>
+<td></td>
+</tr>
+<tr>
+<td>28754.33</td>
+<td>118546.05</td>
+<td>172795.67</td>
+<td>California</td>
+<td>78239.91</td>
+</tr>
+<tr>
+<td>27892.92</td>
+<td>84710.77</td>
+<td>164470.71</td>
+<td>Florida</td>
+<td>77798.83</td>
+</tr>
+<tr>
+<td>23640.93</td>
+<td>96189.63</td>
+<td>148001.11</td>
+<td>California</td>
+<td>71498.49</td>
+</tr>
+<tr>
+<td>15505.73</td>
+<td>127382.3</td>
+<td>35534.17</td>
+<td>New York</td>
+<td>69758.98</td>
+</tr>
+<tr>
+<td>22177.74</td>
+<td>154806.14</td>
+<td>28334.72</td>
+<td>California</td>
+<td>65200.33</td>
+</tr>
+<tr>
+<td>1000.23</td>
+<td>124153.04</td>
+<td>1903.93</td>
+<td>New York</td>
+<td>64926.08</td>
+</tr>
+<tr>
+<td>1315.46</td>
+<td>115816.21</td>
+<td>297114.46</td>
+<td>Florida</td>
+<td>49490.75</td>
+</tr>
+<tr>
+<td>0</td>
+<td>135426.92</td>
+<td>0</td>
+<td>California</td>
+<td>42559.73</td>
+</tr>
+<tr>
+<td>542.05</td>
+<td>51743.15</td>
+<td>0</td>
+<td>New York</td>
+<td>35673.41</td>
+</tr>
+<tr>
+<td>0</td>
+<td>116983.8</td>
+<td>45173.06</td>
+<td>California</td>
+<td>14681.4</td>
+</tr>
+</tbody>
+</table>
+<h3 id="第-1-步-数据预处理"><a href="#第-1-步-数据预处理" class="headerlink" title="第 1 步: 数据预处理"></a>第 1 步: 数据预处理</h3><h4 id="导入库"><a href="#导入库" class="headerlink" title="导入库"></a>导入库</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
+<h4 id="导入数据集"><a href="#导入数据集" class="headerlink" title="导入数据集"></a>导入数据集</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dataset = pd.read_csv(<span class="string">'50_Startups.csv'</span>)</span><br><span class="line">X = dataset.iloc[:, : <span class="number">-1</span>].values</span><br><span class="line">Y = dataset.iloc[:, <span class="number">4</span>].values</span><br></pre></td></tr></table></figure>
+<p>通过 <strong><code>print(X[:10])</code></strong> <strong><code>print(Y[:10])</code></strong> 打印 <code>X</code> 和 <code>Y</code> 前 <code>10</code> 行数据<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">X前10行数据</span><br><span class="line">[[165349.2 136897.8 471784.1 &apos;New York&apos;]</span><br><span class="line"> [162597.7 151377.59 443898.53 &apos;California&apos;]</span><br><span class="line"> [153441.51 101145.55 407934.54 &apos;Florida&apos;]</span><br><span class="line"> [144372.41 118671.85 383199.62 &apos;New York&apos;]</span><br><span class="line"> [142107.34 91391.77 366168.42 &apos;Florida&apos;]</span><br><span class="line"> [131876.9 99814.71 362861.36 &apos;New York&apos;]</span><br><span class="line"> [134615.46 147198.87 127716.82 &apos;California&apos;]</span><br><span class="line"> [130298.13 145530.06 323876.68 &apos;Florida&apos;]</span><br><span class="line"> [120542.52 148718.95 311613.29 &apos;New York&apos;]</span><br><span class="line"> [123334.88 108679.17 304981.62 &apos;California&apos;]]</span><br><span class="line">Y前10行数据</span><br><span class="line">[192261.83 191792.06 191050.39 182901.99 166187.94 156991.12 156122.51</span><br><span class="line"> 155752.6  152211.77 149759.96]</span><br></pre></td></tr></table></figure></p>
+<h4 id="将类别数据数字化"><a href="#将类别数据数字化" class="headerlink" title="将类别数据数字化"></a>将类别数据数字化</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> LabelEncoder, OneHotEncoder</span><br><span class="line">labelencoder = LabelEncoder()</span><br><span class="line">X[:, <span class="number">3</span>] = labelencoder.fit_transform(X[:, <span class="number">3</span>])</span><br><span class="line">onehotencoder = OneHotEncoder(categorical_features=[<span class="number">3</span>])</span><br><span class="line">X = onehotencoder.fit_transform(X).toarray()</span><br></pre></td></tr></table></figure>
+<p>分别打印 <strong><code>labelencoder</code></strong> 和 <strong><code>onehotencoder</code></strong> 处理后 <code>X</code> 的前 <code>10</code> 行结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">labelencoder:</span><br><span class="line">[[165349.2 136897.8 471784.1 2]</span><br><span class="line"> [162597.7 151377.59 443898.53 0]</span><br><span class="line"> [153441.51 101145.55 407934.54 1]</span><br><span class="line"> [144372.41 118671.85 383199.62 2]</span><br><span class="line"> [142107.34 91391.77 366168.42 1]</span><br><span class="line"> [131876.9 99814.71 362861.36 2]</span><br><span class="line"> [134615.46 147198.87 127716.82 0]</span><br><span class="line"> [130298.13 145530.06 323876.68 1]</span><br><span class="line"> [120542.52 148718.95 311613.29 2]</span><br><span class="line"> [123334.88 108679.17 304981.62 0]]</span><br><span class="line">onehot:</span><br><span class="line">[[0.0000000e+00 0.0000000e+00 1.0000000e+00 1.6534920e+05 1.3689780e+05</span><br><span class="line">  4.7178410e+05]</span><br><span class="line"> [1.0000000e+00 0.0000000e+00 0.0000000e+00 1.6259770e+05 1.5137759e+05</span><br><span class="line">  4.4389853e+05]</span><br><span class="line"> [0.0000000e+00 1.0000000e+00 0.0000000e+00 1.5344151e+05 1.0114555e+05</span><br><span class="line">  4.0793454e+05]</span><br><span class="line"> [0.0000000e+00 0.0000000e+00 1.0000000e+00 1.4437241e+05 1.1867185e+05</span><br><span class="line">  3.8319962e+05]</span><br><span class="line"> [0.0000000e+00 1.0000000e+00 0.0000000e+00 1.4210734e+05 9.1391770e+04</span><br><span class="line">  3.6616842e+05]</span><br><span class="line"> [0.0000000e+00 0.0000000e+00 1.0000000e+00 1.3187690e+05 9.9814710e+04</span><br><span class="line">  3.6286136e+05]</span><br><span class="line"> [1.0000000e+00 0.0000000e+00 0.0000000e+00 1.3461546e+05 1.4719887e+05</span><br><span class="line">  1.2771682e+05]</span><br><span class="line"> [0.0000000e+00 1.0000000e+00 0.0000000e+00 1.3029813e+05 1.4553006e+05</span><br><span class="line">  3.2387668e+05]</span><br><span class="line"> [0.0000000e+00 0.0000000e+00 1.0000000e+00 1.2054252e+05 1.4871895e+05</span><br><span class="line">  3.1161329e+05]</span><br><span class="line"> [1.0000000e+00 0.0000000e+00 0.0000000e+00 1.2333488e+05 1.0867917e+05</span><br><span class="line">  3.0498162e+05]]</span><br></pre></td></tr></table></figure></p>
+<h4 id="躲避虚拟变量陷阱"><a href="#躲避虚拟变量陷阱" class="headerlink" title="躲避虚拟变量陷阱"></a>躲避虚拟变量陷阱</h4><p>在回归预测中我们需要所有的数据都是 <strong>numeric</strong> 的，但是会有一些非 <strong>numeric</strong> 的数据，比如国家，省，部门，性别。这时候我们需要设置虚拟变量（<strong>Dummy variable</strong>）。做法是将此变量中的每一个值，衍生成为新的变量，是设为 <strong>1</strong>，否设为 <strong>0</strong>。举个例子，“性别”这个变量,我们可以虚拟出“男”和”女”两虚拟变量，男性的话“男”值为 <strong>1</strong>，”女”值为 <strong>0</strong>；女性的话“男”值为 <strong>0</strong>，”女”值为 <strong>1</strong>。</p>
+<p>但是要注意，这时候虚拟变量陷阱就出现了。就拿性别来说，其实一个虚拟变量就够了，比如 <strong>1</strong> 的时候是“男”， <strong>0</strong> 的时候是”非男”，即为女。如果设置两个虚拟变量“男”和“女”，语义上来说没有问题，可以理解，但是在回归预测中会多出一个变量，多出的这个变量将会对回归预测结果产生影响。一般来说，如果虚拟变量要比实际变量的种类少一个。</p>
+<p>在多重线性回归中，变量不是越多越好，而是选择适合的变量。这样才会对结果准确预测。如果 <strong>category</strong> 类的特征都放进去，拟合的时候，所有权重的计算，都可以有两种方法实现，一种是提高某个 <strong>category</strong> 的 <strong>w</strong>，一种是降低其他 <strong>category</strong> 的 <strong>w</strong>，这两种效果是等效的，也就是发生了共线性，虚拟变量系数相加和为 <strong>1</strong>，出现 <strong>完全共线陷阱</strong>。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">X = X[:, <span class="number">1</span>:]</span><br></pre></td></tr></table></figure></p>
+<h4 id="拆分数据集为训练集和测试集"><a href="#拆分数据集为训练集和测试集" class="headerlink" title="拆分数据集为训练集和测试集"></a>拆分数据集为训练集和测试集</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line">X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=<span class="number">0.2</span>, random_state=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="第-2-步：-在训练集上训练多元线性回归模型"><a href="#第-2-步：-在训练集上训练多元线性回归模型" class="headerlink" title="第 2 步： 在训练集上训练多元线性回归模型"></a>第 2 步： 在训练集上训练多元线性回归模型</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line">regressor = LinearRegression()</span><br><span class="line">regressor.fit(X_train, Y_train)</span><br></pre></td></tr></table></figure>
+<h3 id="第-3-步：-在测试集上预测结果"><a href="#第-3-步：-在测试集上预测结果" class="headerlink" title="第 3 步： 在测试集上预测结果"></a>第 3 步： 在测试集上预测结果</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y_pred = regressor.predict(X_test)</span><br></pre></td></tr></table></figure>
+<p>打印预测结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">y_pred:</span><br><span class="line">[103015.20159795 132582.27760816 132447.73845175  71976.09851258</span><br><span class="line"> 178537.48221056 116161.24230165  67851.69209676  98791.73374687</span><br><span class="line"> 113969.43533013 167921.06569552]</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://github.com/Avik-Jain/100-Days-Of-ML-Code" target="_blank" rel="noopener">机器学习100天</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/线性回归/" rel="tag"># 线性回归</a>
+          
+            <a href="/tags/Linear-Regression/" rel="tag"># Linear Regression</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/25/机器学习实战-数据预处理/" rel="next" title="机器学习实战-数据预处理">
+                <i class="fa fa-chevron-left"></i> 机器学习实战-数据预处理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/25/机器学习实战-逻辑回归/" rel="prev" title="机器学习实战-逻辑回归">
+                机器学习实战-逻辑回归 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简单线性回归模型"><span class="nav-number">1.</span> <span class="nav-text">简单线性回归模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集"><span class="nav-number">1.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-1-步：数据预处理"><span class="nav-number">1.2.</span> <span class="nav-text">第 1 步：数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#导入相关数据"><span class="nav-number">1.2.1.</span> <span class="nav-text">导入相关数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#切分数据为输入特征-X-与标签-Y"><span class="nav-number">1.2.2.</span> <span class="nav-text">切分数据为输入特征 X 与标签 Y</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#划分训练集与测试集"><span class="nav-number">1.2.3.</span> <span class="nav-text">划分训练集与测试集</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-2-步：训练集使用简单线性回归模型来训练"><span class="nav-number">1.3.</span> <span class="nav-text">第 2 步：训练集使用简单线性回归模型来训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-3-步：预测结果"><span class="nav-number">1.4.</span> <span class="nav-text">第 3 步：预测结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-4-步：可视化"><span class="nav-number">1.5.</span> <span class="nav-text">第 4 步：可视化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#训练集结果可视化"><span class="nav-number">1.5.1.</span> <span class="nav-text">训练集结果可视化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试集结果可视化"><span class="nav-number">1.5.2.</span> <span class="nav-text">测试集结果可视化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多元线性回归"><span class="nav-number">2.</span> <span class="nav-text">多元线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集-1"><span class="nav-number">2.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-1-步-数据预处理"><span class="nav-number">2.2.</span> <span class="nav-text">第 1 步: 数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#导入库"><span class="nav-number">2.2.1.</span> <span class="nav-text">导入库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入数据集"><span class="nav-number">2.2.2.</span> <span class="nav-text">导入数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将类别数据数字化"><span class="nav-number">2.2.3.</span> <span class="nav-text">将类别数据数字化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#躲避虚拟变量陷阱"><span class="nav-number">2.2.4.</span> <span class="nav-text">躲避虚拟变量陷阱</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#拆分数据集为训练集和测试集"><span class="nav-number">2.2.5.</span> <span class="nav-text">拆分数据集为训练集和测试集</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-2-步：-在训练集上训练多元线性回归模型"><span class="nav-number">2.3.</span> <span class="nav-text">第 2 步： 在训练集上训练多元线性回归模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-3-步：-在测试集上预测结果"><span class="nav-number">2.4.</span> <span class="nav-text">第 3 步： 在测试集上预测结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">3.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

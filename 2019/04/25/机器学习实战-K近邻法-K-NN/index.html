@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,K近邻法,KNN,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="数据集 | 社交网络 第 1 步：导入相关库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 第 2 步：导入数据集123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2, 3]].valuesy = datase">
+<meta name="keywords" content="机器学习,K近邻法,KNN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习实战-K近邻法 K-NN">
+<meta property="og:url" content="http://yoursite.com/2019/04/25/机器学习实战-K近邻法-K-NN/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="数据集 | 社交网络 第 1 步：导入相关库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 第 2 步：导入数据集123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2, 3]].valuesy = datase">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/04/25/5cc176b798f0e.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/25/5cc178de8d35b.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/27/5cc40774b3dc7.png">
+<meta property="og:image" content="https://i.loli.net/2019/04/27/5cc407745e4c2.png">
+<meta property="og:updated_time" content="2019-04-27T07:38:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习实战-K近邻法 K-NN">
+<meta name="twitter:description" content="数据集 | 社交网络 第 1 步：导入相关库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 第 2 步：导入数据集123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2, 3]].valuesy = datase">
+<meta name="twitter:image" content="https://i.loli.net/2019/04/25/5cc176b798f0e.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/25/机器学习实战-K近邻法-K-NN/">
+
+
+
+
+
+  <title>机器学习实战-K近邻法 K-NN | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/25/机器学习实战-K近邻法-K-NN/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">机器学习实战-K近邻法 K-NN</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-25T16:50:42+08:00">
+                2019-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/算法实战/" itemprop="url" rel="index">
+                    <span itemprop="name">算法实战</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://i.loli.net/2019/04/25/5cc176b798f0e.png" alt="01_KNN"></p>
+<h2 id="数据集-社交网络"><a href="#数据集-社交网络" class="headerlink" title="数据集 | 社交网络"></a>数据集 | 社交网络</h2><p><img src="https://i.loli.net/2019/04/25/5cc178de8d35b.png" alt="02_dataset"></p>
+<h2 id="第-1-步：导入相关库"><a href="#第-1-步：导入相关库" class="headerlink" title="第 1 步：导入相关库"></a>第 1 步：导入相关库</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></table></figure>
+<h2 id="第-2-步：导入数据集"><a href="#第-2-步：导入数据集" class="headerlink" title="第 2 步：导入数据集"></a>第 2 步：导入数据集</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dataset = pd.read_csv(<span class="string">'Social_Network_Ads.csv'</span>)</span><br><span class="line">X = dataset.iloc[:, [<span class="number">2</span>, <span class="number">3</span>]].values</span><br><span class="line">y = dataset.iloc[:, <span class="number">4</span>].values</span><br></pre></td></tr></table></figure>
+<p>为了方便理解，这里我们只取 <code>Age</code> 年龄和 <code>EstimatedSalary</code> 估计工资作为特征。</p>
+<h2 id="第-3-步：将数据划分成训练集和测试集"><a href="#第-3-步：将数据划分成训练集和测试集" class="headerlink" title="第 3 步：将数据划分成训练集和测试集"></a>第 3 步：将数据划分成训练集和测试集</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.25</span>, random_state=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="第-4-步：特征缩放"><a href="#第-4-步：特征缩放" class="headerlink" title="第 4 步：特征缩放"></a>第 4 步：特征缩放</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line">sc = StandardScaler()</span><br><span class="line">X_train = sc.fit_transform(X_train)</span><br><span class="line">X_test = sc.transform(X_test)</span><br></pre></td></tr></table></figure>
+<p>这里有必要说明一下 <strong><code>fit_transform</code></strong> 和 <strong><code>transform</code></strong> 的区别。前者是 <strong><code>fit</code></strong> 和 <strong><code>transform</code></strong> 的结合， <strong><code>fit_transform(X_train)</code></strong> 意思是找出 <code>X_train</code> 的 $\mu$ 和 $\sigma$，并应用在 <code>X_train</code> 上。<br>这时对于 <code>X_test</code>，我们就可以直接使用 <strong><code>transform</code></strong> 方法。因为此时 <strong><code>StandardScaler</code></strong> 已经保存了 <code>X_train</code> 的 $\mu$ 和 $\sigma$ 。</p>
+<p>为什么可以用训练集的 $\mu$ 和 $\sigma$ 来 <strong><code>transform</code></strong> 测试集的数据 <code>X_train</code>? 机器学习中有很多假设，这里假设了训练集的样本采样足够充分。</p>
+<h2 id="第-5-步：使用K-NN对训练集数据进行训练"><a href="#第-5-步：使用K-NN对训练集数据进行训练" class="headerlink" title="第 5 步：使用K-NN对训练集数据进行训练"></a>第 5 步：使用K-NN对训练集数据进行训练</h2><p>从 <code>sklearn</code> 的 <code>neighbors</code> 类中导入 <code>KNeighborsClassifier</code> 学习器。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier</span><br><span class="line">classifier = KNeighborsClassifier(n_neighbors=<span class="number">5</span>, metric=<span class="string">'minkowski'</span>, p=<span class="number">2</span>)</span><br><span class="line">classifier.fit(X_train, y_train)</span><br></pre></td></tr></table></figure></p>
+<p>设置好相关的参数 <code>n_neighbors = 5</code> (K值的选择，默认选择5)、<code>metric = &#39;minkowski&#39;</code> (距离度量的选择，这里选择的是闵氏距离(默认参数))、 <code>p = 2</code> (距离度量 <code>metric</code> 的附属参数，只用于闵氏距离和带权重闵氏距离中 <code>p</code> 值的选择，<code>p=1</code> 为曼哈顿距离， <code>p=2</code> 为欧式距离。默认为2)</p>
+<h2 id="第-6-步：对测试集进行预测"><a href="#第-6-步：对测试集进行预测" class="headerlink" title="第 6 步：对测试集进行预测"></a>第 6 步：对测试集进行预测</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y_pred = classifier.predict(X_test)</span><br></pre></td></tr></table></figure>
+<h2 id="第-7-步：生成混淆矩阵"><a href="#第-7-步：生成混淆矩阵" class="headerlink" title="第 7 步：生成混淆矩阵"></a>第 7 步：生成混淆矩阵</h2><p><strong>混淆矩阵</strong>可以对一个分类器性能进行分析，由此可以计算出许多指标，例如：<code>ROC</code> 曲线、正确率等。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix</span><br><span class="line">cm = confusion_matrix(y_test, y_pred)</span><br></pre></td></tr></table></figure></p>
+<p>打印混淆矩阵，<code>cm</code> 结果为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[64  4]</span><br><span class="line"> [ 3 29]]</span><br></pre></td></tr></table></figure></p>
+<p>预测集中的 <code>0</code> 总共有 <code>68</code> 个，<code>1</code> 总共有 <code>32</code> 个。 在这个混淆矩阵中，实际有 <code>68</code> 个 <code>0</code>，但 <strong>K-NN</strong> 预测出有 <code>67(64+3)</code> 个 <code>0</code>，其中有 <code>3</code> 个实际上是 <code>1</code> 。 同时 <strong>K-NN</strong> 预测出有 <code>33(4+29)</code> 个 <code>1</code>，其中 <code>4</code> 个实际上是 <code>0</code> 。</p>
+<h2 id="第-8-步：可视化"><a href="#第-8-步：可视化" class="headerlink" title="第 8 步：可视化"></a>第 8 步：可视化</h2><p>可视化相关代码详见另一篇文章<a href="https://tengzi-will.github.io/2019/04/25/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98-%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/" target="_blank" rel="noopener">《机器学习实战-逻辑回归》</a></p>
+<p><img src="https://i.loli.net/2019/04/27/5cc40774b3dc7.png" alt="03_train"></p>
+<p><img src="https://i.loli.net/2019/04/27/5cc407745e4c2.png" alt="04_test"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://github.com/Avik-Jain/100-Days-Of-ML-Code" target="_blank" rel="noopener">机器学习100天</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/K近邻法/" rel="tag"># K近邻法</a>
+          
+            <a href="/tags/KNN/" rel="tag"># KNN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/25/机器学习实战-逻辑回归/" rel="next" title="机器学习实战-逻辑回归">
+                <i class="fa fa-chevron-left"></i> 机器学习实战-逻辑回归
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/25/机器学习实战-支持向量机-SVM/" rel="prev" title="机器学习实战-支持向量机 SVM">
+                机器学习实战-支持向量机 SVM <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集-社交网络"><span class="nav-number">1.</span> <span class="nav-text">数据集 | 社交网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-1-步：导入相关库"><span class="nav-number">2.</span> <span class="nav-text">第 1 步：导入相关库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-2-步：导入数据集"><span class="nav-number">3.</span> <span class="nav-text">第 2 步：导入数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-3-步：将数据划分成训练集和测试集"><span class="nav-number">4.</span> <span class="nav-text">第 3 步：将数据划分成训练集和测试集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-4-步：特征缩放"><span class="nav-number">5.</span> <span class="nav-text">第 4 步：特征缩放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-5-步：使用K-NN对训练集数据进行训练"><span class="nav-number">6.</span> <span class="nav-text">第 5 步：使用K-NN对训练集数据进行训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-6-步：对测试集进行预测"><span class="nav-number">7.</span> <span class="nav-text">第 6 步：对测试集进行预测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-7-步：生成混淆矩阵"><span class="nav-number">8.</span> <span class="nav-text">第 7 步：生成混淆矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-8-步：可视化"><span class="nav-number">9.</span> <span class="nav-text">第 8 步：可视化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">10.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

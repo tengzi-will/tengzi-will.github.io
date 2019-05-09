@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="数据集载入数据集1234import numpy as npimport pandas as pdtrain = pd.read_csv(&apos;train.csv&apos;)test = pd.read_csv(&apos;test.csv&apos;) 查看训练集1train.head(10)  查看测试集1train.head(10)  处理 Id 列因为 Id 列与预测无关，现将其保存，然后从训练集和测试集中删除。1234">
+<meta name="keywords" content="MachineLearning, DeepLearning, ReinforcementLearning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kaggle 房价预测:先进的回归技术">
+<meta property="og:url" content="http://yoursite.com/2019/05/04/kaggle-房价预测-先进的回归技术/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="数据集载入数据集1234import numpy as npimport pandas as pdtrain = pd.read_csv(&apos;train.csv&apos;)test = pd.read_csv(&apos;test.csv&apos;) 查看训练集1train.head(10)  查看测试集1train.head(10)  处理 Id 列因为 Id 列与预测无关，现将其保存，然后从训练集和测试集中删除。1234">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/05/04/5ccd7522f0f17.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/04/5ccd7522e73c3.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccf988906454.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccf9954deb63.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccf99d74d5e4.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccf9d18a0555.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccf9d19180a2.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccf9d1764e60.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccf9e17a0393.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccfa181d750e.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccfa1b5a072a.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccfa2bec72c1.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccfa30a66b6e.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccfa51648edf.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccfa6df572cb.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccfa790337af.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccfb4e7530bb.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccfb4e7cd7e6.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccfef5d0baaf.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccfef5d19d07.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccfef5d3669f.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/06/5ccfef5cdc8a6.png">
+<meta property="og:updated_time" content="2019-05-06T08:25:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kaggle 房价预测:先进的回归技术">
+<meta name="twitter:description" content="数据集载入数据集1234import numpy as npimport pandas as pdtrain = pd.read_csv(&apos;train.csv&apos;)test = pd.read_csv(&apos;test.csv&apos;) 查看训练集1train.head(10)  查看测试集1train.head(10)  处理 Id 列因为 Id 列与预测无关，现将其保存，然后从训练集和测试集中删除。1234">
+<meta name="twitter:image" content="https://i.loli.net/2019/05/04/5ccd7522f0f17.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/04/kaggle-房价预测-先进的回归技术/">
+
+
+
+
+
+  <title>kaggle 房价预测:先进的回归技术 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/04/kaggle-房价预测-先进的回归技术/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">kaggle 房价预测:先进的回归技术</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-04T18:41:11+08:00">
+                2019-05-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h2><h2 id="载入数据集"><a href="#载入数据集" class="headerlink" title="载入数据集"></a>载入数据集</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">train = pd.read_csv(<span class="string">'train.csv'</span>)</span><br><span class="line">test = pd.read_csv(<span class="string">'test.csv'</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>查看训练集</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train.head(<span class="number">10</span>)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/04/5ccd7522f0f17.png" alt="01_train"></p>
+<p><strong>查看测试集</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train.head(<span class="number">10</span>)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/04/5ccd7522e73c3.png" alt="02_test"></p>
+<p><strong>处理 Id 列</strong><br>因为 <code>Id</code> 列与预测无关，现将其保存，然后从训练集和测试集中删除。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">train_ID = train[<span class="string">'Id'</span>]</span><br><span class="line">test_ID = test[<span class="string">'Id'</span>]</span><br><span class="line">train.drop(<span class="string">"Id"</span>, axis = <span class="number">1</span>, inplace = <span class="keyword">True</span>)</span><br><span class="line">test.drop(<span class="string">"Id"</span>, axis = <span class="number">1</span>, inplace = <span class="keyword">True</span>)</span><br></pre></td></tr></table></figure></p>
+<h2 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h2><ul>
+<li>理解问题：查看每个变量并且根据他们的意义和对问题的重要性进行哲学分析。</li>
+<li>单因素研究：只关注因变量( SalePrice)，并且进行更深入的了解。</li>
+<li>多因素研究：分析因变量和自变量之间的关系。</li>
+<li>基础清洗：清洗数据集并且对缺失数据，异常值和分类数据进行一些处理。</li>
+<li>检验假设：检查数据是否和多元分析方法的假设达到一致</li>
+</ul>
+<h3 id="准备工作——我们可以期望什么？"><a href="#准备工作——我们可以期望什么？" class="headerlink" title="准备工作——我们可以期望什么？"></a>准备工作——我们可以期望什么？</h3><p>为了了解我们的数据，我们可以分析每个变量并且尝试理解他们的意义和与该问题的相关程度。</p>
+<p><strong>首先建立一个 Excel 电子表格，有如下目录：</strong></p>
+<ul>
+<li><strong>变量</strong> – 变量名。</li>
+<li><strong>类型</strong> – 该变量的类型。这一栏只有两个可能值，“数据” 或 “类别”。 “数据” 是指该变量的值是数字，“类别” 指该变量的值是类别标签。</li>
+<li><strong>划分</strong> – 指示变量划分. 我们定义了三种划分：建筑，空间，位置。</li>
+<li><strong>期望</strong> – 我们希望该变量对房价的影响程度。我们使用类别标签 “高”，“中” 和 “低” 作为可能值。</li>
+<li><strong>结论</strong> – 我们得出的该变量的重要性的结论。在大概浏览数据之后，我们认为这一栏和 “期望” 的值基本一致。</li>
+<li><strong>评论</strong> – 我们看到的所有一般性评论。</li>
+</ul>
+<p><strong>我们首先阅读了每一个变量的描述文件，同时思考这三个问题：</strong></p>
+<ul>
+<li>我们买房子的时候会考虑这个因素吗？</li>
+<li>如果考虑的话，这个因素的重要程度如何？</li>
+<li>这个因素带来的信息在其他因素中出现过吗？</li>
+</ul>
+<p>我们根据以上内容填好了电子表格，并且仔细观察了 “高期望” 的变量。然后绘制了这些变量和房价之间的散点图，填在了 “结论” 那一栏，也正巧就是对我们的期望值的校正。</p>
+<p><strong>我们总结出了四个对该问题起到至关重要的作用的变量：</strong></p>
+<ul>
+<li>OverallQual</li>
+<li>YearBuilt.</li>
+<li>TotalBsmtSF.</li>
+<li>GrLivArea.</li>
+</ul>
+<h3 id="最重要的事情——分析-“房价”"><a href="#最重要的事情——分析-“房价”" class="headerlink" title="最重要的事情——分析 “房价”"></a>最重要的事情——分析 “房价”</h3><h4 id="描述性数据总结"><a href="#描述性数据总结" class="headerlink" title="描述性数据总结"></a>描述性数据总结</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train[<span class="string">'SalePrice'</span>].describe()</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/05/06/5ccf988906454.png" alt="03_describe"></p>
+<h4 id="绘制直方图"><a href="#绘制直方图" class="headerlink" title="绘制直方图"></a>绘制直方图</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sns.distplot(train[<span class="string">'SalePrice'</span>])</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/05/06/5ccf9954deb63.png" alt="04_distplot"></p>
+<h4 id="从直方图中可以看出"><a href="#从直方图中可以看出" class="headerlink" title="从直方图中可以看出"></a>从直方图中可以看出</h4><ul>
+<li>偏离正态分布</li>
+<li>数据正偏</li>
+<li>有峰值</li>
+</ul>
+<h4 id="数据偏度和峰度度量"><a href="#数据偏度和峰度度量" class="headerlink" title="数据偏度和峰度度量"></a>数据偏度和峰度度量</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">"Skewness: %f"</span> % train[<span class="string">'SalePrice'</span>].skew())</span><br><span class="line">print(<span class="string">"Kurtosis: %f"</span> % train[<span class="string">'SalePrice'</span>].kurt())</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/05/06/5ccf99d74d5e4.png" alt="05_skewness"></p>
+<h3 id="“房价”-的相关变量分析"><a href="#“房价”-的相关变量分析" class="headerlink" title="“房价” 的相关变量分析"></a>“房价” 的相关变量分析</h3><h4 id="与数字型变量的关系"><a href="#与数字型变量的关系" class="headerlink" title="与数字型变量的关系"></a>与数字型变量的关系</h4><h5 id="Grlivarea-与-SalePrice-散点图"><a href="#Grlivarea-与-SalePrice-散点图" class="headerlink" title="Grlivarea 与 SalePrice 散点图"></a>Grlivarea 与 SalePrice 散点图</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data = pd.concat([train[<span class="string">'SalePrice'</span>], train[<span class="string">'GrLivArea'</span>]], axis=<span class="number">1</span>)</span><br><span class="line">data.plot.scatter(x=<span class="string">'GrLivArea'</span>, y=<span class="string">'SalePrice'</span>, ylim=(<span class="number">0</span>,<span class="number">800000</span>))</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/05/06/5ccf9d18a0555.png" alt="06_Grlivarea"></p>
+<p>可以看出 <strong>SalePrice</strong> 和 <strong>GrLivArea</strong> 关系很密切，并且基本呈线性关系。</p>
+<h5 id="TotalBsmtSF-与-SalePrice-散点图"><a href="#TotalBsmtSF-与-SalePrice-散点图" class="headerlink" title="TotalBsmtSF 与 SalePrice 散点图"></a>TotalBsmtSF 与 SalePrice 散点图</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data = pd.concat([train[<span class="string">'SalePrice'</span>], train[<span class="string">'TotalBsmtSF'</span>]], axis=<span class="number">1</span>)</span><br><span class="line">data.plot.scatter(x=<span class="string">'TotalBsmtSF'</span>, y=<span class="string">'SalePrice'</span>, ylim=(<span class="number">0</span>,<span class="number">800000</span>))</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/05/06/5ccf9d19180a2.png" alt="07_TotalBsmtSF"></p>
+<p><strong>TotalBsmtSF</strong> 和 <strong>SalePrice</strong> 关系也很密切，从图中可以看出基本呈指数分布，但从最左侧的点可以看出特定情况下 <strong>TotalBsmtSF</strong> 对 <strong>SalePrice</strong> 没有产生影响。</p>
+<h4 id="与类别型变量的关系"><a href="#与类别型变量的关系" class="headerlink" title="与类别型变量的关系"></a>与类别型变量的关系</h4><h5 id="OverallQual-与-SalePrice-箱型图"><a href="#OverallQual-与-SalePrice-箱型图" class="headerlink" title="OverallQual 与 SalePrice 箱型图"></a>OverallQual 与 SalePrice 箱型图</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data = pd.concat([train[<span class="string">'SalePrice'</span>], train[<span class="string">'OverallQual'</span>]], axis=<span class="number">1</span>)</span><br><span class="line">f, ax = plt.subplots(figsize=(<span class="number">8</span>, <span class="number">6</span>))</span><br><span class="line">fig = sns.boxplot(x=<span class="string">'OverallQual'</span>, y=<span class="string">"SalePrice"</span>, data=data)</span><br><span class="line">fig.axis(ymin=<span class="number">0</span>, ymax=<span class="number">800000</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/05/06/5ccf9d1764e60.png" alt="08_OverallQual"></p>
+<p>可以看出 <strong>SalePrice</strong> 与 <strong>OverallQual</strong> 分布趋势相同。</p>
+<h5 id="YearBuilt-与-SalePrice-箱型图"><a href="#YearBuilt-与-SalePrice-箱型图" class="headerlink" title="YearBuilt 与 SalePrice 箱型图"></a>YearBuilt 与 SalePrice 箱型图</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">data = pd.concat([train[<span class="string">'SalePrice'</span>], train[<span class="string">'YearBuilt'</span>]], axis=<span class="number">1</span>)</span><br><span class="line">f, ax = plt.subplots(figsize=(<span class="number">16</span>, <span class="number">8</span>))</span><br><span class="line">fig = sns.boxplot(x=<span class="string">'YearBuilt'</span>, y=<span class="string">"SalePrice"</span>, data=data)</span><br><span class="line">fig.axis(ymin=<span class="number">0</span>, ymax=<span class="number">800000</span>);</span><br><span class="line">plt.xticks(rotation=<span class="number">90</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/05/06/5ccf9e17a0393.png" alt="09_YearBuilt"></p>
+<p>两个变量之间的关系没有很强的趋势性，但是可以看出建筑时间较短的房屋价格更高。</p>
+<h2 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h2><h3 id="导入相关库"><a href="#导入相关库" class="headerlink" title="导入相关库"></a>导入相关库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入作图用库</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="comment"># 导入数据分析用库</span></span><br><span class="line"><span class="keyword">from</span> scipy.stats <span class="keyword">import</span> norm</span><br><span class="line"><span class="keyword">from</span> scipy <span class="keyword">import</span> stats</span><br></pre></td></tr></table></figure>
+<h3 id="异常值"><a href="#异常值" class="headerlink" title="异常值"></a>异常值</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fig, ax = plt.subplots()</span><br><span class="line">ax.scatter(x = train[<span class="string">'GrLivArea'</span>], y = train[<span class="string">'SalePrice'</span>])</span><br><span class="line">plt.ylabel(<span class="string">'SalePrice'</span>, fontsize=<span class="number">13</span>)</span><br><span class="line">plt.xlabel(<span class="string">'GrLivArea'</span>, fontsize=<span class="number">13</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/05/06/5ccfa181d750e.png" alt="10_Grlivarea"></p>
+<p>从图中可以看出：</p>
+<ul>
+<li>有两个离群的 GrLivArea 值很高的数据，我们可以推测出现这种情况的原因。或许他们代表了农业地区，也就解释了低价。 这两个点很明显不能代表典型样例，所以我们将它们定义为异常值并删除。</li>
+<li>图中顶部的两个点是七点几的观测值，他们虽然看起来像特殊情况，但是他们依然符合整体趋势，所以我们将其保留下来。</li>
+</ul>
+<p>删除异常值<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">train = train.drop(train[(train[<span class="string">'GrLivArea'</span>]&gt;<span class="number">4000</span>) &amp; (train[<span class="string">'SalePrice'</span>]&lt;<span class="number">300000</span>)].index)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Check the graphic again</span></span><br><span class="line">fig, ax = plt.subplots()</span><br><span class="line">ax.scatter(train[<span class="string">'GrLivArea'</span>], train[<span class="string">'SalePrice'</span>])</span><br><span class="line">plt.ylabel(<span class="string">'SalePrice'</span>, fontsize=<span class="number">13</span>)</span><br><span class="line">plt.xlabel(<span class="string">'GrLivArea'</span>, fontsize=<span class="number">13</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/06/5ccfa1b5a072a.png" alt="11_delete_outlines"></p>
+<h3 id="SalePrice-处理"><a href="#SalePrice-处理" class="headerlink" title="SalePrice 处理"></a>SalePrice 处理</h3><h4 id="可视化分析"><a href="#可视化分析" class="headerlink" title="可视化分析"></a>可视化分析</h4><p>绘制直方图<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sns.distplot(train[<span class="string">'SalePrice'</span>], fit=norm)</span><br><span class="line">(mu, sigma) = norm.fit(train[<span class="string">'SalePrice'</span>])</span><br><span class="line">print( <span class="string">'\n mu = &#123;:.2f&#125; and sigma = &#123;:.2f&#125;\n'</span>.format(mu, sigma))</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/06/5ccfa2bec72c1.png" alt="12_norm"></p>
+<p>绘制正态概率图<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fig = plt.figure()</span><br><span class="line">res = stats.probplot(train[<span class="string">'SalePrice'</span>], plot=plt)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/06/5ccfa30a66b6e.png" alt="13_probplot"></p>
+<p>可以看出，房价分布不是正态的，显示了峰值，正偏度，但是并不跟随对角线。可以用对数变换来解决这个问题</p>
+<h4 id="对数变换"><a href="#对数变换" class="headerlink" title="对数变换"></a>对数变换</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train[<span class="string">"SalePrice"</span>] = np.log1p(train[<span class="string">"SalePrice"</span>])</span><br></pre></td></tr></table></figure>
+<p>看下处理后的图像：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sns.distplot(train[<span class="string">'SalePrice'</span>], fit=norm);</span><br><span class="line">fig = plt.figure()</span><br><span class="line">res = stats.probplot(train[<span class="string">'SalePrice'</span>], plot=plt)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/06/5ccfa51648edf.png" alt="14_res"></p>
+<h3 id="数据合并"><a href="#数据合并" class="headerlink" title="数据合并"></a>数据合并</h3><p>因为在处理相关数据时，训练集和测试集要进行相同的操作。所以我们先将 <strong><code>train</code></strong> 和 <strong><code>test</code></strong> 进行合并，处理完毕之后再分开。 <strong><code>train</code></strong> 比 <strong><code>test</code></strong> 多一列标签，我们先将其存入 <strong><code>y_train</code></strong> ，然后再合并数据。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ntrain = train.shape[<span class="number">0</span>]</span><br><span class="line">ntest = test.shape[<span class="number">0</span>]</span><br><span class="line">y_train = train.SalePrice.values</span><br><span class="line">train.drop([<span class="string">'SalePrice'</span>], axis=<span class="number">1</span>, inplace=<span class="keyword">True</span>)</span><br><span class="line">all_data = pd.concat((train, test)).reset_index(drop=<span class="keyword">True</span>)</span><br><span class="line">print(<span class="string">"all_data size is : &#123;&#125;"</span>.format(all_data.shape))</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/06/5ccfa6df572cb.png" alt="15_shape"></p>
+<h3 id="处理缺失值"><a href="#处理缺失值" class="headerlink" title="处理缺失值"></a>处理缺失值</h3><h4 id="查看缺失数据"><a href="#查看缺失数据" class="headerlink" title="查看缺失数据"></a>查看缺失数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">total = all_data.isnull().sum().sort_values(ascending=<span class="keyword">False</span>)</span><br><span class="line">percent = (all_data.isnull().sum()/all_data.isnull().count()).sort_values(ascending=<span class="keyword">False</span>)</span><br><span class="line">missing_data = pd.concat([total, percent], axis=<span class="number">1</span>, keys=[<span class="string">'Total'</span>, <span class="string">'Percent'</span>])</span><br><span class="line">missing_data.drop(missing_data[missing_data[<span class="string">'Total'</span>] == <span class="number">0</span>].index, inplace=<span class="keyword">True</span>)</span><br><span class="line">missing_data</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/05/06/5ccfa790337af.png" alt="16_missing"></p>
+<h4 id="数据处理分析"><a href="#数据处理分析" class="headerlink" title="数据处理分析"></a>数据处理分析</h4><p><img src="https://i.loli.net/2019/05/06/5ccfb4e7530bb.png" alt="17_missing_data"></p>
+<p><strong>热力图</strong><br>在绘制热力图之前，我们先将数据处理一下，热力图默认取<strong>整数</strong>或者<strong>浮点数</strong>据类型进行绘制，但是有些类别型数据也是用整数表示，我们将其转化一下。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">all_data[<span class="string">'MSSubClass'</span>] = all_data[<span class="string">'MSSubClass'</span>].apply(str)</span><br><span class="line"><span class="comment">#Changing OverallX into a categorical variable</span></span><br><span class="line">all_data[<span class="string">'OverallQual'</span>] = all_data[<span class="string">'OverallQual'</span>].astype(str)</span><br><span class="line">all_data[<span class="string">'OverallCond'</span>] = all_data[<span class="string">'OverallCond'</span>].astype(str)</span><br><span class="line"><span class="comment">#Year and month sold are transformed into categorical features.</span></span><br><span class="line">all_data[<span class="string">'YrSold'</span>] = all_data[<span class="string">'YrSold'</span>].astype(str)</span><br><span class="line">all_data[<span class="string">'MoSold'</span>] = all_data[<span class="string">'MoSold'</span>].astype(str)</span><br></pre></td></tr></table></figure></p>
+<p>绘制图形<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">corrmat = all_data.corr()</span><br><span class="line">plt.subplots(figsize=(<span class="number">12</span>,<span class="number">9</span>))</span><br><span class="line">sns.heatmap(corrmat, vmax=<span class="number">0.9</span>, square=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/06/5ccfb4e7cd7e6.png" alt="18_heatmap"></p>
+<h4 id="数据填充"><a href="#数据填充" class="headerlink" title="数据填充"></a>数据填充</h4><ul>
+<li><strong>PoolQC</strong> : data description says NA means “No Pool”. That make sense, given the huge ratio of missing value (+99%) and majority of houses have no Pool at all in general.</li>
+<li><strong>MiscFeature</strong> : data description says NA means “no misc feature”</li>
+<li><strong>Alley</strong> : data description says NA means “no alley access”</li>
+<li><strong>Fence</strong> : data description says NA means “no fence”</li>
+<li><p><strong>FireplaceQu</strong> : data description says NA means “no fireplace”</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> col <span class="keyword">in</span> (<span class="string">"PoolQC"</span>, <span class="string">"MiscFeature"</span>, <span class="string">"Alley"</span>, <span class="string">"Fence"</span>, <span class="string">"FireplaceQu"</span>):</span><br><span class="line">    all_data[col].fillna(<span class="string">"None"</span>, inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>LotFrontage</strong> : Since the area of each street connected to the house property most likely have a similar area to other houses in its neighborhood , <strong>we can fill in missing values by the median LotFrontage of the neighborhood</strong>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">all_data[<span class="string">"LotFrontage"</span>] = all_data.groupby(<span class="string">"Neighborhood"</span>)[<span class="string">"LotFrontage"</span>].transform(<span class="keyword">lambda</span> x: x.fillna(x.median()))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>GarageType, GarageFinish, GarageQual and GarageCond</strong> : Replacing missing data with None</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> col <span class="keyword">in</span> (<span class="string">'GarageType'</span>, <span class="string">'GarageFinish'</span>, <span class="string">'GarageQual'</span>, <span class="string">'GarageCond'</span>):</span><br><span class="line">    all_data[col].fillna(<span class="string">'None'</span>, inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>GarageYrBlt, GarageArea and GarageCars</strong> : Replacing missing data with 0 (Since No garage = no cars in such garage.)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> col <span class="keyword">in</span> (<span class="string">'GarageYrBlt'</span>, <span class="string">'GarageArea'</span>, <span class="string">'GarageCars'</span>):</span><br><span class="line">    all_data[col].fillna(<span class="number">0</span>, inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>BsmtFinSF1, BsmtFinSF2, BsmtUnfSF, TotalBsmtSF, BsmtFullBath and BsmtHalfBath</strong> : missing values are likely zero for having no basement</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> col <span class="keyword">in</span> (<span class="string">'BsmtFinSF1'</span>, <span class="string">'BsmtFinSF2'</span>, <span class="string">'BsmtUnfSF'</span>,<span class="string">'TotalBsmtSF'</span>, <span class="string">'BsmtFullBath'</span>, <span class="string">'BsmtHalfBath'</span>):</span><br><span class="line">    all_data[col].fillna(<span class="number">0</span>, inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>BsmtQual, BsmtCond, BsmtExposure, BsmtFinType1 and BsmtFinType2</strong> : For all these categorical basement-related features, NaN means that there is no basement.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> col <span class="keyword">in</span> (<span class="string">'BsmtQual'</span>, <span class="string">'BsmtCond'</span>, <span class="string">'BsmtExposure'</span>, <span class="string">'BsmtFinType1'</span>, <span class="string">'BsmtFinType2'</span>):</span><br><span class="line">    all_data[col].fillna(<span class="string">'None'</span>, inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>MasVnrArea and MasVnrType</strong> : NA most likely means no masonry veneer for these houses. We can fill 0 for the area and None for the type.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">all_data[<span class="string">"MasVnrType"</span>].fillna(<span class="string">"None"</span>, inplace=<span class="keyword">True</span>)</span><br><span class="line">all_data[<span class="string">"MasVnrArea"</span>].fillna(<span class="number">0</span>, inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>MSZoning (The general zoning classification)</strong> : ‘RL’ is by far the most common value. So we can fill in missing values with ‘RL’</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">all_data[<span class="string">'MSZoning'</span>].fillna(all_data[<span class="string">'MSZoning'</span>].mode()[<span class="number">0</span>], inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Utilities</strong> : For this categorical feature all records are “AllPub”, except for one “NoSeWa” and 2 NA . Since the house with ‘NoSewa’ is in the training set, this feature won’t help in predictive modelling. We can then safely remove it.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">all_data.drop([<span class="string">'Utilities'</span>], axis=<span class="number">1</span>, inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>Functional</strong> : data description says NA means typical<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">all_data[<span class="string">"Functional"</span>].fillna(<span class="string">"Typ"</span>, inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><strong>Electrical</strong> : It has one NA value. Since this feature has mostly ‘SBrkr’, we can set that for the missing value.</li>
+<li><strong>KitchenQual</strong>: Only one NA value, and same as Electrical, we set ‘TA’ (which is the most frequent) for the missing value in KitchenQual.</li>
+<li><strong>Exterior1st and Exterior2nd</strong> : Again Both Exterior 1 &amp; 2 have only one missing value. We will just substitute in the most common string</li>
+<li><strong>SaleType</strong> : Fill in again with most frequent which is “WD”<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> col <span class="keyword">in</span> (<span class="string">'Electrical'</span>, <span class="string">'KitchenQual'</span>, <span class="string">'Exterior1st'</span>, <span class="string">'Exterior2nd'</span>, <span class="string">'SaleType'</span>):</span><br><span class="line">    all_data[col].fillna(all_data[col].mode()[<span class="number">0</span>], inplace=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="数据转化"><a href="#数据转化" class="headerlink" title="数据转化"></a>数据转化</h3><h4 id="GrLivArea"><a href="#GrLivArea" class="headerlink" title="GrLivArea"></a>GrLivArea</h4><p><strong>绘制直方图和正态概率曲线图</strong>：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sns.distplot(all_data[<span class="string">'GrLivArea'</span>], fit=norm);</span><br><span class="line">fig = plt.figure()</span><br><span class="line">res = stats.probplot(all_data[<span class="string">'GrLivArea'</span>], plot=plt)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/06/5ccfef5d0baaf.png" alt="19_GrLivArea"></p>
+<p><strong>进行对数变换</strong>：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">all_data[<span class="string">'GrLivArea'</span>]= np.log(all_data[<span class="string">'GrLivArea'</span>])</span><br></pre></td></tr></table></figure></p>
+<p>转换后作图如下（代码同上）：<br><img src="https://i.loli.net/2019/05/06/5ccfef5d19d07.png" alt="20_log"></p>
+<h4 id="TotalBsmtSF"><a href="#TotalBsmtSF" class="headerlink" title="TotalBsmtSF"></a>TotalBsmtSF</h4><p><strong>绘制直方图和正态概率曲线图</strong>：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sns.distplot(all_data[<span class="string">'TotalBsmtSF'</span>],fit=norm);</span><br><span class="line">fig = plt.figure()</span><br><span class="line">res = stats.probplot(all_data[<span class="string">'TotalBsmtSF'</span>],plot=plt)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/06/5ccfef5d3669f.png" alt="21_TotalBsmtSF"></p>
+<p>从图中可以看出：</p>
+<ul>
+<li>显示出了偏度</li>
+<li>大量为 0 的观察值（没有地下室的房屋）</li>
+<li>含 0 的数据无法进行对数变换</li>
+</ul>
+<p><strong>进行对数变换</strong>：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">all_data[<span class="string">'TotalBsmtSF'</span>]= np.log1p(all_data[<span class="string">'TotalBsmtSF'</span>])</span><br></pre></td></tr></table></figure></p>
+<p>我们选择忽略零值，只对非零值进行可视化。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#histogram and normal probability plot</span></span><br><span class="line">sns.distplot(all_data[all_data[<span class="string">'TotalBsmtSF'</span>]&gt;<span class="number">0</span>][<span class="string">'TotalBsmtSF'</span>], fit=norm);</span><br><span class="line">fig = plt.figure()</span><br><span class="line">res = stats.probplot(all_data[all_data[<span class="string">'TotalBsmtSF'</span>]&gt;<span class="number">0</span>][<span class="string">'TotalBsmtSF'</span>], plot=plt)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/06/5ccfef5cdc8a6.png" alt="22_log1p"></p>
+<h3 id="类别编码-与-虚拟变量"><a href="#类别编码-与-虚拟变量" class="headerlink" title="类别编码 与 虚拟变量"></a>类别编码 与 虚拟变量</h3><p>有些类别变量包含一些顺序的信息，比如房屋设备的评级（由低到高或者由高到低），这种我们不必采用 <strong>one-hot</strong> 编码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> LabelEncoder</span><br><span class="line">cols =  [<span class="string">'MSSubClass'</span>, <span class="string">'Street'</span>, <span class="string">'Alley'</span>, <span class="string">'LotShape'</span>, <span class="string">'LandSlope'</span>, <span class="string">'OverallQual'</span>, <span class="string">'OverallCond'</span>, </span><br><span class="line">         <span class="string">'ExterQual'</span>, <span class="string">'ExterCond'</span>, <span class="string">'BsmtQual'</span>, <span class="string">'BsmtCond'</span>, <span class="string">'BsmtExposure'</span>, <span class="string">'BsmtFinType1'</span>, <span class="string">'BsmtFinType2'</span>, </span><br><span class="line">         <span class="string">'HeatingQC'</span>, <span class="string">'CentralAir'</span>, <span class="string">'KitchenQual'</span>, <span class="string">'Functional'</span>, <span class="string">'FireplaceQu'</span>,<span class="string">'GarageFinish'</span>,<span class="string">'GarageQual'</span>, </span><br><span class="line">         <span class="string">'GarageCond'</span>, <span class="string">'PavedDrive'</span>, <span class="string">'PoolQC'</span>, <span class="string">'Fence'</span>, <span class="string">'MoSold'</span>, <span class="string">'YrSold'</span>]</span><br><span class="line"><span class="comment"># process columns, apply LabelEncoder to categorical features</span></span><br><span class="line"><span class="keyword">for</span> c <span class="keyword">in</span> cols:</span><br><span class="line">    lbl = LabelEncoder() </span><br><span class="line">    lbl.fit(list(all_data[c].values)) </span><br><span class="line">    all_data[c] = lbl.transform(list(all_data[c].values))</span><br></pre></td></tr></table></figure></p>
+<p><strong>最后将类别变量转化为虚拟变量</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">all_data = pd.get_dummies(all_data)</span><br><span class="line">print(all_data.shape)</span><br></pre></td></tr></table></figure></p>
+<h3 id="拆分数据集"><a href="#拆分数据集" class="headerlink" title="拆分数据集"></a>拆分数据集</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train = all_data[:ntrain]</span><br><span class="line">test = all_data[ntrain:]</span><br></pre></td></tr></table></figure>
+<h2 id="模型训练"><a href="#模型训练" class="headerlink" title="模型训练"></a>模型训练</h2><h3 id="导入库"><a href="#导入库" class="headerlink" title="导入库"></a>导入库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> ElasticNet, Lasso,  BayesianRidge, LassoLarsIC</span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestRegressor,  GradientBoostingRegressor</span><br><span class="line"><span class="keyword">from</span> sklearn.kernel_ridge <span class="keyword">import</span> KernelRidge</span><br><span class="line"><span class="keyword">from</span> sklearn.pipeline <span class="keyword">import</span> make_pipeline</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> RobustScaler</span><br><span class="line"><span class="keyword">from</span> sklearn.base <span class="keyword">import</span> BaseEstimator, TransformerMixin, RegressorMixin, clone</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> KFold, cross_val_score, train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> mean_squared_error</span><br><span class="line"><span class="keyword">import</span> xgboost <span class="keyword">as</span> xgb</span><br><span class="line"><span class="keyword">import</span> lightgbm <span class="keyword">as</span> lgb</span><br></pre></td></tr></table></figure>
+<h3 id="定义交叉验证策略"><a href="#定义交叉验证策略" class="headerlink" title="定义交叉验证策略"></a>定义交叉验证策略</h3><p>我们使用 <strong><code>cross_val_score</code></strong> 函数进行交叉验证。但是该函数没有打乱数据集的功能，所以我们增加了一行代码，为了在交叉验证前打乱数据集。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">n_folds = <span class="number">5</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rmsle_cv</span><span class="params">(model)</span>:</span></span><br><span class="line">    kf = KFold(n_folds, shuffle=<span class="keyword">True</span>, random_state=<span class="number">42</span>).get_n_splits(train.values)</span><br><span class="line">    rmse= np.sqrt(-cross_val_score(model, train.values, y_train, scoring=<span class="string">"neg_mean_squared_error"</span>, cv = kf))</span><br><span class="line">    <span class="keyword">return</span>(rmse)</span><br></pre></td></tr></table></figure></p>
+<h3 id="基础模型"><a href="#基础模型" class="headerlink" title="基础模型"></a>基础模型</h3><ul>
+<li><p><strong>LASSO Regression</strong> ：<br>该模型对于异常值比较敏感，因此我们需要使其更健壮，在进行数据建模之前我们使用  Robustscaler() 方法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lasso = make_pipeline(RobustScaler(), Lasso(alpha =<span class="number">0.0005</span>, random_state=<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Elastic Net Regression</strong> ：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ENet = make_pipeline(RobustScaler(), ElasticNet(alpha=<span class="number">0.0005</span>, l1_ratio=<span class="number">.9</span>, random_state=<span class="number">3</span>))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Kernel Ridge Regression</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">KRR = KernelRidge(alpha=<span class="number">0.6</span>, kernel=<span class="string">'polynomial'</span>, degree=<span class="number">2</span>, coef0=<span class="number">2.5</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Gradient Boosting Regression</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GBoost = GradientBoostingRegressor(n_estimators=<span class="number">3000</span>, learning_rate=<span class="number">0.05</span>,</span><br><span class="line">                                   max_depth=<span class="number">4</span>, max_features=<span class="string">'sqrt'</span>,</span><br><span class="line">                                   min_samples_leaf=<span class="number">15</span>, min_samples_split=<span class="number">10</span>, </span><br><span class="line">                                   loss=<span class="string">'huber'</span>, random_state =<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>XGBoost</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">model_xgb = xgb.XGBRegressor(colsample_bytree=<span class="number">0.4603</span>, gamma=<span class="number">0.0468</span>, </span><br><span class="line">                             learning_rate=<span class="number">0.05</span>, max_depth=<span class="number">3</span>, </span><br><span class="line">                             min_child_weight=<span class="number">1.7817</span>, n_estimators=<span class="number">2200</span>,</span><br><span class="line">                             reg_alpha=<span class="number">0.4640</span>, reg_lambda=<span class="number">0.8571</span>,</span><br><span class="line">                             subsample=<span class="number">0.5213</span>, silent=<span class="number">1</span>,</span><br><span class="line">                             random_state =<span class="number">7</span>, nthread = <span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>LightGBM</strong>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">model_lgb = lgb.LGBMRegressor(objective=<span class="string">'regression'</span>,num_leaves=<span class="number">5</span>,</span><br><span class="line">                              learning_rate=<span class="number">0.05</span>, n_estimators=<span class="number">720</span>,</span><br><span class="line">                              max_bin = <span class="number">55</span>, bagging_fraction = <span class="number">0.8</span>,</span><br><span class="line">                              bagging_freq = <span class="number">5</span>, feature_fraction = <span class="number">0.2319</span>,</span><br><span class="line">                              feature_fraction_seed=<span class="number">9</span>, bagging_seed=<span class="number">9</span>,</span><br><span class="line">                              min_data_in_leaf =<span class="number">6</span>, min_sum_hessian_in_leaf = <span class="number">11</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/30/Markdown-语法规则锦集/" rel="next" title="Markdown 语法规则锦集">
+                <i class="fa fa-chevron-left"></i> Markdown 语法规则锦集
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集"><span class="nav-number">1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#载入数据集"><span class="nav-number">2.</span> <span class="nav-text">载入数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据分析"><span class="nav-number">3.</span> <span class="nav-text">数据分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作——我们可以期望什么？"><span class="nav-number">3.1.</span> <span class="nav-text">准备工作——我们可以期望什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最重要的事情——分析-“房价”"><span class="nav-number">3.2.</span> <span class="nav-text">最重要的事情——分析 “房价”</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#描述性数据总结"><span class="nav-number">3.2.1.</span> <span class="nav-text">描述性数据总结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#绘制直方图"><span class="nav-number">3.2.2.</span> <span class="nav-text">绘制直方图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#从直方图中可以看出"><span class="nav-number">3.2.3.</span> <span class="nav-text">从直方图中可以看出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据偏度和峰度度量"><span class="nav-number">3.2.4.</span> <span class="nav-text">数据偏度和峰度度量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#“房价”-的相关变量分析"><span class="nav-number">3.3.</span> <span class="nav-text">“房价” 的相关变量分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#与数字型变量的关系"><span class="nav-number">3.3.1.</span> <span class="nav-text">与数字型变量的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Grlivarea-与-SalePrice-散点图"><span class="nav-number">3.3.1.1.</span> <span class="nav-text">Grlivarea 与 SalePrice 散点图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TotalBsmtSF-与-SalePrice-散点图"><span class="nav-number">3.3.1.2.</span> <span class="nav-text">TotalBsmtSF 与 SalePrice 散点图</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#与类别型变量的关系"><span class="nav-number">3.3.2.</span> <span class="nav-text">与类别型变量的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#OverallQual-与-SalePrice-箱型图"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">OverallQual 与 SalePrice 箱型图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#YearBuilt-与-SalePrice-箱型图"><span class="nav-number">3.3.2.2.</span> <span class="nav-text">YearBuilt 与 SalePrice 箱型图</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据预处理"><span class="nav-number">4.</span> <span class="nav-text">数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#导入相关库"><span class="nav-number">4.1.</span> <span class="nav-text">导入相关库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常值"><span class="nav-number">4.2.</span> <span class="nav-text">异常值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SalePrice-处理"><span class="nav-number">4.3.</span> <span class="nav-text">SalePrice 处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#可视化分析"><span class="nav-number">4.3.1.</span> <span class="nav-text">可视化分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对数变换"><span class="nav-number">4.3.2.</span> <span class="nav-text">对数变换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据合并"><span class="nav-number">4.4.</span> <span class="nav-text">数据合并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理缺失值"><span class="nav-number">4.5.</span> <span class="nav-text">处理缺失值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#查看缺失数据"><span class="nav-number">4.5.1.</span> <span class="nav-text">查看缺失数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据处理分析"><span class="nav-number">4.5.2.</span> <span class="nav-text">数据处理分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据填充"><span class="nav-number">4.5.3.</span> <span class="nav-text">数据填充</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据转化"><span class="nav-number">4.6.</span> <span class="nav-text">数据转化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GrLivArea"><span class="nav-number">4.6.1.</span> <span class="nav-text">GrLivArea</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TotalBsmtSF"><span class="nav-number">4.6.2.</span> <span class="nav-text">TotalBsmtSF</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类别编码-与-虚拟变量"><span class="nav-number">4.7.</span> <span class="nav-text">类别编码 与 虚拟变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拆分数据集"><span class="nav-number">4.8.</span> <span class="nav-text">拆分数据集</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型训练"><span class="nav-number">5.</span> <span class="nav-text">模型训练</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#导入库"><span class="nav-number">5.1.</span> <span class="nav-text">导入库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定义交叉验证策略"><span class="nav-number">5.2.</span> <span class="nav-text">定义交叉验证策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础模型"><span class="nav-number">5.3.</span> <span class="nav-text">基础模型</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
