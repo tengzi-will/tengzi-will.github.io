@@ -84,7 +84,7 @@
   
     
     
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Menlo:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
   
 
 
@@ -112,7 +112,7 @@
 
 
 
-  <meta name="keywords" content="支持向量机,SVM,机器学习,">
+  <meta name="keywords" content="机器学习,支持向量机,SVM,">
 
 
 
@@ -123,21 +123,30 @@
 
 
 
-<meta name="description" content="数据集社交网络-Social_Network_Ads.csv 第 1 步：导入库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 第 2 步：导入数据123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2, 3]]">
-<meta name="keywords" content="支持向量机,SVM,机器学习">
+<meta name="description" content="基础用法数据集社交网络-Social_Network_Ads.csv 第 1 步：导入库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 第 2 步：导入数据123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2,">
+<meta name="keywords" content="机器学习,支持向量机,SVM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机器学习实战-支持向量机 SVM">
 <meta property="og:url" content="http://yoursite.com/2019/04/25/机器学习实战-支持向量机-SVM/index.html">
 <meta property="og:site_name" content="LuoTeng&#39;s Blog">
-<meta property="og:description" content="数据集社交网络-Social_Network_Ads.csv 第 1 步：导入库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 第 2 步：导入数据123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2, 3]]">
+<meta property="og:description" content="基础用法数据集社交网络-Social_Network_Ads.csv 第 1 步：导入库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 第 2 步：导入数据123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2,">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2019/04/25/5cc1ad314156e.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/25/5cc1b14a2dbb8.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/25/5cc1b148463ac.png">
-<meta property="og:updated_time" content="2019-04-25T13:17:56.000Z">
+<meta property="og:image" content="https://i.loli.net/2019/05/17/5cde1ad122c1791468.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/17/5cde1d807457e94025.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/17/5cde1f6f2f06d62897.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/17/5cde286953f7281362.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/17/5cde2672c025d72036.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/17/5cde525f1e3dc38883.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/17/5cde546cbe84290211.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/18/5cdff7e22a7c791092.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/18/5cdff9decccf547182.png">
+<meta property="og:updated_time" content="2019-05-18T12:41:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习实战-支持向量机 SVM">
-<meta name="twitter:description" content="数据集社交网络-Social_Network_Ads.csv 第 1 步：导入库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 第 2 步：导入数据123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2, 3]]">
+<meta name="twitter:description" content="基础用法数据集社交网络-Social_Network_Ads.csv 第 1 步：导入库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd 第 2 步：导入数据123dataset = pd.read_csv(&apos;Social_Network_Ads.csv&apos;)X = dataset.iloc[:, [2,">
 <meta name="twitter:image" content="https://i.loli.net/2019/04/25/5cc1ad314156e.png">
 
 
@@ -402,20 +411,201 @@
 
       
         <p><img src="https://i.loli.net/2019/04/25/5cc1ad314156e.png" alt="01_SVM"></p>
-<h2 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h2><p><a href="https://github.com/MLEveryday/100-Days-Of-ML-Code/blob/master/datasets/Social_Network_Ads.csv" target="_blank" rel="noopener">社交网络-Social_Network_Ads.csv</a></p>
-<h2 id="第-1-步：导入库"><a href="#第-1-步：导入库" class="headerlink" title="第 1 步：导入库"></a>第 1 步：导入库</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></table></figure>
-<h2 id="第-2-步：导入数据"><a href="#第-2-步：导入数据" class="headerlink" title="第 2 步：导入数据"></a>第 2 步：导入数据</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dataset = pd.read_csv(<span class="string">'Social_Network_Ads.csv'</span>)</span><br><span class="line">X = dataset.iloc[:, [<span class="number">2</span>, <span class="number">3</span>]].values</span><br><span class="line">y = dataset.iloc[:, <span class="number">4</span>].values</span><br></pre></td></tr></table></figure>
-<h2 id="第-3-步：拆分数据集为训练集合和测试集合"><a href="#第-3-步：拆分数据集为训练集合和测试集合" class="headerlink" title="第 3 步：拆分数据集为训练集合和测试集合"></a>第 3 步：拆分数据集为训练集合和测试集合</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.25</span>, random_state=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="第-4-步：特征量化"><a href="#第-4-步：特征量化" class="headerlink" title="第 4 步：特征量化"></a>第 4 步：特征量化</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line">sc = StandardScaler()</span><br><span class="line">X_train = sc.fit_transform(X_train)</span><br><span class="line">X_test = sc.fit_transform(X_test)</span><br></pre></td></tr></table></figure>
-<h2 id="第-5-步：适配-SVM-到训练集合"><a href="#第-5-步：适配-SVM-到训练集合" class="headerlink" title="第 5 步：适配 SVM 到训练集合"></a>第 5 步：适配 SVM 到训练集合</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line">classifier = SVC(kernel=<span class="string">'linear'</span>, random_state=<span class="number">0</span>)</span><br><span class="line">classifier.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
+<h2 id="基础用法"><a href="#基础用法" class="headerlink" title="基础用法"></a>基础用法</h2><h3 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h3><p><a href="https://github.com/MLEveryday/100-Days-Of-ML-Code/blob/master/datasets/Social_Network_Ads.csv" target="_blank" rel="noopener">社交网络-Social_Network_Ads.csv</a></p>
+<h3 id="第-1-步：导入库"><a href="#第-1-步：导入库" class="headerlink" title="第 1 步：导入库"></a>第 1 步：导入库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></table></figure>
+<h3 id="第-2-步：导入数据"><a href="#第-2-步：导入数据" class="headerlink" title="第 2 步：导入数据"></a>第 2 步：导入数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dataset = pd.read_csv(<span class="string">'Social_Network_Ads.csv'</span>)</span><br><span class="line">X = dataset.iloc[:, [<span class="number">2</span>, <span class="number">3</span>]].values</span><br><span class="line">y = dataset.iloc[:, <span class="number">4</span>].values</span><br></pre></td></tr></table></figure>
+<h3 id="第-3-步：拆分数据集为训练集合和测试集合"><a href="#第-3-步：拆分数据集为训练集合和测试集合" class="headerlink" title="第 3 步：拆分数据集为训练集合和测试集合"></a>第 3 步：拆分数据集为训练集合和测试集合</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.25</span>, random_state=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="第-4-步：特征量化"><a href="#第-4-步：特征量化" class="headerlink" title="第 4 步：特征量化"></a>第 4 步：特征量化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line">sc = StandardScaler()</span><br><span class="line">X_train = sc.fit_transform(X_train)</span><br><span class="line">X_test = sc.fit_transform(X_test)</span><br></pre></td></tr></table></figure>
+<h3 id="第-5-步：适配-SVM-到训练集合"><a href="#第-5-步：适配-SVM-到训练集合" class="headerlink" title="第 5 步：适配 SVM 到训练集合"></a>第 5 步：适配 SVM 到训练集合</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line">classifier = SVC(kernel=<span class="string">'linear'</span>, random_state=<span class="number">0</span>)</span><br><span class="line">classifier.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
 <h2 id="第-6-步：预测测试集合结果"><a href="#第-6-步：预测测试集合结果" class="headerlink" title="第 6 步：预测测试集合结果"></a>第 6 步：预测测试集合结果</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y_pred = classifier.predict(X_test)</span><br></pre></td></tr></table></figure>
-<h2 id="第-7-步：创建混淆矩阵"><a href="#第-7-步：创建混淆矩阵" class="headerlink" title="第 7 步：创建混淆矩阵"></a>第 7 步：创建混淆矩阵</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix</span><br><span class="line">cm = confusion_matrix(y_test, y_pred)</span><br></pre></td></tr></table></figure>
+<h3 id="第-7-步：创建混淆矩阵"><a href="#第-7-步：创建混淆矩阵" class="headerlink" title="第 7 步：创建混淆矩阵"></a>第 7 步：创建混淆矩阵</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix</span><br><span class="line">cm = confusion_matrix(y_test, y_pred)</span><br></pre></td></tr></table></figure>
 <p>打印混淆矩阵结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[63  5]</span><br><span class="line"> [ 7 25]]</span><br></pre></td></tr></table></figure></p>
-<h2 id="第-8-步：训练集合结果可视化"><a href="#第-8-步：训练集合结果可视化" class="headerlink" title="第 8 步：训练集合结果可视化"></a>第 8 步：训练集合结果可视化</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> matplotlib.colors <span class="keyword">import</span> ListedColormap</span><br><span class="line">X_set, y_set = X_train, y_train</span><br><span class="line">X1, X2 = np.meshgrid(np.arange(start=X_set[:, <span class="number">0</span>].min() - <span class="number">1</span>, stop=X_set[:, <span class="number">0</span>].max() + <span class="number">1</span>, step=<span class="number">0.01</span>),</span><br><span class="line">                     np.arange(start=X_set[:, <span class="number">1</span>].min() - <span class="number">1</span>, stop=X_set[:, <span class="number">1</span>].max() + <span class="number">1</span>, step=<span class="number">0.01</span>))</span><br><span class="line">plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),</span><br><span class="line">             alpha=<span class="number">0.75</span>, cmap=ListedColormap((<span class="string">'red'</span>, <span class="string">'green'</span>)))</span><br><span class="line">plt.xlim(X1.min(), X1.max())</span><br><span class="line">plt.ylim(X2.min(), X2.max())</span><br><span class="line"><span class="keyword">for</span> i, j <span class="keyword">in</span> enumerate(np.unique(y_set)):</span><br><span class="line">    plt.scatter(X_set[y_set == j, <span class="number">0</span>], X_set[y_set == j, <span class="number">1</span>],</span><br><span class="line">                c=ListedColormap((<span class="string">'red'</span>, <span class="string">'green'</span>))(i), label=j)</span><br><span class="line">plt.title(<span class="string">'SVM (Training set)'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Age'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Estimated Salary'</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h3 id="第-8-步：训练集合结果可视化"><a href="#第-8-步：训练集合结果可视化" class="headerlink" title="第 8 步：训练集合结果可视化"></a>第 8 步：训练集合结果可视化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> matplotlib.colors <span class="keyword">import</span> ListedColormap</span><br><span class="line">X_set, y_set = X_train, y_train</span><br><span class="line">X1, X2 = np.meshgrid(np.arange(start=X_set[:, <span class="number">0</span>].min() - <span class="number">1</span>, stop=X_set[:, <span class="number">0</span>].max() + <span class="number">1</span>, step=<span class="number">0.01</span>),</span><br><span class="line">                     np.arange(start=X_set[:, <span class="number">1</span>].min() - <span class="number">1</span>, stop=X_set[:, <span class="number">1</span>].max() + <span class="number">1</span>, step=<span class="number">0.01</span>))</span><br><span class="line">plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),</span><br><span class="line">             alpha=<span class="number">0.75</span>, cmap=ListedColormap((<span class="string">'red'</span>, <span class="string">'green'</span>)))</span><br><span class="line">plt.xlim(X1.min(), X1.max())</span><br><span class="line">plt.ylim(X2.min(), X2.max())</span><br><span class="line"><span class="keyword">for</span> i, j <span class="keyword">in</span> enumerate(np.unique(y_set)):</span><br><span class="line">    plt.scatter(X_set[y_set == j, <span class="number">0</span>], X_set[y_set == j, <span class="number">1</span>],</span><br><span class="line">                c=ListedColormap((<span class="string">'red'</span>, <span class="string">'green'</span>))(i), label=j)</span><br><span class="line">plt.title(<span class="string">'SVM (Training set)'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Age'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Estimated Salary'</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
 <p>运行结果如下图：<br><img src="https://i.loli.net/2019/04/25/5cc1b14a2dbb8.png" alt="02_train"></p>
-<h2 id="第-9-步：测试集合结果可视化"><a href="#第-9-步：测试集合结果可视化" class="headerlink" title="第 9 步：测试集合结果可视化"></a>第 9 步：测试集合结果可视化</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> matplotlib.colors <span class="keyword">import</span> ListedColormap</span><br><span class="line">X_set, y_set = X_test, y_test</span><br><span class="line">X1, X2 = np.meshgrid(np.arange(start=X_set[:, <span class="number">0</span>].min() - <span class="number">1</span>, stop=X_set[:, <span class="number">0</span>].max() + <span class="number">1</span>, step=<span class="number">0.01</span>),</span><br><span class="line">                     np.arange(start=X_set[:, <span class="number">1</span>].min() - <span class="number">1</span>, stop=X_set[:, <span class="number">1</span>].max() + <span class="number">1</span>, step=<span class="number">0.01</span>))</span><br><span class="line">plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),</span><br><span class="line">             alpha=<span class="number">0.75</span>, cmap=ListedColormap((<span class="string">'red'</span>, <span class="string">'green'</span>)))</span><br><span class="line">plt.xlim(X1.min(), X1.max())</span><br><span class="line">plt.ylim(X2.min(), X2.max())</span><br><span class="line"><span class="keyword">for</span> i, j <span class="keyword">in</span> enumerate(np.unique(y_set)):</span><br><span class="line">    plt.scatter(X_set[y_set == j, <span class="number">0</span>], X_set[y_set == j, <span class="number">1</span>],</span><br><span class="line">                c=ListedColormap((<span class="string">'red'</span>, <span class="string">'green'</span>))(i), label=j)</span><br><span class="line">plt.title(<span class="string">'SVM (Test set)'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Age'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Estimated Salary'</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h3 id="第-9-步：测试集合结果可视化"><a href="#第-9-步：测试集合结果可视化" class="headerlink" title="第 9 步：测试集合结果可视化"></a>第 9 步：测试集合结果可视化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> matplotlib.colors <span class="keyword">import</span> ListedColormap</span><br><span class="line">X_set, y_set = X_test, y_test</span><br><span class="line">X1, X2 = np.meshgrid(np.arange(start=X_set[:, <span class="number">0</span>].min() - <span class="number">1</span>, stop=X_set[:, <span class="number">0</span>].max() + <span class="number">1</span>, step=<span class="number">0.01</span>),</span><br><span class="line">                     np.arange(start=X_set[:, <span class="number">1</span>].min() - <span class="number">1</span>, stop=X_set[:, <span class="number">1</span>].max() + <span class="number">1</span>, step=<span class="number">0.01</span>))</span><br><span class="line">plt.contourf(X1, X2, classifier.predict(np.array([X1.ravel(), X2.ravel()]).T).reshape(X1.shape),</span><br><span class="line">             alpha=<span class="number">0.75</span>, cmap=ListedColormap((<span class="string">'red'</span>, <span class="string">'green'</span>)))</span><br><span class="line">plt.xlim(X1.min(), X1.max())</span><br><span class="line">plt.ylim(X2.min(), X2.max())</span><br><span class="line"><span class="keyword">for</span> i, j <span class="keyword">in</span> enumerate(np.unique(y_set)):</span><br><span class="line">    plt.scatter(X_set[y_set == j, <span class="number">0</span>], X_set[y_set == j, <span class="number">1</span>],</span><br><span class="line">                c=ListedColormap((<span class="string">'red'</span>, <span class="string">'green'</span>))(i), label=j)</span><br><span class="line">plt.title(<span class="string">'SVM (Test set)'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Age'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Estimated Salary'</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
 <p>运行结果如下图：<br><img src="https://i.loli.net/2019/04/25/5cc1b148463ac.png" alt="03_test"></p>
-<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://github.com/Avik-Jain/100-Days-Of-ML-Code" target="_blank" rel="noopener">机器学习100天</a></p>
+<h2 id="补充用法"><a href="#补充用法" class="headerlink" title="补充用法"></a>补充用法</h2><h3 id="线性支持向量机分类"><a href="#线性支持向量机分类" class="headerlink" title="线性支持向量机分类"></a>线性支持向量机分类</h3><p>以下的 <strong>Scikit-Learn</strong> 代码使用流水线进行缩放特征，并训练一个线性 <strong>SVM</strong> 模型（使用 <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html#sklearn.svm.LinearSVC" target="_blank" rel="noopener"><strong><code>LinearSVC</code></strong> 类</a>，超参数 <strong><code>C=1</code></strong>， <strong><code>hinge</code></strong> 损失函数），其中 <code>X</code> 为训练集特征， <code>y</code> 为训练集标签。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.pipeline <span class="keyword">import</span> Pipeline</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler</span><br><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> LinearSVC</span><br><span class="line">svm_clf = Pipeline((</span><br><span class="line">        (<span class="string">"scaler"</span>, StandardScaler()),</span><br><span class="line">        (<span class="string">"linear_svc"</span>, LinearSVC(C=<span class="number">1</span>, loss=<span class="string">"hinge"</span>, dual=<span class="keyword">False</span>)),</span><br><span class="line">    ))</span><br><span class="line">svm_clf.fit(X, y)</span><br></pre></td></tr></table></figure>
+<p><strong>提示</strong></p>
+<blockquote>
+<p><strong><code>LinearSVC</code></strong> 要使偏置项规范化，首先你应该集中训练集减去它的平均数。如果你使用了 <strong><code>StandardScaler</code></strong> ，那么它会自动处理。此外，确保你设置 <code>loss</code> 参数为 <code>hinge</code>，因为它不是默认值。最后，为了得到更好的效果，你需要将 <code>dual</code> 参数设置为 <code>False</code> ，除非特征数比样本量多。</p>
+</blockquote>
+<p>不同于 <strong>Logistic</strong> 回归分类器，<strong>SVM</strong> 分类器不会输出每个类别的概率。</p>
+<p>作为一种选择，你可以在 <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC" target="_blank" rel="noopener"><strong><code>SVC</code></strong> 类</a>，使用 <strong><code>SVC(kernel=&quot;linear&quot;, C=1)</code></strong> ，但是它比较慢，尤其在较大的训练集上，所以一般不被推荐。</p>
+<p>另一个选择是使用 <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html#sklearn.linear_model.SGDClassifier" target="_blank" rel="noopener"><strong><code>SGDClassifier</code></strong> 类</a>，即 <strong><code>SGDClassifier(loss=&quot;hinge&quot;, alpha=1/(m*C))</code></strong> 。它应用了<strong>随机梯度下降</strong>来训练一个线性 <strong> </strong> 分类器。尽管它不会和 <strong><code>LinearSVC</code></strong> 一样快速收敛，但是对于处理那些不适合放在内存的大数据集是非常有用的，或者处理在线分类任务同样有用。</p>
+<h3 id="非线性支持向量机分类"><a href="#非线性支持向量机分类" class="headerlink" title="非线性支持向量机分类"></a>非线性支持向量机分类</h3><h4 id="一般非线性"><a href="#一般非线性" class="headerlink" title="一般非线性"></a>一般非线性</h4><p>尽管线性 <strong>SVM</strong> 分类器在许多案例上表现得出乎意料的好，但是很多数据集并不是线性可分的。一种处理非线性数据集方法是增加更多的特征，例如多项式特征；在某些情况下可以变成线性可分的数据。在下图的左图中，它只有一个特征 <strong><code>x1</code></strong> 的简单的数据集，正如你看到的，该数据集不是线性可分的。但是如果你增加了第二个特征 <strong><code>x2=(x1)^2</code></strong> ，产生的 2D 数据集就能很好的线性可分。</p>
+<p><img src="https://i.loli.net/2019/05/17/5cde1ad122c1791468.png" alt="04_power"></p>
+<p>为了实施这个想法，通过 <strong>Scikit-Learn</strong>，你可以创建一个流水线（<strong>Pipeline</strong>）去包含多项式特征（<strong>PolynomialFeatures</strong>）变换，然后一个 <strong><code>StandardScaler</code></strong> 和 <strong><code>LinearSVC</code></strong> 。让我们在卫星数据集（<strong>moons datasets</strong>）测试一下效果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> make_moons</span><br><span class="line"><span class="keyword">from</span> sklearn.pipeline <span class="keyword">import</span> Pipeline</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> PolynomialFeatures</span><br><span class="line"></span><br><span class="line">polynomial_svm_clf = Pipeline((</span><br><span class="line">        (<span class="string">"poly_features"</span>, PolynomialFeatures(degree=<span class="number">3</span>)),</span><br><span class="line">        (<span class="string">"scaler"</span>, StandardScaler()),</span><br><span class="line">        (<span class="string">"svm_clf"</span>, LinearSVC(C=<span class="number">10</span>, loss=<span class="string">"hinge"</span>))</span><br><span class="line">    ))</span><br><span class="line"></span><br><span class="line">polynomial_svm_clf.fit(X, y)</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2019/05/17/5cde1d807457e94025.png" alt="05_poly"></p>
+<h4 id="多项式核"><a href="#多项式核" class="headerlink" title="多项式核"></a>多项式核</h4><p>添加多项式特征很容易实现，不仅仅在 <strong>SVM</strong>，在各种机器学习算法都有不错的表现，但是低次数的多项式不能处理非常复杂的数据集，而高次数的多项式却产生了大量的特征，会使模型变得慢。幸运的是，当你使用 <strong>SVM</strong> 时，你可以运用一个被称为<strong>“核技巧”（kernel trick）</strong>的神奇数学技巧。它可以取得就像你添加了许多多项式，甚至有高次数的多项式，一样好的结果。所以不会大量特征导致的组合爆炸，因为你并没有增加任何特征。这个技巧可以用 <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html#sklearn.svm.LinearSVC" target="_blank" rel="noopener"><strong>SVC</strong> 类</a>来实现。让我们在卫星数据集测试一下效果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line">poly_kernel_svm_clf = Pipeline((</span><br><span class="line">        (<span class="string">"scaler"</span>, StandardScaler()),</span><br><span class="line">        (<span class="string">"svm_clf"</span>, SVC(kernel=<span class="string">"poly"</span>, degree=<span class="number">3</span>, coef0=<span class="number">1</span>, C=<span class="number">5</span>))</span><br><span class="line">    ))</span><br><span class="line">poly_kernel_svm_clf.fit(X, y)</span><br></pre></td></tr></table></figure>
+<p>这段代码用3阶的多项式核训练了一个 <strong>SVM</strong> 分类器，如下图的左图。右图是使用了 <code>10</code> 阶的多项式核 <strong>SVM</strong> 分类器。很明显，如果你的模型过拟合，你可以减小多项式核的阶数。相反的，如果是欠拟合，你可以尝试增大它。超参数 <strong><code>coef0</code></strong> 控制了高阶多项式与低阶多项式对模型的影响。</p>
+<p><img src="https://i.loli.net/2019/05/17/5cde1f6f2f06d62897.png" alt="06_poly_kernel"></p>
+<h4 id="高斯-RBF-核"><a href="#高斯-RBF-核" class="headerlink" title="高斯 RBF 核"></a>高斯 RBF 核</h4><p><img src="https://i.loli.net/2019/05/17/5cde286953f7281362.png" alt="07_similarity"></p>
+<p>另一种解决非线性问题的方法是使用相似函数（<strong>similarity funtion</strong>）计算每个样本与特定地标（<strong>landmark</strong>）的相似度。例如，让我们来看看前面讨论过的一维数据集，并在 <strong><code>x1=-2</code></strong> 和 <strong><code>x1=1</code></strong> 之间增加两个地标（上图 左图）。接下来，我们定义一个相似函数，即高斯径向基函数（<strong>Gaussian Radial Basis Function，RBF</strong>），设置 <strong><code>γ = 0.3</code></strong>（公式如下）</p>
+<p>$\phi_{\gamma}(x, \ell) = exp(-\gamma |x - \ell |^2)$</p>
+<p>它是个从 0 到 1 的钟型函数，值为 0 的离地标很远，值为 1 的在地标上。现在我们准备计算新特征。例如，我们看一下样本 <strong><code>x1=-1</code></strong> ：它距离第一个地标距离是 1，距离第二个地标是 2。因此它的新特征为 <strong><code>x2=exp(-0.3 × (1^2))≈0.74</code></strong> 和 <strong><code>x3=exp(-0.3 × (2^2))≈0.30</code></strong> 。上图右边的图显示了特征转换后的数据集（删除了原始特征），正如你看到的，它现在是线性可分了。</p>
+<p>你可能想知道如何选择地标。最简单的方法是在数据集中的每一个样本的位置创建地标。这将产生更多的维度从而增加了转换后数据集是线性可分的可能性。但缺点是，<code>m</code> 个样本，<code>n</code> 个特征的训练集被转换成了 <code>m</code> 个实例，<code>m</code> 个特征的训练集（假设你删除了原始特征）。这样一来，如果你的训练集非常大，你最终会得到同样大的特征。</p>
+<p>就像多项式特征法一样，相似特征法对各种机器学习算法同样也有不错的表现。但是在所有额外特征上的计算成本可能很高，特别是在大规模的训练集上。然而，“核” 技巧再一次显现了它在 <strong>SVM</strong> 上的神奇之处：<strong>高斯核</strong>让你可以获得同样好的结果成为可能，就像你在相似特征法添加了许多相似特征一样，但事实上，你并不需要在<strong>RBF</strong>添加它们。我们使用 SVC 类的高斯 RBF 核来检验一下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rbf_kernel_svm_clf = Pipeline((</span><br><span class="line">        (<span class="string">"scaler"</span>, StandardScaler()),</span><br><span class="line">        (<span class="string">"svm_clf"</span>, SVC(kernel=<span class="string">"rbf"</span>, gamma=<span class="number">5</span>, C=<span class="number">0.001</span>))</span><br><span class="line">    ))</span><br><span class="line">rbf_kernel_svm_clf.fit(X, y)</span><br></pre></td></tr></table></figure>
+<p>这个模型在下图的左下角表示。其他的图显示了用不同的超参数 <strong><code>gamma (γ)</code></strong> 和 <strong><code>C</code></strong> 训练的模型。增大 <strong><code>γ</code></strong> 使钟型曲线更窄（下图左图），导致每个样本的影响范围变得更小：即判定边界最终变得更不规则，在单个样本周围环绕。相反的，较小的 <strong><code>γ</code></strong> 值使钟型曲线更宽，样本有更大的影响范围，判定边界最终则更加平滑。所以 <strong><code>γ</code></strong> 是可调整的超参数：如果你的模型过拟合，你应该减小 <strong><code>γ</code></strong> 值，若欠拟合，则增大 <strong><code>γ</code></strong> （与超参数 <strong><code>C</code></strong> 相似）。</p>
+<p><img src="https://i.loli.net/2019/05/17/5cde2672c025d72036.png" alt="08_RBF"></p>
+<h4 id="核函数如何选择？★"><a href="#核函数如何选择？★" class="headerlink" title="核函数如何选择？★"></a>核函数如何选择？★</h4><p>这么多可供选择的核函数，你如何决定使用哪一个？一般来说，你应该先尝试线性核函数（记住 <strong><code>LinearSVC</code></strong> 比 <strong><code>SVC(kernel=&quot;linear&quot;)</code></strong> 要快得多），尤其是当训练集很大或者有大量的特征的情况下。如果训练集不太大，你也可以尝试高斯径向基核（<strong>Gaussian RBF Kernel</strong>），它在大多数情况下都很有效。如果你有空闲的时间和计算能力，你还可以使用交叉验证和网格搜索来试验其他的核函数，特别是有专门用于你的训练集数据结构的核函数。</p>
+<h2 id="SVM-回归"><a href="#SVM-回归" class="headerlink" title="SVM 回归"></a>SVM 回归</h2><h3 id="线性回归任务"><a href="#线性回归任务" class="headerlink" title="线性回归任务"></a>线性回归任务</h3><p>正如我们之前提到的，<strong>SVM</strong> 算法应用广泛：不仅仅支持<strong>线性</strong>和<strong>非线性</strong>的分类任务，还支持<strong>线性</strong>和<strong>非线性</strong>的回归任务。技巧在于逆转我们的目标：限制间隔违规的情况下，不是试图在两个类别之间找到尽可能大的“街道”（即间隔）。<strong>SVM 回归</strong>任务是限制间隔违规情况下，尽量放置更多的样本在“街道”上。“街道”的宽度由超参数 <strong><code>ϵ</code></strong> 控制。下图显示了在一些随机生成的线性数据上，两个线性 <strong>SVM 回归</strong>模型的训练情况。一个有较大的间隔（ <strong><code>ϵ=1.5</code></strong> ），另一个间隔较小（ <strong><code>ϵ=0.5</code></strong> ）。</p>
+<p><img src="https://i.loli.net/2019/05/17/5cde525f1e3dc38883.png" alt="09_SVR_1"></p>
+<p>添加更多的数据样本在间隔之内并不会影响模型的预测，因此，这个模型认为是不敏感的（<strong>ϵ-insensitive</strong>）。</p>
+<p>你可以使用 <strong>Scikit-Learn</strong> 的 <strong><code>LinearSVR</code></strong> 类去实现线性 <strong>SVM 回归</strong>。下面的代码产生的模型在上图左图（训练数据需要被中心化和标准化）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> LinearSVR</span><br><span class="line">svm_reg = LinearSVR(epsilon=<span class="number">1.5</span>)</span><br><span class="line">svm_reg.fit(X, y)</span><br></pre></td></tr></table></figure>
+<h3 id="非线性回归任务"><a href="#非线性回归任务" class="headerlink" title="非线性回归任务"></a>非线性回归任务</h3><p>处理非线性回归任务，你可以使用核化的 <strong>SVM</strong> 模型。比如，下图显示了在随机二次方的训练集，使用二次方多项式核函数的 <strong>SVM 回归</strong>。左图是较小的正则化（即更大的 <strong><code>C</code></strong> 值），右图则是更大的正则化（即小的 <strong><code>C</code></strong> 值）</p>
+<p><img src="https://i.loli.net/2019/05/17/5cde546cbe84290211.png" alt="10_SVR_2"></p>
+<p>下面的代码的模型在上图中，其使用了 <strong>Scikit-Learn</strong> 的 <strong><code>SVR</code></strong> 类（支持核技巧）。在回归任务上， <strong><code>SVR</code></strong> 类和 <strong><code>SVC</code></strong> 类是一样的，并且 <strong><code>LinearSVR</code></strong> 是和 <strong><code>LinearSVC</code></strong> 等价。 <strong><code>LinearSVR</code></strong> 类和训练集的大小成线性（就像 <strong><code>LinearSVC</code></strong> 类），当训练集变大， <strong><code>SVR</code></strong> 会变的很慢（就像 <strong><code>SVC</code></strong> 类）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVR</span><br><span class="line">svm_poly_reg = SVR(kernel=<span class="string">"poly"</span>, degree=<span class="number">2</span>, C=<span class="number">100</span>, epsilon=<span class="number">0.1</span>)</span><br><span class="line">svm_poly_reg.fit(X, y)</span><br></pre></td></tr></table></figure>
+<h2 id="SVM-异常值检测"><a href="#SVM-异常值检测" class="headerlink" title="SVM 异常值检测"></a>SVM 异常值检测</h2><p>详情见 Scikit-Learn 文档，以后补充。</p>
+<h2 id="调参-★"><a href="#调参-★" class="headerlink" title="调参 ★"></a>调参 ★</h2><h3 id="SVM-分类算法库参数小结"><a href="#SVM-分类算法库参数小结" class="headerlink" title="SVM 分类算法库参数小结"></a>SVM 分类算法库参数小结</h3><p>这里我们对<strong>SVM</strong>分类算法库的重要参数做一个详细的解释，重点讲述调参的一些注意点。<br>
+<table>
+    <tr>
+        <td>参数</td> 
+        <td>LinearSVC</td> 
+        <td>SVC</td> 
+        <td>NuSVC</td> 
+    </tr>
+    <tr>
+        <td>惩罚系数C</td> 
+        <td colspan="2">即为我们第二节中 SVM 分类模型原型形式和对偶形式中的惩罚系数 C，默认为 1，一般需要通过交叉验证来选择一个合适的 C。一般来说，如果噪音点较多时，C 需要小一些。</td>
+        <td>NuSVC 没有这个参数, 它通过另一个参数 nu 来控制训练集训练的错误率，等价于选择了一个 C，让训练集训练后满足一个确定的错误率</td>
+    </tr>
+    <tr>
+        <td>nu</td> 
+        <td colspan="2">LinearSVC 和 SVC 没有这个参数，LinearSVC 和 SVC 使用惩罚系数 C 来控制惩罚力度。</td>
+        <td>nu 代表训练集训练的错误率的上限，或者说支持向量的百分比下限，取值范围为(0,1],默认是0.5.它和惩罚系数 C 类似，都可以控制惩罚的力度。</td>
+    </tr>
+    <tr>
+        <td>核函数 kernel</td>
+        <td>LinearSVC 没有这个参数，LinearSVC 限制了只能使用线性核函数</td>
+        <td colspan="2">核函数有四种内置选择，第三节已经讲到：'linear' 即线性核函数, 'poly' 即多项式核函数, 'rbf' 即高斯核函数, 'sigmoid' 即 sigmoid 核函数。如果选择了这些核函数， 对应的核函数参数在后面有单独的参数需要调。默认是高斯核 'rbf'。<br>还有一种选择为 "precomputed"，即我们预先计算出所有的训练集和测试集的样本对应的 Gram 矩阵，这样 K(x,z) 直接在对应的 Gram 矩阵中找对应的位置的值。</td>
+    </tr>
+    <tr>
+        <td>正则化参数 penalty </td>
+        <td>仅仅对线性拟合有意义，可以选择 'l1' 即 L1 正则化 或者 'l2' 即 L2 正则化。默认是 L2 正则化，如果我们需要产生稀疏话的系数的时候，可以选 L1 正则化,这和线性回归里面的 Lasso 回归类似。</td>
+        <td colspan="2">SVC 和 NuSVC 没有这个参数</td>
+    </tr>
+    <tr>
+        <td>是否用对偶形式优化 dual</td>
+        <td>这是一个布尔变量，控制是否使用对偶形式来优化算法，默认是 True，即采用上面第二节的分类算法对偶形式来优化算法。如果我们的样本量比特征数多，此时采用对偶形式计算量较大，推荐 dual 设置为 False，即采用原始形式优化</td>
+        <td colspan="2">SVC 和 NuSVC 没有这个参数</td>
+    </tr>
+    <tr>
+        <td>核函数参数 degree</td>
+        <td>LinearSVC 没有这个参数</td>
+        <td colspan="2">如果我们在 kernel 参数使用了多项式核函数 'poly'，那么我们就需要对这个参数进行调参。这个参数对应 K(x,z)=（γx∙z+r)^d 中的 d。默认是3。一般需要通过交叉验证选择一组合适的 γ,r,d</td>
+    </tr>
+    <tr>
+        <td>核函数参数 gamma</td>
+        <td>LinearSVC 没有这个参数</td>
+        <td colspan="2">如果我们在 kernel 参数使用了多项式核函数 'poly'，高斯核函数 ‘rbf’, 或者 sigmoid 核函数，那么我们就需要对这个参数进行调参。γ 默认为 'auto',即 1/特征维度。</td>
+    </tr>
+    <tr>
+        <td>核函数参数 coef0</td>
+        <td>LinearSVC 没有这个参数</td>
+        <td colspan="2">如果我们在 kernel 参数使用了多项式核函数 'poly'，或者 'sigmoid' 核函数，那么我们就需要对这个参数进行调参。coef0默认为 0</td>
+    </tr>
+    <tr>
+        <td>样本权重 class_weight</td>
+        <td colspan="3">指定样本各类别的的权重，主要是为了防止训练集某些类别的样本过多，导致训练的决策过于偏向这些类别。这里可以自己指定各个样本的权重，或者用 “balanced”，如果使用 “balanced”，则算法会自己计算权重，样本量少的类别所对应的样本权重会高。当然，如果你的样本类别分布没有明显的偏倚，则可以不管这个参数，选择默认的 "None"</td>
+    </tr>
+    <tr>
+        <td>分类决策 decision_function_shape</td>
+        <td>LinearSVC 没有这个参数，使用 multi_class 参数替代。</td>
+        <td colspan="2">可以选择'ovo'或者'ovr'.目前0.18版本默认是'ovo'.0.19版本将是'ovr' <br>OvR(one ve rest)的思想很简单，无论你是多少元分类，我们都可以看做二元分类。具体做法是，对于第K类的分类决策，我们把所有第K类的样本作为正例，除了第K类样本以外的所有样本都作为负例，然后在上面做二元分类，得到第K类的分类模型。其他类的分类模型获得以此类推。<br>OvO(one-vs-one)则是每次每次在所有的T类样本里面选择两类样本出来，不妨记为T1类和T2类，把所有的输出为T1和T2的样本放在一起，把T1作为正例，T2作为负例，进行二元分类，得到模型参数。我们一共需要T(T-1)/2次分类。<br>从上面的描述可以看出OvR相对简单，但分类效果相对略差（这里指大多数样本分布情况，某些样本分布下OvR可能更好）。而OvO分类相对精确，但是分类速度没有OvR快。一般建议使用OvO以达到较好的分类效果。</td>
+    </tr>
+    <tr>
+        <td>分类决策 multi_class</td>
+        <td>可以选择 'ovr' 或者 'crammer_singer' <br>'ovr'和 SVC 和 nuSVC 中的 decision_function_shape 对应的'ovr'类似。<br>'crammer_singer'是一种改良版的'ovr'，说是改良，但是没有比'ovr'好，一般在应用中都不建议使用。</td>
+        <td colspan="2">SVC 和 nuSVC 没有这个参数，使用 decision_function_shape 参数替代。</td>
+    </tr>
+    <tr>
+        <td>缓存大小 cache_size</td>
+        <td>LinearSVC 计算量不大，因此不需要这个参数</td>
+        <td colspan="2">在大样本的时候，缓存大小会影响训练速度，因此如果机器内存大，推荐用 500MB 甚至 1000MB。默认是 200，即 200MB.</td>
+    </tr>
+</table>
+</p>
+<h3 id="SVM-回归算法库参数小结"><a href="#SVM-回归算法库参数小结" class="headerlink" title="SVM 回归算法库参数小结"></a>SVM 回归算法库参数小结</h3><p><strong>SVM</strong> 回归算法库的重要参数巨大部分和分类算法库类似，因此这里重点讲述和分类算法库不同的部分，对于相同的部分可以参考上一节对应参数。<br>
+<table>
+    <tr>
+        <td>参数</td> 
+        <td>LinearSVR</td> 
+        <td>SVR</td> 
+        <td>NuSVR</td> 
+    </tr>
+    <tr>
+        <td>惩罚系数 C</td> 
+        <td colspan="3">即为我们第二节中 SVM 分类模型原型形式和对偶形式中的惩罚系数 C，默认为 1，一般需要通过交叉验证来选择一个合适的 C。一般来说，如果噪音点较多时，C 需要小一些。大家可能注意到在分类模型里面，nuSVC 使用了 nu 这个等价的参数控制错误率，就没有使用 C，为什么我们 nuSVR 仍然有这个参数呢，不是重复了吗？这里的原因在回归模型里面，我们除了惩罚系数 C 还有还有一个距离误差 ϵ 来控制损失度量，因此仅仅一个 nu 不能等同于 C.也就是说回归错误率是惩罚系数 C 和距离误差 ϵ 共同作用的结果。后面我们可以看到 nuSVR中nu 的作用。</td> 
+    </tr>
+    <tr>
+        <td>nu</td> 
+        <td colspan="2">LinearSVR 和 SVR 没有这个参数，用 ϵ 控制错误率</td> 
+        <td>nu 代表训练集训练的错误率的上限，或者说支持向量的百分比下限，取值范围为 (0,1] ，默认是 0.5 。通过选择不同的错误率可以得到不同的距离误差ϵ 。也就是说这里的 nu 的使用和 LinearSVR 和 SVR 的 ϵ 参数等价。</td> 
+    </tr>
+    <tr>
+        <td>距离误差 epsilon</td> 
+        <td colspan="2">即我们第二节回归模型中的 ϵ，训练集中的样本需满足 −ϵ−ξ∨i≤yi−w∙ϕ(xi)−b≤ϵ+ξ∧i </td>
+        <td>nuSVR 没有这个参数，用 nu 控制错误率</td> 
+    </tr>
+    <tr>
+        <td>是否用对偶形式优化 dual</td> 
+        <td>和SVC类似，可参考上一节的 dual 描述</td> 
+        <td colspan="2">SVR 和 NuSVR 没有这个参数</td> 
+    </tr>
+    <tr>
+        <td>正则化参数 penalty</td> 
+        <td>和SVC类似，可参考上一节的 penalty 描述</td> 
+        <td colspan="2">SVR 和 NuSVR 没有这个参数</td> 
+    </tr>
+    <tr>
+        <td>核函数 kernel</td> 
+        <td>LinearSVR 没有这个参数</td> 
+        <td colspan="2">和 SVC, nuSVC 类似，可参考上一节的 kernel 描述</td> 
+    </tr>
+    <tr>
+        <td>核函数参数 degree, gamma 和 coef0</td> 
+        <td>LinearSVR 没有这个参数</td> 
+        <td colspan="2">和 SVC, nuSVC 类似，可参考上一节的 kernel 参数描述</td> 
+    </tr>
+    <tr>
+        <td>损失函数度量 loss</td> 
+        <td>可以选择为 'epsilon_insensitive' 和 'squared_epsilon_insensitive' </td> 
+        <td colspan="2">SVR 和 NuSVR 没有这个参数</td> 
+    </tr>
+    <tr>
+        <td>缓存大小 cache_size</td> 
+        <td>LinearSVC 计算量不大，因此不需要这个参数</td> 
+        <td colspan="2">在大样本的时候，缓存大小会影响训练速度，因此如果机器内存大，和 SVC，nuSVC 一样，推荐用 500MB 甚至 1000MB 。默认是 200，即 200MB 。</td> 
+    </tr>
+</table>
+</p>
+<h3 id="SVM-算法调参要点"><a href="#SVM-算法调参要点" class="headerlink" title="SVM 算法调参要点"></a>SVM 算法调参要点</h3><p>上面已经对 <strong>scikit-learn</strong> 中类库的参数做了总结，这里对其他的调参要点做一个小结。</p>
+<ol>
+<li>一般推荐在做训练之前对数据进行归一化，当然测试集中的数据也需要归一化。。</li>
+<li>在特征数非常多的情况下，或者样本数远小于特征数的时候，使用线性核，效果已经很好，并且只需要选择惩罚系数 C 即可。</li>
+<li>在选择核函数时，如果线性拟合不好，一般推荐使用默认的高斯核 ‘rbf’。这时我们主要需要对惩罚系数 C 和核函数参数 γ 进行艰苦的调参，通过多轮的交叉验证选择合适的惩罚系数 C 和核函数参数γ。</li>
+<li>理论上高斯核不会比线性核差，但是这个理论却建立在要花费更多的时间来调参上。所以实际上能用线性核解决问题我们尽量使用线性核。</li>
+</ol>
+<h2 id="调参实例-★"><a href="#调参实例-★" class="headerlink" title="调参实例 ★"></a>调参实例 ★</h2><p>以高斯核函数 NuSVC 进行调参示例演练，这里我选取 《kaggle 泰坦尼克：从灾难中学习算法》中经过数据处理的数据集。假设 <strong><code>train_X</code></strong> 为训练特征， <strong><code>train_y</code></strong> 为训练标签，高斯核函数支持向量分类器主要需要调整的参数有两个 <strong><code>nu</code></strong> 和 <strong><code>gamma</code></strong>. 基于分类任务的评价指标指标有很多，我们这里选取 <strong><code>scoring=&#39;accuracy&#39;</code></strong> ，有兴趣的同学也可以尝试其他的评价指标，比如 <strong><code>&#39;f1&#39;</code></strong> <strong><code>&#39;roc_auc&#39;</code></strong> 等。</p>
+<h3 id="导入相关的库"><a href="#导入相关的库" class="headerlink" title="导入相关的库"></a>导入相关的库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> NuSVC</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> cross_val_score</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> GridSearchCV</span><br></pre></td></tr></table></figure>
+<h3 id="搜索参数-nu-的最优取值范围"><a href="#搜索参数-nu-的最优取值范围" class="headerlink" title="搜索参数 nu 的最优取值范围"></a>搜索参数 nu 的最优取值范围</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">nu_list = np.linspace(<span class="number">0.1</span>, <span class="number">0.7</span>, <span class="number">7</span>)</span><br><span class="line">accuracy_scroes = []</span><br><span class="line"><span class="keyword">for</span> nu <span class="keyword">in</span> nu_list:</span><br><span class="line">    nusvc = NuSVC(nu=nu)</span><br><span class="line">    scores_accuracy = cross_val_score(nusvc, train_X, train_y, scoring=<span class="string">'accuracy'</span>, cv=<span class="number">5</span>)</span><br><span class="line">    accuracy_scroes.append(scores_accuracy.mean())</span><br></pre></td></tr></table></figure>
+<p>打印曲线图<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plt.plot(nu_list, accuracy_scroes)</span><br><span class="line">plt.title(<span class="string">"nu for accuracy_scroes"</span>)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/18/5cdff7e22a7c791092.png" alt="11_nu"></p>
+<p>如上图可知，最佳 <strong><code>nu</code></strong> 值出现在 <strong><code>0.4</code></strong> 左右，所以网格搜索我们设定 <strong><code>nu</code></strong> 的取值范围在 <strong><code>[0.3, 0.6]</code></strong> 之间。</p>
+<h3 id="搜索参数-gamma-的最优取值范围"><a href="#搜索参数-gamma-的最优取值范围" class="headerlink" title="搜索参数 gamma 的最优取值范围"></a>搜索参数 gamma 的最优取值范围</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">gamma_list = np.linspace(<span class="number">0.01</span>, <span class="number">1</span>, <span class="number">91</span>)</span><br><span class="line">accuracy_scroes = []</span><br><span class="line"><span class="keyword">for</span> gamma <span class="keyword">in</span> gamma_list:</span><br><span class="line">    nusvc = NuSVC(gamma=gamma, nu=<span class="number">0.4</span>)</span><br><span class="line">    scores_accuracy = cross_val_score(nusvc, train_X, train_y, scoring=<span class="string">'accuracy'</span>, cv=<span class="number">5</span>)</span><br><span class="line">    accuracy_scroes1.append(scores_accuracy.mean())</span><br></pre></td></tr></table></figure>
+<p>打印曲线图<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plt.plot(gamma_list, accuracy_scroes)</span><br><span class="line">plt.title(<span class="string">"gamma for accuracy_scroes"</span>)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/18/5cdff9decccf547182.png" alt="12_gamma"></p>
+<p>如上图可知，最佳 <strong><code>gamma</code></strong> 值出现在 <strong><code>0.02</code></strong> 左右，所以网格搜索我们设定 <strong><code>gamma</code></strong> 的取值范围在 <strong><code>(0, 0.2]</code></strong> 之间。</p>
+<h3 id="网格搜索"><a href="#网格搜索" class="headerlink" title="网格搜索"></a>网格搜索</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">param_grid = &#123;<span class="string">'nu'</span>: np.linspace(<span class="number">0.3</span>, <span class="number">0.6</span>, <span class="number">31</span>), <span class="string">'gamma'</span>: np.linspace(<span class="number">0.01</span>, <span class="number">0.2</span>, <span class="number">191</span>)&#125;</span><br><span class="line">gsearch = GridSearchCV(NuSVC(), param_grid=param_grid, scoring=<span class="string">'accuracy'</span>, cv=<span class="number">5</span>)</span><br><span class="line">gsearch.fit(train_X, train_y)</span><br><span class="line">print(gsearch.best_params_)</span><br><span class="line">print(gsearch.best_score_)</span><br></pre></td></tr></table></figure>
+<p>输出结果为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;gamma&apos;: 0.019000000000000003, &apos;nu&apos;: 0.39&#125;</span><br><span class="line">0.8338945005611672</span><br></pre></td></tr></table></figure></p>
+<p>所以 <strong><code>gamma=0.019</code></strong> <strong><code>nu=0.39</code></strong> 即为最优参数.</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://github.com/Avik-Jain/100-Days-Of-ML-Code" target="_blank" rel="noopener">机器学习100天</a><br><a href="https://scikit-learn.org/stable/index.html" target="_blank" rel="noopener">Scikit-Learn</a></p>
 
       
     </div>
@@ -457,11 +647,11 @@
       
         <div class="post-tags">
           
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
             <a href="/tags/支持向量机/" rel="tag"># 支持向量机</a>
           
             <a href="/tags/SVM/" rel="tag"># SVM</a>
-          
-            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
           
         </div>
       
@@ -652,7 +842,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集"><span class="nav-number">1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-1-步：导入库"><span class="nav-number">2.</span> <span class="nav-text">第 1 步：导入库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-2-步：导入数据"><span class="nav-number">3.</span> <span class="nav-text">第 2 步：导入数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-3-步：拆分数据集为训练集合和测试集合"><span class="nav-number">4.</span> <span class="nav-text">第 3 步：拆分数据集为训练集合和测试集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-4-步：特征量化"><span class="nav-number">5.</span> <span class="nav-text">第 4 步：特征量化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-5-步：适配-SVM-到训练集合"><span class="nav-number">6.</span> <span class="nav-text">第 5 步：适配 SVM 到训练集合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-6-步：预测测试集合结果"><span class="nav-number">7.</span> <span class="nav-text">第 6 步：预测测试集合结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-7-步：创建混淆矩阵"><span class="nav-number">8.</span> <span class="nav-text">第 7 步：创建混淆矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-8-步：训练集合结果可视化"><span class="nav-number">9.</span> <span class="nav-text">第 8 步：训练集合结果可视化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-9-步：测试集合结果可视化"><span class="nav-number">10.</span> <span class="nav-text">第 9 步：测试集合结果可视化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">11.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础用法"><span class="nav-number">1.</span> <span class="nav-text">基础用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集"><span class="nav-number">1.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-1-步：导入库"><span class="nav-number">1.2.</span> <span class="nav-text">第 1 步：导入库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-2-步：导入数据"><span class="nav-number">1.3.</span> <span class="nav-text">第 2 步：导入数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-3-步：拆分数据集为训练集合和测试集合"><span class="nav-number">1.4.</span> <span class="nav-text">第 3 步：拆分数据集为训练集合和测试集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-4-步：特征量化"><span class="nav-number">1.5.</span> <span class="nav-text">第 4 步：特征量化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-5-步：适配-SVM-到训练集合"><span class="nav-number">1.6.</span> <span class="nav-text">第 5 步：适配 SVM 到训练集合</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第-6-步：预测测试集合结果"><span class="nav-number">2.</span> <span class="nav-text">第 6 步：预测测试集合结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第-7-步：创建混淆矩阵"><span class="nav-number">2.1.</span> <span class="nav-text">第 7 步：创建混淆矩阵</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-8-步：训练集合结果可视化"><span class="nav-number">2.2.</span> <span class="nav-text">第 8 步：训练集合结果可视化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第-9-步：测试集合结果可视化"><span class="nav-number">2.3.</span> <span class="nav-text">第 9 步：测试集合结果可视化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充用法"><span class="nav-number">3.</span> <span class="nav-text">补充用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性支持向量机分类"><span class="nav-number">3.1.</span> <span class="nav-text">线性支持向量机分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非线性支持向量机分类"><span class="nav-number">3.2.</span> <span class="nav-text">非线性支持向量机分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一般非线性"><span class="nav-number">3.2.1.</span> <span class="nav-text">一般非线性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多项式核"><span class="nav-number">3.2.2.</span> <span class="nav-text">多项式核</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#高斯-RBF-核"><span class="nav-number">3.2.3.</span> <span class="nav-text">高斯 RBF 核</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#核函数如何选择？★"><span class="nav-number">3.2.4.</span> <span class="nav-text">核函数如何选择？★</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SVM-回归"><span class="nav-number">4.</span> <span class="nav-text">SVM 回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性回归任务"><span class="nav-number">4.1.</span> <span class="nav-text">线性回归任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非线性回归任务"><span class="nav-number">4.2.</span> <span class="nav-text">非线性回归任务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SVM-异常值检测"><span class="nav-number">5.</span> <span class="nav-text">SVM 异常值检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调参-★"><span class="nav-number">6.</span> <span class="nav-text">调参 ★</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SVM-分类算法库参数小结"><span class="nav-number">6.1.</span> <span class="nav-text">SVM 分类算法库参数小结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SVM-回归算法库参数小结"><span class="nav-number">6.2.</span> <span class="nav-text">SVM 回归算法库参数小结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SVM-算法调参要点"><span class="nav-number">6.3.</span> <span class="nav-text">SVM 算法调参要点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调参实例-★"><span class="nav-number">7.</span> <span class="nav-text">调参实例 ★</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#导入相关的库"><span class="nav-number">7.1.</span> <span class="nav-text">导入相关的库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搜索参数-nu-的最优取值范围"><span class="nav-number">7.2.</span> <span class="nav-text">搜索参数 nu 的最优取值范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搜索参数-gamma-的最优取值范围"><span class="nav-number">7.3.</span> <span class="nav-text">搜索参数 gamma 的最优取值范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网格搜索"><span class="nav-number">7.4.</span> <span class="nav-text">网格搜索</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">8.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
@@ -737,6 +927,8 @@
   
 
 
+  
+
 
 
 
@@ -775,6 +967,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 
@@ -859,6 +1056,26 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
 

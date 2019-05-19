@@ -84,7 +84,7 @@
   
     
     
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Menlo:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
   
 
 
@@ -1271,10 +1271,10 @@
         
           
           
-数据集社交网络-Social_Network_Ads.csv
+基础用法数据集社交网络-Social_Network_Ads.csv
 第 1 步：导入库123import numpy as npimport matplotlib.pyplot as pltimport pandas as pd
 第 2 步：导入数据123dataset = pd.read_csv('Social_Network_Ads.csv')X = dataset.iloc[:, [2, 3]].valuesy = dataset.iloc[:, 4].values
-第 3 步：拆分数据集为训练集合和测试集合12from sklearn.model_selection import trai
+第 3 步：拆分数据集为训练集合和测试集合12from sklearn.model_selection import 
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1598,8 +1598,8 @@
         
           
           
-数据集 | 社交网络该数据集包含了社交网络中用户的信息。这些信息涉及用户 ID,性别,年龄以及预估薪资。一家汽车公司刚刚推出了他们新型的豪华 SUV，我们尝试预测哪些用户会购买这种全新 SUV 。并且在最后一列用来表示用户是否购买。我们将建立一种模型来预测用户是否购买这种 SUV，该模型基于两个变量，分别是年龄和预计薪资。因此我们的特征矩阵将是这两列。我们尝试寻找用户年龄与预估薪资之间的某种相关性，以及他是否购买 SUV 的决定。
-步骤1 | 数据预处理导入库123import numpy as npimport matplotlib.pyplot as pltimport pandas a
+逻辑回归数据集 | 社交网络该数据集包含了社交网络中用户的信息。这些信息涉及用户 ID,性别,年龄以及预估薪资。一家汽车公司刚刚推出了他们新型的豪华 SUV，我们尝试预测哪些用户会购买这种全新 SUV 。并且在最后一列用来表示用户是否购买。我们将建立一种模型来预测用户是否购买这种 SUV，该模型基于两个变量，分别是年龄和预计薪资。因此我们的特征矩阵将是这两列。我们尝试寻找用户年龄与预估薪资之间的某种相关性，以及他是否购买 SUV 的决定。
+步骤1 | 数据预处理导入库123import numpy as npimport matplotlib.pyplot as pltimport pand
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -2009,6 +2009,8 @@
   
 
 
+  
+
 
 
 
@@ -2047,6 +2049,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

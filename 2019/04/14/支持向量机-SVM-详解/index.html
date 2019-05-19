@@ -84,7 +84,7 @@
   
     
     
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Menlo:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
   
 
 
@@ -142,7 +142,7 @@
 <meta property="og:image" content="http://yoursite.com/支持向量机-SVM-详解/20190415100850127.png">
 <meta property="og:image" content="https://i.imgur.com/ACHoQSZ.gif">
 <meta property="og:image" content="https://i.loli.net/2019/04/15/5cb40e578b473.png">
-<meta property="og:updated_time" content="2019-04-22T08:21:52.000Z">
+<meta property="og:updated_time" content="2019-05-17T07:36:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="支持向量机 SVM 详解">
 <meta name="twitter:description" content="SVM 概述SVM 诞生于上世纪九十年代，由于它良好的性能，自一诞生便席卷了机器学习领域，并牢牢压制了神经网络领域好多年，据说 LeNet5（一种 CNN 手写数字识别算法，属于神经网络）自 1998 年诞生，在后来的好长一段时间并未能火起来，最主要的原因就是 SVM 这货，因为 SVM 也能达到类似的效果甚至超过 LeNet5， 而且比 LeNet5 计算量小。在不考虑集成学习和特定场景情况下，">
@@ -488,7 +488,17 @@
 <h4 id="线性核函数"><a href="#线性核函数" class="headerlink" title="线性核函数"></a>线性核函数</h4><p>线性核函数（<strong>Linear Kernel</strong>）其实就是线性可分 <strong>SVM</strong>，表达式为：</p>
 <p>$$K(x, z)=x \cdot z$$</p>
 <p>也就是说，线性 <strong>SVM</strong> 是非线性 <strong>SVM</strong> 的一个特殊的情况，即线性 <strong>SVM</strong> 是使用线性核函数的 <strong>SVM</strong>。</p>
-<h4 id="多项式核函数"><a href="#多项式核函数" class="headerlink" title="多项式核函数"></a>多项式核函数</h4><h4 id="高斯核函数"><a href="#高斯核函数" class="headerlink" title="高斯核函数"></a>高斯核函数</h4><h4 id="拉普拉斯核函数"><a href="#拉普拉斯核函数" class="headerlink" title="拉普拉斯核函数"></a>拉普拉斯核函数</h4><h4 id="Sigmoid核函数"><a href="#Sigmoid核函数" class="headerlink" title="Sigmoid核函数"></a>Sigmoid核函数</h4><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://zhuanlan.zhihu.com/p/36332083" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/36332083</a></p>
+<h4 id="多项式核函数"><a href="#多项式核函数" class="headerlink" title="多项式核函数"></a>多项式核函数</h4><p>多项式核函数（<strong>Polynomial Kernel</strong>）是线性不可分<strong>SVM</strong>常用的核函数之一，表达式为：</p>
+<p>$$ K(x, z)=(\gamma x \bullet z+r)^{d} $$</p>
+<p>其中，$\gamma,r,d$ 都需要自己调参定义。</p>
+<h4 id="高斯核函数"><a href="#高斯核函数" class="headerlink" title="高斯核函数"></a>高斯核函数</h4><p>高斯核函数（<strong>Gaussian Kernel</strong>），在<strong>SVM</strong>中也称为径向基核函数（<strong>Radial Basis Function,RBF</strong>），它是非线性分类<strong>SVM</strong>最主流的核函数。表达式为：</p>
+<p>$$ K(x, z)=\exp \left(-\gamma|x-z|^{2}\right) $$</p>
+<p>其中，$\gamma$ 大于 0，需要自己调参定义。</p>
+<h4 id="拉普拉斯核函数"><a href="#拉普拉斯核函数" class="headerlink" title="拉普拉斯核函数"></a>拉普拉斯核函数</h4><p>$$ K(x, z)=\exp \left(-\gamma|x-z|\right) $$</p>
+<h4 id="Sigmoid核函数"><a href="#Sigmoid核函数" class="headerlink" title="Sigmoid核函数"></a>Sigmoid核函数</h4><p><strong>Sigmoid</strong> 核函数（<strong>Sigmoid Kernel</strong>）也是线性不可分<strong>SVM</strong>常用的核函数之一，表达式为：</p>
+<p>$$ K(x, z)=\tanh (\gamma x \bullet z+r) $$</p>
+<p>其中，$\gamma, r$ 都需要自己调参定义。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://zhuanlan.zhihu.com/p/36332083" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/36332083</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/36379394" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/36379394</a></p>
 
       
@@ -809,6 +819,8 @@
   
 
 
+  
+
 
 
 
@@ -847,6 +859,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 

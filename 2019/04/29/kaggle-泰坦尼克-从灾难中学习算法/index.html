@@ -84,7 +84,7 @@
   
     
     
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Menlo:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
   
 
 
@@ -144,7 +144,8 @@
 <meta property="og:image" content="https://i.loli.net/2019/04/29/5cc713263ea6d.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/29/5cc71aca658f2.png">
 <meta property="og:image" content="https://i.loli.net/2019/04/30/5cc7e96fc0725.png">
-<meta property="og:updated_time" content="2019-04-30T06:22:42.000Z">
+<meta property="og:image" content="https://i.loli.net/2019/05/14/5cda2be677c5726202.png">
+<meta property="og:updated_time" content="2019-05-14T02:41:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="kaggle 泰坦尼克:从灾难中学习算法">
 <meta name="twitter:description" content="数据集Titanic 数据集是源自 1912 年泰坦尼克号沉没事故的存亡情况统计，1500 多人死于这场灾难。我们的训练数据集提供了共 891 名乘客的具体信息，包括姓名、性别、船舱等级、船票价格等，最重要的是 survived 信息：0/1 代表着死亡与幸存，我们的任务就是从这 891 名乘客信息中寻找特征，确定模型，用以预测测试数据集中其他 418 名乘客的幸存/死亡情况。 数据集下载链接 数">
@@ -413,6 +414,8 @@
 <p>创建算法比较表的表头，以及所有预测结果汇总表<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create table to compare MLA metrics</span></span><br><span class="line">MLA_columns = [<span class="string">'MLA Name'</span>, <span class="string">'MLA Parameters'</span>,<span class="string">'MLA Train Accuracy Mean'</span>, <span class="string">'MLA Test Accuracy Mean'</span>, <span class="string">'MLA Test Accuracy 3*STD'</span> ,<span class="string">'MLA Time'</span>]</span><br><span class="line">MLA_compare = pd.DataFrame(columns = MLA_columns)</span><br><span class="line"></span><br><span class="line"><span class="comment"># create table to compare MLA predictions</span></span><br><span class="line">MLA_predict = train[Target]</span><br></pre></td></tr></table></figure></p>
 <p>开始训练<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># index through MLA and save performance to table</span></span><br><span class="line">row_index = <span class="number">0</span></span><br><span class="line">train_X, train_y = train[Feature_x_bin], train[Target]</span><br><span class="line"><span class="keyword">for</span> alg <span class="keyword">in</span> MLA:</span><br><span class="line"></span><br><span class="line">    <span class="comment">#set name and parameters</span></span><br><span class="line">    MLA_name = alg.__class__.__name__</span><br><span class="line">    MLA_compare.loc[row_index, <span class="string">'MLA Name'</span>] = MLA_name</span><br><span class="line">    MLA_compare.loc[row_index, <span class="string">'MLA Parameters'</span>] = str(alg.get_params())</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#score model with cross validation: http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_validate.html#sklearn.model_selection.cross_validate</span></span><br><span class="line">    cv_results = model_selection.cross_validate(alg, train_X, train_y, cv  = cv_split)</span><br><span class="line"></span><br><span class="line">    MLA_compare.loc[row_index, <span class="string">'MLA Time'</span>] = cv_results[<span class="string">'fit_time'</span>].mean()</span><br><span class="line">    MLA_compare.loc[row_index, <span class="string">'MLA Train Accuracy Mean'</span>] = cv_results[<span class="string">'train_score'</span>].mean()</span><br><span class="line">    MLA_compare.loc[row_index, <span class="string">'MLA Test Accuracy Mean'</span>] = cv_results[<span class="string">'test_score'</span>].mean()   </span><br><span class="line">    <span class="comment">#if this is a non-bias random sample, then +/-3 standard deviations (std) from the mean, should statistically capture 99.7% of the subsets</span></span><br><span class="line">    MLA_compare.loc[row_index, <span class="string">'MLA Test Accuracy 3*STD'</span>] = cv_results[<span class="string">'test_score'</span>].std()*<span class="number">3</span>   <span class="comment">#let's know the worst that can happen!</span></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    <span class="comment">#save MLA predictions - see section 6 for usage</span></span><br><span class="line">    alg.fit(train_X, train_y)</span><br><span class="line">    MLA_predict[MLA_name] = alg.predict(train_X)</span><br><span class="line">    </span><br><span class="line">    row_index+=<span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#print and sort table: https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.sort_values.html</span></span><br><span class="line">MLA_compare.sort_values(by = [<span class="string">'MLA Test Accuracy Mean'</span>], ascending = <span class="keyword">False</span>, inplace = <span class="keyword">True</span>)</span><br><span class="line">MLA_compare</span><br></pre></td></tr></table></figure></p>
 <p><img src="https://i.loli.net/2019/04/30/5cc7e96fc0725.png" alt="13_alg"></p>
+<p>画出比较图:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="comment">#barplot using https://seaborn.pydata.org/generated/seaborn.barplot.html</span></span><br><span class="line">sns.barplot(x=<span class="string">'MLA Test Accuracy Mean'</span>, y = <span class="string">'MLA Name'</span>, data = MLA_compare, color = <span class="string">'m'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#prettify using pyplot: https://matplotlib.org/api/pyplot_api.html</span></span><br><span class="line">plt.title(<span class="string">'Machine Learning Algorithm Accuracy Score \n'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Accuracy Score (%)'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Algorithm'</span>)</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/14/5cda2be677c5726202.png" alt="14_campare"></p>
 <h3 id="选择模型"><a href="#选择模型" class="headerlink" title="选择模型"></a>选择模型</h3>
       
     </div>
@@ -724,6 +727,8 @@
   
 
 
+  
+
 
 
 
@@ -762,6 +767,11 @@
   
   
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
   
 
 
