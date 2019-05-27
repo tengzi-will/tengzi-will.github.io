@@ -136,7 +136,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/01/05/5c30376cb6fe9.png">
 <meta property="og:image" content="https://i.loli.net/2019/01/05/5c303a783d5f3.png">
 <meta property="og:image" content="https://i.loli.net/2019/01/05/5c30838beca1c.png">
-<meta property="og:updated_time" content="2019-02-04T06:33:48.000Z">
+<meta property="og:updated_time" content="2019-05-27T07:23:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="奇异值分解 SVD 与潜在语义分析 LSA">
 <meta name="twitter:description" content="LSA概论LSA(latent semantic analysis) 潜在语义分析，也被称为 LSI(latent semantic index)，是 Scott Deerwester，Susan T.Dumais 等人在1990年提出来的一种新的索引和检索方法。该方法和传统向量空间模型 (vector space model) 一样使用向量来表示词 (terms) 和文档 (documents)">
@@ -433,7 +433,7 @@
 <h2 id="词项-文档矩阵及SVD分解"><a href="#词项-文档矩阵及SVD分解" class="headerlink" title="词项-文档矩阵及SVD分解"></a>词项-文档矩阵及SVD分解</h2><p>在 <strong>LSA</strong> 中，我们不再将矩阵理解成变换，而是看作文本数据的集合。文本语料中所有的单词构成了矩阵的行，每一列表示一篇文档（词袋模型表示）。假设$ A $是一个 $ m \cdot n $ 的文本数据矩阵（$ n \ll m $），表示该语料包含 $ m $ 个单词，$ n $ 篇文档。这 $ m $ 个单词中肯定存在同义词等，这样一篇文档用 $ m $ 维特征表示就显得冗余，不利于计算。利用矩阵奇异值分解：</p>
 <p><img src="https://i.loli.net/2019/01/05/5c30328640ed9.png" alt="01_SVD"></p>
 <p>依据奇异值分解的性质1，矩阵 $ A $ 可以分解出 $ n $ 个特征值，然后依据性质2，我们选取其中较大的 $ r $ 个并排序，这样 $ U \Sigma V ^ { T } $ 就可以近似表示矩阵 $ A $。对于矩阵 $ U $，每一列代表一个潜语义，这个潜语义的意义由 $ m $ 个单词按不同权重组合而成。因为 $ U $ 中每一列相互独立，所以 $ r $ 个潜语义构成了一个语义空间。$ \Sigma $ 中每一个奇异值指示了该潜语义的重要度。$ V^T $中每一列仍然是一篇文档，但此时文档被映射到了语义空间。$ V^T $的大小远小于 $ A $，或者说 $ V^T $ 中列向量的维度远小于 $ A $ 中列向量的维度。</p>
-<p>有了 $ V^T $，我们就相当于有了矩阵AA的另外一种表示，之后我们就可以使用VTVT代替AA进行之后的工作。</p>
+<p>有了 $ V^T $，我们就相当于有了矩阵 $A$ 的另外一种表示，之后我们就可以使用 $V^T$ 代替 $A$ 进行之后的工作。</p>
 <p>假如我们有如下词项-文档矩阵</p>
 <p><img src="https://i.loli.net/2019/01/05/5c3036d303bef.png" alt="02_Matrix"></p>
 <p>这个矩阵的一行表示一个单词在哪些 title 中出现了（一行就是之前说的一维特征），一列表示一个 title 中包含哪些词，对这个矩阵进行奇异值分解，并选取奇异值最大的三项，得到下面矩阵：</p>
@@ -623,7 +623,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
