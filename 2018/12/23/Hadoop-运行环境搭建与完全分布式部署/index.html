@@ -188,10 +188,12 @@
 <meta property="og:image" content="https://i.loli.net/2019/05/23/5ce6093aa61cd95939.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/23/5ce68688e230065103.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/23/5ce6872f6d14a54293.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/23/5ce687e6555a950436.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/23/5ce688ede080189894.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/23/5ce68adf1928592730.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/23/5ce68adf101dc66273.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/23/5ce68adea7cae89525.png">
+<meta property="og:image" content="https://i.loli.net/2019/05/23/5ce68c273e6c537700.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/23/5ce68c276747d10520.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/23/5ce68dc9d87ba40379.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/23/5ce68dcc8a49466037.png">
@@ -224,7 +226,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/05/27/5cebab9fe064022782.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/27/5cebab9f74e9374960.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/27/5cebaba00298a18841.png">
-<meta property="og:updated_time" content="2019-05-27T09:25:36.000Z">
+<meta property="og:updated_time" content="2019-05-28T03:04:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop 运行环境搭建与完全分布式部署">
 <meta name="twitter:description" content="虚拟机环境搭建本机操作系统配置如下：  linux 版本：CentOS Linux release 7.4.1708(Core)运行命令 cat /etc/redhat-release cpu info：Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz运行命令 grep &amp;quot;model name&amp;quot; /proc/cpuinfo | cut -f2 -d">
@@ -635,9 +637,10 @@
 <p><img src="https://i.loli.net/2019/05/23/5ce6872f6d14a54293.png" alt="11_02_pwd"></p>
 <p>运行命令 <strong><code>sudo vim /etc/profile</code></strong> 打开 <strong><code>/etc/profile</code></strong> 文件，在末尾作如下修改：</p>
 <blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">##JAVA_HOME</span><br><span class="line">export JAVA_HOME=/opt/module/jdk1.8.0_144</span><br><span class="line">export PATH=$PATH:$JAVA_HOME/bin</span><br></pre></td></tr></table></figure>
 </blockquote>
-<p>##JAVA_HOME<br>export JAVA_HOME=/opt/module/jdk1.8.0_144<br>export PATH=$PATH:$JAVA_HOME/bin<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![11_03_javahome](https://i.loli.net/2019/05/23/5ce687e6555a950436.png)</span><br><span class="line"></span><br><span class="line">运行如下命令，让修改的文件生效，并测试一下 **jdk** 是否安装成功</span><br><span class="line">```bash</span><br><span class="line">&gt;&gt;&gt; source /etc/profile</span><br><span class="line">&gt;&gt;&gt; java -version</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/23/5ce687e6555a950436.png" alt="11_03_javahome"></p>
+<p>运行如下命令，让修改的文件生效，并测试一下 <strong>jdk</strong> 是否安装成功<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="built_in">source</span> /etc/profile</span><br><span class="line">&gt;&gt;&gt; java -version</span><br></pre></td></tr></table></figure></p>
 <p><img src="https://i.loli.net/2019/05/23/5ce688ede080189894.png" alt="11_04_version"></p>
 <h2 id="配置-hadoop"><a href="#配置-hadoop" class="headerlink" title="配置 hadoop"></a>配置 hadoop</h2><h3 id="安装-hadoop"><a href="#安装-hadoop" class="headerlink" title="安装 hadoop"></a>安装 hadoop</h3><p>进入到 Hadoop 安装包路径下，解压 <strong>hadoop</strong> 到 <strong><code>/opt/module</code></strong> 目录下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; tar -zxvf hadoop-2.7.2.tar.gz -C /opt/module/</span><br></pre></td></tr></table></figure></p>
 <p><img src="https://i.loli.net/2019/05/23/5ce68adf1928592730.png" alt="12_01_hadoop"></p>
@@ -646,9 +649,10 @@
 <p>配置环境变量，首先进入目录 <strong><code>/opt/module/hadoop-2.7.2</code></strong> ，运行命令 <strong><code>pwd</code></strong> 获取路径地址，如下图<br><img src="https://i.loli.net/2019/05/23/5ce68adea7cae89525.png" alt="12_03_pwd"></p>
 <p>运行命令 <strong><code>sudo vim /etc/profile</code></strong> 打开 <strong><code>/etc/profile</code></strong> 文件，在末尾作如下修改：</p>
 <blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">##HADOOP_HOME</span><br><span class="line">export HADOOP_HOME=/opt/module/hadoop-2.7.2</span><br><span class="line">export PATH=$PATH:$HADOOP_HOME/bin</span><br><span class="line">export PATH=$PATH:$HADOOP_HOME/sbin</span><br></pre></td></tr></table></figure>
 </blockquote>
-<p>##HADOOP_HOME<br>export HADOOP_HOME=/opt/module/hadoop-2.7.2<br>export PATH=$PATH:$HADOOP_HOME/bin<br>export PATH=$PATH:$HADOOP_HOME/sbin<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">![12_04_hadoophome](https://i.loli.net/2019/05/23/5ce68c273e6c537700.png)</span><br><span class="line"></span><br><span class="line">运行如下命令，让修改的文件生效，并测试一下 **hadoop** 是否安装成功</span><br><span class="line">```bash</span><br><span class="line">&gt;&gt;&gt; source /etc/profile</span><br><span class="line">&gt;&gt;&gt; hadoop</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://i.loli.net/2019/05/23/5ce68c273e6c537700.png" alt="12_04_hadoophome"></p>
+<p>运行如下命令，让修改的文件生效，并测试一下 <strong>hadoop</strong> 是否安装成功<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; <span class="built_in">source</span> /etc/profile</span><br><span class="line">&gt;&gt;&gt; hadoop</span><br></pre></td></tr></table></figure></p>
 <p><img src="https://i.loli.net/2019/05/23/5ce68c276747d10520.png" alt="12_05_hadoop"></p>
 <p>如上图所示，表示安装完成。</p>
 <h3 id="hadoop-文件说明"><a href="#hadoop-文件说明" class="headerlink" title="hadoop 文件说明"></a>hadoop 文件说明</h3><p>进入 <strong>hadoop</strong> 的 <strong><code>bin</code></strong> 目录下，看下都有哪些命令，如下图<br><img src="https://i.loli.net/2019/05/23/5ce68dc9d87ba40379.png" alt="12_06_bin"></p>
