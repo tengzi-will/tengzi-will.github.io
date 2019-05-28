@@ -226,7 +226,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/05/27/5cebab9fe064022782.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/27/5cebab9f74e9374960.png">
 <meta property="og:image" content="https://i.loli.net/2019/05/27/5cebaba00298a18841.png">
-<meta property="og:updated_time" content="2019-05-28T03:04:02.000Z">
+<meta property="og:updated_time" content="2019-05-28T03:18:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop 运行环境搭建与完全分布式部署">
 <meta name="twitter:description" content="虚拟机环境搭建本机操作系统配置如下：  linux 版本：CentOS Linux release 7.4.1708(Core)运行命令 cat /etc/redhat-release cpu info：Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz运行命令 grep &amp;quot;model name&amp;quot; /proc/cpuinfo | cut -f2 -d">
@@ -632,7 +632,7 @@
 <p>把上面下载好的 <strong>jdk</strong> 文件放入目录 <strong><code>software</code></strong> ，同时把事前准备好的 <strong>hadoop jar</strong> 包也放入目录 <strong><code>software</code></strong> ，待安装文件准备就绪，准备安装。</p>
 <p><img src="https://i.loli.net/2019/05/23/5ce6093aa61cd95939.png" alt="10_08_software"></p>
 <h3 id="安装-jdk"><a href="#安装-jdk" class="headerlink" title="安装 jdk"></a>安装 jdk</h3><p>解压 <strong>jdk</strong> 到 <strong><code>/opt/module</code></strong> 目录下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; tar -zxvf jdk-8u144-linux-x64.tar.gz -C /opt/module/</span><br></pre></td></tr></table></figure></p>
-<p>图11—01<br><img src="https://i.loli.net/2019/05/23/5ce68688e230065103.png" alt="11_01_jdk"></p>
+<p><img src="https://i.loli.net/2019/05/23/5ce68688e230065103.png" alt="11_01_jdk"></p>
 <p>配置 <strong>jdk</strong> 环境变量，首先进入目录 <strong><code>/opt/module/jdk1.8.0_144</code></strong> ，运行命令 <strong><code>pwd</code></strong> 获取路径地址，如下图</p>
 <p><img src="https://i.loli.net/2019/05/23/5ce6872f6d14a54293.png" alt="11_02_pwd"></p>
 <p>运行命令 <strong><code>sudo vim /etc/profile</code></strong> 打开 <strong><code>/etc/profile</code></strong> 文件，在末尾作如下修改：</p>
