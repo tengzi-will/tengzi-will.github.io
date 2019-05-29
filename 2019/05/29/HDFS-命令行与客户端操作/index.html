@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Menlo:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="hadoop,HDFS,分布式文件系统,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="HDFS 命令行操作基本命令：1&amp;gt;&amp;gt;&amp;gt; bin/hadoop fs 参数大全：1234567891011121314151617181920212223242526272829303132333435363738394041Usage: hadoop fs [generic options]	[-appendToFile &amp;lt;localsrc&amp;gt; ... &amp;lt;dst&amp;">
+<meta name="keywords" content="hadoop,HDFS,分布式文件系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HDFS 命令行与客户端操作">
+<meta property="og:url" content="http://yoursite.com/2019/05/29/HDFS-命令行与客户端操作/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="HDFS 命令行操作基本命令：1&amp;gt;&amp;gt;&amp;gt; bin/hadoop fs 参数大全：1234567891011121314151617181920212223242526272829303132333435363738394041Usage: hadoop fs [generic options]	[-appendToFile &amp;lt;localsrc&amp;gt; ... &amp;lt;dst&amp;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-29T07:33:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HDFS 命令行与客户端操作">
+<meta name="twitter:description" content="HDFS 命令行操作基本命令：1&amp;gt;&amp;gt;&amp;gt; bin/hadoop fs 参数大全：1234567891011121314151617181920212223242526272829303132333435363738394041Usage: hadoop fs [generic options]	[-appendToFile &amp;lt;localsrc&amp;gt; ... &amp;lt;dst&amp;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/29/HDFS-命令行与客户端操作/">
+
+
+
+
+
+  <title>HDFS 命令行与客户端操作 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/29/HDFS-命令行与客户端操作/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">HDFS 命令行与客户端操作</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-29T13:21:09+08:00">
+                2019-05-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="HDFS-命令行操作"><a href="#HDFS-命令行操作" class="headerlink" title="HDFS 命令行操作"></a>HDFS 命令行操作</h2><p>基本命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; bin/hadoop fs</span><br></pre></td></tr></table></figure></p>
+<p>参数大全：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">Usage: hadoop fs [generic options]</span><br><span class="line">	[-appendToFile &lt;localsrc&gt; ... &lt;dst&gt;]</span><br><span class="line">	[-cat [-ignoreCrc] &lt;src&gt; ...]</span><br><span class="line">	[-checksum &lt;src&gt; ...]</span><br><span class="line">	[-chgrp [-R] GROUP PATH...]</span><br><span class="line">	[-chmod [-R] &lt;MODE[,MODE]... | OCTALMODE&gt; PATH...]</span><br><span class="line">	[-chown [-R] [OWNER][:[GROUP]] PATH...]</span><br><span class="line">	[-copyFromLocal [-f] [-p] [-l] &lt;localsrc&gt; ... &lt;dst&gt;]</span><br><span class="line">	[-copyToLocal [-p] [-ignoreCrc] [-crc] &lt;src&gt; ... &lt;localdst&gt;]</span><br><span class="line">	[-count [-q] [-h] &lt;path&gt; ...]</span><br><span class="line">	[-cp [-f] [-p | -p[topax]] &lt;src&gt; ... &lt;dst&gt;]</span><br><span class="line">	[-createSnapshot &lt;snapshotDir&gt; [&lt;snapshotName&gt;]]</span><br><span class="line">	[-deleteSnapshot &lt;snapshotDir&gt; &lt;snapshotName&gt;]</span><br><span class="line">	[-df [-h] [&lt;path&gt; ...]]</span><br><span class="line">	[-du [-s] [-h] &lt;path&gt; ...]</span><br><span class="line">	[-expunge]</span><br><span class="line">	[-find &lt;path&gt; ... &lt;expression&gt; ...]</span><br><span class="line">	[-get [-p] [-ignoreCrc] [-crc] &lt;src&gt; ... &lt;localdst&gt;]</span><br><span class="line">	[-getfacl [-R] &lt;path&gt;]</span><br><span class="line">	[-getfattr [-R] &#123;-n name | -d&#125; [-e en] &lt;path&gt;]</span><br><span class="line">	[-getmerge [-nl] &lt;src&gt; &lt;localdst&gt;]</span><br><span class="line">	[-help [cmd ...]]</span><br><span class="line">	[-ls [-d] [-h] [-R] [&lt;path&gt; ...]]</span><br><span class="line">	[-mkdir [-p] &lt;path&gt; ...]</span><br><span class="line">	[-moveFromLocal &lt;localsrc&gt; ... &lt;dst&gt;]</span><br><span class="line">	[-moveToLocal &lt;src&gt; &lt;localdst&gt;]</span><br><span class="line">	[-mv &lt;src&gt; ... &lt;dst&gt;]</span><br><span class="line">	[-put [-f] [-p] [-l] &lt;localsrc&gt; ... &lt;dst&gt;]</span><br><span class="line">	[-renameSnapshot &lt;snapshotDir&gt; &lt;oldName&gt; &lt;newName&gt;]</span><br><span class="line">	[-rm [-f] [-r|-R] [-skipTrash] &lt;src&gt; ...]</span><br><span class="line">	[-rmdir [--ignore-fail-on-non-empty] &lt;dir&gt; ...]</span><br><span class="line">	[-setfacl [-R] [&#123;-b|-k&#125; &#123;-m|-x &lt;acl_spec&gt;&#125; &lt;path&gt;]|[--set &lt;acl_spec&gt; &lt;path&gt;]]</span><br><span class="line">	[-setfattr &#123;-n name [-v value] | -x name&#125; &lt;path&gt;]</span><br><span class="line">	[-setrep [-R] [-w] &lt;rep&gt; &lt;path&gt; ...]</span><br><span class="line">	[-stat [format] &lt;path&gt; ...]</span><br><span class="line">	[-tail [-f] &lt;file&gt;]</span><br><span class="line">	[-test -[defsz] &lt;path&gt;]</span><br><span class="line">	[-text [-ignoreCrc] &lt;src&gt; ...]</span><br><span class="line">	[-touchz &lt;path&gt; ...]</span><br><span class="line">	[-truncate [-w] &lt;length&gt; &lt;path&gt; ...]</span><br><span class="line">	[-usage [cmd ...]]</span><br></pre></td></tr></table></figure></p>
+<h3 id="help：输出这个命令参数"><a href="#help：输出这个命令参数" class="headerlink" title="-help：输出这个命令参数"></a>-help：输出这个命令参数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -<span class="built_in">help</span> rm</span><br></pre></td></tr></table></figure>
+<h3 id="ls：显示目录信息"><a href="#ls：显示目录信息" class="headerlink" title="-ls：显示目录信息"></a>-ls：显示目录信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -ls /</span><br></pre></td></tr></table></figure>
+<h3 id="mkdir：在-hdfs-上创建目录"><a href="#mkdir：在-hdfs-上创建目录" class="headerlink" title="-mkdir：在 hdfs 上创建目录"></a>-mkdir：在 hdfs 上创建目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -mkdir -p /user/luoteng/</span><br></pre></td></tr></table></figure>
+<h3 id="moveFromLocal：从本地剪切粘贴到-hdfs"><a href="#moveFromLocal：从本地剪切粘贴到-hdfs" class="headerlink" title="-moveFromLocal：从本地剪切粘贴到 hdfs"></a>-moveFromLocal：从本地剪切粘贴到 hdfs</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -moveFromLocal ./file.txt /user/luoteng</span><br></pre></td></tr></table></figure>
+<h3 id="appendToFile：追加一个文件到已经存在的文件末尾"><a href="#appendToFile：追加一个文件到已经存在的文件末尾" class="headerlink" title="-appendToFile：追加一个文件到已经存在的文件末尾"></a>-appendToFile：追加一个文件到已经存在的文件末尾</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -appendToFile newfile.txt /user/luoteng/file.txt</span><br></pre></td></tr></table></figure>
+<h3 id="cat：显示文件内容"><a href="#cat：显示文件内容" class="headerlink" title="-cat：显示文件内容"></a>-cat：显示文件内容</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -cat file.txt</span><br></pre></td></tr></table></figure>
+<h3 id="tail：显示一个文件的末尾"><a href="#tail：显示一个文件的末尾" class="headerlink" title="-tail：显示一个文件的末尾"></a>-tail：显示一个文件的末尾</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop102 hadoop-2.7.2]$ hadoop fs -tail /user/luoteng/file.txt</span><br></pre></td></tr></table></figure>
+<h3 id="chgrp-chmod-chown：修改文件所属权限"><a href="#chgrp-chmod-chown：修改文件所属权限" class="headerlink" title="-chgrp -chmod -chown：修改文件所属权限"></a>-chgrp -chmod -chown：修改文件所属权限</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ adoop fs -chmod 666 /user/luoteng/file.txt</span><br><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -chown luoteng:luoteng /user/luoteng/file.txt</span><br></pre></td></tr></table></figure>
+<h3 id="copyFromLocal：从本地文件系统中拷贝文件到-hdfs-路径去"><a href="#copyFromLocal：从本地文件系统中拷贝文件到-hdfs-路径去" class="headerlink" title="-copyFromLocal：从本地文件系统中拷贝文件到 hdfs 路径去"></a>-copyFromLocal：从本地文件系统中拷贝文件到 hdfs 路径去</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -copyFromLocal README.txt /user/luoteng</span><br></pre></td></tr></table></figure>
+<h3 id="copyToLocal-从-hdfs-拷贝到本地"><a href="#copyToLocal-从-hdfs-拷贝到本地" class="headerlink" title="-copyToLocal:从 hdfs 拷贝到本地"></a>-copyToLocal:从 hdfs 拷贝到本地</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -copyToLocal /user/luoteng/file.txt ./file.txt</span><br></pre></td></tr></table></figure>
+<h3 id="cp：从-hdfs-的一个路径拷贝到-hdfs-的另一个路径"><a href="#cp：从-hdfs-的一个路径拷贝到-hdfs-的另一个路径" class="headerlink" title="-cp：从 hdfs 的一个路径拷贝到 hdfs 的另一个路径"></a>-cp：从 hdfs 的一个路径拷贝到 hdfs 的另一个路径</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -cp /user/luoteng/file.txt /file.txt</span><br></pre></td></tr></table></figure>
+<h3 id="mv：在-hdfs-目录中移动文件"><a href="#mv：在-hdfs-目录中移动文件" class="headerlink" title="-mv：在 hdfs 目录中移动文件"></a>-mv：在 hdfs 目录中移动文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -mv /file.txt /user/luoteng/</span><br></pre></td></tr></table></figure>
+<h3 id="get：等同于-copyToLocal-就是从-hdfs-下载文件到本地"><a href="#get：等同于-copyToLocal-就是从-hdfs-下载文件到本地" class="headerlink" title="-get：等同于 copyToLocal,就是从 hdfs 下载文件到本地"></a>-get：等同于 copyToLocal,就是从 hdfs 下载文件到本地</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -get /user/luoteng/file.txt ./</span><br></pre></td></tr></table></figure>
+<h3 id="getmerge：合并下载多个文件"><a href="#getmerge：合并下载多个文件" class="headerlink" title="-getmerge：合并下载多个文件"></a>-getmerge：合并下载多个文件</h3><p>比如 hdfs 的目录 <strong><code>user/luoteng/</code></strong> 下有多个文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -getmerge /user/luoteng/* ./mergefile.txt</span><br></pre></td></tr></table></figure></p>
+<h3 id="put：等同于-copyFromLocal"><a href="#put：等同于-copyFromLocal" class="headerlink" title="-put：等同于 copyFromLocal"></a>-put：等同于 copyFromLocal</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -put ./mergefile.txt /user/lutoeng/</span><br></pre></td></tr></table></figure>
+<h3 id="rm：删除文件或文件夹"><a href="#rm：删除文件或文件夹" class="headerlink" title="-rm：删除文件或文件夹"></a>-rm：删除文件或文件夹</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -rm /user/lutoeng/file.txt</span><br></pre></td></tr></table></figure>
+<h3 id="rmdir：删除空目录"><a href="#rmdir：删除空目录" class="headerlink" title="-rmdir：删除空目录"></a>-rmdir：删除空目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -rmdir /<span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+<h3 id="df：统计文件系统的可用空间信息"><a href="#df：统计文件系统的可用空间信息" class="headerlink" title="-df：统计文件系统的可用空间信息"></a>-df：统计文件系统的可用空间信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -df -h /</span><br></pre></td></tr></table></figure>
+<h4 id="du：统计文件夹的大小信息"><a href="#du：统计文件夹的大小信息" class="headerlink" title="-du：统计文件夹的大小信息"></a>-du：统计文件夹的大小信息</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -du -s -h /user/luoteng</span><br><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -du -h /user/luoteng</span><br></pre></td></tr></table></figure>
+<h3 id="setrep：设置-hdfs-中文件的副本数量"><a href="#setrep：设置-hdfs-中文件的副本数量" class="headerlink" title="-setrep：设置 hdfs 中文件的副本数量"></a>-setrep：设置 hdfs 中文件的副本数量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[user@hadoop101 hadoop-2.7.2]$ hadoop fs -setrep 10 /user/luoteng/file.txt</span><br></pre></td></tr></table></figure>
+<p>这里设置的副本数只是记录在 <strong>NameNode</strong> 的元数据中，是否真的会有这么多副本，还得看 <strong>DataNode</strong> 的数量。因为目前只有 3 台设备，最多也就 3 个副本，只有节点数的增加到10 台时，副本数才能达到 10。</p>
+<h2 id="HDFS-客户端操作"><a href="#HDFS-客户端操作" class="headerlink" title="HDFS 客户端操作"></a>HDFS 客户端操作</h2><h3 id="HDFS-客户端环境准备"><a href="#HDFS-客户端环境准备" class="headerlink" title="HDFS 客户端环境准备"></a>HDFS 客户端环境准备</h3><ol>
+<li>根据自己电脑的操作系统安装 jdk （一般系统自带，没有去官网下一个）</li>
+<li>根据自己电脑的操作系统拷贝对应的编译后的 <strong>hadoop jar</strong> 包到非中文路径</li>
+<li>配置 <strong>HADOOP_HOME</strong> 环境变量，<strong>windows</strong> 和 <strong>linux</strong> 操作各有不同。</li>
+<li>下载一个 java 编译器，我用的是 <a href="https://www.eclipse.org/downloads/" target="_blank" rel="noopener">eclipse</a> 。</li>
+<li>创建一个 <strong>Maven</strong> 工程，命名为 <strong>HDFS-Client</strong></li>
+<li><p>导入相应的依赖坐标<br>在 <strong>pom.xml</strong> 文件中添加以下内容：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.logging.log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.8.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-common<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.7.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.7.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.hadoop<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>hadoop-hdfs<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.7.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>点击保存后会自动下载相应的东西，这里需要等很久，就慢慢等让他下载吧！<br>保存完毕后可能会出现文件头标错，鼠标点击项目目录右键 -&gt; <strong><code>Maven</code></strong> -&gt; <strong><code>Update Project</code></strong> -&gt; <strong><code>Force Update of Snapshots/Releases</code></strong> 打钩 -&gt; <strong><code>OK</code></strong> 。</p>
+</li>
+<li><p>导入日志添加<br>在 <strong>src/main/resources</strong> 模流下新建 <strong>File</strong> 文件，命名为 <strong>log4j.properties</strong>，在其中写入如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">log4j.rootLogger=INFO, stdout</span><br><span class="line">log4j.appender.stdout=org.apache.log4j.ConsoleAppender</span><br><span class="line">log4j.appender.stdout.layout=org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.stdout.layout.ConversionPattern=%d %p [%c] - %m%n</span><br><span class="line">log4j.appender.logfile=org.apache.log4j.FileAppender</span><br><span class="line">log4j.appender.logfile.File=target/spring.log</span><br><span class="line">log4j.appender.logfile.layout=org.apache.log4j.PatternLayout</span><br><span class="line">log4j.appender.logfile.layout.ConversionPattern=%d %p [%c] - %m%n</span><br></pre></td></tr></table></figure>
+<p>这是解决 <strong>Eclipse/Idea</strong> 打印不出日志，在控制台上只显示 <strong><code>log4j:WARN</code></strong> 的问题。</p>
+</li>
+<li>在 <strong>src/main/java</strong> 目录下创建包名：<strong>com.luoteng.hdfs</strong></li>
+<li><p>在 <strong>com.luoteng.hdfs</strong> 下创建类 <strong><code>HDFSClient</code></strong> ，写入如下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HDFSClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, Exception, URISyntaxException </span>&#123;</span><br><span class="line">	</span><br><span class="line">		Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 1 获取hdfs客户端对象(方法一)</span></span><br><span class="line"><span class="comment">//		conf.set("fs.defaultFS", "hdfs://hadoop101:9000");</span></span><br><span class="line"><span class="comment">//		FileSystem fs = FileSystem.get(conf);</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 1. 获取hdfs客户端对象(方法二)</span></span><br><span class="line">		FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 2 在hdfs上创建路径</span></span><br><span class="line">		fs.mkdirs(<span class="keyword">new</span> Path(<span class="string">"/Client"</span>));</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 3 关闭资源</span></span><br><span class="line">		fs.close();</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">"Over"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><code>获取hdfs客户端对象(方法一)</code></strong> 该方法运行时需要配置一下 <strong>VM argument</strong>，鼠标右键 -&gt; <strong><code>Run Aa</code></strong> -&gt; <strong><code>Run Configurations</code></strong> -&gt; <strong><code>HDFSClient</code></strong> -&gt; <strong><code>Arguments</code></strong>, 在 <strong>VM argument</strong> 中写入 <strong><code>DHADOOP_USER_NAME=luoteng</code></strong> 。</p>
+</li>
+<li>执行代码，<strong>web</strong> 中查看 <strong>HDFS</strong> 文件系统以上代码的操作是否成功，如果成功创建路径 <strong>/Client</strong> ，测试代码成功，客户端环境准备完成。</li>
+</ol>
+<h3 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testCopyFromLocalFile</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 1 获取fs对象</span></span><br><span class="line">	Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">	conf.set(<span class="string">"dfs.replication"</span>, <span class="string">"1"</span>); <span class="comment">// 设置副本数量</span></span><br><span class="line">	FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 2 执行上传API</span></span><br><span class="line">	fs.copyFromLocalFile(<span class="keyword">new</span> Path(<span class="string">"/root/Client/luoteng.txt"</span>), <span class="keyword">new</span> Path(<span class="string">"/Client/luoteng.txt"</span>));</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 3 关闭资源</span></span><br><span class="line">	fs.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="文件下载"><a href="#文件下载" class="headerlink" title="文件下载"></a>文件下载</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testCopyToLocalFile</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 1 获取对象</span></span><br><span class="line">	Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">	FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 2 执行下载API(方法一）</span></span><br><span class="line"><span class="comment">//	fs.copyToLocalFile(new Path("/Client/luoteng.txt"), new Path("/root/Client"));</span></span><br><span class="line">	<span class="comment">// 2 执行下载API(方法二）</span></span><br><span class="line">	fs.copyToLocalFile(<span class="keyword">false</span>, <span class="keyword">new</span> Path(<span class="string">"/Client/luoteng.txt"</span>), <span class="keyword">new</span> Path(<span class="string">"/root/Client"</span>), <span class="keyword">true</span>);<span class="comment">//第一个参数表示是否删除源文件</span></span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 3 关闭资源</span></span><br><span class="line">	fs.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="文件夹删除"><a href="#文件夹删除" class="headerlink" title="文件夹删除"></a>文件夹删除</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDelete</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 1 获取对象</span></span><br><span class="line">	Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">	FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 2 文件删除</span></span><br><span class="line">	fs.delete(<span class="keyword">new</span> Path(<span class="string">"/Client"</span>), <span class="keyword">true</span>); <span class="comment">// 第二个参数表明是否递归删除（适用于文件夹）</span></span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 3 关闭资源</span></span><br><span class="line">	fs.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="文件名更改"><a href="#文件名更改" class="headerlink" title="文件名更改"></a>文件名更改</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testRename</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 1 获取对象</span></span><br><span class="line">	Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">	FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 2 执行更名操作</span></span><br><span class="line">	fs.rename(<span class="keyword">new</span> Path(<span class="string">"/Clients"</span>), <span class="keyword">new</span> Path(<span class="string">"/Client"</span>));</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 3 关闭资源</span></span><br><span class="line">	fs.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="文件详情查看"><a href="#文件详情查看" class="headerlink" title="文件详情查看"></a>文件详情查看</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testListFiles</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 1 获取对象</span></span><br><span class="line">	Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">	FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 2 查看文件详情</span></span><br><span class="line">	RemoteIterator&lt;LocatedFileStatus&gt; listFiles = fs.listFiles(<span class="keyword">new</span> Path(<span class="string">"/"</span>), <span class="keyword">true</span>); <span class="comment">// 第二个参数表明是否递归</span></span><br><span class="line">		</span><br><span class="line">	<span class="keyword">while</span>(listFiles.hasNext()) &#123;</span><br><span class="line">		LocatedFileStatus fileStatus = listFiles.next();</span><br><span class="line">		<span class="comment">// 查看文件名称,权限,长度,块信息</span></span><br><span class="line">		System.out.println(fileStatus.getPath().getName()); <span class="comment">// 文件名称</span></span><br><span class="line">		System.out.println(fileStatus.getPermission()); <span class="comment">// 文件权限</span></span><br><span class="line">		System.out.println(fileStatus.getLen()); <span class="comment">// 文件长度</span></span><br><span class="line">			</span><br><span class="line">		BlockLocation[] blockLocations = fileStatus.getBlockLocations();</span><br><span class="line">		<span class="keyword">for</span> (BlockLocation blockLocation: blockLocations) &#123;</span><br><span class="line">			String[] hosts = blockLocation.getHosts();</span><br><span class="line">			<span class="keyword">for</span> (String host: hosts) &#123;</span><br><span class="line">				System.out.println(host);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(<span class="string">"----------分割线----------"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 3 关闭资源</span></span><br><span class="line">	fs.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="文件和文件夹判断"><a href="#文件和文件夹判断" class="headerlink" title="文件和文件夹判断"></a>文件和文件夹判断</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testListStatus</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 1 获取对象</span></span><br><span class="line">	Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">	FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 2 判断操作</span></span><br><span class="line">	FileStatus[] listStatus = fs.listStatus(<span class="keyword">new</span> Path(<span class="string">"/"</span>));</span><br><span class="line">		</span><br><span class="line">	<span class="keyword">for</span> (FileStatus fileStatus: listStatus) &#123;</span><br><span class="line">		<span class="keyword">if</span> (fileStatus.isFile()) &#123;</span><br><span class="line">			System.out.println(<span class="string">"f:"</span>+fileStatus.getPath().getName());</span><br><span class="line">		&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">			System.out.println(<span class="string">"d:"</span>+fileStatus.getPath().getName());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 3 关闭资源</span></span><br><span class="line">	fs.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.luoteng.hdfs;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.net.URI;</span><br><span class="line"><span class="keyword">import</span> java.net.URISyntaxException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.conf.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.BlockLocation;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.FileStatus;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.FileSystem;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.LocatedFileStatus;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.Path;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.RemoteIterator;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HDFSClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, Exception, URISyntaxException </span>&#123;</span><br><span class="line">	</span><br><span class="line">		Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 1 获取hdfs客户端对象(方法一)</span></span><br><span class="line"><span class="comment">//		conf.set("fs.defaultFS", "hdfs://hadoop101:9000");</span></span><br><span class="line"><span class="comment">//		FileSystem fs = FileSystem.get(conf);</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 1 获取hdfs客户端对象(方法二)</span></span><br><span class="line">		FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 2 在hdfs上创建路径</span></span><br><span class="line">		fs.mkdirs(<span class="keyword">new</span> Path(<span class="string">"/Client"</span>));</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 3 关闭资源</span></span><br><span class="line">		fs.close();</span><br><span class="line">		</span><br><span class="line">		System.out.println(<span class="string">"Over"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 1 文件上传</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testCopyFromLocalFile</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 1 获取fs对象</span></span><br><span class="line">		Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">		conf.set(<span class="string">"dfs.replication"</span>, <span class="string">"1"</span>); <span class="comment">// 设置副本数量</span></span><br><span class="line">		FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 2 执行上传API</span></span><br><span class="line">		fs.copyFromLocalFile(<span class="keyword">new</span> Path(<span class="string">"/root/Client/luoteng.txt"</span>), <span class="keyword">new</span> Path(<span class="string">"/Client/luoteng.txt"</span>));</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 3 关闭资源</span></span><br><span class="line">		fs.close();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 2 文件下载</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testCopyToLocalFile</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 1 获取对象</span></span><br><span class="line">		Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">		FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 2 执行下载API</span></span><br><span class="line"><span class="comment">//		fs.copyToLocalFile(new Path("/Client/luoteng.txt"), new Path("/root/Client"));</span></span><br><span class="line">		fs.copyToLocalFile(<span class="keyword">false</span>, <span class="keyword">new</span> Path(<span class="string">"/Client/luoteng.txt"</span>), <span class="keyword">new</span> Path(<span class="string">"/root/Client"</span>), <span class="keyword">true</span>);<span class="comment">//第一个参数表示是否删除源文件</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 3 关闭资源</span></span><br><span class="line">		fs.close();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 3 文件删除</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testDelete</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 1 获取对象</span></span><br><span class="line">		Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">		FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 2 文件删除</span></span><br><span class="line">		fs.delete(<span class="keyword">new</span> Path(<span class="string">"/Client"</span>), <span class="keyword">true</span>); <span class="comment">// 第二个参数表明是否递归删除（适用于文件夹）</span></span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 3 关闭资源</span></span><br><span class="line">		fs.close();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 4 文件更名</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testRename</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 1 获取对象</span></span><br><span class="line">		Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">		FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 2 执行更名操作</span></span><br><span class="line">		fs.rename(<span class="keyword">new</span> Path(<span class="string">"/Clients"</span>), <span class="keyword">new</span> Path(<span class="string">"/Client"</span>));</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 3 关闭资源</span></span><br><span class="line">		fs.close();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 5 文件详情查看</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testListFiles</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 1 获取对象</span></span><br><span class="line">		Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">		FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 2 查看文件详情</span></span><br><span class="line">		RemoteIterator&lt;LocatedFileStatus&gt; listFiles = fs.listFiles(<span class="keyword">new</span> Path(<span class="string">"/"</span>), <span class="keyword">true</span>); <span class="comment">// 第二个参数表明是否递归</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">while</span>(listFiles.hasNext()) &#123;</span><br><span class="line">			LocatedFileStatus fileStatus = listFiles.next();</span><br><span class="line">			<span class="comment">// 查看文件名称,权限,长度,块信息</span></span><br><span class="line">			System.out.println(fileStatus.getPath().getName()); <span class="comment">// 文件名称</span></span><br><span class="line">			System.out.println(fileStatus.getPermission()); <span class="comment">// 文件权限</span></span><br><span class="line">			System.out.println(fileStatus.getLen()); <span class="comment">// 文件长度</span></span><br><span class="line">			</span><br><span class="line">			BlockLocation[] blockLocations = fileStatus.getBlockLocations();</span><br><span class="line">			<span class="keyword">for</span> (BlockLocation blockLocation: blockLocations) &#123;</span><br><span class="line">				String[] hosts = blockLocation.getHosts();</span><br><span class="line">				<span class="keyword">for</span> (String host: hosts) &#123;</span><br><span class="line">					System.out.println(host);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println(<span class="string">"----------分割线----------"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 3 关闭资源</span></span><br><span class="line">		fs.close();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 6 判断是文件还是文件夹</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testListStatus</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 1 获取对象</span></span><br><span class="line">		Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">		FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 2 判断操作</span></span><br><span class="line">		FileStatus[] listStatus = fs.listStatus(<span class="keyword">new</span> Path(<span class="string">"/"</span>));</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span> (FileStatus fileStatus: listStatus) &#123;</span><br><span class="line">			<span class="keyword">if</span> (fileStatus.isFile()) &#123;</span><br><span class="line">				System.out.println(<span class="string">"f:"</span>+fileStatus.getPath().getName());</span><br><span class="line">			&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">				System.out.println(<span class="string">"d:"</span>+fileStatus.getPath().getName());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 3 关闭资源</span></span><br><span class="line">		fs.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="HDFS的-I-O-流操作"><a href="#HDFS的-I-O-流操作" class="headerlink" title="HDFS的 I/O 流操作"></a>HDFS的 I/O 流操作</h2><p>上面我们学的 <strong>API</strong> 操作 <strong>HDFS</strong> 系统都是框架封装好的。那么如果我们想自己实现上述 <strong>API</strong> 的操作该怎么实现呢？</p>
+<p>我们可以采用 <strong>IO</strong> 流的方式实现数据的上传和下载。</p>
+<h3 id="文件上传-1"><a href="#文件上传-1" class="headerlink" title="文件上传"></a>文件上传</h3><p>需求：把本地 <strong>/root/Client</strong> 盘上的 <strong><code>luoteng.txt</code></strong> 文件上传到 <strong>HDFS</strong> 根目录</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">putFileToHDFS</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 1 获取文件系统</span></span><br><span class="line">	Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">	conf.set(<span class="string">"dfs.replication"</span>, <span class="string">"2"</span>); <span class="comment">// 设置副本数量</span></span><br><span class="line">	FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 2 获取输入流</span></span><br><span class="line">	FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(<span class="string">"/root/Client/luoteng.txt"</span>));</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 3 获取输出流</span></span><br><span class="line">	FSDataOutputStream fos = fs.create(<span class="keyword">new</span> Path(<span class="string">"/luoteng.txt"</span>));</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 4 流的对拷</span></span><br><span class="line">	IOUtils.copyBytes(fis, fos, conf);</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 5 关闭资源</span></span><br><span class="line">	IOUtils.closeStream(fos);</span><br><span class="line">	IOUtils.closeStream(fis);</span><br><span class="line">	fs.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="文件下载-1"><a href="#文件下载-1" class="headerlink" title="文件下载"></a>文件下载</h3><p>需求：从 <strong>HDFS</strong> 上下载 <strong><code>luoteng.txt</code></strong> 文件到本地 <strong>/root/Client</strong> 盘上</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getFileFromHDFS</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 1 获取文件系统</span></span><br><span class="line">	Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">	FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 2 获取输入流</span></span><br><span class="line">	FSDataInputStream fis = fs.open(<span class="keyword">new</span> Path(<span class="string">"/luoteng.txt"</span>));</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 3 获取输出流</span></span><br><span class="line">	FileOutputStream  fos = <span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(<span class="string">"/root/Client/luoteng.txt"</span>));</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 4 流的对拷</span></span><br><span class="line">	IOUtils.copyBytes(fis, fos, conf);</span><br><span class="line">		</span><br><span class="line">	<span class="comment">// 5 关闭资源</span></span><br><span class="line">	IOUtils.closeStream(fos);</span><br><span class="line">	IOUtils.closeStream(fis);</span><br><span class="line">	fs.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="定位文件读取"><a href="#定位文件读取" class="headerlink" title="定位文件读取"></a>定位文件读取</h3><p>需求：分块读取 <strong>HDFS</strong> 上的大文件，比如根目录下的 <strong><code>/hadoop-2.7.2.tar.gz</code></strong> </p>
+<p><strong>读取第一块</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readFileSeek1</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 1 获取文件系统</span></span><br><span class="line">	Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">	FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">			</span><br><span class="line">	<span class="comment">// 2 获取输入流</span></span><br><span class="line">	FSDataInputStream fis = fs.open(<span class="keyword">new</span> Path(<span class="string">"/hadoop-2.7.2.tar.gz"</span>));</span><br><span class="line">			</span><br><span class="line">	<span class="comment">// 3 创建输出流</span></span><br><span class="line">	FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(<span class="string">"/root/Client/hadoop-2.7.2.tar.gz.part1"</span>));</span><br><span class="line">			</span><br><span class="line">	<span class="comment">// 4 流的拷贝</span></span><br><span class="line">	<span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span> ; i &lt; <span class="number">1024</span> * <span class="number">128</span>; i++)&#123;</span><br><span class="line">		fis.read(buf);</span><br><span class="line">		fos.write(buf);</span><br><span class="line">	&#125;</span><br><span class="line">			</span><br><span class="line">	<span class="comment">// 5关闭资源</span></span><br><span class="line">	IOUtils.closeStream(fos);</span><br><span class="line">	IOUtils.closeStream(fis);</span><br><span class="line">	fs.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>读取第二块</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readFileSeek2</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException</span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 1 获取文件系统</span></span><br><span class="line">	Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">	FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">			</span><br><span class="line">	<span class="comment">// 2 打开输入流</span></span><br><span class="line">	FSDataInputStream fis = fs.open(<span class="keyword">new</span> Path(<span class="string">"/hadoop-2.7.2.tar.gz"</span>));</span><br><span class="line">			</span><br><span class="line">	<span class="comment">// 3 定位输入数据位置</span></span><br><span class="line">	fis.seek(<span class="number">1024</span>*<span class="number">1024</span>*<span class="number">128</span>);</span><br><span class="line">			</span><br><span class="line">	<span class="comment">// 4 创建输出流</span></span><br><span class="line">	FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(<span class="string">"/root/Client/hadoop-2.7.2.tar.gz.part2"</span>));</span><br><span class="line">			</span><br><span class="line">	<span class="comment">// 5 流的对拷</span></span><br><span class="line">	IOUtils.copyBytes(fis, fos, conf);</span><br><span class="line">			</span><br><span class="line">	<span class="comment">// 6 关闭资源</span></span><br><span class="line">	IOUtils.closeStream(fos);</span><br><span class="line">	IOUtils.closeStream(fis);</span><br><span class="line">	fs.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="完整代码-1"><a href="#完整代码-1" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.luoteng.hdfs;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.net.URI;</span><br><span class="line"><span class="keyword">import</span> java.net.URISyntaxException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.conf.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.FSDataInputStream;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.FSDataOutputStream;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.FileSystem;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.fs.Path;</span><br><span class="line"><span class="keyword">import</span> org.apache.hadoop.io.IOUtils;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HDFSIO</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 把本地 /root/Client 盘上的 luoteng.txt文件上传到 HDFS 根目录</span></span><br><span class="line"><span class="comment">//	@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">putFileToHDFS</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 1 获取文件系统</span></span><br><span class="line">		Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">		conf.set(<span class="string">"dfs.replication"</span>, <span class="string">"2"</span>); <span class="comment">// 设置副本数量</span></span><br><span class="line">		FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 2 获取输入流</span></span><br><span class="line">		FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="keyword">new</span> File(<span class="string">"/root/Client/luoteng.txt"</span>));</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 3 获取输出流</span></span><br><span class="line">		FSDataOutputStream fos = fs.create(<span class="keyword">new</span> Path(<span class="string">"/luoteng.txt"</span>));</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 4 流的对拷</span></span><br><span class="line">		IOUtils.copyBytes(fis, fos, conf);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 5 关闭资源</span></span><br><span class="line">		IOUtils.closeStream(fos);</span><br><span class="line">		IOUtils.closeStream(fis);</span><br><span class="line">		fs.close();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 从 HDFS 上下载 luoteng.txt 文件到本地 /root/Client 盘上</span></span><br><span class="line"><span class="comment">//	@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getFileFromHDFS</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 1 获取文件系统</span></span><br><span class="line">		Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">		FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 2 获取输入流</span></span><br><span class="line">		FSDataInputStream fis = fs.open(<span class="keyword">new</span> Path(<span class="string">"/luoteng.txt"</span>));</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 3 获取输出流</span></span><br><span class="line">		FileOutputStream  fos = <span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(<span class="string">"/root/Client/luoteng.txt"</span>));</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 4 流的对拷</span></span><br><span class="line">		IOUtils.copyBytes(fis, fos, conf);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 5 关闭资源</span></span><br><span class="line">		IOUtils.closeStream(fos);</span><br><span class="line">		IOUtils.closeStream(fis);</span><br><span class="line">		fs.close();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 分块读取 HDFS 上的大文件，比如根目录下的 /hadoop-2.7.2.tar.gz</span></span><br><span class="line"><span class="comment">//	@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readFileSeek1</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException</span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 1 获取文件系统</span></span><br><span class="line">		Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">		FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">			</span><br><span class="line">		<span class="comment">// 2 获取输入流</span></span><br><span class="line">		FSDataInputStream fis = fs.open(<span class="keyword">new</span> Path(<span class="string">"/hadoop-2.7.2.tar.gz"</span>));</span><br><span class="line">			</span><br><span class="line">		<span class="comment">// 3 创建输出流</span></span><br><span class="line">		FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(<span class="string">"/root/Client/hadoop-2.7.2.tar.gz.part1"</span>));</span><br><span class="line">			</span><br><span class="line">		<span class="comment">// 4 流的拷贝</span></span><br><span class="line">		<span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span> ; i &lt; <span class="number">1024</span> * <span class="number">128</span>; i++)&#123;</span><br><span class="line">			fis.read(buf);</span><br><span class="line">			fos.write(buf);</span><br><span class="line">		&#125;</span><br><span class="line">			</span><br><span class="line">		<span class="comment">// 5关闭资源</span></span><br><span class="line">		IOUtils.closeStream(fos);</span><br><span class="line">		IOUtils.closeStream(fis);</span><br><span class="line">		fs.close();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 下载第二块</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readFileSeek2</span><span class="params">()</span> <span class="keyword">throws</span> IOException, InterruptedException, URISyntaxException</span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 1 获取文件系统</span></span><br><span class="line">		Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">		FileSystem fs = FileSystem.get(<span class="keyword">new</span> URI(<span class="string">"hdfs://hadoop101:9000"</span>), conf, <span class="string">"luoteng"</span>);</span><br><span class="line">			</span><br><span class="line">		<span class="comment">// 2 打开输入流</span></span><br><span class="line">		FSDataInputStream fis = fs.open(<span class="keyword">new</span> Path(<span class="string">"/hadoop-2.7.2.tar.gz"</span>));</span><br><span class="line">			</span><br><span class="line">		<span class="comment">// 3 定位输入数据位置</span></span><br><span class="line">		fis.seek(<span class="number">1024</span>*<span class="number">1024</span>*<span class="number">128</span>);</span><br><span class="line">			</span><br><span class="line">		<span class="comment">// 4 创建输出流</span></span><br><span class="line">		FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="keyword">new</span> File(<span class="string">"/root/Client/hadoop-2.7.2.tar.gz.part2"</span>));</span><br><span class="line">			</span><br><span class="line">		<span class="comment">// 5 流的对拷</span></span><br><span class="line">		IOUtils.copyBytes(fis, fos, conf);</span><br><span class="line">			</span><br><span class="line">		<span class="comment">// 6 关闭资源</span></span><br><span class="line">		IOUtils.closeStream(fos);</span><br><span class="line">		IOUtils.closeStream(fis);</span><br><span class="line">		fs.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hadoop/" rel="tag"># hadoop</a>
+          
+            <a href="/tags/HDFS/" rel="tag"># HDFS</a>
+          
+            <a href="/tags/分布式文件系统/" rel="tag"># 分布式文件系统</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/27/HDFS-文件系统/" rel="next" title="HDFS 文件系统">
+                <i class="fa fa-chevron-left"></i> HDFS 文件系统
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/tengzi-will" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/ke-le-teng-zi/activities" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mumaxu.github.io/" title="mamaxu" target="_blank">mamaxu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://sunyancn.github.io/" title="sunyan" target="_blank">sunyan</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HDFS-命令行操作"><span class="nav-number">1.</span> <span class="nav-text">HDFS 命令行操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#help：输出这个命令参数"><span class="nav-number">1.1.</span> <span class="nav-text">-help：输出这个命令参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ls：显示目录信息"><span class="nav-number">1.2.</span> <span class="nav-text">-ls：显示目录信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mkdir：在-hdfs-上创建目录"><span class="nav-number">1.3.</span> <span class="nav-text">-mkdir：在 hdfs 上创建目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#moveFromLocal：从本地剪切粘贴到-hdfs"><span class="nav-number">1.4.</span> <span class="nav-text">-moveFromLocal：从本地剪切粘贴到 hdfs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#appendToFile：追加一个文件到已经存在的文件末尾"><span class="nav-number">1.5.</span> <span class="nav-text">-appendToFile：追加一个文件到已经存在的文件末尾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cat：显示文件内容"><span class="nav-number">1.6.</span> <span class="nav-text">-cat：显示文件内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tail：显示一个文件的末尾"><span class="nav-number">1.7.</span> <span class="nav-text">-tail：显示一个文件的末尾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#chgrp-chmod-chown：修改文件所属权限"><span class="nav-number">1.8.</span> <span class="nav-text">-chgrp -chmod -chown：修改文件所属权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#copyFromLocal：从本地文件系统中拷贝文件到-hdfs-路径去"><span class="nav-number">1.9.</span> <span class="nav-text">-copyFromLocal：从本地文件系统中拷贝文件到 hdfs 路径去</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#copyToLocal-从-hdfs-拷贝到本地"><span class="nav-number">1.10.</span> <span class="nav-text">-copyToLocal:从 hdfs 拷贝到本地</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cp：从-hdfs-的一个路径拷贝到-hdfs-的另一个路径"><span class="nav-number">1.11.</span> <span class="nav-text">-cp：从 hdfs 的一个路径拷贝到 hdfs 的另一个路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mv：在-hdfs-目录中移动文件"><span class="nav-number">1.12.</span> <span class="nav-text">-mv：在 hdfs 目录中移动文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#get：等同于-copyToLocal-就是从-hdfs-下载文件到本地"><span class="nav-number">1.13.</span> <span class="nav-text">-get：等同于 copyToLocal,就是从 hdfs 下载文件到本地</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getmerge：合并下载多个文件"><span class="nav-number">1.14.</span> <span class="nav-text">-getmerge：合并下载多个文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#put：等同于-copyFromLocal"><span class="nav-number">1.15.</span> <span class="nav-text">-put：等同于 copyFromLocal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rm：删除文件或文件夹"><span class="nav-number">1.16.</span> <span class="nav-text">-rm：删除文件或文件夹</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rmdir：删除空目录"><span class="nav-number">1.17.</span> <span class="nav-text">-rmdir：删除空目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#df：统计文件系统的可用空间信息"><span class="nav-number">1.18.</span> <span class="nav-text">-df：统计文件系统的可用空间信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#du：统计文件夹的大小信息"><span class="nav-number">1.18.1.</span> <span class="nav-text">-du：统计文件夹的大小信息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setrep：设置-hdfs-中文件的副本数量"><span class="nav-number">1.19.</span> <span class="nav-text">-setrep：设置 hdfs 中文件的副本数量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HDFS-客户端操作"><span class="nav-number">2.</span> <span class="nav-text">HDFS 客户端操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HDFS-客户端环境准备"><span class="nav-number">2.1.</span> <span class="nav-text">HDFS 客户端环境准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件上传"><span class="nav-number">2.2.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件下载"><span class="nav-number">2.3.</span> <span class="nav-text">文件下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件夹删除"><span class="nav-number">2.4.</span> <span class="nav-text">文件夹删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件名更改"><span class="nav-number">2.5.</span> <span class="nav-text">文件名更改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件详情查看"><span class="nav-number">2.6.</span> <span class="nav-text">文件详情查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件和文件夹判断"><span class="nav-number">2.7.</span> <span class="nav-text">文件和文件夹判断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完整代码"><span class="nav-number">2.8.</span> <span class="nav-text">完整代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HDFS的-I-O-流操作"><span class="nav-number">3.</span> <span class="nav-text">HDFS的 I/O 流操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件上传-1"><span class="nav-number">3.1.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件下载-1"><span class="nav-number">3.2.</span> <span class="nav-text">文件下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定位文件读取"><span class="nav-number">3.3.</span> <span class="nav-text">定位文件读取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完整代码-1"><span class="nav-number">3.4.</span> <span class="nav-text">完整代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
