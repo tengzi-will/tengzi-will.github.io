@@ -112,7 +112,7 @@
 
 
 
-  <meta name="keywords" content="NLP,机器学习,HMM,">
+  <meta name="keywords" content="机器学习,NLP,HMM,">
 
 
 
@@ -124,7 +124,7 @@
 
 
 <meta name="description" content="隐马尔科夫模型定义隐马尔可夫模型 (hidden Markov model,HMM) 是关于 时序 的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成的状态的序列，称为状态序列 (state sequence)；每个状态生成一个观测，而由此产生的观测的随机序列，称为观测序列 (observation se">
-<meta name="keywords" content="NLP,机器学习,HMM">
+<meta name="keywords" content="机器学习,NLP,HMM">
 <meta property="og:type" content="article">
 <meta property="og:title" content="隐马尔科夫模型">
 <meta property="og:url" content="http://yoursite.com/2018/12/20/隐马尔科夫模型/index.html">
@@ -158,7 +158,7 @@
 <meta property="og:image" content="https://i.loli.net/2018/12/15/5c14f16b23289.png">
 <meta property="og:image" content="https://i.loli.net/2018/12/15/5c14f19d2f578.png">
 <meta property="og:image" content="https://i.loli.net/2018/12/15/5c14e99c3af00.png">
-<meta property="og:updated_time" content="2019-01-07T01:36:22.000Z">
+<meta property="og:updated_time" content="2019-05-30T04:52:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="隐马尔科夫模型">
 <meta name="twitter:description" content="隐马尔科夫模型定义隐马尔可夫模型 (hidden Markov model,HMM) 是关于 时序 的概率模型，描述由一个隐藏的马尔可夫链随机生成不可观测的状态随机序列，再由各个状态生成一个观测而产生观测随机序列的过程。隐藏的马尔可夫链随机生成的状态的序列，称为状态序列 (state sequence)；每个状态生成一个观测，而由此产生的观测的随机序列，称为观测序列 (observation se">
@@ -450,20 +450,20 @@
 <p>3、应用到命名实体识别中，<strong><code>v</code></strong> 代表词语，是可以观察的。<strong><code>q</code></strong> 代表我们的标签（标签代表着地点词，时间词这些）</p>
 <!--more-->
 <h2 id="HMM实例解释"><a href="#HMM实例解释" class="headerlink" title="HMM实例解释"></a>HMM实例解释</h2><p>假设我手里有三个不同的骰子。第一个骰子是我们平常见的骰子（称这个骰子为D6），6个面，每个面（1，2，3，4，5，6）出现的概率是1/6。第二个骰子是个四面体（称这个骰子为D4），每个面（1，2，3，4）出现的概率是1/4。第三个骰子有八个面（称这个骰子为D8），每个面（1，2，3，4，5，6，7，8）出现的概率是1/8。</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14ef1649b17.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14ef1649b17.png" alt="01"></p>
 <p>假设我们开始掷骰子，我们先从三个骰子里挑一个，挑到每一个骰子的概率都是1/3。然后我们掷骰子，得到一个数字，1，2，3，4，5，6，7，8中的一个。不停的重复上述过程，我们会得到一串数字，每个数字都是1，2，3，4，5，6，7，8中的一个。例如我们可能得到这么一串数字（掷骰子10次）：1 6 3 5 2 7 3 5 2 4</p>
 <p>这串数字叫做可见状态链（观测随机序列）。但是在隐马尔可夫模型中，我们不仅仅有这么一串可见状态链，还有一串隐含状态链。在这个例子里，这串隐含状态链就是你用的骰子的序列。比如，隐含状态链有可能是：D6 D8 D8 D6 D4 D8 D6 D6 D4 D8</p>
 <p>一般来说，<strong>HMM中说到的马尔可夫链其实是指隐含状态链</strong>，因为<strong>隐含状态（骰子）之间存在转换概率</strong>（transition probability）。在我们这个例子里，D6的下一个状态是D4，D6，D8的概率都是1/3。D4，D8的下一个状态是D4，D6，D8的转换概率也都一样是1/3。这样设定是为了最开始容易说清楚，但是我们其实是可以随意设定转换概率的。比如，我们可以这样定义，D6后面不能接D4，D6后面是D6的概率是0.9，是D8的概率是0.1。这样就是一个新的HMM。</p>
 <p>同样的，尽管可见状态之间没有转换概率，但是<strong>隐含状态和可见状态之间有一个概率叫做输出概率</strong>（emission probability）。就我们的例子来说，六面骰（D6）产生1的输出概率是1/6。产生2，3，4，5，6的概率也都是1/6。我们同样可以对输出概率进行其他定义。比如，我有一个被赌场动过手脚的六面骰子，掷出来是1的概率更大，是1/2，掷出来是2，3，4，5，6的概率是1/10。</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14ef55b11ee.png" alt=""></p>
-<p><img src="https://i.loli.net/2018/12/15/5c14efbc6d10f.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14ef55b11ee.png" alt="02"></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14efbc6d10f.png" alt="03"></p>
 <p>其实对于HMM来说，如果提前知道所有隐含状态之间的转换概率和所有隐含状态到所有可见状态之间的输出概率，做模拟是相当容易的。但是应用HMM模型时候呢，往往是缺失了一部分信息的，有时候你知道骰子有几种，每种骰子是什么，但是不知道掷出来的骰子序列；有时候你只是看到了很多次掷骰子的结果，剩下的什么都不知道。如果应用算法去估计这些缺失的信息，就成了一个很重要的问题。这些算法我会在下面详细讲。</p>
 <h1 id="隐马尔可夫链的三个基本问题"><a href="#隐马尔可夫链的三个基本问题" class="headerlink" title="隐马尔可夫链的三个基本问题"></a>隐马尔可夫链的三个基本问题</h1><p>1、概率计算问题：给定模型 $\lambda=(A,B,\pi)$ 和观测序列 $O=(o_1,o_2,\cdots,o_T)$，计算在模型 $\lambda$ 下观测序列 $O$ 出现的概率 $P=(O|\lambda)$ 。<br>2、学习问题：已知观测序列 $O=(o_1,o_2,\cdots,o_T)$，估计模型 $\lambda=(A,B,\pi)$ 参数，使得在该模型下观测序列概率 $P=(O|\lambda)$ 最大。即用极大似然估计的方法估计参数。<br>3、预测问题：也称为解码（decoding）问题。已知模型 $\lambda=(A,B,\pi)$ 和观测序列 $O=(o_1,o_2,\cdots,o_T)$，求对给定观测序列条件概率 $P=(O|\lambda)$ 最大的状态序列 $I=\lbrace i_1,i_2,\cdots,i_T\rbrace$ 。即给定观测序列，求最有可能的对应的状态序列。</p>
 <p>在介绍这三种常用算法之前我们先来了解一个常见的问题：知道骰子有几种，每种骰子是什么，每次掷的都是什么骰子，根据掷骰子掷出的结果，求产生这个结果的概率。</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14efd696483.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14efd696483.png" alt="04"></p>
 <p>解法无非就是概率相乘： </p>
-<p><img src="https://i.loli.net/2018/12/15/5c14effa085d6.png" alt="">  </p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f03177b62.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14effa085d6.png" alt="05">  </p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f03177b62.png" alt="06"></p>
 <h1 id="概率计算问题"><a href="#概率计算问题" class="headerlink" title="概率计算问题"></a>概率计算问题</h1><h2 id="前向算法"><a href="#前向算法" class="headerlink" title="前向算法"></a>前向算法</h2><p><strong>前向概率：</strong>给定隐马尔可夫模型 $\lambda$，定义到时刻 $t$ 部分观测序列为 $o_1,o_2,\cdots,o_t$ 且状态为 $q_i$ 的概率为前向概率，记作</p>
 <p>$$ \alpha_t(i)=P(o_1,o_2,\cdots,o_t,i_t=q_i|\lambda) $$</p>
 <p>可以递推地求得前向概率 $\alpha_t(i)$ 及观测序列概率 $P(O|\lambda)$ .</p>
@@ -498,21 +498,21 @@
 <p>看似这个问题意义不大，因为你掷出来的结果很多时候都对应了一个比较大的概率。问这个问题的目的呢，其实是检测观察到的结果和已知的模型是否吻合。如果很多次结果都对应了比较小的概率，那么就说明我们已知的模型很有可能是错的，有人偷偷把我们的骰子給换了。</p>
 <p>比如说你怀疑自己的六面骰被赌场动过手脚了，有可能被换成另一种六面骰，这种六面骰掷出来是1的概率更大，是1/2，掷出来是2，3，4，5，6的概率是1/10。你怎么办么？答案很简单，算一算正常的三个骰子掷出一段序列的概率，再算一算不正常的六面骰和另外两个正常骰子掷出这段序列的概率。如果前者比后者小，你就要小心了。</p>
 <p>比如说掷骰子的结果是： </p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f1cfcf231.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f1cfcf231.png" alt="07"></p>
 <p>要算用正常的三个骰子掷出这个结果的概率，其实就是将所有可能情况的概率进行加和计算。同样，简单而暴力的方法就是把穷举所有的骰子序列，还是计算每个骰子序列对应的概率，但是这回，我们不挑最大值了，而是把所有算出来的概率相加，得到的总概率就是我们要求的结果。这个方法依然不能应用于太长的骰子序列（马尔可夫链）。 </p>
 <p>我们会应用一个和前一个问题类似的解法，只不过前一个问题关心的是概率最大值，这个问题关心的是概率之和。解决这个问题的算法叫做前向算法 <strong><code>(forward algorithm)</code></strong>。 </p>
 <p>首先，如果我们只掷一次骰子：</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f1f344faa.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f1f344faa.png" alt="08"></p>
 <p>看到结果为1.产生这个结果的总概率可以按照如下计算，总概率为0.18：</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f20c7830d.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f20c7830d.png" alt="09"></p>
 <p>把这个情况拓展，我们掷两次骰子：</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f234dfdee.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f234dfdee.png" alt="10"></p>
 <p>看到结果为1，6.产生这个结果的总概率可以按照如下计算，总概率为0.05：</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f2541fdee.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f2541fdee.png" alt="11"></p>
 <p>继续拓展，我们掷三次骰子：</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f7b433580.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f7b433580.png" alt="12"></p>
 <p>看到结果为1，6，3.产生这个结果的总概率可以按照如下计算，总概率为0.03：</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f3b50d726.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f3b50d726.png" alt="13"></p>
 <p>同样的，我们一步一步的算，有多长算多长，再长的马尔可夫链总能算出来的。用同样的方法，也可以算出不正常的六面骰和另外两个正常骰子掷出这段序列的概率，然后我们比较一下这两个概率大小，就能知道你的骰子是不是被人换了。</p>
 <h1 id="学习问题"><a href="#学习问题" class="headerlink" title="学习问题"></a>学习问题</h1><p>隐马尔可夫模型的学习，根据训练数据是包括观测序列和对应的状态序列还是只有观测序列，可以分别由监督学习与非监督学习实现。本节首先介绍监督学习算法，而后介绍非监督学习算法 <strong><code>Baum-Welch</code></strong> 算法（也就是EM算法）。</p>
 <h2 id="监督学习"><a href="#监督学习" class="headerlink" title="监督学习"></a>监督学习</h2><p>假设已给训练数据包含 $S$ 个长度相同的观测序列和对应的状态序列 $\lbrace(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\rbrace$，那么可以利用极大似然估计法来估计隐马尔可夫模型的参数。具体方法如下：<br>1、转移概率 $a_{ij}$ 的估计<br>设样本中时刻 $t$ 处于状态 $i$ ，时刻 $t$+1 转移到状态 $j$ 的频数为 $A_{ij}$，那么状态转移概率 $a_{ij}$ 的估计是</p>
@@ -543,19 +543,19 @@
 <h2 id="词性标注问题"><a href="#词性标注问题" class="headerlink" title="词性标注问题"></a>词性标注问题</h2><p>首先介绍一下什么是词性标注问题，比如我们有一句已经分词好的句子。</p>
 <p><strong><code>dog chase mouse</code></strong></p>
 <p>那么我们就可以进行词性标注为：</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f612a5ca8.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f612a5ca8.png" alt="14"></p>
 <p>其中nn为名词，vv为动词。通过上面例子，我们就很容易看出词性标注的任务。那么我们来了一句话之后，比如我们的词性字典中有nn,vv,prp(代词)，我们怎么能够找到dog  chase mouse 所对应的词性标注呢，如果每一个单词有nn，vv，prp三种可能，那么将会有 3*3*3=27 种可能，我们如何去挑选呢？</p>
 <p><strong>如下图：</strong></p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f65c98ce7.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f65c98ce7.png" alt="15"></p>
 <p>我们总共有27条路径，那么如何得到我们Dog chase mouse的最优路径呢？</p>
 <p>我们至少可以遍历每一条路径，求出各自的概率值，然后挑选最大的即可，比如我们求第一条路径的时候，可以这么表示：</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f682d7552.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f682d7552.png" alt="16"></p>
 <p>所求的路径对应如下图红色线条所示：</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f69b39946.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f69b39946.png" alt="17"></p>
 <p>求第27条路径的时候，我们可以这么表示：</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f6d914993.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f6d914993.png" alt="18"></p>
 <p>所求的路径对应如下图红色线条所示：</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f6f632c3b.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f6f632c3b.png" alt="19"></p>
 <p>那么我们从上面可以知道，要求一个句子的最优词性标注，<strong>我们至少可以遍历所有的路径，然后挑选概率值最大的那条路径即可！！！</strong></p>
 <p>但是，给定模型，求给定长度为T的观测序列(这里指的就是Dog Chase Mouse)的概率，直接计算法的思路是枚举所有的长度T（<strong>例子中是三个，Dog，Chase，Mouse总共三个单词</strong>）的状态序列，计算该状态序列与观测序列的联合概率（<strong>隐状态发射到观测</strong>），对所有的枚举项求和即可。</p>
 <p>在状态种类为N(例子中就是三个，NN，VV,PRP)的情况下，一共有$N^T$种排列组合，每种组合计算联合概率的计算量为T，总的复杂度为$O(TN^T)$，这并不可取。</p>
@@ -582,19 +582,19 @@
 <p>$$ i_t^\ast = \Psi_{t+1}(i_{t+1}^\ast) $$</p>
 <p>求得最优路径 $ I^\ast=(i_1^\ast,i_2^\ast,\cdots,i_T^\ast) $</p>
 <h2 id="看见不可见的，破解骰子序列"><a href="#看见不可见的，破解骰子序列" class="headerlink" title="看见不可见的，破解骰子序列"></a>看见不可见的，破解骰子序列</h2><p> 首先，如果我们只掷一次骰子：</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f0494bbae.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f0494bbae.png" alt="20"></p>
 <p>看到结果为1.对应的最大概率骰子序列就是D4，因为D4产生1的概率是1/4，高于1/6和1/8. </p>
 <p>把这个情况拓展，我们掷两次骰子：</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f07f9d77b.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f07f9d77b.png" alt="21"></p>
 <p>结果为1，6.这时问题变得复杂起来，我们要计算三个值，分别是第二个骰子是D6，D4，D8的最大概率。显然，要取到最大概率，第一个骰子必须为D4。这时，第二个骰子取到D6的最大概率是 </p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f0cd4d084.png" alt=""> </p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f0ede0d86.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f0cd4d084.png" alt="22"> </p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f0ede0d86.png" alt="23"></p>
 <p>同样的，我们可以计算第二个骰子是D4或D8时的最大概率。我们发现，第二个骰子取到D6的概率最大。而使这个概率最大时，第一个骰子为D4。所以最大概率骰子序列就是D4 D6。 </p>
 <p>继续拓展，我们掷三次骰子：</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f14547dac.png" alt=""></p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f14547dac.png" alt="24"></p>
 <p>同样，我们计算第三个骰子分别是D6，D4，D8的最大概率。我们再次发现，要取到最大概率，第二个骰子必须为D6。这时，第三个骰子取到D4的最大概率是</p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f16b23289.png" alt=""> </p>
-<p><img src="https://i.loli.net/2018/12/15/5c14f19d2f578.png" alt=""> </p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f16b23289.png" alt="25"> </p>
+<p><img src="https://i.loli.net/2018/12/15/5c14f19d2f578.png" alt="26"> </p>
 <p>同上，我们可以计算第三个骰子是D6或D8时的最大概率。我们发现，第三个骰子取到D4的概率最大。而使这个概率最大时，第二个骰子为D6，第一个骰子为D4。所以最大概率骰子序列就是D4 D6 D4。</p>
 <p>写到这里，大家应该看出点规律了。既然掷骰子一二三次可以算，掷多少次都可以以此类推。我们发现，我们要求最大概率骰子序列时要做这么几件事情。首先，不管序列多长，要从序列长度为1算起，算序列长度为1时取到每个骰子的最大概率。然后，逐渐增加长度，每增加一次长度，重新算一遍在这个长度下最后一个位置取到每个骰子的最大概率。因为上一个长度下的取到每个骰子的最大概率都算过了，重新计算的话其实不难。当我们算到最后一位时，就知道最后一位是哪个骰子的概率最大了。然后，我们要把对应这个最大概率的序列从后往前推出来。 </p>
 <h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><p><a href="https://zhuanlan.zhihu.com/p/28274845" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/28274845</a></p>
@@ -646,9 +646,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/NLP/" rel="tag"># NLP</a>
-          
             <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
           
             <a href="/tags/HMM/" rel="tag"># HMM</a>
           
@@ -752,7 +752,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -774,7 +774,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-count">63</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
