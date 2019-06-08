@@ -387,8 +387,9 @@
       
         
           
-          
-          
+          FileInputFormat 实现类TextInputFormatTextInputFormat 是默认的 FileInputFormat 实现类。按行读取每条记录。 键是 LongWritable 类型，存储该行在整个文件中的起始字节偏移量。值是 Text 类型，存储这行的内容，不包括任何行终止符（换行符和回车符）。
+KeyValueTextInputFormat每一行均为一条记录，被分隔符分割为 key,value 。可以通过在驱动类中进行以下设置来设定分隔符。默认分隔符是 tab(\t)。1conf.set(KeyValueLineRecordReader.KEY_VALUE_SEPE
+          ...
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/05/30/MapReduce-详解/#more" rel="contents">
