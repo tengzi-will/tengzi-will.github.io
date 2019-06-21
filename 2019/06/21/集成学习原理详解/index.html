@@ -134,7 +134,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/06/20/5d0b35423cece68570.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/20/5d0b35423d9b442454.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/20/5d0b4092a35ba31367.png">
-<meta property="og:updated_time" content="2019-06-21T01:42:46.000Z">
+<meta property="og:updated_time" content="2019-06-21T07:44:46.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="集成学习原理详解">
 <meta name="twitter:description" content="集成学习概述当做重要决定时，大家可能都会考虑吸取多个专家而不只是一个人的意见。集成学习也是如此。集成学习就是组合多个个体学习器，最后可以得到一个更好的学习器。 集成学习算法：  bagging：用于减少方差的，个体学习器之间不存在强依赖关系，装袋 boosting：用于减少偏差，个体学习器之间存在强依赖关系，提升  学习器的结合方式：  voting：投票 Stacking：用于提升预测结果，堆叠">
@@ -421,7 +421,7 @@
 <li>如何更新样本权重D?</li>
 <li>使用何种结合策略？<br>只要是 <strong>boosting</strong> 大家族的算法，都要解决这 4 个问题。那么 <strong>Adaboost</strong> 是怎么解决的呢？</li>
 </ul>
-<h3 id="Adaboost-算法的基本思路"><a href="#Adaboost-算法的基本思路" class="headerlink" title="Adaboost 算法的基本思路"></a>Adaboost 算法的基本思路</h3><p>假设我们的训练集样本是:<br>$$<br>T=\left{\left(x, y_{1}\right),\left(x_{2}, y_{2}\right), \ldots\left(x_{m}, y_{m}\right)\right}<br>$$</p>
+<h3 id="Adaboost-算法的基本思路"><a href="#Adaboost-算法的基本思路" class="headerlink" title="Adaboost 算法的基本思路"></a>Adaboost 算法的基本思路</h3><p>假设我们的训练集样本是:<br>$$<br>T={(x, y_{1}),(x_{2}, y_{2}), \cdots,(x_m, y_m)}<br>$$</p>
 <p>训练集的在第 $k$ 个弱学习器的输出权重为:<br>$$<br>D(k)=\left(w_{k 1}, w_{k 2}, \ldots w_{k m}\right) ; \quad w_{1 i}=\frac{1}{m} ; \quad i=1,2 \ldots m<br>$$</p>
 <h4 id="分类问题"><a href="#分类问题" class="headerlink" title="分类问题"></a>分类问题</h4><p>首先我们看看 <strong>Adaboost</strong> 的分类问题。</p>
 <p>分类问题的误差率很好理解和计算。由于多元分类是二元分类的推广，这里假设我们是二元分类问题，输出为 ${-1，1}$ ，则第 $k$ 个弱分类器 $G_k(x)$ 在训练集上的加权误差率为<br>$$<br>e_{k}=P\left(G_{k}\left(x_{i}\right) \neq y_{i}\right)=\sum_{i=1}^{m} w_{k i} I\left(G_{k}\left(x_{i}\right) \neq y_{i}\right)<br>$$</p>
@@ -440,8 +440,8 @@
 <p>对于更新更新样本权重 $D$ ，第 $k+1$ 个弱学习器的样本集权重系数为<br>$$<br>w_{k+1, i}=\frac{ w _ {ki} }{ Z_k } \alpha_{k} ^ {1 - e _ {ki} }<br>$$</p>
 <p>这里 $Z_k$ 是规范化因子<br>$$<br>Z_{k}=\sum_{i=1}^{m} w _ {ki} \alpha_{k}^{1-e _ {ki} }<br>$$</p>
 <p>最后是结合策略，和分类问题稍有不同，采用的是对加权的弱学习器取权重中位数对应的弱学习器作为强学习器的方法，最终的强回归器为</p>
-<p>$$<br>f(x) = G _ { k^* } (x)<br>$$</p>
-<p>其中，$ G _ { k^<em> } (x) $ 是所有 $\ln \frac{1}{\alpha k},k=1,2,….K$ 的中位数值对应序号 $ k^</em> $ 对应的弱学习器。</p>
+<p>$$<br>f(x) = G _ { k^\ast } (x)<br>$$</p>
+<p>其中，$ G _ { k^\ast } (x) $ 是所有 $\ln \frac{1}{\alpha_k},k=1,2,\cdots,K$ 的中位数值对应序号 $ k^\ast $ 对应的弱学习器。</p>
 
       
     </div>
