@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Menlo:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="集成学习概述当做重要决定时，大家可能都会考虑吸取多个专家而不只是一个人的意见。集成学习也是如此。集成学习就是组合多个个体学习器，最后可以得到一个更好的学习器。 集成学习算法：  bagging：用于减少方差的，个体学习器之间不存在强依赖关系，装袋 boosting：用于减少偏差，个体学习器之间存在强依赖关系，提升  学习器的结合方式：  voting：投票 Stacking：用于提升预测结果，堆叠">
+<meta name="keywords" content="MachineLearning, DeepLearning, ReinforcementLearning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="集成学习原理详解">
+<meta property="og:url" content="http://yoursite.com/2019/06/21/集成学习原理详解/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="集成学习概述当做重要决定时，大家可能都会考虑吸取多个专家而不只是一个人的意见。集成学习也是如此。集成学习就是组合多个个体学习器，最后可以得到一个更好的学习器。 集成学习算法：  bagging：用于减少方差的，个体学习器之间不存在强依赖关系，装袋 boosting：用于减少偏差，个体学习器之间存在强依赖关系，提升  学习器的结合方式：  voting：投票 Stacking：用于提升预测结果，堆叠">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/06/20/5d0b35423cece68570.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/20/5d0b35423d9b442454.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/20/5d0b4092a35ba31367.png">
+<meta property="og:updated_time" content="2019-06-21T01:40:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="集成学习原理详解">
+<meta name="twitter:description" content="集成学习概述当做重要决定时，大家可能都会考虑吸取多个专家而不只是一个人的意见。集成学习也是如此。集成学习就是组合多个个体学习器，最后可以得到一个更好的学习器。 集成学习算法：  bagging：用于减少方差的，个体学习器之间不存在强依赖关系，装袋 boosting：用于减少偏差，个体学习器之间存在强依赖关系，提升  学习器的结合方式：  voting：投票 Stacking：用于提升预测结果，堆叠">
+<meta name="twitter:image" content="https://i.loli.net/2019/06/20/5d0b35423cece68570.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/21/集成学习原理详解/">
+
+
+
+
+
+  <title>集成学习原理详解 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/21/集成学习原理详解/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">集成学习原理详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-21T09:36:57+08:00">
+                2019-06-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="集成学习概述"><a href="#集成学习概述" class="headerlink" title="集成学习概述"></a>集成学习概述</h2><p>当做重要决定时，大家可能都会考虑吸取多个专家而不只是一个人的意见。集成学习也是如此。集成学习就是组合多个<strong>个体学习器</strong>，最后可以得到一个更好的学习器。</p>
+<p>集成学习算法：</p>
+<ol>
+<li><strong>bagging</strong>：用于减少方差的，个体学习器之间不存在强依赖关系，<strong>装袋</strong></li>
+<li><strong>boosting</strong>：用于减少偏差，个体学习器之间存在强依赖关系，<strong>提升</strong></li>
+</ol>
+<p>学习器的结合方式：</p>
+<ol>
+<li><strong>voting</strong>：<strong>投票</strong></li>
+<li><strong>Stacking</strong>：用于提升预测结果，<strong>堆叠</strong></li>
+</ol>
+<h3 id="集成学习之个体学习器"><a href="#集成学习之个体学习器" class="headerlink" title="集成学习之个体学习器"></a>集成学习之个体学习器</h3><p>集成学习的第一个问题就是如何得到若干个个体学习器。这里我们有两种选择。</p>
+<p>第一种就是所有的个体学习器都是一个种类的，或者说是<strong>同质</strong>的。比如都是决策树个体学习器，或者都是神经网络个体学习器。第二种是所有的个体学习器不全是一个种类的，或者说是<strong>异质</strong>的。比如我们有一个分类问题，对训练集采用支持向量机个体学习器，逻辑回归个体学习器和朴素贝叶斯个体学习器来学习，再通过某种结合策略来确定最终的分类强学习器。</p>
+<p>目前来说，同质个体学习器的应用是最广泛的，一般我们常说的集成学习的方法都是指的同质个体学习器。而同质个体学习器使用最多的模型是<strong>CART决策树</strong>和<strong>神经网络</strong>。</p>
+<p>同质个体学习器按照个体学习器之间是否存在依赖关系可以分为两类，第一个是<strong>个体学习器之间存在强依赖关系，一系列个体学习器基本都需要串行生成，代表算法是boosting系列算法</strong>，第二个是<strong>个体学习器之间不存在强依赖关系，一系列个体学习器可以并行生成，代表算法是 bagging 和随机森林（Random Forest）</strong>系列算法。</p>
+<h3 id="bagging"><a href="#bagging" class="headerlink" title="bagging"></a>bagging</h3><p><img src="https://i.loli.net/2019/06/20/5d0b35423cece68570.png" alt="01_bagging"></p>
+<p><strong>Bagging</strong> 是引导聚合的意思。减少一个估计方差的一种方式就是对多个估计进行平均。例如，我们可以用训练集的不同子集（随机选择并替代训练集）训练 M 个不同的树然后计算最后的结果：</p>
+<p><strong>Bagging</strong> 使用装袋采样来获取数据子集训练基础学习器。通常分类任务使用投票的方式集成，而回归任务通过平均的方式集成。</p>
+<ul>
+<li>从原始样本集中抽取训练集。每轮从原始样本集中使用Bootstraping（有放回）的方法抽取n个训练样本（在训练集中，有些样本可能被多次抽取到，而有些样本可能一次都没有被抽中）。共进行k轮抽取，得到k个训练集。（我们这里假设k个训练集之间是相互独立的，事实上不是完全独立）</li>
+<li>每次使用一个训练集得到一个模型，k个训练集共得到k个模型。但是是同种模型。（注：k个训练集虽然有重合不完全独立，训练出来的模型因为是同种模型也是不完全独立。这里并没有具体的分类算法或回归方法，我们可以根据具体问题采用不同的分类或回归方法，如决策树、感知器等）</li>
+<li>对分类问题：将上步得到的k个模型采用投票的方式得到分类结果；对回归问题，计算上述模型的均值作为最后的结果。（所有模型的重要性相同）</li>
+</ul>
+<p>对于 <strong>Bagging</strong> 需要注意的是，每次训练集可以取全部的特征进行训练，也可以随机选取部分特征训练，例如随机森林就是每次随机选取部分特征。</p>
+<p>随机森林是 <strong>bagging</strong> 的一个特化进阶版，所谓的<strong>特化</strong>是因为随机森林的弱学习器都是决策树。所谓的<strong>进阶</strong>是随机森林在 <strong>bagging</strong> 的样本随机采样基础上，又加上了<strong>特征的随机选择</strong>，其基本思想没有脱离 <strong>bagging</strong> 的范畴。</p>
+<h3 id="boosting"><a href="#boosting" class="headerlink" title="boosting"></a>boosting</h3><p><img src="https://i.loli.net/2019/06/20/5d0b35423d9b442454.png" alt="02_boosting"></p>
+<p><strong>Boosting</strong> 指的是通过算法集合将弱学习器转换为强学习器。<strong>boosting</strong> 的主要原则是训练一系列的弱学习器，所谓弱学习器是指仅比随机猜测好一点点的模型，例如较小的决策树，训练的方式是利用加权的数据。在训练的早期对于错分数据给予较大的权重。</p>
+<p>对于训练好的弱分类器，如果是分类任务按照权重进行投票，而对于回归任务进行加权，然后再进行预测。<strong>boosting</strong> 和 <strong>bagging</strong> 的区别在于是对加权后的数据利用弱分类器依次进行训练。</p>
+<p><strong>boosting</strong> 是一族可将弱学习器提升为强学习器的算法，这族算法的工作机制类似：</p>
+<ul>
+<li>先从初始训练集训练出一个基学习器；</li>
+<li>再根据基学习器的表现对训练样本分布进行调整，使得先前基学习器做错的训练样本在后续受到更多关注；</li>
+<li>基于调整后的样本分布来训练下一个基学习器；</li>
+<li>重复进行上述步骤，直至基学习器数目达到事先指定的值 T，最终将这 T 个基学习器进行加权结合。</li>
+</ul>
+<h3 id="结合策略"><a href="#结合策略" class="headerlink" title="结合策略"></a>结合策略</h3><p>在上面几节里面我们主要关注于学习器，提到了学习器的结合策略但没有细讲，本节就对集成学习之结合策略做一个总结。我们假定我得到的 $T$ 个弱学习器是 ${h_1,h_2,…,h_T}$</p>
+<h4 id="平均法"><a href="#平均法" class="headerlink" title="平均法"></a>平均法</h4><p>对于数值类的回归预测问题，通常使用的结合策略是平均法，也就是说，对于若干个弱学习器的输出进行平均得到最终的预测输出。</p>
+<p>最简单的平均是算术平均，也就是说最终预测是:<br>$$<br>H(x)=\frac{1}{T} \sum_{1}^{T} h_{i}(x)<br>$$<br>如果每个个体学习器有一个权重 $w$，则最终预测是:<br>$$<br>H(x)=\sum_{i=1}^{T} w_{i} h_{i}(x)<br>$$<br>其中 $w_i$ 是个体学习器 $h_i$ 的权重，通常有:<br>$$<br>w_{i} \geq 0, \quad \sum_{i=1}^{T} w_{i}=1<br>$$</p>
+<h4 id="投票法"><a href="#投票法" class="headerlink" title="投票法"></a>投票法</h4><p>对于分类问题的预测，我们通常使用的是投票法。假设我们的预测类别是 ${c_1,c_2,…c_K}$，对于任意一个预测样本 $x$，我们的 $T$ 个弱学习器的预测结果分别是 $(h_1(x),h_2(x)…h_T(x))$。</p>
+<p>最简单的投票法是相对多数投票法，也就是我们常说的少数服从多数，也就是 $T$ 个弱学习器的对样本 $x$ 的预测结果中，数量最多的类别 $c_i$ 为最终的分类类别。如果不止一个类别获得最高票，则随机选择一个做最终类别。</p>
+<p>稍微复杂的投票法是绝对多数投票法，也就是我们常说的要票过半数。在相对多数投票法的基础上，不光要求获得最高票，还要求票过半数。否则会拒绝预测。</p>
+<p>更加复杂的是加权投票法，和加权平均法一样，每个弱学习器的分类票数要乘以一个权重，最终将各个类别的加权票数求和，最大的值对应的类别为最终类别。</p>
+<h4 id="学习法-stacking"><a href="#学习法-stacking" class="headerlink" title="学习法 stacking"></a>学习法 stacking</h4><p>上两节的方法都是对弱学习器的结果做平均或者投票，相对比较简单，但是可能学习误差较大，于是就有了学习法这种方法，对于学习法，代表方法是 <strong>stacking</strong> ，当使用 <strong>stacking</strong> 的结合策略时，我们不是对弱学习器的结果做简单的逻辑处理，而是再加上一层学习器，也就是说，我们将训练集弱学习器的学习结果作为输入，将训练集的输出作为输出，重新训练一个学习器来得到最终结果。</p>
+<p>在这种情况下，我们将弱学习器称为<strong>初级学习器</strong>，将用于结合的学习器称为<strong>次级学习器</strong>。对于测试集，我们首先用初级学习器预测一次，得到次级学习器的输入样本，再用次级学习器预测一次，得到最终的预测结果。</p>
+<h2 id="Adaboost-详解"><a href="#Adaboost-详解" class="headerlink" title="Adaboost 详解"></a>Adaboost 详解</h2><h3 id="boosting-算法的基本原理"><a href="#boosting-算法的基本原理" class="headerlink" title="boosting 算法的基本原理"></a>boosting 算法的基本原理</h3><p><img src="https://i.loli.net/2019/06/20/5d0b4092a35ba31367.png" alt="03_adaboosting"></p>
+<p>从图中可以看出，<strong>Boosting</strong> 算法的工作机制是首先从训练集用初始权重训练出一个<strong>弱学习器1</strong>，根据弱学习的学习误差率表现来更新训练样本的权重，使得之前<strong>弱学习器1</strong>学习误差率高的训练样本点的权重变高，使得这些误差率高的点在后面的<strong>弱学习器2</strong>中得到更多的重视。然后基于调整权重后的训练集来训练<strong>弱学习器2</strong>.，如此重复进行，直到弱学习器数达到事先指定的数目 $T$，最终将这 $T$ 个弱学习器通过集合策略进行整合，得到最终的强学习器。　　</p>
+<p>不过有几个具体的问题 <strong>Boosting</strong> 算法没有详细说明。</p>
+<ul>
+<li>如何计算学习误差率e?</li>
+<li>如何得到弱学习器权重系数α?</li>
+<li>如何更新样本权重D?</li>
+<li>使用何种结合策略？<br>只要是 <strong>boosting</strong> 大家族的算法，都要解决这 4 个问题。那么 <strong>Adaboost</strong> 是怎么解决的呢？</li>
+</ul>
+<h3 id="Adaboost-算法的基本思路"><a href="#Adaboost-算法的基本思路" class="headerlink" title="Adaboost 算法的基本思路"></a>Adaboost 算法的基本思路</h3><p>假设我们的训练集样本是:<br>$$<br>T=\left{\left(x, y_{1}\right),\left(x_{2}, y_{2}\right), \ldots\left(x_{m}, y_{m}\right)\right}<br>$$</p>
+<p>训练集的在第 $k$ 个弱学习器的输出权重为:<br>$$<br>D(k)=\left(w_{k 1}, w_{k 2}, \ldots w_{k m}\right) ; \quad w_{1 i}=\frac{1}{m} ; \quad i=1,2 \ldots m<br>$$</p>
+<h4 id="分类问题"><a href="#分类问题" class="headerlink" title="分类问题"></a>分类问题</h4><p>首先我们看看 <strong>Adaboost</strong> 的分类问题。</p>
+<p>分类问题的误差率很好理解和计算。由于多元分类是二元分类的推广，这里假设我们是二元分类问题，输出为 ${-1，1}$ ，则第 $k$ 个弱分类器 $G_k(x)$ 在训练集上的加权误差率为<br>$$<br>e_{k}=P\left(G_{k}\left(x_{i}\right) \neq y_{i}\right)=\sum_{i=1}^{m} w_{k i} I\left(G_{k}\left(x_{i}\right) \neq y_{i}\right)<br>$$</p>
+<p>接着我们看弱学习器权重系数,对于二元分类问题，第k个弱分类器 $G_k(x)$ 的权重系数为:<br>$$<br>\alpha_{k}=\frac{1}{2} \log \frac{1-e_{k}}{e_{k}}<br>$$</p>
+<p>为什么这样计算弱学习器权重系数？从上式可以看出，如果分类误差率 $e_k$ 越大，则对应的弱分类器权重系数 $\alpha_k$ 越小。也就是说，误差率小的弱分类器权重系数越大。<strong>具体为什么采用这个权重系数公式，我们在讲 Adaboost 的损失函数优化时再讲</strong>。</p>
+<p>第三个问题，更新更新样本权重 $D$。假设第 $k$ 个弱分类器的样本集权重系数为 $D(k)=(w_{k1},w_{k2},…w_{km})$ ，则对应的第k+1个弱分类器的样本集权重系数为<br>$$<br>w_{k+1, i}=\frac{w_{k i}}{Z_{K}} \exp \left(-\alpha_{k} y_{i} G_{k}\left(x_{i}\right)\right)<br>$$</p>
+<p>这里 $Z_k$ 是规范化因子<br>$$<br>Z_{k}=\sum_{i=1}^{m} w_{k i} \exp \left(-\alpha_{k} y_{i} G_{k}\left(x_{i}\right)\right)<br>$$</p>
+<p>从 $w_{k+1,i}$ 计算公式可以看出，如果第 $i$ 个样本分类错误，则 $y_iG_k(x_i)&lt;0$，导致样本的权重在第 $k+1$ 个弱分类器中增大，如果分类正确，则权重在第 $k+1$ 个弱分类器中减少。<strong>具体为什么采用样本权重更新公式，我们在讲 Adaboost 的损失函数优化时再讲</strong>。</p>
+<p>最后一个问题是集合策略。<strong>Adaboost</strong> 分类采用的是加权表决法，最终的强分类器为<br>$$<br>f(x)={sign}\left(\sum_{k=1}^{K} \alpha_{k} G_{k}(x)\right)<br>$$</p>
+<h4 id="回归问题"><a href="#回归问题" class="headerlink" title="回归问题"></a>回归问题</h4><p>接着我们看看 <strong>Adaboost</strong> 的回归问题。由于 <strong>Adaboost</strong> 的回归问题有很多变种，这里我们以 <strong>Adaboost R2</strong> 算法为准。</p>
+<p>我们先看看回归问题的误差率的问题，对于第 $k$ 个弱学习器，计算他在训练集上的最大误差<br>$$<br>E_{k}=\max \left|y_{i}-G_{k}\left(x_{i}\right)\right| i=1,2 \ldots m<br>$$</p>
+<p>然后计算每个样本的相对误差<br>$$<br>e_{k i} = \frac {\left|y_{i}-G_{k}\left(x_{i}\right)\right|} {E_k}<br>$$</p>
+<p>这里是误差损失为线性时的情况，如果我们用平方误差，则 $<br>e_{k i} = \frac {\left|y_{i}-G_{k}\left(x_{i}\right)\right|^2} {E_k^2} $ ,如果我们用的是指数误差，则 $e_{k i}=1-\exp \left(\frac{-y_{i}+G_{k}\left(x_{i}\right) )}{E_k}\right)$.</p>
+<p>最终得到第 $k$ 个弱学习器的误差率<br>$$e_{k}=\sum_{i=1}^{m} w_{k i} e_{k i}$$</p>
+<p>我们再来看看如何得到弱学习器权重系数 $\alpha$ 。这里有：<br>$$<br>\alpha_k=\frac{e_k}{1-e_k}<br>$$</p>
+<p>对于更新更新样本权重 $D$ ，第 $k+1$ 个弱学习器的样本集权重系数为<br>$$<br>w_{k+1, i}=\frac{ w _ {ki} }{ Z_k } \alpha_{k} ^ {1 - e _ {ki} }<br>$$</p>
+<p>这里 $Z_k$ 是规范化因子<br>$$<br>Z_{k}=\sum_{i=1}^{m} w _ {ki} \alpha_{k}^{1-e _ {ki} }<br>$$</p>
+<p>最后是结合策略，和分类问题稍有不同，采用的是对加权的弱学习器取权重中位数对应的弱学习器作为强学习器的方法，最终的强回归器为</p>
+<p>$$<br>f(x) = G _ { k^* } (x)<br>$$</p>
+<p>其中，$ G _ { k^<em> } (x) $ 是所有 $\ln \frac{1}{\alpha k},k=1,2,….K$ 的中位数值对应序号 $ k^</em> $ 对应的弱学习器。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/30/MapReduce-详解/" rel="next" title="MapReduce 详解">
+                <i class="fa fa-chevron-left"></i> MapReduce 详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/tengzi-will" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/ke-le-teng-zi/activities" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mumaxu.github.io/" title="mamaxu" target="_blank">mamaxu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://sunyancn.github.io/" title="sunyan" target="_blank">sunyan</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#集成学习概述"><span class="nav-number">1.</span> <span class="nav-text">集成学习概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集成学习之个体学习器"><span class="nav-number">1.1.</span> <span class="nav-text">集成学习之个体学习器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bagging"><span class="nav-number">1.2.</span> <span class="nav-text">bagging</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#boosting"><span class="nav-number">1.3.</span> <span class="nav-text">boosting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结合策略"><span class="nav-number">1.4.</span> <span class="nav-text">结合策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#平均法"><span class="nav-number">1.4.1.</span> <span class="nav-text">平均法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#投票法"><span class="nav-number">1.4.2.</span> <span class="nav-text">投票法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#学习法-stacking"><span class="nav-number">1.4.3.</span> <span class="nav-text">学习法 stacking</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Adaboost-详解"><span class="nav-number">2.</span> <span class="nav-text">Adaboost 详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#boosting-算法的基本原理"><span class="nav-number">2.1.</span> <span class="nav-text">boosting 算法的基本原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Adaboost-算法的基本思路"><span class="nav-number">2.2.</span> <span class="nav-text">Adaboost 算法的基本思路</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分类问题"><span class="nav-number">2.2.1.</span> <span class="nav-text">分类问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#回归问题"><span class="nav-number">2.2.2.</span> <span class="nav-text">回归问题</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
