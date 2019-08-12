@@ -123,15 +123,27 @@
 
 
 
+<meta name="description" content="强化学习概述强化学习模型分类通过价值选行为：  Q learning Sarsa Deep Q Network  直接选行为：  Policy Gradients  想象环境并从中学习：  Model based RL  强化学习方法不理解环境(Model-Free) vs 理解环境(Model-Based)不理解环境  Q Learning Sarsa Policy Gradients  基于概">
 <meta name="keywords" content="MachineLearning, DeepLearning, ReinforcementLearning">
 <meta property="og:type" content="article">
 <meta property="og:title" content="强化学习 Reinforcement Learning 模型综述">
 <meta property="og:url" content="http://yoursite.com/2019/03/14/强化学习-Reinforcement-Learning-模型综述/index.html">
 <meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="强化学习概述强化学习模型分类通过价值选行为：  Q learning Sarsa Deep Q Network  直接选行为：  Policy Gradients  想象环境并从中学习：  Model based RL  强化学习方法不理解环境(Model-Free) vs 理解环境(Model-Based)不理解环境  Q Learning Sarsa Policy Gradients  基于概">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-14T14:23:10.000Z">
+<meta property="og:image" content="https://i.loli.net/2019/06/29/5d16f2001129959672.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/29/5d16f1ffefdd152771.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/29/5d16f20010e9f55158.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/29/5d16f2010ef2b87367.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/29/5d16f2c14781799698.png">
+<meta property="og:image" content="https://i.loli.net/2019/06/29/5d16f2c1b13a675596.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/23/5d36a3acf183229806.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/23/5d36a3aa9c46c11480.png">
+<meta property="og:updated_time" content="2019-07-23T06:24:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="强化学习 Reinforcement Learning 模型综述">
+<meta name="twitter:description" content="强化学习概述强化学习模型分类通过价值选行为：  Q learning Sarsa Deep Q Network  直接选行为：  Policy Gradients  想象环境并从中学习：  Model based RL  强化学习方法不理解环境(Model-Free) vs 理解环境(Model-Based)不理解环境  Q Learning Sarsa Policy Gradients  基于概">
+<meta name="twitter:image" content="https://i.loli.net/2019/06/29/5d16f2001129959672.png">
 
 
 
@@ -361,7 +373,69 @@
       
 
       
-        
+        <h2 id="强化学习概述"><a href="#强化学习概述" class="headerlink" title="强化学习概述"></a>强化学习概述</h2><h3 id="强化学习模型分类"><a href="#强化学习模型分类" class="headerlink" title="强化学习模型分类"></a>强化学习模型分类</h3><p>通过价值选行为：</p>
+<ul>
+<li>Q learning</li>
+<li>Sarsa</li>
+<li>Deep Q Network</li>
+</ul>
+<p>直接选行为：</p>
+<ul>
+<li>Policy Gradients</li>
+</ul>
+<p>想象环境并从中学习：</p>
+<ul>
+<li>Model based RL</li>
+</ul>
+<h3 id="强化学习方法"><a href="#强化学习方法" class="headerlink" title="强化学习方法"></a>强化学习方法</h3><h4 id="不理解环境-Model-Free-vs-理解环境-Model-Based"><a href="#不理解环境-Model-Free-vs-理解环境-Model-Based" class="headerlink" title="不理解环境(Model-Free) vs 理解环境(Model-Based)"></a>不理解环境(Model-Free) vs 理解环境(Model-Based)</h4><p>不理解环境</p>
+<ul>
+<li>Q Learning</li>
+<li>Sarsa</li>
+<li>Policy Gradients</li>
+</ul>
+<h4 id="基于概率-Policy-Based-vs-基于价值-Value-Based"><a href="#基于概率-Policy-Based-vs-基于价值-Value-Based" class="headerlink" title="基于概率(Policy-Based) vs 基于价值(Value-Based)"></a>基于概率(Policy-Based) vs 基于价值(Value-Based)</h4><p>基于概率</p>
+<ul>
+<li>Policy Gradients</li>
+</ul>
+<p>基于价值</p>
+<ul>
+<li>Q Learning</li>
+<li>Sarsa</li>
+</ul>
+<p>两者结合</p>
+<ul>
+<li>Actor-Critic</li>
+</ul>
+<h4 id="回合更新-Monte-Carlo-update-vs-单步更新-Temporal-Difference-update"><a href="#回合更新-Monte-Carlo-update-vs-单步更新-Temporal-Difference-update" class="headerlink" title="回合更新(Monte-Carlo update) vs 单步更新(Temporal-Difference update)"></a>回合更新(Monte-Carlo update) vs 单步更新(Temporal-Difference update)</h4><p>回合更新</p>
+<ul>
+<li>Monte-Carlo Learning</li>
+<li>基础版的 Policy Gradients </li>
+</ul>
+<p>单步更新</p>
+<ul>
+<li>Qlearning, Sarsa</li>
+<li>升级版的 Policy Gradients</li>
+</ul>
+<h4 id="在线学习-On-Policy-vs-离线学习-Off-Policy"><a href="#在线学习-On-Policy-vs-离线学习-Off-Policy" class="headerlink" title="在线学习(On-Policy) vs 离线学习(Off-Policy)"></a>在线学习(On-Policy) vs 离线学习(Off-Policy)</h4><p>在线学习</p>
+<ul>
+<li>Sarsa</li>
+<li>Sarsa lambda</li>
+</ul>
+<p>离线学习</p>
+<ul>
+<li>Q Learning</li>
+<li>Deep Q Network</li>
+</ul>
+<h2 id="Q-Learning"><a href="#Q-Learning" class="headerlink" title="Q Learning"></a>Q Learning</h2><h3 id="行为准则"><a href="#行为准则" class="headerlink" title="行为准则"></a>行为准则</h3><p><img src="https://i.loli.net/2019/06/29/5d16f2001129959672.png" alt=""></p>
+<h3 id="决策"><a href="#决策" class="headerlink" title="决策"></a>决策</h3><p><img src="https://i.loli.net/2019/06/29/5d16f1ffefdd152771.png" alt=""></p>
+<h3 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h3><p><img src="https://i.loli.net/2019/06/29/5d16f20010e9f55158.png" alt=""></p>
+<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p><img src="https://i.loli.net/2019/06/29/5d16f2010ef2b87367.png" alt=""></p>
+<h2 id="Sarsa"><a href="#Sarsa" class="headerlink" title="Sarsa"></a>Sarsa</h2><h3 id="决策-1"><a href="#决策-1" class="headerlink" title="决策"></a>决策</h3><p>Sarsa 的决策部分和 Q learning 一模一样, 因为我们使用的是 Q 表的形式决策, 所以我们会在 Q 表中挑选值较大的动作值施加在环境中来换取奖惩. 但是不同的地方在于 Sarsa 的更新方式是不一样的.</p>
+<h3 id="更新行为准则"><a href="#更新行为准则" class="headerlink" title="更新行为准则"></a>更新行为准则</h3><p><img src="https://i.loli.net/2019/06/29/5d16f2c14781799698.png" alt=""></p>
+<h3 id="对比-Sarsa-和-Q-learning-算法"><a href="#对比-Sarsa-和-Q-learning-算法" class="headerlink" title="对比 Sarsa 和 Q-learning 算法"></a>对比 Sarsa 和 Q-learning 算法</h3><p><img src="https://i.loli.net/2019/06/29/5d16f2c1b13a675596.png" alt=""></p>
+<h2 id="DQN"><a href="#DQN" class="headerlink" title="DQN"></a>DQN</h2><h3 id="什么是-DQN"><a href="#什么是-DQN" class="headerlink" title="什么是 DQN"></a>什么是 DQN</h3><p><img src="https://i.loli.net/2019/07/23/5d36a3acf183229806.png" alt=""><br>DQN = DNN + Q Learning，一种融合了神经网络和 Q learning 的方法, 名字叫做 Deep Q Network。</p>
+<p><img src="https://i.loli.net/2019/07/23/5d36a3aa9c46c11480.png" alt=""></p>
+<h2 id="Policy-Gradient"><a href="#Policy-Gradient" class="headerlink" title="Policy Gradient"></a>Policy Gradient</h2>
       
     </div>
     
@@ -473,8 +547,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -489,7 +572,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -568,6 +651,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#强化学习概述"><span class="nav-number">1.</span> <span class="nav-text">强化学习概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#强化学习模型分类"><span class="nav-number">1.1.</span> <span class="nav-text">强化学习模型分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强化学习方法"><span class="nav-number">1.2.</span> <span class="nav-text">强化学习方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#不理解环境-Model-Free-vs-理解环境-Model-Based"><span class="nav-number">1.2.1.</span> <span class="nav-text">不理解环境(Model-Free) vs 理解环境(Model-Based)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于概率-Policy-Based-vs-基于价值-Value-Based"><span class="nav-number">1.2.2.</span> <span class="nav-text">基于概率(Policy-Based) vs 基于价值(Value-Based)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#回合更新-Monte-Carlo-update-vs-单步更新-Temporal-Difference-update"><span class="nav-number">1.2.3.</span> <span class="nav-text">回合更新(Monte-Carlo update) vs 单步更新(Temporal-Difference update)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在线学习-On-Policy-vs-离线学习-Off-Policy"><span class="nav-number">1.2.4.</span> <span class="nav-text">在线学习(On-Policy) vs 离线学习(Off-Policy)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q-Learning"><span class="nav-number">2.</span> <span class="nav-text">Q Learning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#行为准则"><span class="nav-number">2.1.</span> <span class="nav-text">行为准则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#决策"><span class="nav-number">2.2.</span> <span class="nav-text">决策</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新"><span class="nav-number">2.3.</span> <span class="nav-text">更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法"><span class="nav-number">2.4.</span> <span class="nav-text">算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sarsa"><span class="nav-number">3.</span> <span class="nav-text">Sarsa</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#决策-1"><span class="nav-number">3.1.</span> <span class="nav-text">决策</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新行为准则"><span class="nav-number">3.2.</span> <span class="nav-text">更新行为准则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对比-Sarsa-和-Q-learning-算法"><span class="nav-number">3.3.</span> <span class="nav-text">对比 Sarsa 和 Q-learning 算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DQN"><span class="nav-number">4.</span> <span class="nav-text">DQN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-DQN"><span class="nav-number">4.1.</span> <span class="nav-text">什么是 DQN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Policy-Gradient"><span class="nav-number">5.</span> <span class="nav-text">Policy Gradient</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

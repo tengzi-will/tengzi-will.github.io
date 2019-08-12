@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Menlo:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="拼多多第一题 严格升序输入：两行数字，第一行数字是数组A，第二行数字是数组B，数组A几乎升序（只需要替换数组中的一个元素就可以转换为严格升序（严格升序不能有邻近的元素相等）） 要求：从B中选择一个元素与A中元素交换，该元素必须是可以使A升序的值最大的元素。 输出：字符串，严格排序后数组A各元素以空格间隔（如果失败返回NO） 第二题 判断是否收尾相接形成圆环输入：一组字符串，每个字符串的所有字符全部">
+<meta name="keywords" content="MachineLearning, DeepLearning, ReinforcementLearning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2020年校招笔试真题详解">
+<meta property="og:url" content="http://yoursite.com/2019/08/12/2020年校招笔试真题详解/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="拼多多第一题 严格升序输入：两行数字，第一行数字是数组A，第二行数字是数组B，数组A几乎升序（只需要替换数组中的一个元素就可以转换为严格升序（严格升序不能有邻近的元素相等）） 要求：从B中选择一个元素与A中元素交换，该元素必须是可以使A升序的值最大的元素。 输出：字符串，严格排序后数组A各元素以空格间隔（如果失败返回NO） 第二题 判断是否收尾相接形成圆环输入：一组字符串，每个字符串的所有字符全部">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-12T03:26:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2020年校招笔试真题详解">
+<meta name="twitter:description" content="拼多多第一题 严格升序输入：两行数字，第一行数字是数组A，第二行数字是数组B，数组A几乎升序（只需要替换数组中的一个元素就可以转换为严格升序（严格升序不能有邻近的元素相等）） 要求：从B中选择一个元素与A中元素交换，该元素必须是可以使A升序的值最大的元素。 输出：字符串，严格排序后数组A各元素以空格间隔（如果失败返回NO） 第二题 判断是否收尾相接形成圆环输入：一组字符串，每个字符串的所有字符全部">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/12/2020年校招笔试真题详解/">
+
+
+
+
+
+  <title>2020年校招笔试真题详解 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/12/2020年校招笔试真题详解/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2020年校招笔试真题详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-12T09:28:41+08:00">
+                2019-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="拼多多"><a href="#拼多多" class="headerlink" title="拼多多"></a>拼多多</h2><h3 id="第一题-严格升序"><a href="#第一题-严格升序" class="headerlink" title="第一题 严格升序"></a>第一题 严格升序</h3><p>输入：两行数字，第一行数字是数组A，第二行数字是数组B，数组A几乎升序（只需要替换数组中的一个元素就可以转换为严格升序（严格升序不能有邻近的元素相等））</p>
+<p>要求：从B中选择一个元素与A中元素交换，该元素必须是可以使A升序的值最大的元素。</p>
+<p>输出：字符串，严格排序后数组A各元素以空格间隔（如果失败返回NO）</p>
+<h3 id="第二题-判断是否收尾相接形成圆环"><a href="#第二题-判断是否收尾相接形成圆环" class="headerlink" title="第二题 判断是否收尾相接形成圆环"></a>第二题 判断是否收尾相接形成圆环</h3><p>输入：一组字符串，每个字符串的所有字符全部大写<br>要求：经过有限次字符串顺序交换是否能够收尾相接形成圆环，如：ABD、DCE、EGDA<br>输出：true或false</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(s, vis, begin, end)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> min(vis) == <span class="number">1</span> <span class="keyword">and</span> begin == end:</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">    find = [index <span class="keyword">for</span> index, v <span class="keyword">in</span> enumerate(vis) <span class="keyword">if</span> v==<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> find:</span><br><span class="line">        <span class="keyword">if</span> s[i][<span class="number">0</span>] == end:</span><br><span class="line">            vis[i] = <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> dfs(s, vis, begin, s[i][<span class="number">-1</span>]):</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">            vis[i] = <span class="number">0</span></span><br><span class="line">        <span class="keyword">else</span>: <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    s = [x <span class="keyword">for</span> x <span class="keyword">in</span> input().split()]</span><br><span class="line">    visited = [<span class="number">0</span>]*len(s)</span><br><span class="line">    begin = <span class="string">'#'</span></span><br><span class="line">    flag = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(s)):</span><br><span class="line">        begin = s[i][<span class="number">0</span>]</span><br><span class="line">        end = s[i][<span class="number">-1</span>]</span><br><span class="line">        visited[i] = <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> dfs(s, visited, begin, end):</span><br><span class="line">            flag = <span class="keyword">True</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        visited[i] = <span class="number">0</span></span><br><span class="line">        begin = <span class="string">'#'</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> flag: print(<span class="string">'true'</span>)</span><br><span class="line">    <span class="keyword">else</span>:print(<span class="string">'false'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="第三题-最短平均等待时间"><a href="#第三题-最短平均等待时间" class="headerlink" title="第三题 最短平均等待时间"></a>第三题 最短平均等待时间</h3><p>输入：先输入N、M，分别代表程序个数（N）和依赖个数（M）；再输入N个数字，代表每个程序的执行时间；再输入M组数，分别代表M个依赖关系，每组数据的第二个数字代表的进程依赖第一个数字代表的进程</p>
+<p>要求：求出符合依赖规则（被依赖的先执行），并且程序平均等待时间最短的程序执行序列</p>
+<p>输出：程序执行顺序</p>
+<h3 id="第四题-搭积木"><a href="#第四题-搭积木" class="headerlink" title="第四题 搭积木"></a>第四题 搭积木</h3><p>输入：首先输入N，代表总共有N个积木；再输入N个数字，分别代表N个积木的长宽；再输入N个数字，分别代表N个积木的重量</p>
+<p>要求：每个积木高1米；把积木搭起来，下面的积木一定要比上面积木的长宽大；下面的积木的承重最大是自己重量的7倍；求积木的最大高度</p>
+<p>输出：积木高度</p>
+<h2 id="网易云音乐"><a href="#网易云音乐" class="headerlink" title="网易云音乐"></a>网易云音乐</h2><h2 id="贝壳"><a href="#贝壳" class="headerlink" title="贝壳"></a>贝壳</h2><h3 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h3><h3 id="第二题-消失的卡片"><a href="#第二题-消失的卡片" class="headerlink" title="第二题 消失的卡片"></a>第二题 消失的卡片</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> permutations</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    num = [int(x) <span class="keyword">for</span> x <span class="keyword">in</span> input().strip().split(<span class="string">' '</span>)]</span><br><span class="line">    n = <span class="number">1</span></span><br><span class="line">    flag = <span class="keyword">True</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        i = n</span><br><span class="line">        <span class="keyword">while</span> i &gt; <span class="number">0</span>:</span><br><span class="line">            yu = i % <span class="number">10</span></span><br><span class="line">            num[yu] -= <span class="number">1</span></span><br><span class="line">            i //= <span class="number">10</span></span><br><span class="line">        <span class="keyword">if</span> max(num) == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">elif</span> max(num) &lt; <span class="number">0</span>:</span><br><span class="line">            flag = <span class="keyword">False</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            n += <span class="number">1</span></span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">if</span> flag == <span class="keyword">False</span>:</span><br><span class="line">        print(<span class="string">'No Answer'</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        res = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">            <span class="keyword">if</span> num[i] &lt; <span class="number">0</span>:</span><br><span class="line">                res += [str(i)]*abs(num[i])</span><br><span class="line">        <span class="keyword">if</span> res == []: print(n+<span class="number">1</span>, n+<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            ans = []</span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> permutations(res):</span><br><span class="line">                ans.append(<span class="string">''</span>.join(item))</span><br><span class="line">            ans = set(ans)</span><br><span class="line">            ans = list(ans)</span><br><span class="line">            ans.sort()</span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> ans:</span><br><span class="line">                <span class="keyword">if</span> int(item) &lt;= n</span><br><span class="line">                print(n, int(item))</span><br></pre></td></tr></table></figure>
+<p>答案待验证</p>
+<h3 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h3><h2 id="网易互娱"><a href="#网易互娱" class="headerlink" title="网易互娱"></a>网易互娱</h2><h3 id="第一题-1"><a href="#第一题-1" class="headerlink" title="第一题"></a>第一题</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(x)</span>:</span></span><br><span class="line">    cnt = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> x &gt; <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">if</span> x%<span class="number">2</span> == <span class="number">1</span>:</span><br><span class="line">            cnt += <span class="number">1</span></span><br><span class="line">        x //= <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> cnt</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    m = int(input())</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(m):</span><br><span class="line">        n = int(input())</span><br><span class="line">        num = [int(x) <span class="keyword">for</span> x <span class="keyword">in</span> input().strip().split(<span class="string">' '</span>)]</span><br><span class="line">        res = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">            c = func(num[i])</span><br><span class="line">            res.append(c)</span><br><span class="line">        ans = set(res)</span><br><span class="line">        print(len(ans))</span><br></pre></td></tr></table></figure>
+<p>AC 100%</p>
+<h3 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    T = int(input())</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(T):</span><br><span class="line">        m, t, m1, t1, m2, t2 = [int(x) <span class="keyword">for</span> x <span class="keyword">in</span> input().strip().split(<span class="string">' '</span>)]</span><br><span class="line">        dp1 = [<span class="number">0</span>]*(t+<span class="number">1</span>)</span><br><span class="line">        dp2 = [<span class="number">0</span>]*(t+<span class="number">1</span>)</span><br><span class="line">        tem1, tem2 = <span class="number">1</span>, <span class="number">1</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(t+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> i%t1 == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">if</span> tem1 == <span class="number">1</span>:</span><br><span class="line">                    tem1 =<span class="number">0</span></span><br><span class="line">                <span class="keyword">else</span>: tem1 = <span class="number">1</span></span><br><span class="line">            dp1[i] = tem1</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(t+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> i%t2 == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">if</span> tem2 == <span class="number">1</span>:</span><br><span class="line">                    tem2 =<span class="number">0</span></span><br><span class="line">                <span class="keyword">else</span>: tem2 = <span class="number">1</span></span><br><span class="line">            dp2[i] = tem2</span><br><span class="line">        res = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, t+<span class="number">1</span>):</span><br><span class="line">            dif = (<span class="number">1</span>-dp1[i<span class="number">-1</span>])*m1 - (<span class="number">1</span>-dp2[i<span class="number">-1</span>])*m2</span><br><span class="line">            res += dif</span><br><span class="line">            <span class="keyword">if</span> res &lt; <span class="number">0</span>:</span><br><span class="line">                res = <span class="number">0</span></span><br><span class="line">            <span class="keyword">if</span> res &gt; m:</span><br><span class="line">                res = m</span><br><span class="line">        print(res)</span><br></pre></td></tr></table></figure>
+<p>AC 100%</p>
+<h3 id="第三题-1"><a href="#第三题-1" class="headerlink" title="第三题"></a>第三题</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">deal</span><span class="params">(s, k, s1, s2)</span>:</span></span><br><span class="line">    L = <span class="number">0</span></span><br><span class="line">    R = <span class="number">0</span></span><br><span class="line">    change = <span class="number">0</span></span><br><span class="line">    ans = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(s)):</span><br><span class="line">        <span class="keyword">if</span> s[i] <span class="keyword">in</span> s1:</span><br><span class="line">            <span class="keyword">if</span> change &lt; k:</span><br><span class="line">                change += <span class="number">1</span></span><br><span class="line">                R += <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">while</span> L &lt;= R <span class="keyword">and</span> s[L] <span class="keyword">not</span> <span class="keyword">in</span> s1:</span><br><span class="line">                    L += <span class="number">1</span></span><br><span class="line">                L += <span class="number">1</span></span><br><span class="line">                R += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            R += <span class="number">1</span></span><br><span class="line">        ans = max(ans, R - L)</span><br><span class="line">    <span class="keyword">return</span> ans</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    <span class="comment"># 读取第一行的n</span></span><br><span class="line">    n = int(sys.stdin.readline().strip())</span><br><span class="line">    res1 = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        s = sys.stdin.readline().strip()</span><br><span class="line">        ss = [j <span class="keyword">for</span> j <span class="keyword">in</span> list(set(s)) <span class="keyword">if</span> j != <span class="string">'N'</span>]</span><br><span class="line">        res = []</span><br><span class="line">        res.append(deal(s, <span class="number">2</span>, ss, <span class="string">'N'</span>))</span><br><span class="line">        res1.append(max(res))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> res1:</span><br><span class="line">        print(i)</span><br></pre></td></tr></table></figure>
+<p>AC 100%</p>
+<h2 id="字节跳动"><a href="#字节跳动" class="headerlink" title="字节跳动"></a>字节跳动</h2><h3 id="第一题-上学闹钟"><a href="#第一题-上学闹钟" class="headerlink" title="第一题 上学闹钟"></a>第一题 上学闹钟</h3><p>题目描述：小明定了 n 个闹钟，他只能在闹钟响起时出发去学校，每个闹钟时间分别为 hi 点 mi 分，小明家到学校要 X 分钟，学校上课时间 A 点 B 分（0&lt;=A&lt;24小时，0&lt;=B&lt;60分钟），求他最晚几点起</p>
+<p>输入：</p>
+<blockquote>
+<p>3 //定了几个闹钟<br>5 0 //第1个闹钟的小时数和分钟数<br>6 0 //第2个闹钟的小时数和分钟数<br>7 0 //第3个闹钟的小时数和分钟数<br>59 //到学校要多少分钟<br>6 59 //上课的小时数和分钟数</p>
+</blockquote>
+<p>输出：</p>
+<blockquote>
+<p>6 0 //最晚的起床时间</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    n = int(input())</span><br><span class="line">    clock = []</span><br><span class="line">    for i in range(n):</span><br><span class="line">        hi, mi = [int(x) for x in input().strip().split(&apos; &apos;)]</span><br><span class="line">        clock.append((hi, mi))</span><br><span class="line">    X = int(input())</span><br><span class="line">    A, B = [int(x) for x in input().strip().split(&apos; &apos;)]</span><br><span class="line">    clock.sort(reverse=True)</span><br><span class="line">    for h, m in clock:</span><br><span class="line">        if (h, m) &gt; (A, B):</span><br><span class="line">            continue</span><br><span class="line">        h1 = h + (m + X) // 60</span><br><span class="line">        m1 = (m + X) % 60</span><br><span class="line">        if h1 &gt;= 24:</span><br><span class="line">            h1 -= 24</span><br><span class="line">        if (h1, m1) &lt;= (A, B):</span><br><span class="line">            print(h, m)</span><br><span class="line">            break</span><br></pre></td></tr></table></figure>
+<p>AC 80%</p>
+<h3 id="第二题-加密通信"><a href="#第二题-加密通信" class="headerlink" title="第二题 加密通信"></a>第二题 加密通信</h3><p>小明和小红采用密码加密通信，每次通信有固定的明文长度 n 和加密次数 k 。<br>比如：密码二进制明文是 1001010 ，加密次数是 4 ，则每次将密文右移 1 位与明文做异或操作，总共位移 3 次（k=4, 所以k - 1 = 3）</p>
+<p>输入：</p>
+<blockquote>
+<p>7 4 // n k<br>1110100110 //密文</p>
+</blockquote>
+<p>输出：</p>
+<blockquote>
+<p>1001010 //明文</p>
+</blockquote>
+<p>解释：</p>
+<blockquote>
+<p>1001010—<br>-1001010–<br>–1001010-<br>—1001010<br>加密次数为4，故对于明文右移 4-1=3 轮，每轮与当前密文进行一次异或，故1001010对应密文为1110100110</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    n, k = [int(x) for x in input().strip().split(&apos; &apos;)]</span><br><span class="line">    s = input()</span><br><span class="line">    q = [0]*(k-1) + [int(s[0])]</span><br><span class="line">    res = &apos;&apos; + s[0]</span><br><span class="line">    for i in range(1, n):</span><br><span class="line">        q.pop(0)</span><br><span class="line">        if sum(q)%2 == int(s[i]):</span><br><span class="line">            res += &apos;0&apos;</span><br><span class="line">            q.append(0)</span><br><span class="line">        else:</span><br><span class="line">            res += &apos;1&apos;</span><br><span class="line">            q.append(1)</span><br><span class="line">        # q.append(int(s[i]))</span><br><span class="line">        # if sum(q) % 2 == 0:</span><br><span class="line">        #     res += &apos;0&apos;</span><br><span class="line">        #     q.pop(-1)</span><br><span class="line">        #     q.append(0)</span><br><span class="line">        # else:</span><br><span class="line">        #     res += &apos;1&apos;</span><br><span class="line">        #     q.pop(-1)</span><br><span class="line">        #     q.append(1)</span><br><span class="line"></span><br><span class="line">    print(res)</span><br></pre></td></tr></table></figure>
+<p>AC 66.7%，提示算法复杂度过大</p>
+<h3 id="第三题-发工资"><a href="#第三题-发工资" class="headerlink" title="第三题 发工资"></a>第三题 发工资</h3><p>王大锤要给员工发工资，员工从左到右坐成一排，每个员工知道彼此的资历，每个员工只知道自己左右员工的工资，如果某员工比左边或右边的人资历老，那他一定比这个人工资高100元，每个人最低工资100元，求王大锤最低给多少工资</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    n = int(input())</span><br><span class="line">    work = [int(x) <span class="keyword">for</span> x <span class="keyword">in</span> input().strip().split(<span class="string">' '</span>)]</span><br><span class="line">    res = [<span class="number">100</span>]*n</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, n):</span><br><span class="line">        <span class="keyword">if</span> work[i] &gt; work[i<span class="number">-1</span>]:</span><br><span class="line">            res[i] = res[i<span class="number">-1</span>] + <span class="number">100</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n<span class="number">-2</span>, <span class="number">-1</span>, <span class="number">-1</span>):</span><br><span class="line">        <span class="keyword">if</span> work[i] &gt; work[i+<span class="number">1</span>]:</span><br><span class="line">            res[i] = max(res[i], res[i+<span class="number">1</span>] + <span class="number">100</span>)</span><br><span class="line">    print(sum(res))</span><br></pre></td></tr></table></figure>
+<p>ac 100%</p>
+<h3 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h3><p>题目描述</p>
+<p>小明练习跑步，他家附近的街道是棵树，这棵树上的点按 1 到 n 标号，任意两点间互相可达，并且有且仅有一条路，每条路的距离都是 1，需要在树上找条路来跑，小明对 3 很感兴趣，所以他想知道所有跑道距离和 % 3 = 0, 1，2 的道路总长度一共各有多长。即树上任意两点问距离 % 3 = k 的距离和。</p>
+<p>输入描述：</p>
+<blockquote>
+<p>第一行一个 n，点数 n&lt; = 1e5<br>接下来 n-1 行每行 u, v 一条无向边</p>
+</blockquote>
+<p>输出描述：</p>
+<blockquote>
+<p>一行 3 个整数，分别代表 % 3 = 0，1, 2的两点距离的距离和<br>结果取模 1e9+7</p>
+</blockquote>
+<p>输入：</p>
+<blockquote>
+<p>3<br>1 2<br>2 3</p>
+</blockquote>
+<p>输出：</p>
+<blockquote>
+<p>0 2 2</p>
+</blockquote>
+<p>说明：</p>
+<blockquote>
+<p>长度 % 3=0的距离不存在，=1的有两条1-2，2-3总长度是2，=2的有1条，1-3，总长度是2</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/21/MapReduce-案例实战/" rel="next" title="MapReduce 案例实战">
+                <i class="fa fa-chevron-left"></i> MapReduce 案例实战
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/tengzi-will" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/ke-le-teng-zi/activities" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mumaxu.github.io/" title="mamaxu" target="_blank">mamaxu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://sunyancn.github.io/" title="sunyan" target="_blank">sunyan</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#拼多多"><span class="nav-number">1.</span> <span class="nav-text">拼多多</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一题-严格升序"><span class="nav-number">1.1.</span> <span class="nav-text">第一题 严格升序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二题-判断是否收尾相接形成圆环"><span class="nav-number">1.2.</span> <span class="nav-text">第二题 判断是否收尾相接形成圆环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三题-最短平均等待时间"><span class="nav-number">1.3.</span> <span class="nav-text">第三题 最短平均等待时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四题-搭积木"><span class="nav-number">1.4.</span> <span class="nav-text">第四题 搭积木</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网易云音乐"><span class="nav-number">2.</span> <span class="nav-text">网易云音乐</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#贝壳"><span class="nav-number">3.</span> <span class="nav-text">贝壳</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一题"><span class="nav-number">3.1.</span> <span class="nav-text">第一题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二题-消失的卡片"><span class="nav-number">3.2.</span> <span class="nav-text">第二题 消失的卡片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三题"><span class="nav-number">3.3.</span> <span class="nav-text">第三题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网易互娱"><span class="nav-number">4.</span> <span class="nav-text">网易互娱</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一题-1"><span class="nav-number">4.1.</span> <span class="nav-text">第一题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二题"><span class="nav-number">4.2.</span> <span class="nav-text">第二题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三题-1"><span class="nav-number">4.3.</span> <span class="nav-text">第三题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字节跳动"><span class="nav-number">5.</span> <span class="nav-text">字节跳动</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一题-上学闹钟"><span class="nav-number">5.1.</span> <span class="nav-text">第一题 上学闹钟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二题-加密通信"><span class="nav-number">5.2.</span> <span class="nav-text">第二题 加密通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三题-发工资"><span class="nav-number">5.3.</span> <span class="nav-text">第三题 发工资</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四题"><span class="nav-number">5.4.</span> <span class="nav-text">第四题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

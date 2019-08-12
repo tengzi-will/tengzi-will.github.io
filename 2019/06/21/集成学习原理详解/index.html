@@ -134,7 +134,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/06/20/5d0b35423cece68570.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/20/5d0b35423d9b442454.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/20/5d0b4092a35ba31367.png">
-<meta property="og:updated_time" content="2019-06-21T07:44:46.000Z">
+<meta property="og:updated_time" content="2019-06-25T14:04:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="集成学习原理详解">
 <meta name="twitter:description" content="集成学习概述当做重要决定时，大家可能都会考虑吸取多个专家而不只是一个人的意见。集成学习也是如此。集成学习就是组合多个个体学习器，最后可以得到一个更好的学习器。 集成学习算法：  bagging：用于减少方差的，个体学习器之间不存在强依赖关系，装袋 boosting：用于减少偏差，个体学习器之间存在强依赖关系，提升  学习器的结合方式：  voting：投票 Stacking：用于提升预测结果，堆叠">
@@ -442,6 +442,32 @@
 <p>最后是结合策略，和分类问题稍有不同，采用的是对加权的弱学习器取权重中位数对应的弱学习器作为强学习器的方法，最终的强回归器为</p>
 <p>$$<br>f(x) = G _ { k^\ast } (x)<br>$$</p>
 <p>其中，$ G _ { k^\ast } (x) $ 是所有 $\ln \frac{1}{\alpha_k},k=1,2,\cdots,K$ 的中位数值对应序号 $ k^\ast $ 对应的弱学习器。</p>
+<h3 id="分类问题的损失函数优化"><a href="#分类问题的损失函数优化" class="headerlink" title="分类问题的损失函数优化"></a>分类问题的损失函数优化</h3><p>刚才上一节我们讲到了分类 <strong>Adaboost</strong> 的弱学习器权重系数公式和样本权重更新公式。但是没有解释选择这个公式的原因，让人觉得是魔法公式一样。其实它可以从 <strong>Adaboost</strong> 的损失函数推导出来。</p>
+<p>从另一个角度讲，<strong>Adaboost</strong> 是模型为加法模型，学习算法为前向分步学习算法，损失函数为指数函数的分类问题。</p>
+<p>模型为加法模型好理解，我们的最终的强分类器是若干个弱分类器加权平均而得到的。</p>
+<p>前向分步学习算法也好理解，我们的算法是通过一轮轮的弱学习器学习，利用前一个弱学习器的结果来更新后一个弱学习器的训练集权重。也就是说，第 $k-1$ 轮的强学习器为<br>$$<br>f_{k-1}(x)=\sum_{i=1}^{k-1} \alpha_{i} G_{i}(x)<br>$$</p>
+<p>而第 $k$ 轮的强学习器为<br>$$<br>f_{k}(x)=\sum_{i=1}^{k} \alpha_{i} G_{i}(x)<br>$$</p>
+<p>上两式一比较可以得到<br>$$<br>f_{k}(x)=f_{k-1}(x)+\alpha_{k} G_{k}(x)<br>$$</p>
+<p>可见强学习器的确是通过前向分步学习算法一步步而得到的。</p>
+<p><strong>Adaboost</strong> 损失函数为指数函数，即定义损失函数为<br>$$<br>\arg \min  _ {\alpha, G} \sum_{i=1}^{m} \exp \left (-y_{i} f_{k}(x_i)\right)<br>$$</p>
+<p>利用前向分步学习算法的关系可以得到损失函数为<br>$$<br>\left(\alpha_k, G_{k}(x)\right) = \arg \min _ {\alpha, G} \sum_{i=1}^{m} \exp \left[\left(-y_{i}\right)\left(f_{k-1}(x_i)+\alpha_k G_k(x_i)\right)\right]<br>$$</p>
+<p>令 $w_{k i}^{\prime}=\exp \left(-y_{i} f_{k-1}(x_i)\right)$ , 它的值不依赖于 $\alpha, G$ ，因此与最小化无关，仅仅依赖于 $ f _ {k-1} ( x_i ) $ ，随着每一轮迭代而改变。将这个式子带入损失函数，损失函数转化为<br>$$<br>\left(\alpha_{k}, G_{k}(x)\right)= \arg \min _ {\alpha, G} \sum_{i=1}^{m} w_{k i}^{\prime} \exp \left[-y_{i} \alpha_k G_k(x_i)\right]<br>$$</p>
+<p>首先，我们求 $G_{k}(x)$，可以得到<br>$$<br>G_{k}(x)= \arg \min _ {G} \sum_{i=1}^{m} w_{k i}^{\prime} I\left(y_{i} \neq G_k\left(x_{i}\right)\right)<br>$$</p>
+<p>将 $G_{k}(x)$ 带入损失函数，并对 $ \alpha $ 求导，使其等于 0，则就得到了<br>$$<br>\alpha_{k}=\frac{1}{2} \log \frac{1-e_{k}}{e_{k}}<br>$$<br>其中， $e_k$ 即为我们前面的分类误差率。<br>$$<br>e_{k}=\frac{\sum_{i=1}^{m} w_{k i}^{\prime} I\left(y_{i} \neq G_k\left(x_{i}\right)\right)}{\sum_{i=1}^{m} w_{k i}^{\prime}}=\sum_{i=1}^{m} w_{k i} I\left(y_{i} \neq G_k\left(x_{i}\right)\right)<br>$$</p>
+<p>最后看样本权重的更新。利用 $f_{k}(x)=f_{k-1}(x)+\alpha_{k} G_{k}(x)$ 和 $w_{k i}^{\prime}=\exp \left(-y_{i} f_{k-1}(x_i)\right)$ ，即可得：<br>$$<br>w_{k+1, i}^{\prime}=w_{k i}^{\prime} \exp \left[-y_{i} \alpha_{k} G_{k}(x_i)\right]<br>$$<br>这样就得到了我们第二节的样本权重更新公式。</p>
+<h2 id="GBDT-详解"><a href="#GBDT-详解" class="headerlink" title="GBDT 详解"></a>GBDT 详解</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p><strong>GBDT</strong> 也是集成学习 <strong>Boosting</strong> 家族的成员，但是却和传统的 <strong>Adaboost</strong> 有很大的不同。回顾下 <strong>Adaboost</strong>，我们是利用前一轮迭代弱学习器的误差率来更新训练集的权重，这样一轮轮的迭代下去。<strong>GBDT</strong> 也是迭代，使用了前向分布算法，但是弱学习器限定了只能使用 <strong>CART</strong> 回归树模型，同时迭代思路和 <strong>Adaboost</strong> 也有所不同。</p>
+<p>在 <strong>GBDT</strong> 的迭代中，假设我们前一轮迭代得到的强学习器是$f_{t-1}(x)$ ，损失函数是 $L\left(y, f_{t-1}(x)\right)$ ，我们本轮迭代的目标是找到一个 <strong>CART</strong> 回归树模型的弱学习器 $h_t(x)$，让本轮的损失函数 $L\left(y, f_{t}(x)=L\left(y, f_{t-1}(x)+h_{t}(x)\right)\right.$ 最小。也就是说，本轮迭代找到决策树，要让样本的损失尽量变得更小。</p>
+<p><strong>GBDT</strong> 的思想可以用一个通俗的例子解释，假如有个人30岁，我们首先用20岁去拟合，发现损失有10岁，这时我们用6岁去拟合剩下的损失，发现差距还有4岁，第三轮我们用3岁拟合剩下的差距，差距就只有一岁了。如果我们的迭代轮数还没有完，可以继续迭代下面，每一轮迭代，拟合的岁数误差都会减小。</p>
+<p>从上面的例子看这个思想还是蛮简单的，但是有个问题是这个损失的拟合不好度量，损失函数各种各样，怎么找到一种通用的拟合方法呢？</p>
+<h3 id="GBDT-的负梯度拟合"><a href="#GBDT-的负梯度拟合" class="headerlink" title="GBDT 的负梯度拟合"></a>GBDT 的负梯度拟合</h3><p>在上一节中，我们介绍了 <strong>GBDT</strong> 的基本思路，但是没有解决损失函数拟合方法的问题。针对这个问题，大牛 <strong>Freidman</strong> 提出了用损失函数的负梯度来拟合本轮损失的近似值，进而拟合一个 <strong>CART</strong> 回归树。第 $t$ 轮的第 $i$ 个样本的损失函数的负梯度表示为</p>
+<p>$$<br>r_{t i}=-\left[\frac{\partial L\left(y_{i}, f\left(x_{i}\right)\right) )}{\partial f\left(x_{i}\right)}\right]<em>{f(x)=f</em>{t-1}(x)}<br> $$</p>
+<p>利用 $\left(x_{i}, r_{t i}\right) \quad(i=1,2, \dots m)$ ，我们可以拟合一颗 <strong>CART</strong> 回归树，得到了第 $t$ 颗回归树，其对应的叶节点区域 $R_{t j}, j=1,2, \cdots, J$ 。其中 $J$ 为叶子节点的个数。</p>
+<p>针对每一个叶子节点里的样本，我们求出使损失函数最小，也就是拟合叶子节点最好的的输出值 $c_{tj}$ 如下：<br>$$<br>c_{t j}=\arg \min _ {c} \sum_{x_{i} \in R_{t j}} L\left(y_{i}, f_{t-1}\left(x_{i}\right)+c\right)<br>$$</p>
+<p>这样我们就得到了本轮的决策树拟合函数如下：<br>$$<br>h_{t}(x)=\sum_{j=1}^{J} c_{t j} I\left(x \in R_{t j}\right)<br>$$</p>
+<p>从而本轮最终得到的强学习器的表达式如下：<br>$$<br>f_{t}(x)=f_{t-1}(x)+\sum_{j=1}^{J} c_{t j} I\left(x \in R_{t j}\right)<br>$$</p>
+<p>通过损失函数的负梯度来拟合，我们找到了一种通用的拟合损失误差的办法，这样无轮是分类问题还是回归问题，我们通过其损失函数的负梯度的拟合，就可以用 <strong>GBDT</strong> 来解决我们的分类回归问题。区别仅仅在于损失函数不同导致的负梯度不同而已。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.cnblogs.com/pinard/p/6131423.html" target="_blank" rel="noopener">集成学习原理小结</a></p>
+<p><a href="https://www.cnblogs.com/pinard/p/6133937.html" target="_blank" rel="noopener">集成学习之Adaboost算法原理小结</a></p>
 
       
     </div>
@@ -579,7 +605,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -668,7 +694,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#集成学习概述"><span class="nav-number">1.</span> <span class="nav-text">集成学习概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集成学习之个体学习器"><span class="nav-number">1.1.</span> <span class="nav-text">集成学习之个体学习器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bagging"><span class="nav-number">1.2.</span> <span class="nav-text">bagging</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#boosting"><span class="nav-number">1.3.</span> <span class="nav-text">boosting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结合策略"><span class="nav-number">1.4.</span> <span class="nav-text">结合策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#平均法"><span class="nav-number">1.4.1.</span> <span class="nav-text">平均法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#投票法"><span class="nav-number">1.4.2.</span> <span class="nav-text">投票法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#学习法-stacking"><span class="nav-number">1.4.3.</span> <span class="nav-text">学习法 stacking</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Adaboost-详解"><span class="nav-number">2.</span> <span class="nav-text">Adaboost 详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#boosting-算法的基本原理"><span class="nav-number">2.1.</span> <span class="nav-text">boosting 算法的基本原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Adaboost-算法的基本思路"><span class="nav-number">2.2.</span> <span class="nav-text">Adaboost 算法的基本思路</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分类问题"><span class="nav-number">2.2.1.</span> <span class="nav-text">分类问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#回归问题"><span class="nav-number">2.2.2.</span> <span class="nav-text">回归问题</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#集成学习概述"><span class="nav-number">1.</span> <span class="nav-text">集成学习概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集成学习之个体学习器"><span class="nav-number">1.1.</span> <span class="nav-text">集成学习之个体学习器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bagging"><span class="nav-number">1.2.</span> <span class="nav-text">bagging</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#boosting"><span class="nav-number">1.3.</span> <span class="nav-text">boosting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结合策略"><span class="nav-number">1.4.</span> <span class="nav-text">结合策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#平均法"><span class="nav-number">1.4.1.</span> <span class="nav-text">平均法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#投票法"><span class="nav-number">1.4.2.</span> <span class="nav-text">投票法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#学习法-stacking"><span class="nav-number">1.4.3.</span> <span class="nav-text">学习法 stacking</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Adaboost-详解"><span class="nav-number">2.</span> <span class="nav-text">Adaboost 详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#boosting-算法的基本原理"><span class="nav-number">2.1.</span> <span class="nav-text">boosting 算法的基本原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Adaboost-算法的基本思路"><span class="nav-number">2.2.</span> <span class="nav-text">Adaboost 算法的基本思路</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分类问题"><span class="nav-number">2.2.1.</span> <span class="nav-text">分类问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#回归问题"><span class="nav-number">2.2.2.</span> <span class="nav-text">回归问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类问题的损失函数优化"><span class="nav-number">2.3.</span> <span class="nav-text">分类问题的损失函数优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GBDT-详解"><span class="nav-number">3.</span> <span class="nav-text">GBDT 详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">3.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GBDT-的负梯度拟合"><span class="nav-number">3.2.</span> <span class="nav-text">GBDT 的负梯度拟合</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">4.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
             
 
           </div>
