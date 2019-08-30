@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Menlo:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言说到自然语言处理, 语言模型, 命名实体识别, 机器翻译, 可能很多人想到的LSTM等循环神经网络, 但目前其实LSTM起码在自然语言处理领域已经过时了, 在Stanford阅读理解数据集(SQuAD2.0)榜单里, 机器的成绩已经超人类表现, 这很大程度要归功于transformer的BERT预训练模型. 今天我们来讲一下transformer模型, 你不需要有很多深度学习和数学基础, 我来">
+<meta name="keywords" content="MachineLearning, DeepLearning, ReinforcementLearning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="transformer 详解">
+<meta property="og:url" content="http://yoursite.com/2019/08/30/transformer-详解/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="前言说到自然语言处理, 语言模型, 命名实体识别, 机器翻译, 可能很多人想到的LSTM等循环神经网络, 但目前其实LSTM起码在自然语言处理领域已经过时了, 在Stanford阅读理解数据集(SQuAD2.0)榜单里, 机器的成绩已经超人类表现, 这很大程度要归功于transformer的BERT预训练模型. 今天我们来讲一下transformer模型, 你不需要有很多深度学习和数学基础, 我来">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/08/30/vpS6KF3BsfAY1LN.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/08/30/YXZwE5m3ipQyD98.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/08/30/YSw9AMoyOz6EN3g.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/08/30/p6FqPJNoWCaAi3h.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/08/30/HbAvEwtKjFcpQzd.jpg">
+<meta property="og:updated_time" content="2019-08-30T06:13:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="transformer 详解">
+<meta name="twitter:description" content="前言说到自然语言处理, 语言模型, 命名实体识别, 机器翻译, 可能很多人想到的LSTM等循环神经网络, 但目前其实LSTM起码在自然语言处理领域已经过时了, 在Stanford阅读理解数据集(SQuAD2.0)榜单里, 机器的成绩已经超人类表现, 这很大程度要归功于transformer的BERT预训练模型. 今天我们来讲一下transformer模型, 你不需要有很多深度学习和数学基础, 我来">
+<meta name="twitter:image" content="https://i.loli.net/2019/08/30/vpS6KF3BsfAY1LN.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/30/transformer-详解/">
+
+
+
+
+
+  <title>transformer 详解 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/30/transformer-详解/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">transformer 详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-30T13:43:23+08:00">
+                2019-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>说到自然语言处理, 语言模型, 命名实体识别, 机器翻译, 可能很多人想到的<strong>LSTM等循环神经网络</strong>, 但目前其实LSTM起码在自然语言处理领域已经过时了, 在Stanford阅读理解数据集<strong>(SQuAD2.0)</strong>榜单里, 机器的成绩已经超人类表现, 这很大程度要归功于<strong>transformer的BERT预训练模型</strong>.</p>
+<p>今天我们来讲一下<strong>transformer模型</strong>, 你不需要有很多深度学习和数学基础, 我来用简单的语言和可视化的方法从零讲起.</p>
+<p>transformer是谷歌大脑在2017年底发表的论文<strong>attention is all you need</strong>中所提出的seq2seq模型. 现在已经取得了大范围的应用和扩展, 而BERT就是从transformer中衍生出来的预训练语言模型.</p>
+<p>在我们开始之前, 允许我简单说一下目前自然语言处理领域的现状, 目前<strong>transformer</strong>模型已经得到广泛认可和应用, 而应用的方式主要是先进行<strong>预训练语言模型</strong>, 然后把预训练的模型适配给下游任务, 以完成各种不同的任务, 如分类, 生成, 标记等等, 预训练模型非常重要, 预训练的模型的性能直接影响下游任务的性能, 通过我制作的这几期视频, 我有信心让小伙伴们充分理解transformer并具备一定衍生模型的设计和编写能力.</p>
+<p>为了让大家充分理解和初步使用transformer和训练BERT, 并应用到自己的需求上, 这个连载课程将包括以下几个视频来完成, 今天讲解第一部分:</p>
+<h3 id="transformer编码器-理论部分"><a href="#transformer编码器-理论部分" class="headerlink" title="transformer编码器(理论部分):"></a>transformer编码器(理论部分):</h3><ol>
+<li>$transformer$模型的直觉, 建立直观认识;</li>
+<li>$positional \ encoding$, 即<strong>位置嵌入</strong>(或位置编码);</li>
+<li>$self \ attention \ mechanism$, 即<strong>自注意力机制</strong>与<strong>注意力矩阵可视化</strong>;</li>
+<li>$Layer \ Normalization$和残差连接.</li>
+<li>$transformer \ encoder$整体结构.</li>
+</ol>
+<h3 id="transformer代码解读-语料数据预处理-BERT的预训练和情感分析的应用"><a href="#transformer代码解读-语料数据预处理-BERT的预训练和情感分析的应用" class="headerlink" title="transformer代码解读, 语料数据预处理, BERT的预训练和情感分析的应用:"></a>transformer代码解读, 语料数据预处理, BERT的预训练和情感分析的应用:</h3><h3 id="sequence-2-sequence-序列到序列-模型或Name-Entity-Recognition-命名实体识别-待定"><a href="#sequence-2-sequence-序列到序列-模型或Name-Entity-Recognition-命名实体识别-待定" class="headerlink" title="sequence 2 sequence(序列到序列)模型或Name Entity Recognition(命名实体识别)(待定):"></a>sequence 2 sequence(序列到序列)模型或Name Entity Recognition(命名实体识别)(待定):</h3><p>此部分根据前面的反馈待定.</p>
+<h2 id="transformer-模型的直觉-建立直观认识"><a href="#transformer-模型的直觉-建立直观认识" class="headerlink" title="$transformer$ 模型的直觉, 建立直观认识;"></a>$transformer$ 模型的直觉, 建立直观认识;</h2><p>首先来说一下<strong>transformer</strong>和<strong>LSTM</strong>的最大区别, 就是LSTM的训练是迭代的, 是一个接一个字的来, 当前这个字过完LSTM单元, 才可以进下一个字, 而transformer的训练是并行了, 就是所有字是全部同时训练的, 这样就大大加快了计算效率, transformer使用了位置嵌入 $(positional encoding)$ 来理解语言的顺序, 使用自注意力机制和全连接层来进行计算, 这些后面都会详细讲解.<br>transformer模型主要分为<strong>两大部分</strong>, 分别是<strong>编码器</strong>和<strong>解码器</strong>, <strong>编码器</strong>负责把自然语言序列映射成为<strong>隐藏层</strong>(下图中<strong>第2步</strong>用九宫格比喻的部分), 含有自然语言序列的数学表达. 然后解码器把隐藏层再映射为自然语言序列, 从而使我们可以解决各种问题, 如情感分类, 命名实体识别, 语义关系抽取, 摘要生成, 机器翻译等等, 下面我们简单说一下下图的每一步都做了什么:</p>
+<ol>
+<li>输入自然语言序列到编码器: Why do we work?(为什么要工作);</li>
+<li>编码器输出的隐藏层, 再输入到解码器;</li>
+<li>输入 $<start>$ (起始)符号到解码器;</start></li>
+<li>得到第一个字”为”;</li>
+<li>将得到的第一个字”为”落下来再输入到解码器;</li>
+<li>得到第二个字”什”;</li>
+<li>将得到的第二字再落下来, 直到解码器输出 $<end>$ (终止符), 即序列生成完成.</end></li>
+</ol>
+<p><img src="https://i.loli.net/2019/08/30/vpS6KF3BsfAY1LN.jpg" alt="intuition"></p>
+<p>我们这节的内容限于<strong>编码器</strong>部分, 即把<strong>自然语言序列映射为隐藏层的数学表达的过程</strong>, 因为理解了编码器中的结构, 理解解码器就非常简单了,最重要的是<strong>BERT预训练模型</strong>只用到了编码器的部分, 也就是先用编码器训练一个语言模型, 然后再把它适配给其他五花八门的任务.</p>
+<p>如果你不知道<strong>语言模型</strong>是什么, 没关系, 这丝毫不影响本节课内容的理解, 下次我们讲<strong>BERT</strong>的时候会讲.</p>
+<p>而且我们用编码器就能够完成一些自然语言处理中比较主流的任务, 如情感分类, 语义关系分析, 命名实体识别等, 解码器的内容和序列到序列模型有机会我们会涉及到.</p>
+<h3 id="Transformer-Block结构图-注意-为方便查看-下面的内容分别对应着上图第1-2-3-4个方框的序号"><a href="#Transformer-Block结构图-注意-为方便查看-下面的内容分别对应着上图第1-2-3-4个方框的序号" class="headerlink" title="Transformer Block结构图,   注意: 为方便查看, 下面的内容分别对应着上图第1, 2, 3, 4个方框的序号:"></a>Transformer Block结构图,   注意: 为方便查看, 下面的内容分别对应着上图第1, 2, 3, 4个方框的序号:</h3><p><img src="https://i.loli.net/2019/08/30/YXZwE5m3ipQyD98.jpg" alt="encoder."></p>
+<h2 id="positional-encoding-即位置嵌入-或位置编码"><a href="#positional-encoding-即位置嵌入-或位置编码" class="headerlink" title="$positional \ encoding$, 即位置嵌入(或位置编码);"></a>$positional \ encoding$, 即<strong>位置嵌入</strong>(或位置编码);</h2><p>由于transformer模型<strong>没有</strong>循环神经网络的迭代操作, 所以我们必须提供每个字的位置信息给transformer, 才能识别出语言中的顺序关系.<br>现在定义一个位置嵌入的概念, 也就是$positional \ encoding$, 位置嵌入的维度为$[max \ sequence \ length, \ embedding \ dimension]$, 嵌入的维度同词向量的维度, $max \ sequence \ length$属于超参数, 指的是限定的最大单个句长.<br>注意, 我们一般以字为单位训练transformer模型, 也就是说我们不用分词了, 首先我们要初始化字向量为$[vocab \ size, \ embedding \ dimension]$, $vocab \ size$为总共的字库数量, $embedding \ dimension$为字向量的维度, 也是每个字的数学表达.</p>
+<p>在这里论文中使用了$sine$和$cosine$函数的线性变换来提供给模型位置信息:<br>$$PE_{(pos,2i)} = sin(pos / 10000^{2i/d_{\text{model}}}) \quad PE_{(pos,2i+1)} = cos(pos / 10000^{2i/d_{\text{model}}})$$</p>
+<p>上式中$pos$指的是句中字的位置, 取值范围是 $[0, max sequence length)$,  $i$ 指的是词向量的维度, 取值范围是 $[0, embedding dimension)$, 上面有$sin$ 和 $cos$ 一组公式, 也就是对应着 $embeddingdimension$ 维度的一组奇数和偶数的序号的维度, 例如$0, 1$一组, $2, 3$一组, 分别用上面的$sin$和$cos$函数做处理, 从而产生不同的周期性变化, 而位置嵌入在 $embedding dimension$ 维度上随着维度序号增大, 周期变化会越来越慢, 而产生一种包含位置信息的纹理, 就像论文原文中第六页讲的, 位置嵌入函数的周期从 $2\pi$ 到 $10000 * 2\pi$ 变化, 而每一个位置在 $embedding dimension$ 维度上都会得到不同周期的 $sin$ 和 $cos$ 函数的取值组合, 从而产生独一的纹理位置信息, 模型从而学到位置之间的依赖关系和自然语言的时序特性.</p>
+<p>下面画一下位置嵌入, 可见纵向观察, 随着$embedding dimension$增大, 位置嵌入函数呈现不同的周期变化.</p>
+<h2 id="self-attention-mechanism-自注意力机制"><a href="#self-attention-mechanism-自注意力机制" class="headerlink" title="$self \ attention \ mechanism$, 自注意力机制;"></a>$self \ attention \ mechanism$, <strong>自注意力机制</strong>;</h2><p><img src="https://i.loli.net/2019/08/30/YSw9AMoyOz6EN3g.jpg" alt="attention_0"><br><img src="https://i.loli.net/2019/08/30/p6FqPJNoWCaAi3h.jpg" alt="attention_1"></p>
+<h3 id="Attention-Mask"><a href="#Attention-Mask" class="headerlink" title="Attention Mask"></a>Attention Mask</h3><p><img src="https://i.loli.net/2019/08/30/HbAvEwtKjFcpQzd.jpg" alt="attention_mask"></p>
+<p>注意, 在上面 $self attention$ 的计算过程中, 我们通常使用 $mini batch$ 来计算, 也就是一次计算多句话, 也就是$X$的维度是 $[batch \ size, \ sequence \ length]$, $sequence length$ 是句长, 而一个 $mini batch$ 是由多个不等长的句子组成的, 我们就需要按照这个 $mini batch$ 中最大的句长对剩余的句子进行补齐长度, 我们一般用 $0$ 来进行填充, 这个过程叫做 $padding$.</p>
+<p>但这时在进行$softmax$的时候就会产生问题, 回顾 $softmax$ 函数 $\sigma(\mathbf {z})_ i = {\frac {e^{z_{i}}}{\sum _ {j=1}^{K}e^{z_{j}}}}$, $e^0$ 是1, 是有值的, 这样的话 $softmax$ 中被 $padding$ 的部分就参与了运算, 就等于是让无效的部分参与了运算, 会产生很大隐患, 这时就需要做一个 $mask$ 让这些无效区域不参与运算, 我们一般给无效区域加一个很大的负数的偏置, 也就是:<br>$$z_{illegal} = z_{illegal} + bias_{illegal}$$<br>$$bias_{illegal} \to -\infty$$<br>$$e^{z_{illegal}} \to 0 $$<br>经过上式的 $masking$ 我们使无效区域经过 $softmax$ 计算之后还几乎为 $0$, 这样就避免了无效区域参与计算.</p>
+<h2 id="Layer-Normalization-和残差连接"><a href="#Layer-Normalization-和残差连接" class="headerlink" title="$Layer \ Normalization$和残差连接."></a>$Layer \ Normalization$和残差连接.</h2><p><strong>1). 残差连接:</strong></p>
+<p>我们在上一步得到了经过注意力矩阵加权之后的 $V$, 也就是$Attention(Q, K, V)$, 我们对它进行一下转置, 使其和 $X_{embedding}$ 的维度一致, 也就是 $[batch size, sequence length, embedding dimension]$, 然后把他们加起来做残差连接, 直接进行元素相加, 因为他们的维度一致:<br>$$X_{embedding} + Attention(Q, K, V)$$<br>在之后的运算里, 每经过一个模块的运算, 都要把运算之前的值和运算之后的值相加, 从而得到残差连接, 训练的时候可以使梯度直接走捷径反传到最初始层:<br>$$X + SubLayer(X) $$</p>
+<p><strong>2). $LayerNorm$:</strong><br>$Layer Normalization$ 的作用是把神经网络中隐藏层归一为标准正态分布, 也就是 $i.i.d$ 独立同分布, 以起到加快训练速度, 加速收敛的作用:<br>$$\mu_{i}=\frac{1}{m} \sum^{m}_ {i=1}x_{ij}$$<br>上式中以矩阵的行$(row)$为单位求均值;<br>$$\sigma^{2}_ {j} = \frac{1}{m} \sum^{m}_ {i=1}(x_{ij}-\mu_{j})^{2}$$<br>上式中以矩阵的行$(row)$为单位求方差;<br>$$LayerNorm(x) = \alpha \odot \frac{x_{ij}-\mu_{i}}{\sqrt{\sigma^{2}_ {i}+\epsilon}} + \beta $$<br>然后用<strong>每一行</strong>的<strong>每一个元素</strong>减去<strong>这行的均值</strong>, 再除以<strong>这行的标准差</strong>, 从而得到归一化后的数值, $\epsilon$ 是为了防止除 $0$;<br>之后引入两个可训练参数 $\alpha,\beta$ 来弥补归一化的过程中损失掉的信息, 注意 $\odot$ 表示元素相乘而不是点积, 我们一般初始化 $\alpha$ 为全 $1$, 而 $\beta$ 为全 $0$.</p>
+<h2 id="transformer-encoder-整体结构"><a href="#transformer-encoder-整体结构" class="headerlink" title="$transformer \ encoder$整体结构."></a>$transformer \ encoder$整体结构.</h2><p>经过上面3个步骤, 我们已经基本了解到来$transformer$编码器的主要构成部分, 我们下面用公式把一个$transformer \ block$的计算过程整理一下:<br>1). 字向量与位置编码:<br>$$X = EmbeddingLookup(X) + PositionalEncoding $$<br>$$X \in \mathbb{R}^{\ batch size \ <em> \ seq.len.\ </em> \ embed.dim.} $$</p>
+<p>2). 自注意力机制:<br>$$Q = Linear(X) = XW_{Q}$$<br>$$K = Linear(X) = XW_{K}$$<br>$$V = Linear(X) = XW_{V}$$<br>$$X_{attention} = SelfAttention(Q, K, V)$$</p>
+<p>3). 残差连接与$Layer \ Normalization$<br>$$X_{attention} = X + X_{attention}$$<br>$$X_{attention} = LayerNorm(X_{attention})$$</p>
+<p>4). 下面进行$transformer \ block$结构图中的<strong>第4部分</strong>, 也就是$FeedForward$, 其实就是两层线性映射并用激活函数激活, 比如说 $ReLU$:<br>$$X_{hidden} = Activate(Linear(Linear(X_{attention}))) $$</p>
+<p>5). 重复3).:<br>$$X_{hidden} = X_{attention} + X_{hidden}$$<br>$$X_{hidden} = LayerNorm(X_{hidden})$$<br>$$X_{hidden} \in \mathbb{R} ^ {\ batch \ size  \ <em> \  seq. \ len. \ </em> \ embed. \ dim.} $$</p>
+<p><strong>小结:</strong></p>
+<p>我们到现在位置已经讲完了 $transformer$ 的编码器的部分, 了解到了 $transformer$ 是怎样获得自然语言的位置信息的, 注意力机制是怎样的, 其实举个语言情感分类的例子, 我们已经知道, 经过自注意力机制, 一句话中的每个字都含有这句话中其他所有字的信息, 那么我们可不可以添加一个空白字符到句子最前面, 然后让句子中的所有信息向这个空白字符汇总, 然后再映射成想要分的类别呢? 这就是 <strong>BERT</strong>, 我们下次会讲到.</p>
+<p>在 <strong>BERT</strong> 的预训练中, 我们给每句话的句头加一个特殊字符, 然后句末再加一个特殊字符, 之后模型预训练完毕之后, 我们就可以用句头的特殊字符的 $hidden \ state$ 完成一些分类任务了.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/12/2020年校招笔试真题详解/" rel="next" title="2020年校招笔试真题详解">
+                <i class="fa fa-chevron-left"></i> 2020年校招笔试真题详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/tengzi-will" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/ke-le-teng-zi/activities" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mumaxu.github.io/" title="mamaxu" target="_blank">mamaxu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://sunyancn.github.io/" title="sunyan" target="_blank">sunyan</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#transformer编码器-理论部分"><span class="nav-number">1.1.</span> <span class="nav-text">transformer编码器(理论部分):</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transformer代码解读-语料数据预处理-BERT的预训练和情感分析的应用"><span class="nav-number">1.2.</span> <span class="nav-text">transformer代码解读, 语料数据预处理, BERT的预训练和情感分析的应用:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sequence-2-sequence-序列到序列-模型或Name-Entity-Recognition-命名实体识别-待定"><span class="nav-number">1.3.</span> <span class="nav-text">sequence 2 sequence(序列到序列)模型或Name Entity Recognition(命名实体识别)(待定):</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transformer-模型的直觉-建立直观认识"><span class="nav-number">2.</span> <span class="nav-text">$transformer$ 模型的直觉, 建立直观认识;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Transformer-Block结构图-注意-为方便查看-下面的内容分别对应着上图第1-2-3-4个方框的序号"><span class="nav-number">2.1.</span> <span class="nav-text">Transformer Block结构图,   注意: 为方便查看, 下面的内容分别对应着上图第1, 2, 3, 4个方框的序号:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#positional-encoding-即位置嵌入-或位置编码"><span class="nav-number">3.</span> <span class="nav-text">$positional \ encoding$, 即位置嵌入(或位置编码);</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#self-attention-mechanism-自注意力机制"><span class="nav-number">4.</span> <span class="nav-text">$self \ attention \ mechanism$, 自注意力机制;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Attention-Mask"><span class="nav-number">4.1.</span> <span class="nav-text">Attention Mask</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Layer-Normalization-和残差连接"><span class="nav-number">5.</span> <span class="nav-text">$Layer \ Normalization$和残差连接.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transformer-encoder-整体结构"><span class="nav-number">6.</span> <span class="nav-text">$transformer \ encoder$整体结构.</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
