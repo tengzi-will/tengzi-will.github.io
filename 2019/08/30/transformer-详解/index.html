@@ -136,7 +136,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/08/30/YSw9AMoyOz6EN3g.jpg">
 <meta property="og:image" content="https://i.loli.net/2019/08/30/p6FqPJNoWCaAi3h.jpg">
 <meta property="og:image" content="https://i.loli.net/2019/08/30/HbAvEwtKjFcpQzd.jpg">
-<meta property="og:updated_time" content="2019-08-30T06:13:04.000Z">
+<meta property="og:updated_time" content="2019-09-18T07:07:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="transformer 详解">
 <meta name="twitter:description" content="前言说到自然语言处理, 语言模型, 命名实体识别, 机器翻译, 可能很多人想到的LSTM等循环神经网络, 但目前其实LSTM起码在自然语言处理领域已经过时了, 在Stanford阅读理解数据集(SQuAD2.0)榜单里, 机器的成绩已经超人类表现, 这很大程度要归功于transformer的BERT预训练模型. 今天我们来讲一下transformer模型, 你不需要有很多深度学习和数学基础, 我来">
@@ -387,11 +387,11 @@
 <ol>
 <li>输入自然语言序列到编码器: Why do we work?(为什么要工作);</li>
 <li>编码器输出的隐藏层, 再输入到解码器;</li>
-<li>输入 $<start>$ (起始)符号到解码器;</start></li>
+<li>输入 $ /<start> $ (起始)符号到解码器;</start></li>
 <li>得到第一个字”为”;</li>
 <li>将得到的第一个字”为”落下来再输入到解码器;</li>
 <li>得到第二个字”什”;</li>
-<li>将得到的第二字再落下来, 直到解码器输出 $<end>$ (终止符), 即序列生成完成.</end></li>
+<li>将得到的第二字再落下来, 直到解码器输出 $ /<end> $ (终止符), 即序列生成完成.</end></li>
 </ol>
 <p><img src="https://i.loli.net/2019/08/30/vpS6KF3BsfAY1LN.jpg" alt="intuition"></p>
 <p>我们这节的内容限于<strong>编码器</strong>部分, 即把<strong>自然语言序列映射为隐藏层的数学表达的过程</strong>, 因为理解了编码器中的结构, 理解解码器就非常简单了,最重要的是<strong>BERT预训练模型</strong>只用到了编码器的部分, 也就是先用编码器训练一个语言模型, 然后再把它适配给其他五花八门的任务.</p>
@@ -409,11 +409,11 @@
 <h2 id="Layer-Normalization-和残差连接"><a href="#Layer-Normalization-和残差连接" class="headerlink" title="$Layer \ Normalization$和残差连接."></a>$Layer \ Normalization$和残差连接.</h2><p><strong>1). 残差连接:</strong></p>
 <p>我们在上一步得到了经过注意力矩阵加权之后的 $V$, 也就是$Attention(Q, K, V)$, 我们对它进行一下转置, 使其和 $X_{embedding}$ 的维度一致, 也就是 $[batch size, sequence length, embedding dimension]$, 然后把他们加起来做残差连接, 直接进行元素相加, 因为他们的维度一致:<br>$$X_{embedding} + Attention(Q, K, V)$$<br>在之后的运算里, 每经过一个模块的运算, 都要把运算之前的值和运算之后的值相加, 从而得到残差连接, 训练的时候可以使梯度直接走捷径反传到最初始层:<br>$$X + SubLayer(X) $$</p>
 <p><strong>2). $LayerNorm$:</strong><br>$Layer Normalization$ 的作用是把神经网络中隐藏层归一为标准正态分布, 也就是 $i.i.d$ 独立同分布, 以起到加快训练速度, 加速收敛的作用:<br>$$\mu_{i}=\frac{1}{m} \sum^{m}_ {i=1}x_{ij}$$<br>上式中以矩阵的行$(row)$为单位求均值;<br>$$\sigma^{2}_ {j} = \frac{1}{m} \sum^{m}_ {i=1}(x_{ij}-\mu_{j})^{2}$$<br>上式中以矩阵的行$(row)$为单位求方差;<br>$$LayerNorm(x) = \alpha \odot \frac{x_{ij}-\mu_{i}}{\sqrt{\sigma^{2}_ {i}+\epsilon}} + \beta $$<br>然后用<strong>每一行</strong>的<strong>每一个元素</strong>减去<strong>这行的均值</strong>, 再除以<strong>这行的标准差</strong>, 从而得到归一化后的数值, $\epsilon$ 是为了防止除 $0$;<br>之后引入两个可训练参数 $\alpha,\beta$ 来弥补归一化的过程中损失掉的信息, 注意 $\odot$ 表示元素相乘而不是点积, 我们一般初始化 $\alpha$ 为全 $1$, 而 $\beta$ 为全 $0$.</p>
-<h2 id="transformer-encoder-整体结构"><a href="#transformer-encoder-整体结构" class="headerlink" title="$transformer \ encoder$整体结构."></a>$transformer \ encoder$整体结构.</h2><p>经过上面3个步骤, 我们已经基本了解到来$transformer$编码器的主要构成部分, 我们下面用公式把一个$transformer \ block$的计算过程整理一下:<br>1). 字向量与位置编码:<br>$$X = EmbeddingLookup(X) + PositionalEncoding $$<br>$$X \in \mathbb{R}^{\ batch size \ <em> \ seq.len.\ </em> \ embed.dim.} $$</p>
+<h2 id="transformer-encoder-整体结构"><a href="#transformer-encoder-整体结构" class="headerlink" title="$transformer \ encoder$整体结构."></a>$transformer \ encoder$整体结构.</h2><p>经过上面3个步骤, 我们已经基本了解到来$transformer$编码器的主要构成部分, 我们下面用公式把一个$transformer \ block$的计算过程整理一下:<br>1). 字向量与位置编码:<br>$$X = EmbeddingLookup(X) + PositionalEncoding $$<br>$$X \in \mathbb{R}^{batch size \ <em> \ seq.len \ </em> \ embed.dim} $$</p>
 <p>2). 自注意力机制:<br>$$Q = Linear(X) = XW_{Q}$$<br>$$K = Linear(X) = XW_{K}$$<br>$$V = Linear(X) = XW_{V}$$<br>$$X_{attention} = SelfAttention(Q, K, V)$$</p>
 <p>3). 残差连接与$Layer \ Normalization$<br>$$X_{attention} = X + X_{attention}$$<br>$$X_{attention} = LayerNorm(X_{attention})$$</p>
 <p>4). 下面进行$transformer \ block$结构图中的<strong>第4部分</strong>, 也就是$FeedForward$, 其实就是两层线性映射并用激活函数激活, 比如说 $ReLU$:<br>$$X_{hidden} = Activate(Linear(Linear(X_{attention}))) $$</p>
-<p>5). 重复3).:<br>$$X_{hidden} = X_{attention} + X_{hidden}$$<br>$$X_{hidden} = LayerNorm(X_{hidden})$$<br>$$X_{hidden} \in \mathbb{R} ^ {\ batch \ size  \ <em> \  seq. \ len. \ </em> \ embed. \ dim.} $$</p>
+<p>5). 重复3):<br>$$X_{hidden} = X_{attention} + X_{hidden}$$<br>$$X_{hidden} = LayerNorm(X_{hidden})$$<br>$$X_{hidden} \in \mathbb {R} ^ { \ batch \ size  \ <em> \  seq.len \ </em> \ embed.dim} $$</p>
 <p><strong>小结:</strong></p>
 <p>我们到现在位置已经讲完了 $transformer$ 的编码器的部分, 了解到了 $transformer$ 是怎样获得自然语言的位置信息的, 注意力机制是怎样的, 其实举个语言情感分类的例子, 我们已经知道, 经过自注意力机制, 一句话中的每个字都含有这句话中其他所有字的信息, 那么我们可不可以添加一个空白字符到句子最前面, 然后让句子中的所有信息向这个空白字符汇总, 然后再映射成想要分的类别呢? 这就是 <strong>BERT</strong>, 我们下次会讲到.</p>
 <p>在 <strong>BERT</strong> 的预训练中, 我们给每句话的句头加一个特殊字符, 然后句末再加一个特殊字符, 之后模型预训练完毕之后, 我们就可以用句头的特殊字符的 $hidden \ state$ 完成一些分类任务了.</p>
