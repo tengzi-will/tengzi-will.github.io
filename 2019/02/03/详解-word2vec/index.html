@@ -146,7 +146,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/02/19/5c6bbbb5c67a3.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/19/5c6bbbe15fe1e.png">
 <meta property="og:image" content="https://i.loli.net/2019/10/03/WZLfMIkxg9GaET7.png">
-<meta property="og:updated_time" content="2019-10-03T08:06:52.000Z">
+<meta property="og:updated_time" content="2019-10-03T10:45:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="详解 word2vec">
 <meta name="twitter:description" content="预备知识本节介绍 word2vec 中将用到的一些重要知识点，包括 sigmoid 函数、Beyes 公式和 Huffman 编码等。 sigmoid 函数sigmoid 函数是神经网络中常用的激活函数之一，其定义为$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$该函数的定义域为 $( - \infty , + \infty )$，值域为 $">
@@ -667,7 +667,7 @@
 <p>$$\mathbf { v } ( \widetilde { w } ) : = \mathbf { v } ( \widetilde { w } ) + \eta \sum _ { j = 2 } ^ { l ^ { w } } \frac { \partial \mathcal { L } ( w , j ) } { \partial \mathbf { x } _ { w } } , \quad \widetilde { w } \in \text { Context } ( w )$$</p>
 <p>即把 $\sum _ { j = 2 } ^ { l ^ { w } } \frac { \partial \mathcal { L } ( w , j ) } { \partial \mathbf { x } _ { w } }$ 贡献到 $Context(w)$ 中每一个词的词向量上。这个应该很好理解，既然 $\mathbf{ x } _ {w}$ 本身就是 $Context(w)$ 中各词词向量的累加，求完梯度后当然也应该将其贡献到每个分量上去。</p>
 <p><strong>注4.3</strong> 当然，读者这里需要考虑的是：采用平均贡献会不会更合理？即使用公式</p>
-<p>$$\mathbf { v } ( \widetilde { w } ) : = \mathbf { v } ( \widetilde { w } ) + \frac { \eta } { | Context ( w ) | } \sum _ { j = 2 } ^ { l ^ { w } } \frac { \partial \mathcal { L } ( w , j ) } { \partial \mathbf { x } _ { w } } , \quad \widetilde { w } \in \Context( w )$$</p>
+<p>$$\mathbf { v } ( \widetilde { w } ) : = \mathbf { v } ( \widetilde { w } ) + \frac { \eta } { | Context ( w ) | } \sum _ { j = 2 } ^ { l ^ { w } } \frac { \partial \mathcal { L } ( w , j ) } { \partial \mathbf { x } _ { w } } , \quad \widetilde { w } \in Context( w )$$</p>
 <p>其中 $|Context(w)|$ 表示 $Context(w)$ 中词的个数。</p>
 <p>下面以样本 $(Comtext(w),w)$ 为例，给出CBOW模型中采用随机梯度上升法更新各参数的伪代码。</p>
 <p><img src="https://i.loli.net/2019/02/19/5c6b84acdc783.png" alt="11_Code"></p>
@@ -688,7 +688,7 @@
 <p>其中</p>
 <p>$$p \left( d _ { j } ^ { u } | \mathbf { v } ( w ) , \theta _ { j - 1 } ^ { u } \right) = \left[ \sigma \left( \mathbf { v } ( w ) ^ { \top } \theta _ { j - 1 } ^ { u } \right) \right] ^ { 1 - d _ { j } ^ { u } } \cdot \left[ 1 - \sigma \left( \mathbf { v } ( w ) ^ { \top } \theta _ { j - 1 } ^ { u } \right) \right] ^ { d _ { j } ^ { u } } \tag{4.6}$$</p>
 <p>将 (4.6) 依次代回，可得对数似然函数 (4.2) 的具体表达式</p>
-<p>$$\begin{array}{llll} \mathcal { L } &amp; = \sum _ { w \in C } \log \prod _ { u \in Context ( w ) } \prod _ { j = 2 } ^ { l ^ { u } } \left{ \left[ \sigma ( \mathbf { w } ) ^ { \top } \theta _ { j - 1 } ^ { u } \right) \right] ^ { 1 - d _ { j } ^ { u } } \cdot \left[ 1 - \sigma \left( \mathbf { v } ( w ) ^ { \top } \theta _ { j - 1 } ^ { u } \right) \right] ^ { d _ { j } ^ { u } } } \ &amp; = \sum _ { w \in \mathcal { C } } \sum _ { u \in C o n t e x t ( w ) } \sum _ { j = 2 } ^ { l ^ { u } } \left{ \left( 1 - d _ { j } ^ { u } \right) \cdot \log \left[ \sigma(\mathbf { v } ( w ) ^ { \top } \theta _ { j - 1 } ^ { u } \right) \right] + d _ { j } ^ { u } \cdot \log \left[ 1 - \sigma \left( \mathbf { v } ( w ) ^ { \top } \theta _ { j - 1 } ^ { u } \right) \right] } \end{array} \tag{4.7}$$</p>
+<p>$$<br>\begin{array}{llll} \mathcal{L} &amp;=\sum_{w \in \mathcal{C}} \log \prod_{u \in C \text { ontext }(w)} \prod_{j=2}^{l^{u}} \lbrace \left[\sigma\left(\mathbf{v}(w)^{\top} \theta_{j-1}^{u}\right)\right]^{1-d_{j}^{u}} \cdot\left[1-\sigma\left(\mathbf{v}(w)^{\top} \theta_{j-1}^{u}\right)\right]^{d_{j}^{u}} \rbrace \\ &amp;=\sum_{w \in \mathcal{C}} \sum_{u \in \text { Context }(w)} \sum_{j=2}^{l^{u}} \lbrace (1-d_{j}^{u}) \cdot \log [\sigma\left(\mathbf{v}(w)^{\top} \theta_{j-1}^{u}\right)]+d_{j}^{u} \cdot \log [1-\sigma\left(\mathbf{v}(w)^{\top} \theta_{j-1}^{u}\right)] \rbrace \end{array} \tag{4.7}<br>$$</p>
 <p>同样，为下面梯度推导方便起见，将三重求和符号下花括号里的内容简记为 $\mathcal { L } ( w , u , j )$，即</p>
 <p>$$\mathcal { L } ( w , u , j ) = \left( 1 - d _ { j } ^ { u } \right) \cdot \log \left[ \sigma ( \mathbf { v } ( w ) ^ { \top } \theta _ { j - 1 } ^ { u } ) \right] + d _ { j } ^ { u } \cdot \log \left[ 1 - \sigma \left( \mathbf { v } ( w ) ^ { \top } \theta _ { j - 1 } ^ { u } \right) \right]$$</p>
 <p>至此，已经推导出对数似然函数的表达式 (4.7)，这就是<strong>Skip-gram</strong>模型的目标函数。接下来同样利用<strong>随机梯度上升法</strong>对其进行优化，关键是要给出两类梯度。</p>
