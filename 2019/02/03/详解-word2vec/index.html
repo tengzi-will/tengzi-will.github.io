@@ -146,7 +146,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/02/19/5c6bbbb5c67a3.png">
 <meta property="og:image" content="https://i.loli.net/2019/02/19/5c6bbbe15fe1e.png">
 <meta property="og:image" content="https://i.loli.net/2019/10/03/WZLfMIkxg9GaET7.png">
-<meta property="og:updated_time" content="2019-10-03T10:45:04.000Z">
+<meta property="og:updated_time" content="2019-10-03T11:11:14.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="详解 word2vec">
 <meta name="twitter:description" content="预备知识本节介绍 word2vec 中将用到的一些重要知识点，包括 sigmoid 函数、Beyes 公式和 Huffman 编码等。 sigmoid 函数sigmoid 函数是神经网络中常用的激活函数之一，其定义为$$ \sigma ( x ) = \frac { 1 } { 1 + e ^ { - x } } $$该函数的定义域为 $( - \infty , + \infty )$，值域为 $">
@@ -712,11 +712,11 @@
 <p><strong>注5.1</strong>  <strong>NCE</strong>的细节有点复杂，其本质是利用已知的概率密度函数来估计未知的概率密度函数。简单来说，假设未知的概率密度函数为 $X$，已知的概率密度为 $Y$，如果得到了$X$ 和 $Y$ 的关系，那么 $X$ 也就可以求出来了。具体可参考文献 <strong><code>《Noise-contrastive estimation of unnormalized statistical models, with applications to natural image statistics》</code></strong>。</p>
 <h3 id="CBOW-模型-1"><a href="#CBOW-模型-1" class="headerlink" title="CBOW 模型"></a>CBOW 模型</h3><p>在 <strong>CBOW</strong> 模型中，已知词 $w$ 的上下文 $Context(w)$，需要预测 $w$，因此，对于给定的 $Context(w)$，词 $w$ 就是一个<strong>正样本</strong>，其它词就是<strong>负样本</strong>了。负样本那么多，该如何选取呢？这个问题比较独立，我们放到后面再进行介绍。</p>
 <p>假定现在已经选好了一个关于 $w$ 的负样本子集 $N E G(w) \neq \emptyset$ 。且对 $\forall \widetilde{w} \in \mathcal{D}$ ，定义</p>
-<p>$$<br>L^{w}(\widetilde{w})=\left{ \begin{array}{llll}{1,} &amp; {\widetilde{w}=w} \\ {0,} &amp; {\widetilde{w} \neq w}\end{array} \right.<br>$$</p>
+<p>$$<br>L^{w}(\widetilde{w})=\left\lbrace \begin{array}{llll}{1,} &amp; {\widetilde{w}=w} \\ {0,} &amp; {\widetilde{w} \neq w}\end{array} \right.<br>$$</p>
 <p>表示词 $\tilde{\omega}$ 的标签，即正样本标签为1，负样本标签为0。</p>
 <p>对于一个给定的正样本 $(\text {Context}(w), w)$，我们希望最大化</p>
 <p>$$<br>g(w)=\prod_{u \in{w} \cup N E G(w)} p(u | Context(w)) \tag{5.1}<br>$$</p>
-<p>其中<br>$$<br>p(u | \text { Context }(w))=\left{\begin{array}{ll}{\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{u}\right),} &amp; {L^{w}(u)=1} \\ {1-\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{u}\right),} &amp; {L^{w}(u)=0}\end{array}\right.<br>$$<br>或者写成整体表达式<br>$$<br>p(u | \text { Context }(w))=[\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{u}\right)]^{L^{w}(u)} \cdot[1-\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{u}\right)]^{1-L^{w}(u)} \tag{5.2}<br>$$</p>
+<p>其中<br>$$<br>p(u | \text { Context }(w))={\begin{array}{llll}{\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{u}\right),} &amp; {L^{w}(u)=1} \\ {1-\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{u}\right),} &amp; {L^{w}(u)=0}\end{array}<br>$$<br>或者写成整体表达式<br>$$<br>p(u | \text { Context }(w))=[\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{u}\right)]^{L^{w}(u)} \cdot[1-\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{u}\right)]^{1-L^{w}(u)} \tag{5.2}<br>$$</p>
 <p>这里 $\mathbf{X}_ w$ 仍表示 $Context (w)$ 中各词的词向量之和，而 $\theta^{u} \in \mathbb{R}^{m}$ 表示词 $u$ 对应的一个(辅助)向量，为待训练参数。</p>
 <p>为什么要最大化 $g(w)$ 呢？让我们先来看看 $g(w)$ 的表达式，将（5.2）带入（5.1），有<br>$$<br>g(w)=\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{w}\right) \prod_{u \in N E G(w)}[1-\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{u}\right)]<br>$$<br>其中 $\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{w}\right)$ 表示当上下文为 $Context(w)$ 时，预测中心词为 $w$ 的概率，而 $\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{w}\right), u \in N E G(w)$ 则表示当上下文为 $Context(w)$ 时，预测中心词为 $u$ 的概率(这里可看成一个ニ分类问题，具体可参见预备知识中的逻辑回归)。从形式上看,最大化 $g(w)$，相当于最大化 $\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{w}\right)$ ，同吋最小化所有的 $\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{u}\right), u \in N E G(w)$ 。这不正是我们希望的吗？<strong>増大正样本的概率同时降低负样本的概率</strong>。于是，对于一个給定的语料库 $C$，函数<br>$$<br>G=\prod_{w \in \mathcal{C}} g(w)<br>$$</p>
 <p>就可以作为整体优化的目标。当然，为计算方便，对 $G$ 取对数，最终的目标函数（为和前面章节统一起见，这里仍将其记为$\mathcal{L}$）就是<br>$$<br>\begin{array}{llll} \mathcal{L} &amp;=\log G=\log \prod_{w \in \mathcal{C}} g(w)=\sum_{w \in \mathcal{C}} \log g(w) \\ &amp;=\sum_{w \in \mathcal{C}} \log \prod_{u \in{w} \cup N E G(w)}\left{\left[\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{u}\right)\right]^{L^{w}(u)} \cdot\left[1-\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{u}\right)\right]^{1-L^{w}(u)}\right} \\ &amp;=\sum_{w \in \mathcal{C}} \sum_{u \in{w} \cup N E G(w)}\left{L^{w}(u) \cdot \log \left[\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{u}\right)\right]+\left[1-L^{w}(u)\right] \cdot \log \left[1-\sigma\left(\mathbf{x}_ {w}^{\top} \theta^{u}\right)\right]\right} \end{array} \tag{5.3}<br>$$</p>
