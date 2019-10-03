@@ -131,7 +131,7 @@
 <meta property="og:site_name" content="LuoTeng&#39;s Blog">
 <meta property="og:description" content="先验概率与后验概率先验概率先验概率(Prior probability)在维基百科中定义如下：  In Bayesian statistical inference, a prior probability distribution, often simply called the prior, of an uncertain quantity is the probability distrib">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-22T14:01:00.000Z">
+<meta property="og:updated_time" content="2019-09-18T07:15:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="朴素贝叶斯 Naive Bayes 分类算法">
 <meta name="twitter:description" content="先验概率与后验概率先验概率先验概率(Prior probability)在维基百科中定义如下：  In Bayesian statistical inference, a prior probability distribution, often simply called the prior, of an uncertain quantity is the probability distrib">
@@ -443,7 +443,7 @@
 <li>P(x|c)：在已知事件出现c情况的条件下，条件x出现的概率。（后验概率）</li>
 <li>P(x)：x出现的概率。（先验概率）</li>
 </ul>
-<p>落实到实际问题中，我们要计算 <strong><code>P(c|x)</code></strong>,转化为计算 <strong><code>P(x)</code></strong>、<strong><code>P(c)</code></strong>、<strong><code>P(x|c)</code></strong>。而 <strong><code>P(x</code></strong>) 由于与 <strong><code>c</code></strong> 无关，而且作为共同的分母，在我们计算 <strong><code>c</code></strong> 的各种取值的可能性时并不会对各结果的相对大小产生影响，因此可以忽略。</p>
+<p>落实到实际问题中，我们要计算 <strong><code>P(c|x)</code></strong>,转化为计算 <strong><code>P(x)</code></strong>、<strong><code>P(c)</code></strong>、<strong><code>P(x|c)</code></strong>。而 <strong><code>P(x)</code></strong> 由于与 <strong><code>c</code></strong> 无关，而且作为共同的分母，在我们计算 <strong><code>c</code></strong> 的各种取值的可能性时并不会对各结果的相对大小产生影响，因此可以忽略。</p>
 <p>经过上面的分析，最后求解 <strong><code>P(c|x)</code></strong> 的关键落在了求解 <strong><code>P(c)</code></strong> 与 <strong><code>P(x|c)</code></strong> 上，而这两个概率分布是必须要通过我们手上现有的数据集来进行估计。</p>
 <h2 id="贝叶斯在文本分类中的应用"><a href="#贝叶斯在文本分类中的应用" class="headerlink" title="贝叶斯在文本分类中的应用"></a>贝叶斯在文本分类中的应用</h2><p>贝叶斯如何应用在文本分类的任务中呢？</p>
 <p>假设我们有一个数据集，里面有很多个文档，每一个文档对应某一个类别，都是人工标注的。我们要做的任务就是利用已经有的数据集训练一个分类器（一种算法机制），等有了一篇新的文档，我们在不经过人工判断的情况下，利用已训练好的分类器（或算法)对该文档的类别进行判断。其实能够做文档分类的算法有很多，比如最近比较火的深度神经网络，但朴素贝叶斯算法对于文档的分类任务能够得到一个较好的效果，而且他的实现相较简单，算得上是一个性价比较高的算法。</p>
