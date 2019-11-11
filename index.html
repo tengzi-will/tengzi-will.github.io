@@ -294,6 +294,135 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/11/transformer-代码详解/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/11/transformer-代码详解/" itemprop="url">transformer 代码详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-11T09:41:24+08:00">
+                2019-11-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          论文背景谷歌 2017 年发了一篇论文 《Attention is all you need》，文中提出了一种新的架构叫做 Transformer，用以来实现机器翻译。它抛弃了传统用 CNN 或者 RNN 的定式，取得了很好的效果，激起了工业界和学术界的广泛讨论。而在谷歌的论文发出不久，就有人用 tensorflow 实现了 Transformer 模型：A TensorFlow Implementation of the Transformer: Attention Is All You Need。
+代码架构
+hyperparams.py : 该文件包含所有需要用到的参数和数据的路径
+pre
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/11/11/transformer-代码详解/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/09/服务器快速下载-kaggle-数据集攻略/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -555,6 +684,11 @@
           
           下载数据集kaggle 链接下载地址
 如果下载速度慢或者总是出现错误，参见博客服务器快速下载 kaggle 数据集攻略
+程序文件说明
+get_all_data.py
+model.py
+main.py
+
 数据预处理
 切词：使用 nltk 工具将文档切分成一个一个的词
 统计单词：统计预料中出现的单词频率并根据频率构建词表
@@ -562,7 +696,7 @@
 编号表示：将程序所需数据集文本转化为用单词编号的形式表示
 窗口数据集构建：按照窗口大小构建本次模型训练所需要的数据集
 
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555
+以下代码存放在 get_all_data.py 文件中1234567891011121314151617181920212
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1606,155 +1740,6 @@ KeyValueTextInputFormat每一行均为一条记录，被分隔符分割为 key,v
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/29/HDFS-命令行与客户端操作/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Luo Teng">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LuoTeng's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/29/HDFS-命令行与客户端操作/" itemprop="url">HDFS 命令行与客户端操作</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-29T13:21:09+08:00">
-                2019-05-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/hadoop/" itemprop="url" rel="index">
-                    <span itemprop="name">hadoop</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          HDFS 命令行操作基本命令：1&gt;&gt;&gt; bin/hadoop fs
-参数大全：1234567891011121314151617181920212223242526272829303132333435363738394041Usage: hadoop fs [generic options]	[-appendToFile &lt;localsrc&gt; ... &lt;dst&gt;]	[-cat [-ignoreCrc] &lt;src&gt; ...]	[-checksum &lt;src&gt; ...]	[-chgrp [-R] GROUP PATH...]	[-c
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/29/HDFS-命令行与客户端操作/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1805,7 +1790,7 @@ KeyValueTextInputFormat每一行均为一条记录，被分隔符分割为 key,v
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

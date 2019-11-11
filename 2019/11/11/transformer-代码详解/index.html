@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Menlo:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="论文背景谷歌 2017 年发了一篇论文 《Attention is all you need》，文中提出了一种新的架构叫做 Transformer，用以来实现机器翻译。它抛弃了传统用 CNN 或者 RNN 的定式，取得了很好的效果，激起了工业界和学术界的广泛讨论。而在谷歌的论文发出不久，就有人用 tensorflow 实现了 Transformer 模型：A TensorFlow Implemen">
+<meta name="keywords" content="MachineLearning, DeepLearning, ReinforcementLearning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="transformer 代码详解">
+<meta property="og:url" content="http://yoursite.com/2019/11/11/transformer-代码详解/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="论文背景谷歌 2017 年发了一篇论文 《Attention is all you need》，文中提出了一种新的架构叫做 Transformer，用以来实现机器翻译。它抛弃了传统用 CNN 或者 RNN 的定式，取得了很好的效果，激起了工业界和学术界的广泛讨论。而在谷歌的论文发出不久，就有人用 tensorflow 实现了 Transformer 模型：A TensorFlow Implemen">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-11-11T02:52:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="transformer 代码详解">
+<meta name="twitter:description" content="论文背景谷歌 2017 年发了一篇论文 《Attention is all you need》，文中提出了一种新的架构叫做 Transformer，用以来实现机器翻译。它抛弃了传统用 CNN 或者 RNN 的定式，取得了很好的效果，激起了工业界和学术界的广泛讨论。而在谷歌的论文发出不久，就有人用 tensorflow 实现了 Transformer 模型：A TensorFlow Implemen">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/11/transformer-代码详解/">
+
+
+
+
+
+  <title>transformer 代码详解 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/11/transformer-代码详解/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">transformer 代码详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-11T09:41:24+08:00">
+                2019-11-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="论文背景"><a href="#论文背景" class="headerlink" title="论文背景"></a>论文背景</h2><p>谷歌 2017 年发了一篇论文 <strong>《Attention is all you need》</strong>，文中提出了一种新的架构叫做 <strong>Transformer</strong>，用以来实现机器翻译。它抛弃了传统用 <strong>CNN</strong> 或者 <strong>RNN</strong> 的定式，取得了很好的效果，激起了工业界和学术界的广泛讨论。而在谷歌的论文发出不久，就有人用 <strong>tensorflow</strong> 实现了 <strong>Transformer</strong> 模型：<a href="https://github.com/Kyubyong/transformer" target="_blank" rel="noopener">A TensorFlow Implementation of the Transformer: Attention Is All You Need</a>。</p>
+<h2 id="代码架构"><a href="#代码架构" class="headerlink" title="代码架构"></a>代码架构</h2><ul>
+<li>hyperparams.py : 该文件包含所有需要用到的<strong>参数</strong>和<strong>数据的路径</strong></li>
+<li>prepro.py : 该文件生成源语言和目标语言的词汇文件</li>
+<li>data_load.py : 该文件包含所有关于加载数据以及批量化数据的函数</li>
+<li>modules.py : 该文件具体实现编码器和解码器网络</li>
+<li>train.py : 训练模型的代码，定义了模型，损失函数以及训练和保存模型的过程</li>
+<li>eval.py : 评估模型的效果</li>
+</ul>
+<h2 id="hyperparams-py"><a href="#hyperparams-py" class="headerlink" title="hyperparams.py"></a>hyperparams.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Hyperparams</span>:</span></span><br><span class="line">    <span class="string">'''Hyperparameters'''</span></span><br><span class="line">    <span class="comment"># data</span></span><br><span class="line">    source_train = <span class="string">'corpora/train.tags.de-en.de'</span></span><br><span class="line">    target_train = <span class="string">'corpora/train.tags.de-en.en'</span></span><br><span class="line">    source_test = <span class="string">'corpora/IWSLT16.TED.tst2014.de-en.de.xml'</span></span><br><span class="line">    target_test = <span class="string">'corpora/IWSLT16.TED.tst2014.de-en.en.xml'</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># training</span></span><br><span class="line">    batch_size = <span class="number">32</span> <span class="comment"># alias = N</span></span><br><span class="line">    lr = <span class="number">0.0001</span> <span class="comment"># learning rate. In paper, learning rate is adjusted to the global step.</span></span><br><span class="line">    logdir = <span class="string">'logdir'</span> <span class="comment"># log directory</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># model</span></span><br><span class="line">    maxlen = <span class="number">10</span> <span class="comment"># Maximum number of words in a sentence. alias = T.</span></span><br><span class="line">                <span class="comment"># Feel free to increase this if you are ambitious.</span></span><br><span class="line">    min_cnt = <span class="number">20</span> <span class="comment"># words whose occurred less than min_cnt are encoded as &lt;UNK&gt;.</span></span><br><span class="line">    hidden_units = <span class="number">512</span> <span class="comment"># alias = C</span></span><br><span class="line">    num_blocks = <span class="number">6</span> <span class="comment"># number of encoder/decoder blocks</span></span><br><span class="line">    num_epochs = <span class="number">20</span></span><br><span class="line">    num_heads = <span class="number">8</span></span><br><span class="line">    dropout_rate = <span class="number">0.1</span></span><br></pre></td></tr></table></figure>
+<h2 id="prepro-py"><a href="#prepro-py" class="headerlink" title="prepro.py"></a>prepro.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Ipynb_importer</span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">from</span> hyperparams <span class="keyword">import</span> Hyperparams <span class="keyword">as</span> hp</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> codecs</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> regex</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_vocab</span><span class="params">(fpath, fname)</span>:</span></span><br><span class="line">    <span class="string">'''Constructs vocabulary.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">      fpath: A string. Input file path.</span></span><br><span class="line"><span class="string">      fname: A string. Output file name.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Writes vocabulary line by line to `preprocessed/fname`</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    text = codecs.open(fpath, <span class="string">'r'</span>, <span class="string">'utf-8'</span>).read()</span><br><span class="line">    text = regex.sub(<span class="string">"[^\s\p&#123;Latin&#125;']"</span>, <span class="string">""</span>, text)</span><br><span class="line">    words = text.split()</span><br><span class="line">    word2cnt = Counter(words)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">'preprocessed'</span>): os.mkdir(<span class="string">'preprocessed'</span>)</span><br><span class="line">    <span class="keyword">with</span> codecs.open(<span class="string">'preprocessed/&#123;&#125;'</span>.format(fname), <span class="string">'w'</span>, <span class="string">'utf-8'</span>) <span class="keyword">as</span> fout:</span><br><span class="line">        fout.write(<span class="string">"&#123;&#125;\t1000000000\n&#123;&#125;\t1000000000\n&#123;&#125;\t1000000000\n&#123;&#125;\t1000000000\n"</span>.format(<span class="string">"&lt;PAD&gt;"</span>, <span class="string">"&lt;UNK&gt;"</span>, <span class="string">"&lt;S&gt;"</span>, <span class="string">"&lt;/S&gt;"</span>))</span><br><span class="line">        <span class="keyword">for</span> word, cnt <span class="keyword">in</span> word2cnt.most_common(len(word2cnt)):</span><br><span class="line">            fout.write(<span class="string">u"&#123;&#125;\t&#123;&#125;\n"</span>.format(word, cnt))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    make_vocab(hp.source_train, <span class="string">"de.vocab.tsv"</span>)</span><br><span class="line">    make_vocab(hp.target_train, <span class="string">"en.vocab.tsv"</span>)</span><br><span class="line">    print(<span class="string">"Done"</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="data-load-py"><a href="#data-load-py" class="headerlink" title="data_load.py :"></a>data_load.py :</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">from</span> hyperparams <span class="keyword">import</span> Hyperparams <span class="keyword">as</span> hp</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> codecs</span><br><span class="line"><span class="keyword">import</span> regex</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_de_vocab</span><span class="params">()</span>:</span></span><br><span class="line">    vocab = [line.split()[<span class="number">0</span>] <span class="keyword">for</span> line <span class="keyword">in</span> codecs.open(<span class="string">'preprocessed/de.vocab.tsv'</span>, <span class="string">'r'</span>, <span class="string">'utf-8'</span>).read().splitlines() <span class="keyword">if</span> int(line.split()[<span class="number">1</span>])&gt;=hp.min_cnt]</span><br><span class="line">    word2idx = &#123;word: idx <span class="keyword">for</span> idx, word <span class="keyword">in</span> enumerate(vocab)&#125;</span><br><span class="line">    idx2word = &#123;idx: word <span class="keyword">for</span> idx, word <span class="keyword">in</span> enumerate(vocab)&#125;</span><br><span class="line">    <span class="keyword">return</span> word2idx, idx2word</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_en_vocab</span><span class="params">()</span>:</span></span><br><span class="line">    vocab = [line.split()[<span class="number">0</span>] <span class="keyword">for</span> line <span class="keyword">in</span> codecs.open(<span class="string">'preprocessed/en.vocab.tsv'</span>, <span class="string">'r'</span>, <span class="string">'utf-8'</span>).read().splitlines() <span class="keyword">if</span> int(line.split()[<span class="number">1</span>])&gt;=hp.min_cnt]</span><br><span class="line">    word2idx = &#123;word: idx <span class="keyword">for</span> idx, word <span class="keyword">in</span> enumerate(vocab)&#125;</span><br><span class="line">    idx2word = &#123;idx: word <span class="keyword">for</span> idx, word <span class="keyword">in</span> enumerate(vocab)&#125;</span><br><span class="line">    <span class="keyword">return</span> word2idx, idx2word</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_data</span><span class="params">(source_sents, target_sents)</span>:</span></span><br><span class="line">    de2idx, idx2de = load_de_vocab()</span><br><span class="line">    en2idx, idx2en = load_en_vocab()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Index</span></span><br><span class="line">    x_list, y_list, Sources, Targets = [], [], [], []</span><br><span class="line">    <span class="keyword">for</span> source_sent, target_sent <span class="keyword">in</span> zip(source_sents, target_sents):</span><br><span class="line">        x = [de2idx.get(word, <span class="number">1</span>) <span class="keyword">for</span> word <span class="keyword">in</span> (source_sent + <span class="string">u" &lt;/S&gt;"</span>).split()] <span class="comment"># 1: OOV, &lt;/S&gt;: End of Text</span></span><br><span class="line">        y = [en2idx.get(word, <span class="number">1</span>) <span class="keyword">for</span> word <span class="keyword">in</span> (target_sent + <span class="string">u" &lt;/S&gt;"</span>).split()]</span><br><span class="line">        <span class="keyword">if</span> max(len(x), len(y)) &lt;=hp.maxlen:</span><br><span class="line">            x_list.append(np.array(x))</span><br><span class="line">            y_list.append(np.array(y))</span><br><span class="line">            Sources.append(source_sent)</span><br><span class="line">            Targets.append(target_sent)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Pad</span></span><br><span class="line">    X = np.zeros([len(x_list), hp.maxlen], np.int32)</span><br><span class="line">    Y = np.zeros([len(y_list), hp.maxlen], np.int32)</span><br><span class="line">    <span class="keyword">for</span> i, (x, y) <span class="keyword">in</span> enumerate(zip(x_list, y_list)):</span><br><span class="line">        X[i] = np.lib.pad(x, [<span class="number">0</span>, hp.maxlen-len(x)], <span class="string">'constant'</span>, constant_values=(<span class="number">0</span>, <span class="number">0</span>))</span><br><span class="line">        Y[i] = np.lib.pad(y, [<span class="number">0</span>, hp.maxlen-len(y)], <span class="string">'constant'</span>, constant_values=(<span class="number">0</span>, <span class="number">0</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> X, Y, Sources, Targets</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_train_data</span><span class="params">()</span>:</span></span><br><span class="line">    de_sents = [regex.sub(<span class="string">"[^\s\p&#123;Latin&#125;']"</span>, <span class="string">""</span>, line) <span class="keyword">for</span> line <span class="keyword">in</span> codecs.open(hp.source_train, <span class="string">'r'</span>, <span class="string">'utf-8'</span>).read().split(<span class="string">"\n"</span>) <span class="keyword">if</span> line <span class="keyword">and</span> line[<span class="number">0</span>] != <span class="string">"&lt;"</span>]</span><br><span class="line">    en_sents = [regex.sub(<span class="string">"[^\s\p&#123;Latin&#125;']"</span>, <span class="string">""</span>, line) <span class="keyword">for</span> line <span class="keyword">in</span> codecs.open(hp.target_train, <span class="string">'r'</span>, <span class="string">'utf-8'</span>).read().split(<span class="string">"\n"</span>) <span class="keyword">if</span> line <span class="keyword">and</span> line[<span class="number">0</span>] != <span class="string">"&lt;"</span>]</span><br><span class="line"></span><br><span class="line">    X, Y, Sources, Targets = create_data(de_sents, en_sents)</span><br><span class="line">    <span class="keyword">return</span> X, Y</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_test_data</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_refine</span><span class="params">(line)</span>:</span></span><br><span class="line">        line = regex.sub(<span class="string">"&lt;[^&gt;]+&gt;"</span>, <span class="string">""</span>, line)</span><br><span class="line">        line = regex.sub(<span class="string">"[^\s\p&#123;Latin&#125;']"</span>, <span class="string">""</span>, line)</span><br><span class="line">        <span class="keyword">return</span> line.strip()</span><br><span class="line"></span><br><span class="line">    de_sents = [_refine(line) <span class="keyword">for</span> line <span class="keyword">in</span> codecs.open(hp.source_test, <span class="string">'r'</span>, <span class="string">'utf-8'</span>).read().split(<span class="string">"\n"</span>) <span class="keyword">if</span> line <span class="keyword">and</span> line[:<span class="number">4</span>] == <span class="string">"&lt;seg"</span>]</span><br><span class="line">    en_sents = [_refine(line) <span class="keyword">for</span> line <span class="keyword">in</span> codecs.open(hp.target_test, <span class="string">'r'</span>, <span class="string">'utf-8'</span>).read().split(<span class="string">"\n"</span>) <span class="keyword">if</span> line <span class="keyword">and</span> line[:<span class="number">4</span>] == <span class="string">"&lt;seg"</span>]</span><br><span class="line"></span><br><span class="line">    X, Y, Sources, Targets = create_data(de_sents, en_sents)</span><br><span class="line">    <span class="keyword">return</span> X, Sources, Targets <span class="comment"># (1064, 150)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_batch_data</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># Load data</span></span><br><span class="line">    X, Y = load_train_data()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># calc total batch count</span></span><br><span class="line">    num_batch = len(X) // hp.batch_size</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Convert to tensor</span></span><br><span class="line">    X = tf.convert_to_tensor(X, tf.int32)</span><br><span class="line">    Y = tf.convert_to_tensor(Y, tf.int32)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Create Queues</span></span><br><span class="line">    input_queues = tf.train.slice_input_producer([X, Y])</span><br><span class="line"></span><br><span class="line">    <span class="comment"># create batch queues</span></span><br><span class="line">    x, y = tf.train.shuffle_batch(input_queues,</span><br><span class="line">                                num_threads=<span class="number">8</span>,</span><br><span class="line">                                batch_size=hp.batch_size,</span><br><span class="line">                                capacity=hp.batch_size*<span class="number">64</span>,</span><br><span class="line">                                min_after_dequeue=hp.batch_size*<span class="number">32</span>,</span><br><span class="line">                                allow_smaller_final_batch=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> x, y, num_batch <span class="comment"># (N, T), (N, T), ()</span></span><br></pre></td></tr></table></figure>
+<h2 id="★-modules-py"><a href="#★-modules-py" class="headerlink" title="★ modules.py"></a>★ modules.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">normalize</span><span class="params">(inputs,</span></span></span><br><span class="line"><span class="function"><span class="params">              epsilon=<span class="number">1e-8</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">              scope=<span class="string">'ln'</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">              reuse=None)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> tf.variable_scope(scope, reuse=reuse):</span><br><span class="line">        inputs_shape = inputs.get_shape()</span><br><span class="line">        params_shape = inputs_shape[<span class="number">-1</span>:]</span><br><span class="line"></span><br><span class="line">        mean, variance = tf.nn.moments(inputs, [<span class="number">-1</span>], keep_dims=<span class="keyword">True</span>)</span><br><span class="line">        beta = tf.Variable(tf.zeros(params_shape))</span><br><span class="line">        gamma = tf.Variable(tf.ones(params_shape))</span><br><span class="line">        normalized = (inputs - mean) / ((variance + epsilon) ** <span class="number">0.5</span>)</span><br><span class="line">        output = gamma * normalized + beta</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> output</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">embedding</span><span class="params">(inputs,</span></span></span><br><span class="line"><span class="function"><span class="params">              vocab_size,</span></span></span><br><span class="line"><span class="function"><span class="params">              num_units,</span></span></span><br><span class="line"><span class="function"><span class="params">              zero_pad=True,</span></span></span><br><span class="line"><span class="function"><span class="params">              scale=True,</span></span></span><br><span class="line"><span class="function"><span class="params">              scope=<span class="string">"embedding"</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">              reuse=None)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> tf.variable_scope(scope, reuse=reuse):</span><br><span class="line">        lookup_table = tf.get_variable(<span class="string">'lookup_table'</span>,</span><br><span class="line">                                       dtype=tf.float32,</span><br><span class="line">                                       shape=[vocab_size, num_units],</span><br><span class="line">                                       initializer=tf.contrib.layers.xavier_initializer())</span><br><span class="line">        <span class="keyword">if</span> zero_pad:</span><br><span class="line">            lookup_table = tf.concat((tf.zeros(shape=[<span class="number">1</span>, num_units]),</span><br><span class="line">                                      lookup_table[<span class="number">1</span>:, :]), <span class="number">0</span>)</span><br><span class="line">        outputs = tf.nn.embedding_lookup(lookup_table, inputs)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> scale:</span><br><span class="line">            outputs = outputs * (num_units ** <span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> outputs</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">multihead_attention</span><span class="params">(queries, # 默认大小[N, T_q, C_q]</span></span></span><br><span class="line"><span class="function"><span class="params">                        keys,    # 默认大小[N, T_k, C_k]</span></span></span><br><span class="line"><span class="function"><span class="params">                        num_units=None,</span></span></span><br><span class="line"><span class="function"><span class="params">                        num_heads=<span class="number">8</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                        dropout_rate=<span class="number">0</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                        is_training=True,</span></span></span><br><span class="line"><span class="function"><span class="params">                        causality=False,</span></span></span><br><span class="line"><span class="function"><span class="params">                        scope=<span class="string">"multihead_attention"</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                        reuse=None)</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> tf.variable_scope(scope, reuse=reuse):</span><br><span class="line">        <span class="keyword">if</span> num_units <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">            num_units = queries.get_shap().as_list[<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Linear projections</span></span><br><span class="line">        Q = tf.layers.dense(queries, num_units, activation=tf.nn.relu) <span class="comment"># (N, T_q, C)</span></span><br><span class="line">        K = tf.layers.dense(keys, num_units, activation=tf.nn.relu) <span class="comment"># (N, T_k, C)</span></span><br><span class="line">        V = tf.layers.dense(keys, num_units, activation=tf.nn.relu) <span class="comment"># (N, T_k, C)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Split and concat</span></span><br><span class="line">        Q_ = tf.concat(tf.split(Q, num_heads, axis=<span class="number">2</span>), axis=<span class="number">0</span>) <span class="comment"># (h*N, T_q, C/h)</span></span><br><span class="line">        K_ = tf.concat(tf.split(K, num_heads, axis=<span class="number">2</span>), axis=<span class="number">0</span>) <span class="comment"># (h*N, T_q, C/h)</span></span><br><span class="line">        V_ = tf.concat(tf.split(V, num_heads, axis=<span class="number">2</span>), axis=<span class="number">0</span>) <span class="comment"># (h*N, T_q, C/h)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Multiplication</span></span><br><span class="line">        outputs = tf.matmul(Q_, tf.transpose(K_, [<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>])) <span class="comment"># (h*N, T_q, T_k)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Scale</span></span><br><span class="line">        outputs = outputs / (K_.get_shape().as_list()[<span class="number">-1</span>] ** <span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Key Masking</span></span><br><span class="line">        key_masks = tf.sign(tf.abs(tf.reduce_sum(keys, axis=<span class="number">-1</span>)))  <span class="comment"># (N, T_k)</span></span><br><span class="line">        key_masks = tf.tile(key_masks, [num_heads, <span class="number">1</span>])  <span class="comment"># (h*N, T_k)</span></span><br><span class="line">        key_masks = tf.tile(tf.expand_dims(key_masks, <span class="number">1</span>), [<span class="number">1</span>, tf.shape(queries)[<span class="number">1</span>], <span class="number">1</span>])  <span class="comment"># (h*N, T_q, T_k)</span></span><br><span class="line"></span><br><span class="line">        paddings = tf.ones_like(outputs) * (<span class="number">-2</span> ** <span class="number">32</span> + <span class="number">1</span>)</span><br><span class="line">        outputs = tf.where(tf.equal(key_masks, <span class="number">0</span>), paddings, outputs)  <span class="comment"># (h*N, T_q, T_k)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Causality = Future blinding</span></span><br><span class="line">        <span class="keyword">if</span> causality:</span><br><span class="line">            diag_vals = tf.ones_like(outputs[<span class="number">0</span>, :, :])  <span class="comment"># (T_q, T_k)</span></span><br><span class="line">            tril = tf.linalg.LinearOperatorLowerTriangular(diag_vals).to_dense()  <span class="comment"># (T_q, T_k)</span></span><br><span class="line">            masks = tf.tile(tf.expand_dims(tril, <span class="number">0</span>), [tf.shape(outputs)[<span class="number">0</span>], <span class="number">1</span>, <span class="number">1</span>])  <span class="comment"># (h*N, T_q, T_k)</span></span><br><span class="line"></span><br><span class="line">            paddings = tf.ones_like(masks) * (<span class="number">-2</span> ** <span class="number">32</span> + <span class="number">1</span>)</span><br><span class="line">            outputs = tf.where(tf.equal(masks, <span class="number">0</span>), paddings, outputs)  <span class="comment"># (h*N, T_q, T_k)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Activation</span></span><br><span class="line">        outputs = tf.nn.softmax(outputs)  <span class="comment"># (h*N, T_q, T_k)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Query Masking</span></span><br><span class="line">        query_masks = tf.sign(tf.abs(tf.reduce_sum(queries, axis=<span class="number">-1</span>)))  <span class="comment"># (N, T_q)</span></span><br><span class="line">        query_masks = tf.tile(query_masks, [num_heads, <span class="number">1</span>])  <span class="comment"># (h*N, T_q)</span></span><br><span class="line">        query_masks = tf.tile(tf.expand_dims(query_masks, <span class="number">-1</span>), [<span class="number">1</span>, <span class="number">1</span>, tf.shape(keys)[<span class="number">1</span>]])  <span class="comment"># (h*N, T_q, T_k)</span></span><br><span class="line">        outputs *= query_masks  <span class="comment"># broadcasting. (h*N, T_q, T_k)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Dropouts</span></span><br><span class="line">        outputs = tf.layers.dropout(outputs, rate=dropout_rate, training=tf.convert_to_tensor(is_training))</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Weighted sum</span></span><br><span class="line">        outputs = tf.matmul(outputs, V_)  <span class="comment"># (h*N, T_q, C/h)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Restore shape</span></span><br><span class="line">        outputs = tf.concat(tf.split(outputs, num_heads, axis=<span class="number">0</span>), axis=<span class="number">2</span>)  <span class="comment"># (N, T_q, C)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Residual connection</span></span><br><span class="line">        outputs += queries</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Normalize</span></span><br><span class="line">        outputs = normalize(outputs)  <span class="comment"># (N, T_q, C)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> outputs</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">feedforward</span><span class="params">(inputs,</span></span></span><br><span class="line"><span class="function"><span class="params">                num_units=[<span class="number">2048</span>, <span class="number">512</span>],</span></span></span><br><span class="line"><span class="function"><span class="params">                scope=<span class="string">"multihead_attention"</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                reuse=None)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> tf.variable_scope(scope, reuse=reuse):</span><br><span class="line">        <span class="comment"># Inner layer</span></span><br><span class="line">        params = &#123;<span class="string">"inputs"</span>: inputs, <span class="string">"filters"</span>: num_units[<span class="number">0</span>], <span class="string">"kernel_size"</span>: <span class="number">1</span>,</span><br><span class="line">                  <span class="string">"activation"</span>: tf.nn.relu, <span class="string">"use_bias"</span>: <span class="keyword">True</span>&#125;</span><br><span class="line">        outputs = tf.layers.conv1d(**params)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Readout layer</span></span><br><span class="line">        params = &#123;<span class="string">"inputs"</span>: outputs, <span class="string">"filters"</span>: num_units[<span class="number">1</span>], <span class="string">"kernel_size"</span>: <span class="number">1</span>,</span><br><span class="line">                  <span class="string">"activation"</span>: <span class="keyword">None</span>, <span class="string">"use_bias"</span>: <span class="keyword">True</span>&#125;</span><br><span class="line">        outputs = tf.layers.conv1d(**params)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Residual connection</span></span><br><span class="line">        outputs += inputs</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Normalize</span></span><br><span class="line">        outputs = normalize(outputs)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> outputs</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">label_smoothing</span><span class="params">(inputs, epsilon=<span class="number">0.1</span>)</span>:</span></span><br><span class="line">    K = inputs.get_shape().as_list()[<span class="number">-1</span>]</span><br><span class="line">    <span class="keyword">return</span> ((<span class="number">1</span>-epsilon) * inputs) + (epsilon / K)</span><br></pre></td></tr></table></figure>
+<h2 id="train-py"><a href="#train-py" class="headerlink" title="train.py"></a>train.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> hyperparams <span class="keyword">import</span> Hyperparams <span class="keyword">as</span> hp</span><br><span class="line"><span class="keyword">from</span> data_load <span class="keyword">import</span> get_batch_data, load_de_vocab, load_en_vocab</span><br><span class="line"><span class="keyword">from</span> modules <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> os, codecs</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Graph</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, is_training=True)</span>:</span></span><br><span class="line">        self.graph = tf.Graph()</span><br><span class="line">        <span class="keyword">with</span> self.graph.as_default():</span><br><span class="line">            <span class="keyword">if</span> is_training:</span><br><span class="line">                self.x, self.y, self.num_batch = get_batch_data() <span class="comment"># (N, T)</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                self.x = tf.placeholder(tf.int32, shape=(<span class="keyword">None</span>, hp.maxlen))</span><br><span class="line">                self.y = tf.placeholder(tf.int32, shape=(<span class="keyword">None</span>, hp.maxlen))</span><br><span class="line"></span><br><span class="line">            <span class="comment"># define decoder inputs</span></span><br><span class="line">            self.decoder_inputs = tf.concat((tf.ones_like(self.y[:,:<span class="number">1</span>])*<span class="number">2</span>, self.y[:, :<span class="number">-1</span>]), <span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Load vocabulary</span></span><br><span class="line">            de2idx, idx2de = load_de_vocab()</span><br><span class="line">            en2idx, idx2en = load_en_vocab()</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Encoder</span></span><br><span class="line">            <span class="keyword">with</span> tf.variable_scope(<span class="string">"encoder"</span>):</span><br><span class="line">                <span class="comment">## Embedding</span></span><br><span class="line">                self.enc = embedding(self.x,</span><br><span class="line">                                     vocab_size=len(de2idx),</span><br><span class="line">                                     num_units=hp.hidden_units,</span><br><span class="line">                                     scale=<span class="keyword">True</span>,</span><br><span class="line">                                     scope=<span class="string">"enc_embed"</span>)</span><br><span class="line"></span><br><span class="line">                <span class="comment">## Positional Encoding</span></span><br><span class="line">                self.enc += embedding(tf.tile(tf.expand_dims(tf.range(tf.shape(self.x)[<span class="number">1</span>]), <span class="number">0</span>), [tf.shape(self.x)[<span class="number">0</span>], <span class="number">1</span>]),</span><br><span class="line">                                      vocab_size=hp.maxlen,</span><br><span class="line">                                      num_units=hp.hidden_units,</span><br><span class="line">                                      zero_pad=<span class="keyword">False</span>,</span><br><span class="line">                                      scale=<span class="keyword">False</span>,</span><br><span class="line">                                      scope=<span class="string">"enc_pe"</span>)</span><br><span class="line"></span><br><span class="line">                <span class="comment">## Dropout</span></span><br><span class="line">                self.enc = tf.layers.dropout(self.enc,</span><br><span class="line">                                             rate=hp.dropout_rate,</span><br><span class="line">                                             training=tf.convert_to_tensor(is_training))</span><br><span class="line"></span><br><span class="line">                <span class="comment">## Blocks</span></span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> range(hp.num_blocks):</span><br><span class="line">                    <span class="keyword">with</span> tf.variable_scope(<span class="string">"num_blocks_&#123;&#125;"</span>.format(i)):</span><br><span class="line">                        <span class="comment">### Multihead Attention</span></span><br><span class="line">                        self.enc = multihead_attention(queries=self.enc,</span><br><span class="line">                                                       keys=self.enc,</span><br><span class="line">                                                       num_units=hp.hidden_units,</span><br><span class="line">                                                       num_heads=hp.num_heads,</span><br><span class="line">                                                       dropout_rate=hp.dropout_rate,</span><br><span class="line">                                                       is_training=is_training,</span><br><span class="line">                                                       causality=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">                        <span class="comment">### Feed Forward</span></span><br><span class="line">                        self.enc = feedforward(self.enc, num_units=[<span class="number">4</span> * hp.hidden_units, hp.hidden_units])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Decoder</span></span><br><span class="line">            <span class="keyword">with</span> tf.variable_scope(<span class="string">"decoder"</span>):</span><br><span class="line">                <span class="comment">## Embedding</span></span><br><span class="line">                self.dec = embedding(self.decoder_inputs,</span><br><span class="line">                                     vocab_size=len(en2idx),</span><br><span class="line">                                     num_units=hp.hidden_units,</span><br><span class="line">                                     scale=<span class="keyword">True</span>,</span><br><span class="line">                                     scope=<span class="string">"dec_embed"</span>)</span><br><span class="line"></span><br><span class="line">                <span class="comment">## Positional Encoding</span></span><br><span class="line">                self.dec += embedding(tf.tile(tf.expand_dims(tf.range(tf.shape(self.decoder_inputs)[<span class="number">1</span>]), <span class="number">0</span>), [tf.shape(self.decoder_inputs)[<span class="number">0</span>], <span class="number">1</span>]),</span><br><span class="line">                                      vocab_size=hp.maxlen,</span><br><span class="line">                                      num_units=hp.hidden_units,</span><br><span class="line">                                      zero_pad=<span class="keyword">False</span>,</span><br><span class="line">                                      scale=<span class="keyword">False</span>,</span><br><span class="line">                                      scope=<span class="string">"dec_pe"</span>)</span><br><span class="line"></span><br><span class="line">                <span class="comment">## Dropout</span></span><br><span class="line">                self.dec = tf.layers.dropout(self.dec,</span><br><span class="line">                                             rate=hp.dropout_rate,</span><br><span class="line">                                             training=tf.convert_to_tensor(is_training))</span><br><span class="line"></span><br><span class="line">                <span class="comment">## Blocks</span></span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> range(hp.num_blocks):</span><br><span class="line">                    <span class="keyword">with</span> tf.variable_scope(<span class="string">"num_blocks_&#123;&#125;"</span>.format(i)):</span><br><span class="line">                        <span class="comment">## Multihead Attention ( self-attention)</span></span><br><span class="line">                        self.dec = multihead_attention(queries=self.dec,</span><br><span class="line">                                                       keys=self.dec,</span><br><span class="line">                                                       num_units=hp.hidden_units,</span><br><span class="line">                                                       num_heads=hp.num_heads,</span><br><span class="line">                                                       dropout_rate=hp.dropout_rate,</span><br><span class="line">                                                       is_training=is_training,</span><br><span class="line">                                                       causality=<span class="keyword">True</span>,</span><br><span class="line">                                                       scope=<span class="string">"self_attention"</span>)</span><br><span class="line"></span><br><span class="line">                        <span class="comment">## Multihead Attention ( vanilla attention)</span></span><br><span class="line">                        self.dec = multihead_attention(queries=self.dec,</span><br><span class="line">                                                       keys=self.enc,</span><br><span class="line">                                                       num_units=hp.hidden_units,</span><br><span class="line">                                                       num_heads=hp.num_heads,</span><br><span class="line">                                                       dropout_rate=hp.dropout_rate,</span><br><span class="line">                                                       is_training=is_training,</span><br><span class="line">                                                       causality=<span class="keyword">False</span>,</span><br><span class="line">                                                       scope=<span class="string">"vanilla_attention"</span>)</span><br><span class="line"></span><br><span class="line">                        <span class="comment">## Feed Forward</span></span><br><span class="line">                        self.dec = feedforward(self.dec, num_units=[<span class="number">4</span>*hp.hidden_units, hp.hidden_units])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Final linear projection</span></span><br><span class="line">            self.logits = tf.layers.dense(self.dec, len(en2idx))</span><br><span class="line">            self.preds = tf.to_int32(tf.arg_max(self.logits, dimension=<span class="number">-1</span>))</span><br><span class="line">            self.istarget = tf.to_float(tf.not_equal(self.y, <span class="number">0</span>))</span><br><span class="line">            self.acc = tf.reduce_sum(tf.to_float(tf.equal(self.preds, self.y))*self.istarget)/ (tf.reduce_sum(self.istarget))</span><br><span class="line">            tf.summary.scalar(<span class="string">'acc'</span>, self.acc)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> is_training:</span><br><span class="line">                <span class="comment"># Loss</span></span><br><span class="line">                self.y_smoothed = label_smoothing(tf.one_hot(self.y, depth=len(en2idx)))</span><br><span class="line">                self.loss = tf.nn.softmax_cross_entropy_with_logits(logits=self.logits, labels=self.y_smoothed)</span><br><span class="line">                self.mean_loss = tf.reduce_sum(self.loss*self.istarget) / (tf.reduce_sum(self.istarget))</span><br><span class="line"></span><br><span class="line">                <span class="comment"># Training Scheme</span></span><br><span class="line">                self.global_step = tf.Variable(<span class="number">0</span>, name=<span class="string">'global_step'</span>, trainable=<span class="keyword">False</span>)</span><br><span class="line">                self.optimizer = tf.train.AdamOptimizer(learning_rate=hp.lr, beta1=<span class="number">0.9</span>, beta2=<span class="number">0.98</span>, epsilon=<span class="number">1e-8</span>)</span><br><span class="line">                self.train_op = self.optimizer.minimize(self.mean_loss, global_step=self.global_step)</span><br><span class="line"></span><br><span class="line">                <span class="comment"># Summary</span></span><br><span class="line">                tf.summary.scalar(<span class="string">'mean_loss'</span>, self.mean_loss)</span><br><span class="line">                self.merged = tf.summary.merge_all()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># Load vocabulary</span></span><br><span class="line">    de2idx, idx2de = load_de_vocab()</span><br><span class="line">    en2idx, idx2en = load_en_vocab()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Construct graph</span></span><br><span class="line">    g = Graph(is_training = <span class="keyword">True</span>)</span><br><span class="line">    print(<span class="string">"Graph loaded"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Start session</span></span><br><span class="line">    sv = tf.train.Supervisor(graph=g.graph,</span><br><span class="line">                             logdir=hp.logdir,</span><br><span class="line">                             save_model_secs=<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">with</span> sv.managed_session() <span class="keyword">as</span> sess:</span><br><span class="line">        <span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">1</span>, hp.num_epochs+<span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> sv.should_stop():</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">for</span> step <span class="keyword">in</span> tqdm(range(g.num_batch), total=g.num_batch, ncols=<span class="number">70</span>, leave=<span class="keyword">False</span>, unit=<span class="string">'b'</span>):</span><br><span class="line">                loss,_ = sess.run([g.mean_loss,g.train_op])</span><br><span class="line">                print(step , <span class="string">":"</span> ,loss)</span><br><span class="line"></span><br><span class="line">            gs = sess.run(g.global_step)</span><br><span class="line">            sv.saver.save(sess, hp.logdir + <span class="string">'/model_epoch_%02d_gs_%d'</span> % (epoch, gs))</span><br><span class="line"></span><br><span class="line">    print(<span class="string">"Done"</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="eval-py"><a href="#eval-py" class="headerlink" title="eval.py"></a>eval.py</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> codecs</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> hyperparams <span class="keyword">import</span> Hyperparams <span class="keyword">as</span> hp</span><br><span class="line"><span class="keyword">from</span> data_load <span class="keyword">import</span> load_test_data, load_de_vocab, load_en_vocab</span><br><span class="line"><span class="keyword">from</span> train <span class="keyword">import</span> Graph</span><br><span class="line"><span class="keyword">from</span> nltk.translate.bleu_score <span class="keyword">import</span> corpus_bleu</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eval</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># Load graph</span></span><br><span class="line">    g = Graph(is_training=<span class="keyword">False</span>)</span><br><span class="line">    print(<span class="string">"Graph loaded"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Load data</span></span><br><span class="line">    X, Sources, Targets = load_test_data()</span><br><span class="line">    de2idx, idx2de = load_de_vocab()</span><br><span class="line">    en2idx, idx2en = load_en_vocab()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Start session</span></span><br><span class="line">    <span class="keyword">with</span> g.graph.as_default():</span><br><span class="line">        sv = tf.train.Supervisor()</span><br><span class="line">        <span class="keyword">with</span> sv.managed_session(config=tf.ConfigProto(allow_soft_placement=<span class="keyword">True</span>)) <span class="keyword">as</span> sess:</span><br><span class="line">            <span class="comment">## Restore parameters</span></span><br><span class="line">            sv.saver.restore(sess, tf.train.latest_checkpoint(hp.logdir))</span><br><span class="line">            print(<span class="string">"Restored!"</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment">## Get model name</span></span><br><span class="line">            mname = open(hp.logdir + <span class="string">'/checkpoint'</span>, <span class="string">'r'</span>).read().split(<span class="string">'"'</span>)[<span class="number">1</span>] <span class="comment"># model name</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">## Inference</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">'results'</span>): os.mkdir(<span class="string">'results'</span>)</span><br><span class="line">            <span class="keyword">with</span> codecs.open(<span class="string">"results/"</span> + mname, <span class="string">"w"</span>, <span class="string">"utf-8"</span>) <span class="keyword">as</span> fout:</span><br><span class="line">                list_of_refs, hypotheses = [], []</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> range(len(X) // hp.batch_size):</span><br><span class="line"></span><br><span class="line">                    <span class="comment">### Get mini-batches</span></span><br><span class="line">                    x = X[i * hp.batch_size: (i + <span class="number">1</span>) * hp.batch_size]</span><br><span class="line">                    sources = Sources[i * hp.batch_size: (i + <span class="number">1</span>) * hp.batch_size]</span><br><span class="line">                    targets = Targets[i * hp.batch_size: (i + <span class="number">1</span>) * hp.batch_size]</span><br><span class="line"></span><br><span class="line">                    <span class="comment">### Autoregressive inference</span></span><br><span class="line">                    preds = np.zeros((hp.batch_size, hp.maxlen), np.int32)</span><br><span class="line">                    <span class="keyword">for</span> j <span class="keyword">in</span> range(hp.maxlen):</span><br><span class="line">                        _preds = sess.run(g.preds, &#123;g.x: x, g.y: preds&#125;)</span><br><span class="line">                        preds[:, j] = _preds[:, j]</span><br><span class="line"></span><br><span class="line">                    <span class="comment">### Write to file</span></span><br><span class="line">                    <span class="keyword">for</span> source, target, pred <span class="keyword">in</span> zip(sources, targets, preds):  <span class="comment"># sentence-wise</span></span><br><span class="line">                        got = <span class="string">" "</span>.join(idx2en[idx] <span class="keyword">for</span> idx <span class="keyword">in</span> pred).split(<span class="string">"&lt;/S&gt;"</span>)[<span class="number">0</span>].strip()</span><br><span class="line">                        fout.write(<span class="string">"- source: "</span> + source + <span class="string">"\n"</span>)</span><br><span class="line">                        fout.write(<span class="string">"- expected: "</span> + target + <span class="string">"\n"</span>)</span><br><span class="line">                        fout.write(<span class="string">"- got: "</span> + got + <span class="string">"\n\n"</span>)</span><br><span class="line">                        fout.flush()</span><br><span class="line"></span><br><span class="line">                        <span class="comment"># bleu score</span></span><br><span class="line">                        ref = target.split()</span><br><span class="line">                        hypothesis = got.split()</span><br><span class="line">                        <span class="keyword">if</span> len(ref) &gt; <span class="number">3</span> <span class="keyword">and</span> len(hypothesis) &gt; <span class="number">3</span>:</span><br><span class="line">                            list_of_refs.append([ref])</span><br><span class="line">                            hypotheses.append(hypothesis)</span><br><span class="line"></span><br><span class="line">                <span class="comment">## Calculate bleu score</span></span><br><span class="line">                score = corpus_bleu(list_of_refs, hypotheses)</span><br><span class="line">                fout.write(<span class="string">"Bleu Score = "</span> + str(<span class="number">100</span> * score))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    eval()</span><br><span class="line">    print(<span class="string">"Done"</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://blog.csdn.net/mijiaoxiaosan/article/details/74909076" target="_blank" rel="noopener">机器翻译模型Transformer代码详细解析</a></p>
+<p><a href="https://www.jianshu.com/p/923c8b489604" target="_blank" rel="noopener">Transformer模型的学习总结</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/09/服务器快速下载-kaggle-数据集攻略/" rel="next" title="服务器快速下载 kaggle 数据集攻略">
+                <i class="fa fa-chevron-left"></i> 服务器快速下载 kaggle 数据集攻略
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/tengzi-will" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/ke-le-teng-zi/activities" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mumaxu.github.io/" title="mamaxu" target="_blank">mamaxu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://sunyancn.github.io/" title="sunyan" target="_blank">sunyan</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#论文背景"><span class="nav-number">1.</span> <span class="nav-text">论文背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码架构"><span class="nav-number">2.</span> <span class="nav-text">代码架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hyperparams-py"><span class="nav-number">3.</span> <span class="nav-text">hyperparams.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#prepro-py"><span class="nav-number">4.</span> <span class="nav-text">prepro.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#data-load-py"><span class="nav-number">5.</span> <span class="nav-text">data_load.py :</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#★-modules-py"><span class="nav-number">6.</span> <span class="nav-text">★ modules.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#train-py"><span class="nav-number">7.</span> <span class="nav-text">train.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#eval-py"><span class="nav-number">8.</span> <span class="nav-text">eval.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">9.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

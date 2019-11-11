@@ -139,7 +139,7 @@
 <meta property="og:image" content="https://i.loli.net/2018/11/07/5be2bf612d424.png">
 <meta property="og:image" content="https://i.loli.net/2018/11/07/5be2bf617cf6d.png">
 <meta property="og:image" content="https://i.loli.net/2018/11/07/5be2bf619a6bc.png">
-<meta property="og:updated_time" content="2019-10-09T02:31:40.000Z">
+<meta property="og:updated_time" content="2019-10-15T06:53:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="配置 CentOS7 GPU 环境">
 <meta name="twitter:description" content="基本配置 先装wget 1yum -y install wget  新建自己的文件夹 1mkdir sunyan">
@@ -395,7 +395,7 @@
       
 
       
-        <p><img src="https://i.loli.net/2018/11/07/5be2c0ba79f37.png" alt=""></p>
+        <p><img src="https://i.loli.net/2018/11/07/5be2c0ba79f37.png" alt="00_title"></p>
 <h2 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h2><ol>
 <li><p>先装wget</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget</span><br></pre></td></tr></table></figure>
@@ -418,7 +418,7 @@
 <li><p>使能配置</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source .bashrc</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>输入Python，查看是否配置正确<br><img src="https://i.loli.net/2018/11/07/5be2bf612e76c.png" alt=""></p>
+<li><p>输入Python，查看是否配置正确<br><img src="https://i.loli.net/2018/11/07/5be2bf612e76c.png" alt="01_python"></p>
 </li>
 </ol>
 <h2 id="Conda安装TesnorFlow-GPU版本"><a href="#Conda安装TesnorFlow-GPU版本" class="headerlink" title="Conda安装TesnorFlow GPU版本"></a>Conda安装TesnorFlow GPU版本</h2><ol>
@@ -429,7 +429,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install tensorflow-gpu</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>我的cuda版本是9.0，cudnn版本是7.1.2，tensorflow-gpu版本是1.9.0。<br><img src="https://i.loli.net/2018/11/07/5be2bf613b4fe.png" alt=""><br><img src="https://i.loli.net/2018/11/07/5be2bf6139235.png" alt=""></p>
+<p>我的cuda版本是9.0，cudnn版本是7.1.2，tensorflow-gpu版本是1.9.0。<br><img src="https://i.loli.net/2018/11/07/5be2bf613b4fe.png" alt="02_cuda"><br><img src="https://i.loli.net/2018/11/07/5be2bf6139235.png" alt="03_tensorflow"></p>
 <h2 id="安装NVIDIA驱动"><a href="#安装NVIDIA驱动" class="headerlink" title="安装NVIDIA驱动"></a>安装NVIDIA驱动</h2><ol>
 <li><p>安装gcc</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc-c++</span><br></pre></td></tr></table></figure>
@@ -441,7 +441,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</span><br><span class="line">sudo rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm</span><br><span class="line">sudo yum install nvidia-detect</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p><img src="https://i.loli.net/2018/11/07/5be2bf613a072.png" alt=""><br>这里显示的是Tesla P4，410.66 NVIDIA driver</p>
+<p><img src="https://i.loli.net/2018/11/07/5be2bf613a072.png" alt="04_nvidia"><br>这里显示的是Tesla P4，410.66 NVIDIA driver</p>
 <ol start="4">
 <li><p>去<a href="https://www.nvidia.cn/Download/index.aspx?lang=cn" target="_blank" rel="noopener">官网</a>下载对应的驱动</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://cn.download.nvidia.com/tesla/384.145/NVIDIA-Linux-x86_64-384.145.run</span><br></pre></td></tr></table></figure>
@@ -450,17 +450,18 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su root</span><br><span class="line">echo -e "blacklist nouveau\noptions nouveau modeset=0" &gt; /etc/modprobe.d/blacklist.conf</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>然后查看一下文件内容：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/modprobe.d/blacklist.conf</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>然后查看一下文件内容：<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/modprobe.d/blacklist.conf</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 <p><img src="https://i.loli.net/2018/11/07/5be2bf612d424.png" alt=""></p>
 <ol start="6">
 <li><p>重建initramfs image</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mv /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r).img.bak</span><br><span class="line">dracut /boot/initramfs-$(uname -r).img $(uname -r)</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>修改运行级别为文本模式</p>
-</li>
-</ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl set-default multi-user.target</span><br></pre></td></tr></table></figure>
-<ol start="8">
+</li>
 <li><p>重新启动, 使用root用户登陆,这里需要等待一下，约1分钟。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables stop</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
 </li>
@@ -636,7 +637,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
