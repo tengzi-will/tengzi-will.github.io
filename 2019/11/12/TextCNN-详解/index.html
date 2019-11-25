@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Menlo:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="文本分类,NLP,TextCNN,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="论文背景论文 “Convolutional Neural Networks for Sentence Classification” 由 Yoon Kim 在 2014 年 EMNLP 会议上提出。 将卷积神经网络 CNN 应用到文本分类任务，利用多个不同 size 的 kernel 来提取句子中的关键信息（类似于多窗口大小的 ngram ），从而能够更好地捕捉局部相关性。 网络结构  TextC">
+<meta name="keywords" content="文本分类,NLP,TextCNN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TextCNN 详解">
+<meta property="og:url" content="http://yoursite.com/2019/11/12/TextCNN-详解/index.html">
+<meta property="og:site_name" content="LuoTeng&#39;s Blog">
+<meta property="og:description" content="论文背景论文 “Convolutional Neural Networks for Sentence Classification” 由 Yoon Kim 在 2014 年 EMNLP 会议上提出。 将卷积神经网络 CNN 应用到文本分类任务，利用多个不同 size 的 kernel 来提取句子中的关键信息（类似于多窗口大小的 ngram ），从而能够更好地捕捉局部相关性。 网络结构  TextC">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.loli.net/2019/11/12/BpR8mHYlk2yb19z.png">
+<meta property="og:image" content="http://yoursite.com/TextCNN-详解/20191112104051914.png">
+<meta property="og:image" content="http://yoursite.com/TextCNN-详解/20191112111740871.png">
+<meta property="og:image" content="http://yoursite.com/TextCNN-详解/20191112112016092.png">
+<meta property="og:image" content="http://yoursite.com/TextCNN-详解/20191112112306402.png">
+<meta property="og:updated_time" content="2019-11-19T02:48:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TextCNN 详解">
+<meta name="twitter:description" content="论文背景论文 “Convolutional Neural Networks for Sentence Classification” 由 Yoon Kim 在 2014 年 EMNLP 会议上提出。 将卷积神经网络 CNN 应用到文本分类任务，利用多个不同 size 的 kernel 来提取句子中的关键信息（类似于多窗口大小的 ngram ），从而能够更好地捕捉局部相关性。 网络结构  TextC">
+<meta name="twitter:image" content="https://i.loli.net/2019/11/12/BpR8mHYlk2yb19z.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/12/TextCNN-详解/">
+
+
+
+
+
+  <title>TextCNN 详解 | LuoTeng's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LuoTeng's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">每一个不曾起舞的日子都是对生命的辜负</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/12/TextCNN-详解/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Luo Teng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LuoTeng's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">TextCNN 详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-12T10:19:46+08:00">
+                2019-11-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/自然语言处理/" itemprop="url" rel="index">
+                    <span itemprop="name">自然语言处理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="论文背景"><a href="#论文背景" class="headerlink" title="论文背景"></a>论文背景</h2><p>论文 <strong><a href="https://arxiv.org/pdf/1408.5882.pdf" target="_blank" rel="noopener">“Convolutional Neural Networks for Sentence Classification”</a></strong> 由 <strong>Yoon Kim</strong> 在 <strong>2014</strong> 年 <strong>EMNLP</strong> 会议上提出。</p>
+<p>将卷积神经网络 <strong>CNN</strong> 应用到<strong>文本分类</strong>任务，利用多个不同 <strong>size</strong> 的 <strong>kernel</strong> 来提取句子中的关键信息（类似于多窗口大小的 <strong>ngram</strong> ），从而能够更好地捕捉局部相关性。</p>
+<h2 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h2><p><img src="https://i.loli.net/2019/11/12/BpR8mHYlk2yb19z.png" alt="01_net"></p>
+<p> <strong>TextCNN</strong> 的详细过程原理图如下：</p>
+<p> <img src="/TextCNN-详解/20191112104051914.png" alt="02_detail"></p>
+<p>说明：</p>
+<ul>
+<li><strong>Embedding</strong>：第一层是图中最左边的 7 乘 5 的句子矩阵，每行是词向量，维度=5，这个可以类比为图像中的原始像素点。</li>
+<li><strong>Convolution</strong>：然后经过 kernel_sizes=(2,3,4) 的一维卷积层，每个kernel_size 有两个输出 channel 。</li>
+<li><strong>MaxPolling</strong>：第三层是一个1-max pooling层，这样不同长度句子经过 pooling 层之后都能变成定长的表示。</li>
+<li><strong>FullConnection and Softmax</strong>：最后接一层全连接的 softmax 层，输出每个类别的概率。</li>
+</ul>
+<h2 id="嵌入层-embedding-layer"><a href="#嵌入层-embedding-layer" class="headerlink" title="嵌入层(embedding layer)"></a>嵌入层(embedding layer)</h2><p><strong>TextCNN</strong> 使用预先训练好的词向量作 <strong>embedding layer</strong> 。对于数据集里的所有词，因为每个词都可以表征成一个向量，因此我们可以得到一个嵌入矩阵 M, M 里的每一行都是词向量。这个 M 可以是静态 <strong>(static)</strong> 的，也就是固定不变。可以是非静态 <strong>(non-static)</strong> 的，也就是可以根据反向传播更新。</p>
+<p>论文给出了几种模型，其实这里基本都是针对 <strong>Embedding layer</strong> 做的变化。</p>
+<ul>
+<li><strong>CNN-rand</strong><br>作为一个基础模型，Embedding layer 所有 words 被随机初始化，然后模型整体进行训练。</li>
+<li><strong>CNN-static</strong><br>模型使用预训练的 word2vec 初始化 Embedding layer，对于那些在预训练的 word2vec 没有的单词，随机初始化。然后固定 Embedding layer，fine-tune 整个网络。</li>
+<li><strong>CNN-non-static</strong><br>同（CNN-static），只是训练的时候，Embedding layer跟随整个网络一起训练。</li>
+<li><strong>CNN-multichannel</strong><br>Embedding layer 有两个 channel，一个 channel 为 static，一个为 non-static 。然后整个网络 fine-tune 时只有一个 channel 更新参数。两个 channel 都是使用预训练的 word2vec 初始化的。</li>
+</ul>
+<h2 id="卷积层-convolution"><a href="#卷积层-convolution" class="headerlink" title="卷积层(convolution)"></a>卷积层(convolution)</h2><h3 id="通道-Channels"><a href="#通道-Channels" class="headerlink" title="通道 Channels"></a>通道 Channels</h3><ul>
+<li>图像中可以利用 (R, G, B) 作为不同 channel；</li>
+<li>文本的输入的channel通常是不同方式的 embedding 方式（比如 word2vec 或 Glove），实践中也有利用静态词向量和 fine-tunning 词向量作为不同 channel 的做法。</li>
+<li>channel 也可以一个是词序列，另一个 channel 是对应的词性序列。接下来就可以通过加和或者拼接进行结合。</li>
+</ul>
+<h3 id="一维卷积-conv-1d"><a href="#一维卷积-conv-1d" class="headerlink" title="一维卷积 conv-1d"></a>一维卷积 conv-1d</h3><p>我们可以把嵌入层矩阵 M 看成是一幅图像，使用卷积神经网络去提取特征。由于句子中相邻的单词关联性总是很高的，因此可以使用一维卷积，即<strong>文本卷积与图像卷积的不同之处在于只在文本序列的一个方向（垂直）做卷积</strong>。卷积核的宽度固定为词向量的维度 d，高度是超参数，可以设置。 </p>
+<ul>
+<li>图像是二维数据；</li>
+<li>文本是一维数据，因此在TextCNN 卷积用的是一维卷积（在word-level上是一维卷积；虽然文本经过词向量表达后是二维数据，但是在 embedding-level 上的二维卷积没有意义）。一维卷积带来的问题是需要通过设计不同 kernel_size 的 filter 获取不同宽度的视野。</li>
+</ul>
+<h2 id="池化层-pooling"><a href="#池化层-pooling" class="headerlink" title="池化层(pooling)"></a>池化层(pooling)</h2><p>不同尺寸的卷积核得到的特征 <strong>(feature map)</strong> 大小也是不一样的，因此我们对每个 <strong>feature map</strong> 使用池化函数，使它们的维度相同。</p>
+<h3 id="Max-Pooling"><a href="#Max-Pooling" class="headerlink" title="Max Pooling"></a>Max Pooling</h3><p><img src="/TextCNN-详解/20191112111740871.png" alt="03_pooling_max"><br>最常用的就是 1-max pooling，提取出 feature map 照片那个的最大值，通过选择每个 feature map 的最大值，可捕获其最重要的特征。这样每一个卷积核得到特征就是一个值，对所有卷积核使用 1-max pooling，再级联起来，可以得到最终的特征向量。</p>
+<h3 id="K-Max-Pooling"><a href="#K-Max-Pooling" class="headerlink" title="K-Max Pooling"></a>K-Max Pooling</h3><p><img src="/TextCNN-详解/20191112112016092.png" alt="04_pooling_kmax"></p>
+<p>取所有特征值中得分在 <strong>Top–K</strong> 的值，<strong>并（保序拼接）保留这些特征值原始的先后顺序</strong>（即多保留一些特征信息供后续阶段使用）。</p>
+<p>参见论文 <a href="https://arxiv.org/pdf/1404.2188.pdf" target="_blank" rel="noopener">A Convolutional Neural Network for Modelling Sentences</a></p>
+<h3 id="Chunk-MaxPooling"><a href="#Chunk-MaxPooling" class="headerlink" title="Chunk-MaxPooling"></a>Chunk-MaxPooling</h3><p><img src="/TextCNN-详解/20191112112306402.png" alt="05_pooling_dynamic"></p>
+<p>把某个 Filter 对应的 Convolution 层的所有特征向量进行分段，切割成若干段后，在每个分段里面各自取得一个最大特征值，比如将某个 Filter 的特征向量切成 3 个 Chunk，那么就在每个Chunk里面取一个最大值，于是获得 3 个特征值。因为是先划分 Chunk 再分别取 Max 值的，所以保留了比较粗粒度的模糊的位置信息；当然，如果多次出现强特征，则也可以捕获特征强度。至于这个Chunk怎么划分，可以有不同的做法，比如可以事先设定好段落个数，这是一种静态划分 Chunk 的思路；也可以根据输入的不同动态地划分 Chunk 间的边界位置，可以称之为动态 Chunk-Max 方法。 <strong>“Local Translation Prediction with Global Sentence Representation”</strong> 这篇论文也用实验证明了静态 Chunk-Max 性能相对 MaxPooling Over Time 方法在机器翻译应用中对应用效果有提升。</p>
+<h3 id="Dynamic-Pooling"><a href="#Dynamic-Pooling" class="headerlink" title="Dynamic Pooling"></a>Dynamic Pooling</h3><p>卷积时如果碰到 triggle 词，可以标记下不同色，max-pooling 时按不同标记划分 chunk。<strong><a href="https://www.cnblogs.com/szxspark/p/10262681.html" target="_blank" rel="noopener">“Event Extraction via Dynamic Multi-Pooling Convolutional Neural Networks”</a></strong> 这篇论文提出的是一种 ChunkPooling 的变体，就是动态 Chunk-Max Pooling 的思路，实验证明性能有提升。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h3><ul>
+<li>data_utils.py: 数据预处理</li>
+<li>modules.py: 模型网络结构</li>
+<li>run.py: 运行文件，主程序入口</li>
+</ul>
+<h3 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.utils <span class="keyword">import</span> shuffle</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_TREC</span><span class="params">()</span>:</span></span><br><span class="line">    data = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">read</span><span class="params">(mode)</span>:</span></span><br><span class="line">        x, y = [], []</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> open(<span class="string">"data/TREC/TREC_"</span> + mode + <span class="string">".txt"</span>, <span class="string">"r"</span>, encoding=<span class="string">"utf-8"</span>) <span class="keyword">as</span> f:</span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">                <span class="keyword">if</span> line[<span class="number">-1</span>] == <span class="string">"\n"</span>:</span><br><span class="line">                    line = line[:<span class="number">-1</span>]</span><br><span class="line">                y.append(line.split()[<span class="number">0</span>].split(<span class="string">":"</span>)[<span class="number">0</span>])</span><br><span class="line">                x.append(line.split()[<span class="number">1</span>:])</span><br><span class="line"></span><br><span class="line">        x, y = shuffle(x, y)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> mode == <span class="string">"train"</span>:</span><br><span class="line">            dev_idx = len(x) // <span class="number">10</span></span><br><span class="line">            data[<span class="string">"dev_x"</span>], data[<span class="string">"dev_y"</span>] = x[:dev_idx], y[:dev_idx]</span><br><span class="line">            data[<span class="string">"train_x"</span>], data[<span class="string">"train_y"</span>] = x[dev_idx:], y[dev_idx:]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            data[<span class="string">"test_x"</span>], data[<span class="string">"test_y"</span>] = x, y</span><br><span class="line"></span><br><span class="line">    read(<span class="string">"train"</span>)</span><br><span class="line">    read(<span class="string">"test"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_MR</span><span class="params">()</span>:</span></span><br><span class="line">    data = &#123;&#125;</span><br><span class="line">    x, y = [], []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">"data/MR/rt-polarity.pos"</span>, <span class="string">"r"</span>, encoding=<span class="string">"utf-8"</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">            <span class="keyword">if</span> line[<span class="number">-1</span>] == <span class="string">"\n"</span>:</span><br><span class="line">                line = line[:<span class="number">-1</span>]</span><br><span class="line">            x.append(line.split())</span><br><span class="line">            y.append(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">"data/MR/rt-polarity.neg"</span>, <span class="string">"r"</span>, encoding=<span class="string">"utf-8"</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">            <span class="keyword">if</span> line[<span class="number">-1</span>] == <span class="string">"\n"</span>:</span><br><span class="line">                line = line[:<span class="number">-1</span>]</span><br><span class="line">            x.append(line.split())</span><br><span class="line">            y.append(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    x, y = shuffle(x, y)</span><br><span class="line">    dev_idx = len(x) // <span class="number">10</span> * <span class="number">8</span></span><br><span class="line">    test_idx = len(x) // <span class="number">10</span> * <span class="number">9</span></span><br><span class="line"></span><br><span class="line">    data[<span class="string">"train_x"</span>], data[<span class="string">"train_y"</span>] = x[:dev_idx], y[:dev_idx]</span><br><span class="line">    data[<span class="string">"dev_x"</span>], data[<span class="string">"dev_y"</span>] = x[dev_idx:test_idx], y[dev_idx:test_idx]</span><br><span class="line">    data[<span class="string">"test_x"</span>], data[<span class="string">"test_y"</span>] = x[test_idx:], y[test_idx:]</span><br><span class="line"></span><br><span class="line">    data[<span class="string">"vocab"</span>] = sorted(list(set([w <span class="keyword">for</span> sent <span class="keyword">in</span> data[<span class="string">"train_x"</span>] + data[<span class="string">"dev_x"</span>] + data[<span class="string">"test_x"</span>] <span class="keyword">for</span> w <span class="keyword">in</span> sent])))</span><br><span class="line">    <span class="comment"># data["vocab"] = Counter([w for sent in data["train_x"] + data["dev_x"] + data["test_x"] for w in sent]).most_common(5000)</span></span><br><span class="line">    <span class="comment"># data["vocab"] = [x for x, y in data["vocab"]]</span></span><br><span class="line">    data[<span class="string">"classes"</span>] = sorted(list(set(data[<span class="string">"train_y"</span>])))</span><br><span class="line">    data[<span class="string">"word_to_idx"</span>] = &#123;w: i+<span class="number">2</span> <span class="keyword">for</span> i, w <span class="keyword">in</span> enumerate(data[<span class="string">"vocab"</span>])&#125;</span><br><span class="line">    data[<span class="string">"word_to_idx"</span>].update(&#123;<span class="string">"PAD"</span>: <span class="number">0</span>, <span class="string">"UNK"</span>: <span class="number">1</span>&#125;)</span><br><span class="line">    data[<span class="string">"label_to_idx"</span>] = &#123;l: i+<span class="number">2</span> <span class="keyword">for</span> i, l <span class="keyword">in</span> enumerate(data[<span class="string">"classes"</span>])&#125;</span><br><span class="line">    <span class="comment"># data["idx_to_word"] = &#123;i: w for i, w in enumerate(data["vocab"])&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    max_sent_len = max([len(sent) <span class="keyword">for</span> sent <span class="keyword">in</span> data[<span class="string">"train_x"</span>] + data[<span class="string">"dev_x"</span>] + data[<span class="string">"test_x"</span>]])</span><br><span class="line">    data[<span class="string">"train_x_"</span>] = [[data[<span class="string">"word_to_idx"</span>][w] <span class="keyword">for</span> w <span class="keyword">in</span> sent] + [<span class="number">0</span>] * (max_sent_len - len(sent)) <span class="keyword">for</span> sent <span class="keyword">in</span> data[<span class="string">"train_x"</span>]]</span><br><span class="line">    data[<span class="string">"dev_x_"</span>] = [[data[<span class="string">"word_to_idx"</span>][w] <span class="keyword">for</span> w <span class="keyword">in</span> sent] + [<span class="number">0</span>] * (max_sent_len - len(sent)) <span class="keyword">for</span> sent <span class="keyword">in</span> data[<span class="string">"dev_x"</span>]]</span><br><span class="line">    data[<span class="string">"test_x_"</span>] = [[data[<span class="string">"word_to_idx"</span>][w] <span class="keyword">for</span> w <span class="keyword">in</span> sent] + [<span class="number">0</span>] * (max_sent_len - len(sent)) <span class="keyword">for</span> sent <span class="keyword">in</span> data[<span class="string">"test_x"</span>]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> data</span><br></pre></td></tr></table></figure>
+<h3 id="模型搭建"><a href="#模型搭建" class="headerlink" title="模型搭建"></a>模型搭建</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TextCNN</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, config)</span>:</span></span><br><span class="line">        <span class="string">"""init all hyperparameter here"""</span></span><br><span class="line">        <span class="comment"># set hyperparamter</span></span><br><span class="line">        self.num_epochs = config[<span class="string">'n_epochs'</span>]</span><br><span class="line">        self.num_classes = config[<span class="string">'num_classes'</span>]</span><br><span class="line">        self.batch_size = config[<span class="string">'batch_size'</span>]</span><br><span class="line">        self.sequence_length = config[<span class="string">'sequence_length'</span>]</span><br><span class="line">        self.vocab_size = config[<span class="string">'vocab_size'</span>]</span><br><span class="line">        self.embed_size = config[<span class="string">'embed_size'</span>]</span><br><span class="line">        self.learning_rate = tf.Variable(config[<span class="string">'learning_rate'</span>], trainable=<span class="keyword">False</span>, name=<span class="string">"learning_rate"</span>) <span class="comment">#ADD learning_rate</span></span><br><span class="line">        self.learning_rate_decay_half_op = tf.assign(self.learning_rate, self.learning_rate * config[<span class="string">'decay_rate_big'</span>])</span><br><span class="line">        self.filter_sizes = config[<span class="string">'filter_sizes'</span>] <span class="comment"># it is a list of int. e.g. [3,4,5]</span></span><br><span class="line">        self.num_filters = config[<span class="string">'num_filters'</span>]</span><br><span class="line">        self.initializer = config[<span class="string">'initializer'</span>]</span><br><span class="line">        self.num_filters_total = self.num_filters * len(self.filter_sizes) <span class="comment">#how many filters totally.</span></span><br><span class="line">        self.multi_label_flag = config[<span class="string">'multi_label_flag'</span>]</span><br><span class="line">        self.clip_gradients = config[<span class="string">'clip_gradients'</span>]</span><br><span class="line">        self.use_embedding = config[<span class="string">'use_embedding'</span>]</span><br><span class="line">        self.is_training_flag = tf.placeholder(tf.bool, name=<span class="string">"is_training_flag"</span>)</span><br><span class="line">        self.ckpt_dir = config[<span class="string">"ckpt_dir"</span>]</span><br><span class="line"></span><br><span class="line">        <span class="comment"># add placeholder (X,label)</span></span><br><span class="line">        self.input_x = tf.placeholder(tf.int32, shape=[<span class="keyword">None</span>, self.sequence_length], name=<span class="string">"input_x"</span>)  <span class="comment"># X</span></span><br><span class="line">        self.input_y = tf.placeholder(tf.int32, shape=[<span class="keyword">None</span>, ], name=<span class="string">"input_y"</span>)  <span class="comment"># y:[None,num_classes]</span></span><br><span class="line">        self.input_y_multilabel = tf.placeholder(tf.float32, shape=[<span class="keyword">None</span>, self.num_classes], name=<span class="string">"input_y_multilabel"</span>)  <span class="comment"># y:[None,num_classes]. this is for multi-label classification only.</span></span><br><span class="line">        self.dropout_keep_prob = tf.placeholder(tf.float32, name=<span class="string">"dropout_keep_prob"</span>)</span><br><span class="line">        self.iter = tf.placeholder(tf.int32) <span class="comment">#training iteration</span></span><br><span class="line">        <span class="comment"># self.tst = tf.placeholder(tf.bool)</span></span><br><span class="line">        self.use_mulitple_layer_cnn = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line">        self.global_step = tf.Variable(<span class="number">0</span>, trainable=<span class="keyword">False</span>, name=<span class="string">"Global_Step"</span>)</span><br><span class="line">        self.epoch_step = tf.Variable(<span class="number">0</span>, trainable=<span class="keyword">False</span>, name=<span class="string">"Epoch_Step"</span>)</span><br><span class="line">        self.epoch_increment = tf.assign(self.epoch_step, tf.add(self.epoch_step, tf.constant(<span class="number">1</span>)))</span><br><span class="line">        self.b1 = tf.Variable(tf.ones([self.num_filters]) / <span class="number">10</span>)</span><br><span class="line">        self.b2 = tf.Variable(tf.ones([self.num_filters]) / <span class="number">10</span>)</span><br><span class="line">        self.decay_steps, self.decay_rate = config[<span class="string">'decay_steps'</span>], config[<span class="string">'decay_rate'</span>]</span><br><span class="line"></span><br><span class="line">        self.instantiate_weights()</span><br><span class="line">        self.logits = self.inference() <span class="comment">#[None, self.label_size]. main computation graph is here.</span></span><br><span class="line">        self.possibility = tf.nn.sigmoid(self.logits)</span><br><span class="line">        <span class="keyword">if</span> self.multi_label_flag:</span><br><span class="line">            print(<span class="string">"going to use multi label loss."</span>)</span><br><span class="line">            self.loss_val = self.loss_multilabel()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"going to use single label loss."</span>)</span><br><span class="line">            self.loss_val = self.loss()</span><br><span class="line">        self.train_op = self.train()</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> self.multi_label_flag:</span><br><span class="line">            self.predictions = tf.argmax(self.logits, <span class="number">1</span>, name=<span class="string">"predictions"</span>)  <span class="comment"># shape:[None,]</span></span><br><span class="line">            print(<span class="string">"self.predictions:"</span>, self.predictions)</span><br><span class="line">            correct_prediction = tf.equal(tf.cast(self.predictions, tf.int32), self.input_y) <span class="comment">#tf.argmax(self.logits, 1)--&gt;[batch_size]</span></span><br><span class="line">            self.accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32), name=<span class="string">"Accuracy"</span>) <span class="comment"># shape=()</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">instantiate_weights</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""define all weights here"""</span></span><br><span class="line">        <span class="keyword">with</span> tf.name_scope(<span class="string">"embedding"</span>): <span class="comment"># embedding matrix</span></span><br><span class="line">            self.Embedding = tf.get_variable(<span class="string">"Embedding"</span>, shape=[self.vocab_size, self.embed_size], initializer=self.initializer) <span class="comment">#[vocab_size,embed_size] tf.random_uniform([self.vocab_size, self.embed_size],-1.0,1.0)</span></span><br><span class="line">            self.W_projection = tf.get_variable(<span class="string">"W_projection"</span>, shape=[self.num_filters_total, self.num_classes], initializer=self.initializer) <span class="comment">#[embed_size,label_size]</span></span><br><span class="line">            self.b_projection = tf.get_variable(<span class="string">"b_projection"</span>, shape=[self.num_classes])       <span class="comment">#[label_size] #ADD 2017.06.09</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inference</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""main computation graph here: 1.embedding--&gt;2.CONV-BN-RELU-MAX_POOLING--&gt;3.linear classifier"""</span></span><br><span class="line">        <span class="comment"># 1.=====&gt;get emebedding of words in the sentence</span></span><br><span class="line">        self.embedded_words = tf.nn.embedding_lookup(self.Embedding, self.input_x)<span class="comment">#[None,sentence_length,embed_size]</span></span><br><span class="line">        self.sentence_embeddings_expanded = tf.expand_dims(self.embedded_words, <span class="number">-1</span>) <span class="comment">#[None,sentence_length,embed_size,1). expand dimension so meet input requirement of 2d-conv</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 2.=====&gt;loop each filter size. for each filter, do:convolution-pooling layer(a.create filters,b.conv,c.apply nolinearity,d.max-pooling)---&gt;</span></span><br><span class="line">        <span class="comment"># you can use:tf.nn.conv2d;tf.nn.relu;tf.nn.max_pool; feature shape is 4-d. feature is a new variable</span></span><br><span class="line">        <span class="keyword">if</span> self.use_mulitple_layer_cnn: <span class="comment"># this may take 50G memory.</span></span><br><span class="line">            print(<span class="string">"use multiple layer CNN"</span>)</span><br><span class="line">            h = self.cnn_multiple_layers()</span><br><span class="line">        <span class="keyword">else</span>: <span class="comment"># this take small memory, less than 2G memory.</span></span><br><span class="line">            print(<span class="string">"use single layer CNN"</span>)</span><br><span class="line">            h = self.cnn_single_layer()</span><br><span class="line">        <span class="comment">#5. logits(use linear layer)and predictions(argmax)</span></span><br><span class="line">        <span class="keyword">with</span> tf.name_scope(<span class="string">"output"</span>):</span><br><span class="line">            logits = tf.matmul(h, self.W_projection) + self.b_projection  <span class="comment">#shape:[None, self.num_classes]==tf.matmul([None,self.embed_size],[self.embed_size,self.num_classes])</span></span><br><span class="line">        <span class="keyword">return</span> logits</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">cnn_single_layer</span><span class="params">(self)</span>:</span></span><br><span class="line">        pooled_outputs = []</span><br><span class="line">        <span class="keyword">for</span> i, filter_size <span class="keyword">in</span> enumerate(self.filter_sizes):</span><br><span class="line">            <span class="comment"># with tf.name_scope("convolution-pooling-%s" %filter_size):</span></span><br><span class="line">            <span class="keyword">with</span> tf.variable_scope(<span class="string">"convolution-pooling-%s"</span> % filter_size):</span><br><span class="line">                <span class="comment"># ====&gt;a.create filter</span></span><br><span class="line">                filter = tf.get_variable(<span class="string">"filter-%s"</span> % filter_size, [filter_size, self.embed_size, <span class="number">1</span>, self.num_filters], initializer=self.initializer)</span><br><span class="line">                <span class="comment"># ====&gt;b.conv operation: conv2d===&gt;computes a 2-D convolution given 4-D `input` and `filter` tensors.</span></span><br><span class="line">                <span class="comment"># Conv.Input: given an input tensor of shape `[batch, in_height, in_width, in_channels]` and a filter / kernel tensor of shape `[filter_height, filter_width, in_channels, out_channels]`</span></span><br><span class="line">                <span class="comment"># Conv.Returns: A `Tensor`. Has the same type as `input`.</span></span><br><span class="line">                <span class="comment">#         A 4-D tensor. The dimension order is determined by the value of `data_format`, see below for details.</span></span><br><span class="line">                <span class="comment"># 1)each filter with conv2d's output a shape:[1,sequence_length-filter_size+1,1,1];2)*num_filters---&gt;[1,sequence_length-filter_size+1,1,num_filters];3)*batch_size---&gt;[batch_size,sequence_length-filter_size+1,1,num_filters]</span></span><br><span class="line">                <span class="comment"># input data format:NHWC:[batch, height, width, channels];output:4-D</span></span><br><span class="line">                conv = tf.nn.conv2d(self.sentence_embeddings_expanded, filter, strides=[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], padding=<span class="string">"VALID"</span>, name=<span class="string">"conv"</span>)  <span class="comment"># shape:[batch_size,sequence_length - filter_size + 1,1,num_filters]</span></span><br><span class="line">                conv = tf.contrib.layers.batch_norm(conv, is_training=self.is_training_flag, scope=<span class="string">'cnn_bn_'</span>)</span><br><span class="line"></span><br><span class="line">                <span class="comment"># ====&gt;c. apply nolinearity</span></span><br><span class="line">                b = tf.get_variable(<span class="string">"b-%s"</span> % filter_size, [self.num_filters])  <span class="comment"># ADD 2017-06-09</span></span><br><span class="line">                h = tf.nn.relu(tf.nn.bias_add(conv, b), <span class="string">"relu"</span>)  <span class="comment"># shape:[batch_size,sequence_length - filter_size + 1,1,num_filters]. tf.nn.bias_add:adds `bias` to `value`</span></span><br><span class="line">                <span class="comment"># ====&gt;. max-pooling.  value: A 4-D `Tensor` with shape `[batch, height, width, channels]</span></span><br><span class="line">                <span class="comment">#                  ksize: A list of ints that has length &gt;= 4.  The size of the window for each dimension of the input tensor.</span></span><br><span class="line">                <span class="comment">#                  strides: A list of ints that has length &gt;= 4.  The stride of the sliding window for each dimension of the input tensor.</span></span><br><span class="line">                pooled = tf.nn.max_pool(h, ksize=[<span class="number">1</span>, self.sequence_length - filter_size + <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], strides=[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], padding=<span class="string">'VALID'</span>, name=<span class="string">"pool"</span>)  <span class="comment"># shape:[batch_size, 1, 1, num_filters].max_pool:performs the max pooling on the input.</span></span><br><span class="line">                pooled_outputs.append(pooled)</span><br><span class="line">        <span class="comment"># 3.=====&gt;combine all pooled features, and flatten the feature.output' shape is a [1,None]</span></span><br><span class="line">        <span class="comment"># e.g. &gt;&gt;&gt; x1=tf.ones([3,3]);x2=tf.ones([3,3]);x=[x1,x2]</span></span><br><span class="line">        <span class="comment">#         x12_0=tf.concat(x,0)----&gt;x12_0' shape:[6,3]</span></span><br><span class="line">        <span class="comment">#         x12_1=tf.concat(x,1)----&gt;x12_1' shape;[3,6]</span></span><br><span class="line">        self.h_pool = tf.concat(pooled_outputs, <span class="number">3</span>)  <span class="comment"># shape:[batch_size, 1, 1, num_filters_total]. tf.concat=&gt;concatenates tensors along one dimension.where num_filters_total=num_filters_1+num_filters_2+num_filters_3</span></span><br><span class="line">        self.h_pool_flat = tf.reshape(self.h_pool, [<span class="number">-1</span>, self.num_filters_total])  <span class="comment"># shape should be:[None,num_filters_total]. here this operation has some result as tf.sequeeze().e.g. x's shape:[3,3];tf.reshape(-1,x) &amp; (3, 3)----&gt;(1,9)</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 4.=====&gt;add dropout: use tf.nn.dropout</span></span><br><span class="line">        <span class="keyword">with</span> tf.name_scope(<span class="string">"dropout"</span>):</span><br><span class="line">            self.h_drop = tf.nn.dropout(self.h_pool_flat, keep_prob=self.dropout_keep_prob)  <span class="comment"># [None,num_filters_total]</span></span><br><span class="line">        h = tf.layers.dense(self.h_drop, self.num_filters_total, activation=tf.nn.tanh, use_bias=<span class="keyword">True</span>)</span><br><span class="line">        <span class="keyword">return</span> h</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">cnn_multiple_layers</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 2.=====&gt;loop each filter size. for each filter, do:convolution-pooling layer(a.create filters,b.conv,c.apply nolinearity,d.max-pooling)---&gt;</span></span><br><span class="line">        <span class="comment"># you can use:tf.nn.conv2d;tf.nn.relu;tf.nn.max_pool; feature shape is 4-d. feature is a new variable</span></span><br><span class="line">        pooled_outputs = []</span><br><span class="line">        print(<span class="string">"sentence_embeddings_expanded:"</span>, self.sentence_embeddings_expanded)</span><br><span class="line">        <span class="keyword">for</span> i, filter_size <span class="keyword">in</span> enumerate(self.filter_sizes):</span><br><span class="line">            <span class="keyword">with</span> tf.variable_scope(<span class="string">'cnn_multiple_layers'</span> + <span class="string">"convolution-pooling-%s"</span> % filter_size):</span><br><span class="line">                <span class="comment"># 1) CNN-&gt;BN-&gt;relu</span></span><br><span class="line">                filter = tf.get_variable(<span class="string">"filter-%s"</span> % filter_size,[filter_size, self.embed_size, <span class="number">1</span>, self.num_filters],initializer=self.initializer)</span><br><span class="line">                conv = tf.nn.conv2d(self.sentence_embeddings_expanded, filter, strides=[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>],padding=<span class="string">"SAME"</span>, name=<span class="string">"conv"</span>)  <span class="comment"># shape:[batch_size,sequence_length - filter_size + 1,1,num_filters]</span></span><br><span class="line">                conv = tf.contrib.layers.batch_norm(conv, is_training=self.is_training_flag, scope=<span class="string">'cnn1'</span>)</span><br><span class="line">                print(i, <span class="string">"conv1:"</span>, conv)</span><br><span class="line">                b = tf.get_variable(<span class="string">"b-%s"</span> % filter_size, [self.num_filters])  <span class="comment"># ADD 2017-06-09</span></span><br><span class="line">                h = tf.nn.relu(tf.nn.bias_add(conv, b),<span class="string">"relu"</span>)  <span class="comment"># shape:[batch_size,sequence_length,1,num_filters]. tf.nn.bias_add:adds `bias` to `value`</span></span><br><span class="line"></span><br><span class="line">                <span class="comment"># 2) CNN-&gt;BN-&gt;relu</span></span><br><span class="line">                h = tf.reshape(h, [<span class="number">-1</span>, self.sequence_length, self.num_filters, <span class="number">1</span>])  <span class="comment"># shape:[batch_size,sequence_length,num_filters,1]</span></span><br><span class="line">                <span class="comment"># Layer2:CONV-RELU</span></span><br><span class="line">                filter2 = tf.get_variable(<span class="string">"filter2-%s"</span> % filter_size,[filter_size, self.num_filters, <span class="number">1</span>, self.num_filters],initializer=self.initializer)</span><br><span class="line">                conv2 = tf.nn.conv2d(h, filter2, strides=[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], padding=<span class="string">"SAME"</span>,name=<span class="string">"conv2"</span>)  <span class="comment"># shape:[batch_size,sequence_length-filter_size*2+2,1,num_filters]</span></span><br><span class="line">                conv2 = tf.contrib.layers.batch_norm(conv2, is_training=self.is_training_flag, scope=<span class="string">'cnn2'</span>)</span><br><span class="line">                print(i, <span class="string">"conv2:"</span>, conv2)</span><br><span class="line">                b2 = tf.get_variable(<span class="string">"b2-%s"</span> % filter_size, [self.num_filters])  <span class="comment"># ADD 2017-06-09</span></span><br><span class="line">                h = tf.nn.relu(tf.nn.bias_add(conv2, b2), <span class="string">"relu2"</span>)  <span class="comment"># shape:[batch_size,sequence_length,1,num_filters]. tf.nn.bias_add:adds `bias` to `value`</span></span><br><span class="line"></span><br><span class="line">                <span class="comment"># 3. Max-pooling</span></span><br><span class="line">                pooling_max = tf.squeeze(tf.nn.max_pool(h, ksize=[<span class="number">1</span>,self.sequence_length, <span class="number">1</span>, <span class="number">1</span>],strides=[<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], padding=<span class="string">'VALID'</span>, name=<span class="string">"pool"</span>))</span><br><span class="line">                <span class="comment"># pooling_avg=tf.squeeze(tf.reduce_mean(h,axis=1)) #[batch_size,num_filters]</span></span><br><span class="line">                print(i, <span class="string">"pooling:"</span>, pooling_max)</span><br><span class="line">                <span class="comment"># pooling=tf.concat([pooling_max,pooling_avg],axis=1) #[batch_size,num_filters*2]</span></span><br><span class="line">                pooled_outputs.append(pooling_max)  <span class="comment"># h:[batch_size,sequence_length,1,num_filters]</span></span><br><span class="line">        <span class="comment"># concat</span></span><br><span class="line">        h = tf.concat(pooled_outputs, axis=<span class="number">1</span>)  <span class="comment"># [batch_size,num_filters*len(self.filter_sizes)]</span></span><br><span class="line">        print(<span class="string">"h.concat:"</span>, h)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> tf.name_scope(<span class="string">"dropout"</span>):</span><br><span class="line">            h = tf.nn.dropout(h, keep_prob=self.dropout_keep_prob)  <span class="comment"># [batch_size,sequence_length - filter_size + 1,num_filters]</span></span><br><span class="line">        <span class="keyword">return</span> h  <span class="comment"># [batch_size,sequence_length - filter_size + 1,num_filters]</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">loss_multilabel</span><span class="params">(self, l2_lambda=<span class="number">0.0001</span>)</span>:</span> <span class="comment">#0.0001#this loss function is for multi-label classification</span></span><br><span class="line">        <span class="keyword">with</span> tf.name_scope(<span class="string">"loss"</span>):</span><br><span class="line">            <span class="comment">#input: `logits` and `labels` must have the same shape `[batch_size, num_classes]`</span></span><br><span class="line">            <span class="comment">#output: A 1-D `Tensor` of length `batch_size` of the same type as `logits` with the softmax cross entropy loss.</span></span><br><span class="line">            <span class="comment">#input_y:shape=(?, 1999); logits: shape=(?, 1999)</span></span><br><span class="line">            <span class="comment"># let `x = logits`, `z = labels`.  The logistic loss is:z * -log(sigmoid(x)) + (1 - z) * -log(1 - sigmoid(x))</span></span><br><span class="line">            losses = tf.nn.sigmoid_cross_entropy_with_logits(labels=self.input_y_multilabel, logits=self.logits);<span class="comment">#losses=tf.nn.softmax_cross_entropy_with_logits(labels=self.input__y,logits=self.logits)</span></span><br><span class="line">            <span class="comment">#losses=-self.input_y_multilabel*tf.log(self.logits)-(1-self.input_y_multilabel)*tf.log(1-self.logits)</span></span><br><span class="line">            print(<span class="string">"sigmoid_cross_entropy_with_logits.losses:"</span>, losses) <span class="comment">#shape=(?, 1999).</span></span><br><span class="line">            losses = tf.reduce_sum(losses, axis=<span class="number">1</span>) <span class="comment">#shape=(?,). loss for all data in the batch</span></span><br><span class="line">            loss = tf.reduce_mean(losses)         <span class="comment">#shape=().   average loss in the batch</span></span><br><span class="line">            l2_losses = tf.add_n([tf.nn.l2_loss(v) <span class="keyword">for</span> v <span class="keyword">in</span> tf.trainable_variables() <span class="keyword">if</span> <span class="string">'bias'</span> <span class="keyword">not</span> <span class="keyword">in</span> v.name]) * l2_lambda</span><br><span class="line">            loss += l2_losses</span><br><span class="line">        <span class="keyword">return</span> loss</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">loss</span><span class="params">(self, l2_lambda=<span class="number">0.0001</span>)</span>:</span><span class="comment">#0.001</span></span><br><span class="line">        <span class="keyword">with</span> tf.name_scope(<span class="string">"loss"</span>):</span><br><span class="line">            <span class="comment">#input: `logits`:[batch_size, num_classes], and `labels`:[batch_size]</span></span><br><span class="line">            <span class="comment">#output: A 1-D `Tensor` of length `batch_size` of the same type as `logits` with the softmax cross entropy loss.</span></span><br><span class="line">            losses = tf.nn.sparse_softmax_cross_entropy_with_logits(labels=self.input_y, logits=self.logits);<span class="comment">#sigmoid_cross_entropy_with_logits.#losses=tf.nn.softmax_cross_entropy_with_logits(labels=self.input_y,logits=self.logits)</span></span><br><span class="line">            <span class="comment">#print("1.sparse_softmax_cross_entropy_with_logits.losses:",losses) # shape=(?,)</span></span><br><span class="line">            loss = tf.reduce_mean(losses)<span class="comment">#print("2.loss.loss:", loss) #shape=()</span></span><br><span class="line">            l2_losses = tf.add_n([tf.nn.l2_loss(v) <span class="keyword">for</span> v <span class="keyword">in</span> tf.trainable_variables() <span class="keyword">if</span> <span class="string">'bias'</span> <span class="keyword">not</span> <span class="keyword">in</span> v.name]) * l2_lambda</span><br><span class="line">            loss += l2_losses</span><br><span class="line">        <span class="keyword">return</span> loss</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="string">"""based on the loss, use SGD to update parameter"""</span></span><br><span class="line">        learning_rate = tf.train.exponential_decay(self.learning_rate, self.global_step, self.decay_steps, self.decay_rate, staircase=<span class="keyword">True</span>)</span><br><span class="line">        self.learning_rate_=learning_rate</span><br><span class="line">        optimizer = tf.train.AdamOptimizer(learning_rate)</span><br><span class="line">        gradients, variables = zip(*optimizer.compute_gradients(self.loss_val))</span><br><span class="line">        gradients, _ = tf.clip_by_global_norm(gradients, self.clip_gradients)</span><br><span class="line">        update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS) <span class="comment">#ADD 2018.06.01</span></span><br><span class="line">        <span class="keyword">with</span> tf.control_dependencies(update_ops):  <span class="comment">#ADD 2018.06.01</span></span><br><span class="line">            train_op = optimizer.apply_gradients(zip(gradients, variables))</span><br><span class="line">        <span class="keyword">return</span> train_op</span><br></pre></td></tr></table></figure>
+<h3 id="主程序入口"><a href="#主程序入口" class="headerlink" title="主程序入口"></a>主程序入口</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment">#import sys</span></span><br><span class="line"><span class="comment">#reload(sys)</span></span><br><span class="line"><span class="comment">#sys.setdefaultencoding('utf-8') #gb2312</span></span><br><span class="line"><span class="comment">#training the model.</span></span><br><span class="line"><span class="comment">#process---&gt;1.load data(X:list of lint,y:int). 2.create session. 3.feed data. 4.training (5.validation) ,(6.prediction)</span></span><br><span class="line"><span class="comment">#import sys</span></span><br><span class="line"><span class="comment">#reload(sys)</span></span><br><span class="line"><span class="comment">#sys.setdefaultencoding('utf8')</span></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> modules <span class="keyword">import</span> TextCNN</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="comment"># from numba import jit</span></span><br><span class="line"><span class="keyword">from</span> data_utils <span class="keyword">import</span> read_MR</span><br><span class="line"><span class="comment">#configuration</span></span><br><span class="line">configuration = &#123;</span><br><span class="line">    <span class="string">'vocab_size'</span>: <span class="number">5000</span>,  <span class="comment"># number of vocabulary</span></span><br><span class="line">    <span class="string">'embed_size'</span>: <span class="number">300</span>,  <span class="comment"># dimension of word embedding</span></span><br><span class="line"></span><br><span class="line">    <span class="string">'sequence_length'</span>: <span class="number">200</span>,  <span class="comment"># max length of sentence</span></span><br><span class="line">    <span class="string">'num_classes'</span>: <span class="number">2</span>,  <span class="comment"># number of labels</span></span><br><span class="line"></span><br><span class="line">    <span class="string">'filter_sizes'</span>: [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>],  <span class="comment"># size of convolution kernel</span></span><br><span class="line">    <span class="string">'num_filters'</span>: <span class="number">128</span>,  <span class="comment"># number of convolution kernel</span></span><br><span class="line"></span><br><span class="line">    <span class="string">'learning_rate'</span>: <span class="number">1e-3</span>,  <span class="comment"># learning rate</span></span><br><span class="line">    <span class="string">'decay_rate'</span>: <span class="number">1.0</span>,  <span class="comment"># learning rate decay</span></span><br><span class="line">    <span class="string">'decay_rate_big'</span>: <span class="number">0.50</span>,</span><br><span class="line">    <span class="string">'decay_steps'</span>: <span class="number">1000</span>,</span><br><span class="line">    <span class="string">'clip_gradients'</span>: <span class="number">5.0</span>,</span><br><span class="line">    <span class="string">'dropout_rate'</span>: <span class="number">0.5</span>,  <span class="comment"># droppout</span></span><br><span class="line"></span><br><span class="line">    <span class="string">'n_epochs'</span>: <span class="number">10</span>,  <span class="comment"># epochs</span></span><br><span class="line">    <span class="string">'batch_size'</span>: <span class="number">64</span>,  <span class="comment"># batch_size</span></span><br><span class="line">    <span class="string">'initializer'</span>: tf.random_normal_initializer(stddev=<span class="number">0.1</span>),</span><br><span class="line">    <span class="string">'multi_label_flag'</span>: <span class="keyword">False</span>,</span><br><span class="line">    <span class="string">'use_embedding'</span>: <span class="keyword">True</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">"ckpt_dir"</span>: <span class="string">"text_cnn_checkpoint/"</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">#1.load data(X:list of lint,y:int). 2.create session. 3.feed data. 4.training (5.validation) ,(6.prediction)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">( _ )</span>:</span></span><br><span class="line">    <span class="comment">#trainX, trainY, testX, testY = None, None, None, None</span></span><br><span class="line">    <span class="comment">#vocabulary_word2index, vocabulary_index2word, vocabulary_label2index, _= create_vocabulary(FLAGS.traning_data_path,FLAGS.vocab_size,name_scope=FLAGS.name_scope)</span></span><br><span class="line">    data = read_MR()</span><br><span class="line">    word2index, label2index, trainX, trainY, vaildX, vaildY, testX, testY = data[<span class="string">"word_to_idx"</span>], data[<span class="string">"label_to_idx"</span>], data[<span class="string">"train_x_"</span>], data[<span class="string">"train_y"</span>], \</span><br><span class="line">                                                                            data[<span class="string">"dev_x_"</span>], data[<span class="string">"dev_y"</span>], data[<span class="string">"test_x_"</span>], data[<span class="string">"test_y"</span>]</span><br><span class="line">    configuration[<span class="string">'vocab_size'</span>] = len(word2index)</span><br><span class="line">    print(<span class="string">"cnn_model.vocab_size:"</span>, configuration[<span class="string">'vocab_size'</span>])</span><br><span class="line">    configuration[<span class="string">'num_classes'</span>] = len(label2index)</span><br><span class="line">    print(<span class="string">"num_classes:"</span>, configuration[<span class="string">'num_classes'</span>])</span><br><span class="line">    <span class="comment"># num_examples, FLAGS.sentence_len = trainX.shape  #修改</span></span><br><span class="line">    num_examples = len(trainX)</span><br><span class="line">    print(<span class="string">"num_examples of training:"</span>, num_examples, <span class="string">";sentence_len:"</span>, len(trainX[<span class="number">0</span>]))</span><br><span class="line">    <span class="comment">#train, test= load_data_multilabel(FLAGS.traning_data_path,vocabulary_word2index, vocabulary_label2index,FLAGS.sentence_len)</span></span><br><span class="line">    <span class="comment">#trainX, trainY = train;testX, testY = test</span></span><br><span class="line">    <span class="comment">#print some message for debug purpose</span></span><br><span class="line">    print(<span class="string">"trainX[0:10]:"</span>, trainX[<span class="number">0</span>:<span class="number">10</span>])</span><br><span class="line">    print(<span class="string">"trainY[0]:"</span>, trainY[<span class="number">0</span>:<span class="number">10</span>])</span><br><span class="line">    print(<span class="string">"train_y_short:"</span>, trainY[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">    configuration[<span class="string">'sequence_length'</span>] = len(trainX[<span class="number">0</span>])</span><br><span class="line">    <span class="comment">#2.create session.</span></span><br><span class="line">    config = tf.ConfigProto()</span><br><span class="line">    config.gpu_options.allow_growth = <span class="keyword">True</span></span><br><span class="line">    <span class="keyword">with</span> tf.Session(config=config) <span class="keyword">as</span> sess:</span><br><span class="line">        <span class="comment">#Instantiate Model</span></span><br><span class="line">        textCNN = TextCNN(configuration)</span><br><span class="line">        <span class="comment">#Initialize Save</span></span><br><span class="line">        saver = tf.train.Saver()</span><br><span class="line">        <span class="keyword">if</span> os.path.exists(textCNN.ckpt_dir+<span class="string">"checkpoint"</span>):</span><br><span class="line">            print(<span class="string">"Restoring Variables from Checkpoint."</span>)</span><br><span class="line">            saver.restore(sess, tf.train.latest_checkpoint(textCNN.ckpt_dir))</span><br><span class="line">            <span class="comment">#for i in range(3): #decay learning rate if necessary.</span></span><br><span class="line">            <span class="comment">#    print(i,"Going to decay learning rate by half.")</span></span><br><span class="line">            <span class="comment">#    sess.run(textCNN.learning_rate_decay_half_op)</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">'Initializing Variables'</span>)</span><br><span class="line">            sess.run(tf.global_variables_initializer())</span><br><span class="line">            <span class="keyword">if</span> textCNN.use_embedding: <span class="comment">#load pre-trained word embedding</span></span><br><span class="line">                index2word = &#123;v: k <span class="keyword">for</span> k, v <span class="keyword">in</span> word2index.items()&#125;</span><br><span class="line">                assign_pretrained_word_embedding(sess, index2word, textCNN, <span class="string">"GoogleNews-vectors-negative300.bin"</span>)</span><br><span class="line">        curr_epoch = sess.run(textCNN.epoch_step)</span><br><span class="line">        <span class="comment">#3.feed data &amp; training</span></span><br><span class="line">        number_of_training_data = len(trainX)</span><br><span class="line">        batch_size = textCNN.batch_size</span><br><span class="line">        iteration = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> epoch <span class="keyword">in</span> range(curr_epoch, textCNN.num_epochs):</span><br><span class="line">            loss, counter = <span class="number">0.0</span>, <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> start, end <span class="keyword">in</span> zip(range(<span class="number">0</span>, number_of_training_data, batch_size),\</span><br><span class="line">                                  range(batch_size, number_of_training_data, batch_size)):</span><br><span class="line">                iteration = iteration+<span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> epoch == <span class="number">0</span> <span class="keyword">and</span> counter == <span class="number">0</span>:</span><br><span class="line">                    print(<span class="string">"trainX[start:end]:"</span>, trainX[start: end])</span><br><span class="line">                feed_dict = &#123;textCNN.input_x: trainX[start:end], textCNN.dropout_keep_prob: <span class="number">0.8</span>, textCNN.is_training_flag: <span class="keyword">True</span>&#125;</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> textCNN.multi_label_flag:</span><br><span class="line">                    feed_dict[textCNN.input_y] = trainY[start: end]</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    feed_dict[textCNN.input_y_multilabel] = trainY[start: end]</span><br><span class="line">                curr_loss, lr, _ = sess.run([textCNN.loss_val, textCNN.learning_rate, textCNN.train_op], feed_dict)</span><br><span class="line">                loss, counter = loss + curr_loss, counter + <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> counter % <span class="number">50</span> == <span class="number">0</span>:</span><br><span class="line">                    print(<span class="string">"Epoch %d\tBatch %d\tTrain Loss:%.3f\tLearning rate:%.5f"</span> %(epoch, counter, loss/float(counter), lr))</span><br><span class="line"></span><br><span class="line">                <span class="comment">########################################################################################################</span></span><br><span class="line">                <span class="keyword">if</span> start%(<span class="number">3000</span>*textCNN.batch_size) == <span class="number">0</span>: <span class="comment"># eval every 3000 steps.</span></span><br><span class="line">                    eval_loss, f1_score, f1_micro, f1_macro = do_eval(sess, textCNN, vaildX, vaildY)</span><br><span class="line">                    print(<span class="string">"Epoch %d Validation Loss:%.3f\tF1 Score:%.3f\tF1_micro:%.3f\tF1_macro:%.3f"</span> % (epoch, eval_loss, f1_score,f1_micro,f1_macro))</span><br><span class="line">                    <span class="comment"># save model to checkpoint</span></span><br><span class="line">                    save_path = textCNN.ckpt_dir + <span class="string">"model.ckpt"</span></span><br><span class="line">                    print(<span class="string">"Going to save model.."</span>)</span><br><span class="line">                    saver.save(sess, save_path, global_step=epoch)</span><br><span class="line">                <span class="comment">########################################################################################################</span></span><br><span class="line">            <span class="comment">#epoch increment</span></span><br><span class="line">            print(<span class="string">"going to increment epoch counter...."</span>)</span><br><span class="line">            sess.run(textCNN.epoch_increment)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 4.validation</span></span><br><span class="line">            print(epoch, <span class="number">1</span>, (epoch % <span class="number">1</span>==<span class="number">0</span>))</span><br><span class="line">            <span class="keyword">if</span> epoch % <span class="number">1</span> == <span class="number">0</span>:</span><br><span class="line">                eval_loss, f1_score, f1_micro, f1_macro = do_eval(sess, textCNN, testX, testY)</span><br><span class="line">                print(<span class="string">"Epoch %d Validation Loss:%.3f\tF1 Score:%.3f\tF1_micro:%.3f\tF1_macro:%.3f"</span> % (epoch, eval_loss, f1_score, f1_micro, f1_macro))</span><br><span class="line">                <span class="comment">#save model to checkpoint</span></span><br><span class="line">                save_path = textCNN.ckpt_dir+<span class="string">"model.ckpt"</span></span><br><span class="line">                saver.save(sess, save_path, global_step=epoch)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 5.最后在测试集上做测试，并报告测试准确率 Test</span></span><br><span class="line">        test_loss, f1_score, f1_micro, f1_macro = do_eval(sess, textCNN, testX, testY)</span><br><span class="line">        print(<span class="string">"Test Loss:%.3f\tF1 Score:%.3f\tF1_micro:%.3f\tF1_macro:%.3f"</span> % ( test_loss,f1_score,f1_micro,f1_macro))</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 在验证集上做验证，报告损失、精确度</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">do_eval</span><span class="params">(sess, textCNN, evalX, evalY)</span>:</span></span><br><span class="line">    evalX = evalX</span><br><span class="line">    evalY = evalY</span><br><span class="line">    number_examples = len(evalX)</span><br><span class="line">    eval_loss, eval_counter, eval_f1_score, eval_p, eval_r = <span class="number">0.0</span>, <span class="number">0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span></span><br><span class="line">    batch_size = <span class="number">1</span></span><br><span class="line">    predict = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> start, end <span class="keyword">in</span> zip(range(<span class="number">0</span>, number_examples, batch_size), range(batch_size, number_examples + batch_size, batch_size)):</span><br><span class="line">        <span class="string">''' evaluation in one batch '''</span></span><br><span class="line">        <span class="keyword">if</span> textCNN.multi_label_flag:</span><br><span class="line">            feed_dict = &#123;textCNN.input_x: evalX[start:end],</span><br><span class="line">                         textCNN.input_y_multilabel: evalY[start:end],</span><br><span class="line">                         textCNN.dropout_keep_prob: <span class="number">1.0</span>,</span><br><span class="line">                         textCNN.is_training_flag: <span class="keyword">False</span>&#125;</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            feed_dict = &#123;textCNN.input_x: evalX[start:end],</span><br><span class="line">                         textCNN.input_y: evalY[start:end],</span><br><span class="line">                         textCNN.dropout_keep_prob: <span class="number">1.0</span>,</span><br><span class="line">                         textCNN.is_training_flag: <span class="keyword">False</span>&#125;</span><br><span class="line">        current_eval_loss, logits = sess.run(</span><br><span class="line">            [textCNN.loss_val, textCNN.logits], feed_dict)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> textCNN.multi_label_flag:</span><br><span class="line">            predict = [*predict, np.argmax(np.array(logits[<span class="number">0</span>]))]</span><br><span class="line">        eval_loss += current_eval_loss</span><br><span class="line">        eval_counter += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># if textCNN.multi_label_flag:</span></span><br><span class="line">    <span class="comment">#     evalY = [np.argmax(ii) for ii in evalY]</span></span><br><span class="line">    <span class="comment"># else: pass</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># if not textCNN.multi_label_flag:</span></span><br><span class="line">    <span class="comment">#     predict = [int(ii &gt; 0.5) for ii in predict]</span></span><br><span class="line">    _, _, f1_macro, f1_micro, _ = fastF1(evalY, predict, textCNN.num_classes)</span><br><span class="line">    f1_score = (f1_micro + f1_macro) / <span class="number">2.0</span></span><br><span class="line">    <span class="keyword">return</span> eval_loss / float(eval_counter), f1_score, f1_micro, f1_macro</span><br><span class="line"></span><br><span class="line"><span class="comment"># @jit</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fastF1</span><span class="params">(result: list, predict: list, num_classes: int)</span>:</span></span><br><span class="line">    <span class="string">''' f1 score '''</span></span><br><span class="line">    true_total, r_total, p_total, p, r = <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">    total_list = []</span><br><span class="line">    <span class="keyword">for</span> trueValue <span class="keyword">in</span> range(num_classes):</span><br><span class="line">        trueNum, recallNum, precisionNum = <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> index, values <span class="keyword">in</span> enumerate(result):</span><br><span class="line">            <span class="keyword">if</span> values == trueValue:</span><br><span class="line">                recallNum += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> values == predict[index]:</span><br><span class="line">                    trueNum += <span class="number">1</span></span><br><span class="line">            <span class="keyword">if</span> predict[index] == trueValue:</span><br><span class="line">                precisionNum += <span class="number">1</span></span><br><span class="line">        R = trueNum / recallNum <span class="keyword">if</span> recallNum <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">        P = trueNum / precisionNum <span class="keyword">if</span> precisionNum <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">        true_total += trueNum</span><br><span class="line">        r_total += recallNum</span><br><span class="line">        p_total += precisionNum</span><br><span class="line">        p += P</span><br><span class="line">        r += R</span><br><span class="line">        f1 = (<span class="number">2</span> * P * R) / (P + R) <span class="keyword">if</span> (P + R) <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">        total_list.append([P, R, f1])</span><br><span class="line">    p, r = np.array([p, r]) / num_classes</span><br><span class="line">    micro_r, micro_p = true_total / np.array([r_total, p_total])</span><br><span class="line">    macro_f1 = (<span class="number">2</span> * p * r) / (p + r) <span class="keyword">if</span> (p + r) <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">    micro_f1 = (<span class="number">2</span> * micro_p * micro_r) / (micro_p + micro_r) <span class="keyword">if</span> (micro_p + micro_r) <span class="keyword">else</span> <span class="number">0</span></span><br><span class="line">    accuracy = true_total / len(result)</span><br><span class="line">    print(<span class="string">'P: &#123;:.2f&#125;%, R: &#123;:.2f&#125;%, Micro_f1: &#123;:.2f&#125;%, Macro_f1: &#123;:.2f&#125;%, Accuracy: &#123;:.2f&#125;'</span>.format(</span><br><span class="line">        p * <span class="number">100</span>, r * <span class="number">100</span>, micro_f1 * <span class="number">100</span>, macro_f1 * <span class="number">100</span>, accuracy * <span class="number">100</span>))</span><br><span class="line">    <span class="keyword">return</span> p, r, macro_f1, micro_f1, total_list</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">assign_pretrained_word_embedding</span><span class="params">(sess, index2word, textCNN, word2vec_model_path)</span>:</span></span><br><span class="line">    <span class="keyword">from</span> gensim.models.keyedvectors <span class="keyword">import</span> KeyedVectors</span><br><span class="line">    print(<span class="string">"using pre-trained word emebedding.started.word2vec_model_path:"</span>, word2vec_model_path)</span><br><span class="line">    word2vec_model = KeyedVectors.load_word2vec_format(<span class="string">"GoogleNews-vectors-negative300.bin"</span>, binary=<span class="keyword">True</span>)</span><br><span class="line">    word_embedding_2dlist = [[]] * textCNN.vocab_size  <span class="comment"># create an empty word_embedding list.</span></span><br><span class="line">    word_embedding_2dlist[<span class="number">0</span>] = np.zeros(textCNN.embed_size)  <span class="comment"># assign empty for first word:'PAD'</span></span><br><span class="line">    bound = np.sqrt(<span class="number">6.0</span>) / np.sqrt(textCNN.vocab_size)  <span class="comment"># bound for random variables.</span></span><br><span class="line">    word_embedding_2dlist[<span class="number">1</span>] = np.random.uniform(-bound, bound, textCNN.embed_size) <span class="comment"># assign empty for  word:'UNK'</span></span><br><span class="line">    count_exist = <span class="number">0</span></span><br><span class="line">    count_not_exist = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, textCNN.vocab_size):  <span class="comment"># loop each word. notice that the first two words are pad and unknown token</span></span><br><span class="line">        word = index2word[i]  <span class="comment"># get a word</span></span><br><span class="line">        <span class="comment"># embedding = None</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            embedding = word2vec_model.word_vec(word)  <span class="comment"># try to get vector:it is an array.</span></span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            embedding = <span class="keyword">None</span></span><br><span class="line">        <span class="keyword">if</span> embedding <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:  <span class="comment"># the 'word' exist a embedding</span></span><br><span class="line">            word_embedding_2dlist[i] = embedding</span><br><span class="line">            count_exist = count_exist + <span class="number">1</span>  <span class="comment"># assign array to this word.</span></span><br><span class="line">        <span class="keyword">else</span>:  <span class="comment"># no embedding for this word</span></span><br><span class="line">            word_embedding_2dlist[i] = np.random.uniform(-bound, bound, textCNN.embed_size)</span><br><span class="line">            count_not_exist = count_not_exist + <span class="number">1</span>  <span class="comment"># init a random value for the word.</span></span><br><span class="line">    word_embedding_final = np.array(word_embedding_2dlist)  <span class="comment"># covert to 2d array.</span></span><br><span class="line">    word_embedding = tf.constant(word_embedding_final, dtype=tf.float32)  <span class="comment"># convert to tensor</span></span><br><span class="line">    t_assign_embedding = tf.assign(textCNN.Embedding, word_embedding)  <span class="comment"># assign this value to our embedding variables of our model.</span></span><br><span class="line">    sess.run(t_assign_embedding)</span><br><span class="line">    print(<span class="string">"word. exists embedding:"</span>, count_exist, <span class="string">" ;word not exist embedding:"</span>, count_not_exist)</span><br><span class="line">    print(<span class="string">"using pre-trained word emebedding.ended..."</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    tf.app.run()</span><br></pre></td></tr></table></figure>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="Luo Teng 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/文本分类/" rel="tag"># 文本分类</a>
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+            <a href="/tags/TextCNN/" rel="tag"># TextCNN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/11/transformer-代码详解/" rel="next" title="transformer 代码详解">
+                <i class="fa fa-chevron-left"></i> transformer 代码详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/18/Graph-Neural-Networks-图神经网咯学习资料汇总/" rel="prev" title="Graph Neural Networks 图神经网咯学习资料汇总">
+                Graph Neural Networks 图神经网咯学习资料汇总 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Luo Teng</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">72</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/tengzi-will" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/ke-le-teng-zi/activities" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://mumaxu.github.io/" title="mamaxu" target="_blank">mamaxu</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://sunyancn.github.io/" title="sunyan" target="_blank">sunyan</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#论文背景"><span class="nav-number">1.</span> <span class="nav-text">论文背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络结构"><span class="nav-number">2.</span> <span class="nav-text">网络结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌入层-embedding-layer"><span class="nav-number">3.</span> <span class="nav-text">嵌入层(embedding layer)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卷积层-convolution"><span class="nav-number">4.</span> <span class="nav-text">卷积层(convolution)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通道-Channels"><span class="nav-number">4.1.</span> <span class="nav-text">通道 Channels</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一维卷积-conv-1d"><span class="nav-number">4.2.</span> <span class="nav-text">一维卷积 conv-1d</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#池化层-pooling"><span class="nav-number">5.</span> <span class="nav-text">池化层(pooling)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Max-Pooling"><span class="nav-number">5.1.</span> <span class="nav-text">Max Pooling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-Max-Pooling"><span class="nav-number">5.2.</span> <span class="nav-text">K-Max Pooling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chunk-MaxPooling"><span class="nav-number">5.3.</span> <span class="nav-text">Chunk-MaxPooling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dynamic-Pooling"><span class="nav-number">5.4.</span> <span class="nav-text">Dynamic Pooling</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码实现"><span class="nav-number">6.</span> <span class="nav-text">代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码结构"><span class="nav-number">6.1.</span> <span class="nav-text">代码结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据预处理"><span class="nav-number">6.2.</span> <span class="nav-text">数据预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型搭建"><span class="nav-number">6.3.</span> <span class="nav-text">模型搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主程序入口"><span class="nav-number">6.4.</span> <span class="nav-text">主程序入口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考链接"><span class="nav-number">7.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luo Teng</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
